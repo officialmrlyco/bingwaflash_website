@@ -271,6 +271,12 @@ footer{background:var(--surface);border-top:2px solid var(--border);padding:18px
             </div>
             <div><div class="contact-label">Phone Number</div><div class="contact-value" id="contact-phone"></div></div>
           </div>
+          <div class="contact-row" id="contact-payment-row" style="display:none">
+            <div class="contact-icon" style="background:rgba(245,197,24,.12)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--yd)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
+            </div>
+            <div><div class="contact-label" id="contact-payment-label">Payment</div><div class="contact-value" id="contact-payment"></div><div class="field-hint" id="contact-payment-hint"></div></div>
+          </div>
           <div class="contact-row">
             <div class="contact-icon" style="background:rgba(99,102,241,.1)">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -491,6 +497,42 @@ async function touchClientSync(agentUidTarget,action,changedPhone='',deletedPhon
   await setDoc(doc(db,'agents',agentUidTarget,'meta','clientSync'),{action,changedPhone,deletedPhone,updatedAtMs:Date.now(),updatedAt:serverTimestamp()},{merge:true});
 }
 
+function normalizePaymentMode(value){
+  const clean=String(value||'').trim().toUpperCase().replace(/[-\s]+/g,'_');
+  if(clean==='SEND'||clean==='SENDMONEY'||clean==='SEND_MONEY')return'SEND_MONEY';
+  if(clean==='PAYBILL'||clean==='PAY_BILL')return'PAYBILL';
+  if(clean==='TILL'||clean==='BUY_GOODS'||clean==='BUYGOODS')return'TILL';
+  return'';
+}
+function validAgentPaymentNumber(mode,number){
+  const n=String(number||'').replace(/\D/g,'');
+  if(mode==='SEND_MONEY')return/^07\d{8}$/.test(n);
+  if(mode==='TILL'||mode==='PAYBILL')return/^\d{6,7}$/.test(n);
+  return false;
+}
+function agentPaymentInfo(agent){
+  if(!agent)return null;
+  let mode=normalizePaymentMode(agent.paymentMode||agent.payoutType);
+  const send=String(agent.sendMoneyPhoneNumber||agent.payoutPhoneNumber||'').replace(/\D/g,'');
+  const till=String(agent.tillNumber||agent.payoutTillNumber||'').replace(/\D/g,'');
+  const paybill=String(agent.paybillNumber||agent.payoutPaybillNumber||'').replace(/\D/g,'');
+  if(!mode){mode=paybill?'PAYBILL':(send?'SEND_MONEY':'TILL');}
+  const number=mode==='SEND_MONEY'?send:(mode==='PAYBILL'?paybill:till);
+  if(!validAgentPaymentNumber(mode,number))return null;
+  if(mode==='SEND_MONEY')return{mode,label:'Send Money',line:'Send money to '+number,hint:'Use this number when paying this agent.'};
+  if(mode==='PAYBILL')return{mode,label:'Paybill',line:'Paybill '+number,hint:'Account number is the number to receive, also treated as the paying number.'};
+  return{mode,label:'Till Number',line:'Till Number '+number,hint:'Pay using Buy Goods.'};
+}
+function renderAgentPaymentDetails(){
+  const info=agentPaymentInfo(agentProfile);
+  const row=$('contact-payment-row');
+  if(!row||!info){if(row)row.style.display='none';return;}
+  $('contact-payment-label').textContent=info.label;
+  $('contact-payment').textContent=info.line;
+  $('contact-payment-hint').textContent=info.hint;
+  row.style.display='flex';
+}
+
 async function init(){
   if(!USERNAME){showError('No agent username found. Please use the link your agent shared with you.');return;}
   try{
@@ -511,6 +553,7 @@ async function init(){
     $('btn-agent-name').textContent=displayName+"'s";
     const phone=agentProfile.phoneNumber||'';
     if(phone){$('contact-phone').innerHTML=`<a href="tel:${phone}">${phone}</a>`;$('contact-phone-row').style.display='flex';}
+    renderAgentPaymentDetails();
     $('contact-card').style.display='block';
     $('loading').style.display='none';$('reg-section').style.display='block';
   }catch(e){showError('Failed to load: '+e.message);}

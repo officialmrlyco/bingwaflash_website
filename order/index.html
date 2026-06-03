@@ -212,6 +212,8 @@ main{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:2
 .pay-legal a:hover{text-decoration:underline}
 .pay-legal p:first-child{font-size:.69rem;font-weight:700;color:var(--text2);text-align:center}
 .pay-legal p+p{padding-top:7px;border-top:1px solid var(--border)}
+.payment-note{display:none;margin-bottom:12px;padding:11px 13px;background:rgba(34,197,94,.08);border:1.5px solid rgba(34,197,94,.24);border-radius:var(--r12);font-size:.75rem;color:var(--text2);line-height:1.55;font-weight:700}
+.payment-note strong{display:block;color:var(--text);font-family:'Sora',sans-serif;font-size:.77rem;margin-bottom:3px}
 
 /* ── STK SCREEN — fixed fullscreen overlay ── */
 #stk-screen{
@@ -383,11 +385,12 @@ footer{background:var(--surface);border-top:2px solid var(--border);padding:18px
           <!-- Receiving number (hidden when checkbox checked) -->
           <div class="field" id="recv-field">
             <label>Receiving Number</label>
-            <input id="recv-phone" type="tel" placeholder="07XX XXX XXX" inputmode="numeric" maxlength="10">
+            <input id="recv-phone" type="tel" placeholder="07XX XXX XXX" inputmode="numeric" maxlength="10" oninput="window.renderSelectedPaymentNote&&window.renderSelectedPaymentNote()">
             <div class="field-hint">Number that receives the bundle or airtime</div>
           </div>
 
           <div id="form-err"></div>
+          <div class="payment-note" id="payment-note"></div>
           <button class="pay-btn" id="pay-btn" onclick="submitOrder()">Pay -</button>
           <div class="pay-secure">Secured by M-Pesa · Powered by Bingwa Flash</div>
           <div class="pay-legal">
@@ -403,6 +406,12 @@ footer{background:var(--surface);border-top:2px solid var(--border);padding:18px
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gd)" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 15.92z"/></svg>
             </div>
             <div><div class="contact-label">Phone Number</div><div class="contact-value" id="contact-phone"></div></div>
+          </div>
+          <div class="contact-row" id="contact-payment-row" style="display:none">
+            <div class="contact-icon" style="background:rgba(245,197,24,.12)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--yd)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
+            </div>
+            <div><div class="contact-label" id="contact-payment-label">Payment</div><div class="contact-value" id="contact-payment"></div><div class="field-hint" id="contact-payment-hint"></div></div>
           </div>
           <div class="contact-row">
             <div class="contact-icon" style="background:rgba(99,102,241,.1)">
@@ -458,12 +467,14 @@ window.toggleSameNumber=function(){
   }else{
     recvField.classList.remove('hidden');
   }
+  window.renderSelectedPaymentNote&&window.renderSelectedPaymentNote();
 };
 window.syncSameNumber=function(){
   var chk=document.getElementById('same-num-chk');
   if(chk&&chk.checked){
     document.getElementById('recv-phone').value=document.getElementById('pay-phone').value;
   }
+  window.renderSelectedPaymentNote&&window.renderSelectedPaymentNote();
 };
 </script>
 
@@ -485,6 +496,63 @@ function setPayButtonLabel(amount){
   const btn=el("pay-btn");
   if(btn)btn.textContent=amount?("Pay KSh "+amount):"Pay -";
 }
+function normalizePaymentMode(value){
+  const clean=String(value||"").trim().toUpperCase().replace(/[-\s]+/g,"_");
+  if(clean==="SEND"||clean==="SENDMONEY"||clean==="SEND_MONEY")return"SEND_MONEY";
+  if(clean==="PAYBILL"||clean==="PAY_BILL")return"PAYBILL";
+  if(clean==="TILL"||clean==="BUY_GOODS"||clean==="BUYGOODS")return"TILL";
+  return"";
+}
+function validAgentPaymentNumber(mode,number){
+  const n=String(number||"").replace(/\D/g,"");
+  if(mode==="SEND_MONEY")return/^07\d{8}$/.test(n);
+  if(mode==="TILL"||mode==="PAYBILL")return/^\d{6,7}$/.test(n);
+  return false;
+}
+function agentPaymentInfo(agent,receivePhone=""){
+  if(!agent)return null;
+  let mode=normalizePaymentMode(agent.paymentMode||agent.payoutType);
+  const send=String(agent.sendMoneyPhoneNumber||agent.payoutPhoneNumber||"").replace(/\D/g,"");
+  const till=String(agent.tillNumber||agent.payoutTillNumber||"").replace(/\D/g,"");
+  const paybill=String(agent.paybillNumber||agent.payoutPaybillNumber||"").replace(/\D/g,"");
+  if(!mode){mode=paybill?"PAYBILL":(send?"SEND_MONEY":"TILL");}
+  const number=mode==="SEND_MONEY"?send:(mode==="PAYBILL"?paybill:till);
+  if(!validAgentPaymentNumber(mode,number))return null;
+  if(mode==="SEND_MONEY")return{mode,label:"Send Money",number,line:"Send money to "+number,hint:"Send payment directly to this agent number."};
+  if(mode==="PAYBILL"){
+    const account=String(receivePhone||"").trim()||"your receiving/payment number";
+    return{mode,label:"Paybill",number,line:"Paybill "+number,hint:"Account number: "+account};
+  }
+  return{mode,label:"Till Number",number,line:"Till Number "+number,hint:"Pay using Buy Goods."};
+}
+function paymentInstructionFor(amount,receivePhone){
+  const info=agentPaymentInfo(agentProfile,receivePhone);
+  if(!info)return"Pay KSh "+amount+" to your agent.";
+  if(info.mode==="SEND_MONEY")return"Send KSh "+amount+" to "+info.number+".";
+  if(info.mode==="PAYBILL")return"Pay KSh "+amount+" to Paybill "+info.number+". Account number: "+(receivePhone||"your receiving/payment number")+".";
+  return"Pay KSh "+amount+" to Till Number "+info.number+".";
+}
+function renderAgentPaymentDetails(){
+  const info=agentPaymentInfo(agentProfile);
+  const row=el("contact-payment-row");
+  if(!row||!info){if(row)row.style.display="none";return;}
+  el("contact-payment-label").textContent=info.label;
+  el("contact-payment").textContent=info.line;
+  el("contact-payment-hint").textContent=info.hint;
+  row.style.display="flex";
+}
+window.renderSelectedPaymentNote=function(){
+  const note=el("payment-note");
+  if(!note||!selectedOffer){if(note){note.style.display="none";note.textContent="";}return;}
+  const chk=el("same-num-chk");
+  const receivePhone=chk&&chk.checked?el("pay-phone").value:el("recv-phone").value;
+  const instruction=paymentInstructionFor(selectedOffer.agentPrice,receivePhone);
+  note.textContent="";
+  const title=document.createElement("strong");title.textContent="Agent payment details";
+  note.appendChild(title);
+  note.appendChild(document.createTextNode(instruction));
+  note.style.display="block";
+};
 function showError(m){el("loading").style.display="none";el("error-state").style.display="block";el("err-msg").innerHTML=m;}
 function showMaintenance(agentName,agentPhone){
   el("loading").style.display="none";el("agent-bar").style.display="none";
@@ -556,6 +624,7 @@ async function init(){
       regLink.href="/clients/"+encodeURIComponent(USERNAME);regBanner.style.display="flex";
     }else{regLink.removeAttribute("href");regBanner.remove();}
     if(agentPhone){el("contact-phone").innerHTML=`<a href="tel:${agentPhone}">${agentPhone}</a>`;el("contact-phone-row").style.display="flex";}
+    renderAgentPaymentDetails();
     el("contact-card").style.display="block";
 
     let offersJson=bundle.offersJson;
@@ -585,6 +654,7 @@ async function init(){
             b.classList.add("selected");selectedOffer=o;
             el("sel-name").textContent=o.name;el("sel-price").textContent="KSh "+o.agentPrice;
             setPayButtonLabel(o.agentPrice);el("order-form").style.display="block";
+            window.renderSelectedPaymentNote&&window.renderSelectedPaymentNote();
             el("order-form").scrollIntoView({behavior:"smooth",block:"nearest"});
           });
           g.appendChild(b);
@@ -622,6 +692,7 @@ function clearOfferSelection(){
   const recvField=el("recv-field");if(recvField)recvField.classList.remove("hidden");
   const pp=el("pay-phone");if(pp)pp.value="";
   const rp=el("recv-phone");if(rp)rp.value="";
+  const note=el("payment-note");if(note){note.style.display="none";note.textContent="";}
   const btn=el("pay-btn");btn.disabled=false;setPayButtonLabel(null);
 }
 function showResultDialog(type,title,message,ref){
@@ -668,7 +739,8 @@ window.submitOrder=async function(){
   if(!valid07(rp)){fe.textContent="Enter a valid receiving number (07XX or 01XX)";fe.style.display="block";return;}
   const btn=el("pay-btn");btn.disabled=true;btn.textContent="Processing...";
   try{
-    const res=await fetch(FURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({agentUsername:agentProfile.username,agentUid:agentProfile.uid,offerCode:selectedOffer.offerCode,offerName:selectedOffer.name,amount:selectedOffer.agentPrice,payPhone:norm(pp),receivePhone:norm(rp),agentPhone:agentProfile.phoneNumber})});
+    const info=agentPaymentInfo(agentProfile,rp);
+    const res=await fetch(FURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({agentUsername:agentProfile.username,agentUid:agentProfile.uid,offerCode:selectedOffer.offerCode,offerName:selectedOffer.name,amount:selectedOffer.agentPrice,payPhone:norm(pp),receivePhone:norm(rp),agentPhone:agentProfile.phoneNumber,agentPaymentMode:info?info.mode:"",agentPaymentNumber:info?info.number:"",agentPaymentAccount:info&&info.mode==="PAYBILL"?rp:""})});
     const data=await res.json();
     if(!res.ok||data.error){fe.textContent=data.error||"Payment failed. Try again.";fe.style.display="block";btn.disabled=false;setPayButtonLabel(selectedOffer.agentPrice);return;}
     if(!data.txId){fe.textContent="Transaction was created without txId. Please try again.";fe.style.display="block";btn.disabled=false;setPayButtonLabel(selectedOffer.agentPrice);return;}
