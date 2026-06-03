@@ -506,7 +506,7 @@ function normalizePaymentMode(value){
 }
 function validAgentPaymentNumber(mode,number){
   const n=String(number||'').replace(/\D/g,'');
-  if(mode==='SEND_MONEY')return/^07\d{8}$/.test(n);
+  if(mode==='SEND_MONEY')return/^0[17]\d{8}$/.test(n);
   if(mode==='TILL'||mode==='PAYBILL')return/^\d{6,7}$/.test(n);
   return false;
 }
