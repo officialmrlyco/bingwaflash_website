@@ -3,6 +3,19 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Order - Bingwa Flash</title>
+<meta name="description" content="Order active Safaricom offers from a Bingwa Flash agent, pay with M-Pesa STK push, and view the agent payment details before contacting them.">
+<link rel="canonical" href="https://bingwaflash.co.ke/order/">
+<meta property="og:site_name" content="Bingwa Flash">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Order Offers - Bingwa Flash">
+<meta property="og:description" content="Open this Bingwa Flash agent order page to view the business name, agent name, active offers, and payment mode.">
+<meta property="og:url" content="https://bingwaflash.co.ke/order/">
+<meta property="og:image" content="https://bingwaflash.co.ke/logo.png">
+<meta property="og:image:alt" content="Bingwa Flash logo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Order Offers - Bingwa Flash">
+<meta name="twitter:description" content="Open this Bingwa Flash agent order page to view the business name, agent name, active offers, and payment mode.">
+<meta name="twitter:image" content="https://bingwaflash.co.ke/logo.png">
 <link rel="icon" type="image/png" href="/logo.png">
 <script>
 (function(){
@@ -483,10 +496,60 @@ const FURL="https://initiateorder-kerhygd7aa-uc.a.run.app";
 const STATUS_URL="https://getorderstatus-kerhygd7aa-uc.a.run.app";
 const params=new URLSearchParams(window.location.search);
 const USERNAME=(params.get("u")||"").toLowerCase();
+const SITE_URL="https://bingwaflash.co.ke";
 let agentProfile=null,selectedOffer=null;
 let activeTxId=null,stkPollInterval=null,lastPaymentResult="";
 
 function el(id){return document.getElementById(id);}
+function cleanPreviewText(value){
+  return String(value||"").replace(/\s+/g," ").trim();
+}
+function setMetaContent(selector,value){
+  const node=document.head.querySelector(selector);
+  const text=cleanPreviewText(value);
+  if(node&&text)node.setAttribute("content",text);
+}
+function updateCanonical(url){
+  const link=document.head.querySelector('link[rel="canonical"]');
+  if(link)link.setAttribute("href",url);
+}
+function paymentPreviewLine(info){
+  if(!info)return"Payment mode is shown on the order page";
+  if(info.mode==="SEND_MONEY")return"Payment mode: Send Money to "+info.number;
+  if(info.mode==="PAYBILL")return"Payment mode: Paybill "+info.number+"; account number is your receiving/payment number";
+  return"Payment mode: Till Number "+info.number;
+}
+function offersPreviewLine(offers){
+  if(!Array.isArray(offers)||!offers.length)return"Open the page to view active offers";
+  const preview=offers.slice(0,3).map(o=>{
+    const name=cleanPreviewText(o.name||"Offer");
+    const price=Number(o.agentPrice||0);
+    return price>0?name+" KSh "+price:name;
+  }).filter(Boolean);
+  if(!preview.length)return"Open the page to view active offers";
+  return"Offers include "+preview.join(", ")+(offers.length>preview.length?", and more":"");
+}
+function updateAgentSharePreview(agent,offers=[]){
+  if(!agent)return;
+  const agentName=cleanPreviewText(agent.agentName||USERNAME||"Bingwa Flash Agent");
+  const businessName=cleanPreviewText(agent.businessName||agentName);
+  const sameName=businessName.toLowerCase()===agentName.toLowerCase();
+  const title=(sameName?businessName:(businessName+" - "+agentName))+" | Bingwa Flash";
+  const owner=sameName?businessName:(businessName+" ("+agentName+")");
+  const description=owner+" is taking Bingwa Flash web orders. "+paymentPreviewLine(agentPaymentInfo(agent))+". "+offersPreviewLine(offers)+". Pay securely with M-Pesa STK push.";
+  const username=cleanPreviewText(agent.username||USERNAME).toLowerCase();
+  const shareUrl=username?SITE_URL+"/"+encodeURIComponent(username):SITE_URL+"/order/";
+
+  // Share-preview tags are updated from Firestore for browsers. Static crawlers still need server-rendered HTML for guaranteed per-agent cards.
+  document.title=title;
+  updateCanonical(shareUrl);
+  setMetaContent('meta[name="description"]',description);
+  setMetaContent('meta[property="og:title"]',title);
+  setMetaContent('meta[property="og:description"]',description);
+  setMetaContent('meta[property="og:url"]',shareUrl);
+  setMetaContent('meta[name="twitter:title"]',title);
+  setMetaContent('meta[name="twitter:description"]',description);
+}
 function setPayButtonLabel(amount){
   const btn=el("pay-btn");
   if(btn)btn.textContent=amount?("Pay KSh "+amount):"Pay -";
@@ -582,6 +645,7 @@ async function init(){
     const n=agentProfile.agentName||USERNAME;
     const businessName=agentProfile.businessName||n;
     const agentPhone=agentProfile.phoneNumber||"";
+    updateAgentSharePreview(agentProfile);
     const subscriptionConfig=await loadSubscriptionConfig();
 
     if(!agentProfile.webOrdersOn||!hasActiveWebOrderSubscription(agentProfile,subscriptionConfig)){
@@ -611,6 +675,7 @@ async function init(){
     if(!offersJson){showError("No offers available.");return;}
     const offers=JSON.parse(offersJson||"[]").filter(o=>o.enabled&&o.webOrderEnabled===true&&o.offerCode&&o.offerCode.trim()&&Number(o.agentPrice||0)>=10&&Number(o.agentPrice||0)<=100);
     if(!offers.length){showError("No offers available.");return;}
+    updateAgentSharePreview(agentProfile,offers);
 
     const categoryRank={DATA:1,SMS:2,MINUTES:3,AIRTIME:4,OTHER:8,GENERAL:9};
     const catKey=c=>String(c||"General").trim().toUpperCase();

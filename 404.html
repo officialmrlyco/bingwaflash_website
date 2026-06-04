@@ -1,4 +1,22 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bingwa Flash Agent Order Page</title>
+<meta name="description" content="Open a Bingwa Flash agent order link to view the business name, agent name, active offers, and payment mode.">
+<meta property="og:site_name" content="Bingwa Flash">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Bingwa Flash Agent Order Page">
+<meta property="og:description" content="View an agent's business name, agent name, active offers, and payment mode before ordering with M-Pesa STK push.">
+<meta property="og:url" content="https://bingwaflash.co.ke/">
+<meta property="og:image" content="https://bingwaflash.co.ke/logo.png">
+<meta property="og:image:alt" content="Bingwa Flash logo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Bingwa Flash Agent Order Page">
+<meta name="twitter:description" content="View an agent's business name, agent name, active offers, and payment mode before ordering with M-Pesa STK push.">
+<meta name="twitter:image" content="https://bingwaflash.co.ke/logo.png">
+<script>
 const segs=window.location.pathname.split('/').filter(Boolean);
 const first=(segs[0]||'').toLowerCase();
 const second=(segs[1]||'').toLowerCase();
@@ -14,17 +32,22 @@ if(!first){
 }else if(first==='features'){
   window.location.replace('/#features');
 }else if(first==='clients'){
-  // /clients/agentusername → /clients/?u=agentusername
-  // /clients/ alone → just load the page (no agent)
+  // /clients/agentusername -> /clients/?u=agentusername
+  // /clients/ alone -> just load the page with no agent selected
   if(second&&/^[a-z0-9_]{2,32}$/.test(second)){
     window.location.replace('/clients/?u='+encodeURIComponent(second));
   }else{
     window.location.replace('/clients/');
   }
 }else if(!/^(order|contact|404)$/.test(first)&&/^[a-z0-9_]{2,32}$/.test(first)){
-  // /agentusername → order page
+  // Static-host fallback for browsers. True per-agent share cards must route this path to the agentPreview function.
   window.location.replace('/order/?u='+encodeURIComponent(first));
 }else{
   window.location.replace('/');
 }
-</script></head><body></body></html>
+</script>
+</head>
+<body>
+<noscript>Open this Bingwa Flash agent order link to view active offers and payment details.</noscript>
+</body>
+</html>
