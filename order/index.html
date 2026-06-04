@@ -63,7 +63,7 @@ header{position:sticky;top:0;z-index:100;background:var(--hbg);backdrop-filter:b
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
 /* ── LAYOUT ── */
-main{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:20px 14px 52px}
+main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px 14px 52px}
 .card{background:linear-gradient(180deg,var(--card-bg),var(--card-end));border-radius:28px;box-shadow:var(--cl);border:1.5px solid var(--border);width:100%;max-width:900px;overflow:hidden;animation:fadeUp .4s ease both;transition:background .25s,border-color .25s}
 .card-body{padding:20px 18px 24px}
 @media(min-width:700px){.card-body{padding:24px 24px 28px}}
@@ -206,9 +206,6 @@ main{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:2
 .pay-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--y),var(--yd));color:#1a1000;font-weight:800;font-size:.9rem;border:none;border-radius:var(--pill);cursor:pointer;box-shadow:var(--cy);transition:transform .15s;margin-bottom:7px;font-family:'Sora',sans-serif}
 .pay-btn:hover{transform:translateY(-2px)} .pay-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
 .pay-secure{font-size:.69rem;color:var(--text3);text-align:center;font-weight:700}
-.pay-support{margin-top:2px;font-size:.58rem;color:var(--text3);text-align:center;font-weight:600}
-.pay-support a{color:var(--text3);font-weight:800;text-decoration:underline;text-underline-offset:2px}
-.pay-support a:hover{color:var(--gd)}
 .pay-legal{margin-top:12px;padding:12px 14px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r12);display:flex;flex-direction:column;gap:7px}
 .pay-legal p{font-size:.67rem;color:var(--text3);line-height:1.6;font-weight:600}
 .pay-legal a{color:var(--gd);text-decoration:none;font-weight:800}
@@ -288,6 +285,10 @@ main{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:2
 .contact-label{font-size:.67rem;color:var(--text3);margin-bottom:1px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
 .contact-value{font-size:.83rem;font-weight:700;color:var(--text2)}
 .contact-value a{color:var(--text2);text-decoration:none;transition:color .15s}.contact-value a:hover{color:var(--gd)}
+/* Keep reporting help outside the order card as a quiet page-level note. */
+.page-support{width:100%;max-width:900px;margin-top:12px;font-size:.58rem;color:var(--text3);text-align:center;font-weight:600}
+.page-support a{color:var(--text3);font-weight:800;text-decoration:underline;text-underline-offset:2px}
+.page-support a:hover{color:var(--gd)}
 footer{background:var(--surface);border-top:2px solid var(--border);padding:18px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;transition:background .25s,border-color .25s}
 .ft-logo{display:flex;align-items:center;gap:7px;text-decoration:none}
 .ft-logo img{width:22px;height:22px;border-radius:6px;object-fit:contain;}
@@ -393,7 +394,6 @@ footer{background:var(--surface);border-top:2px solid var(--border);padding:18px
           <div id="form-err"></div>
           <button class="pay-btn" id="pay-btn" onclick="submitOrder()">Pay -</button>
           <div class="pay-secure">Secured by M-Pesa &middot; Powered by Bingwa Flash</div>
-          <div class="pay-support">For concerns, fraud or reports, email us <a href="mailto:support@bingwaflash.co.ke">here</a>.</div>
           <div class="pay-legal">
             <p>By continuing you agree to our <a href="https://bingwaflash.co.ke/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://bingwaflash.co.ke/terms" target="_blank" rel="noopener">Terms of Service</a>.</p>
           </div>
@@ -431,6 +431,8 @@ footer{background:var(--surface);border-top:2px solid var(--border);padding:18px
       </div><!-- /#content -->
     </div><!-- /.card-body -->
   </div><!-- /.card -->
+  <!-- Reporting contact belongs below the complete order card, not inside checkout. -->
+  <div class="page-support">For concerns, fraud or reports, email us <a href="mailto:support@bingwaflash.co.ke">here</a>.</div>
 </main>
 
 <footer>
