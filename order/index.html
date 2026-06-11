@@ -664,7 +664,7 @@ async function init(){
     updateAgentSharePreview(agentProfile);
     const subscriptionConfig=await loadSubscriptionConfig();
 
-    if(!agentProfile.webOrdersOn||!hasActiveWebOrderSubscription(agentProfile,subscriptionConfig)){
+    if(agentProfile.adminWebOrdersDisabled===true||!agentProfile.webOrdersOn||!hasActiveWebOrderSubscription(agentProfile,subscriptionConfig)){
       showMaintenance(n,agentPhone);return;
     }
 
