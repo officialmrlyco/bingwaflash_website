@@ -630,6 +630,22 @@ async function loadAgentBundle(username){
   return{profile,uid:snap.docs[0].id,offersJson:""};
 }
 
+async function loadCurrentOffersJson(bundle){
+  // The public mirror keeps the order page fast, but agents/{uid}/meta/offers
+  // is the live source of truth. Read it first so a stale public mirror cannot
+  // hide newly enabled website offers after an app save.
+  if(bundle.uid){
+    try{
+      const liveSnap=await getDoc(doc(db,"agents",bundle.uid,"meta","offers"));
+      if(liveSnap.exists()){
+        const liveJson=String(liveSnap.data().json||"");
+        if(liveJson)return liveJson;
+      }
+    }catch(_){}
+  }
+  return String(bundle.offersJson||"");
+}
+
 async function init(){
   if(!USERNAME){showError("No agent username in URL.");return;}
   try{
@@ -667,11 +683,7 @@ async function init(){
     renderAgentPaymentDetails();
     el("contact-card").style.display="block";
 
-    let offersJson=bundle.offersJson;
-    if(!offersJson&&bundle.uid){
-      const d=await getDoc(doc(db,"agents",bundle.uid,"meta","offers"));
-      if(d.exists())offersJson=String(d.data().json||"");
-    }
+    const offersJson=await loadCurrentOffersJson(bundle);
     if(!offersJson){showError("No offers available.");return;}
     const offers=JSON.parse(offersJson||"[]").filter(o=>o.enabled&&o.webOrderEnabled===true&&o.offerCode&&o.offerCode.trim()&&Number(o.agentPrice||0)>=10&&Number(o.agentPrice||0)<=100);
     if(!offers.length){showError("No offers available.");return;}
@@ -776,15 +788,16 @@ window.submitOrder=async function(){
   const fe=el("form-err");fe.style.display="none";
   if(!valid07(pp)){fe.textContent="Enter a valid M-Pesa number (07XX or 01XX)";fe.style.display="block";return;}
   if(!valid07(rp)){fe.textContent="Enter a valid receiving number (07XX or 01XX)";fe.style.display="block";return;}
-  const btn=el("pay-btn");btn.disabled=true;btn.textContent="Processing...";
+  const btn=el("pay-btn");btn.disabled=true;btn.textContent="Sending M-Pesa prompt...";
+  showStkWaiting();
   try{
     const info=agentPaymentInfo(agentProfile,rp);
     const res=await fetch(FURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({agentUsername:agentProfile.username,agentUid:agentProfile.uid,offerCode:selectedOffer.offerCode,offerName:selectedOffer.name,amount:selectedOffer.agentPrice,payPhone:norm(pp),receivePhone:norm(rp),agentPhone:agentProfile.phoneNumber,agentPaymentMode:info?info.mode:"",agentPaymentNumber:info?info.number:"",agentPaymentAccount:info&&info.mode==="PAYBILL"?rp:""})});
     const data=await res.json();
-    if(!res.ok||data.error){fe.textContent=data.error||"Payment failed. Try again.";fe.style.display="block";btn.disabled=false;setPayButtonLabel(selectedOffer.agentPrice);return;}
-    if(!data.txId){fe.textContent="Transaction was created without txId. Please try again.";fe.style.display="block";btn.disabled=false;setPayButtonLabel(selectedOffer.agentPrice);return;}
-    showStkWaiting();startOrderStatusPolling(data.txId);
-  }catch(e){fe.textContent="Network error: "+e.message;fe.style.display="block";btn.disabled=false;setPayButtonLabel(selectedOffer.agentPrice);}
+    if(!res.ok||data.error){restoreOrderForm();fe.textContent=data.error||"Payment failed. Try again.";fe.style.display="block";return;}
+    if(!data.txId){restoreOrderForm();fe.textContent="Transaction was created without txId. Please try again.";fe.style.display="block";return;}
+    startOrderStatusPolling(data.txId);
+  }catch(e){restoreOrderForm();fe.textContent="Network error: "+e.message;fe.style.display="block";}
 };
 
 window.closeResultDialog=function(){
