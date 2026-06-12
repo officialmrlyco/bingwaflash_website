@@ -594,8 +594,10 @@ function renderAgentPaymentDetails(){
 }
 function showError(m){el("loading").style.display="none";el("error-state").style.display="block";el("err-msg").innerHTML=m;}
 function showMaintenance(agentName,agentPhone){
-  el("loading").style.display="none";el("agent-bar").style.display="none";
+  el("loading").style.display="none";el("agent-bar").style.display="none";el("content").style.display="none";el("error-state").style.display="none";
   const cv=el("maint-contact-value");
+  cv.textContent="Please check back shortly.";
+  el("maint-sub").textContent="This service is temporarily unavailable while we perform scheduled maintenance. Please check back shortly.";
   if(agentPhone){cv.innerHTML=`Call your agent: <a href="tel:${agentPhone}">${agentPhone}</a>`;}
   else if(agentName){cv.textContent="Contact "+agentName+" directly.";}
   if(agentName){el("maint-sub").textContent=agentName+"'s order page is temporarily under maintenance. Please check back soon.";}
@@ -793,6 +795,12 @@ window.submitOrder=async function(){
     const info=agentPaymentInfo(agentProfile,rp);
     const res=await fetch(FURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({agentUsername:agentProfile.username,agentUid:agentProfile.uid,offerCode:selectedOffer.offerCode,offerName:selectedOffer.name,amount:selectedOffer.agentPrice,payPhone:norm(pp),receivePhone:norm(rp),agentPhone:agentProfile.phoneNumber,agentPaymentMode:info?info.mode:"",agentPaymentNumber:info?info.number:"",agentPaymentAccount:info&&info.mode==="PAYBILL"?rp:""})});
     const data=await res.json();
+    if(data.code==="WEBSITES_MAINTENANCE"){
+      btn.disabled=false;setPayButtonLabel(selectedOffer.agentPrice);
+      showMaintenance(null,null);
+      if(data.error)el("maint-sub").textContent=data.error;
+      return;
+    }
     if(!res.ok||data.error){fe.textContent=data.error||"Payment failed. Try again.";fe.style.display="block";btn.disabled=false;setPayButtonLabel(selectedOffer.agentPrice);return;}
     if(!data.txId){fe.textContent="Transaction was created without txId. Please try again.";fe.style.display="block";btn.disabled=false;setPayButtonLabel(selectedOffer.agentPrice);return;}
     showStkWaiting();startOrderStatusPolling(data.txId);
