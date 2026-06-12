@@ -270,9 +270,12 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
 .result-icon{position:relative;width:76px;height:76px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 10px rgba(16,185,129,.10)}
 .result-icon.success{background:linear-gradient(135deg,var(--g),#86EFAC)}
 .result-icon.fail{background:linear-gradient(135deg,var(--red),#FB7185);box-shadow:0 0 0 10px rgba(239,68,68,.10)}
+.result-icon.pending{background:linear-gradient(135deg,var(--y),#FDE68A);box-shadow:0 0 0 10px rgba(251,191,36,.12)}
 .result-icon.success::before{content:"";width:18px;height:34px;border-right:5px solid #fff;border-bottom:5px solid #fff;transform:rotate(42deg) translate(-2px,-3px);border-radius:3px}
 .result-icon.fail::before,.result-icon.fail::after{content:"";position:absolute;width:34px;height:5px;background:#fff;border-radius:10px}
 .result-icon.fail::before{transform:rotate(45deg)}.result-icon.fail::after{transform:rotate(-45deg)}
+.result-icon.pending::before{content:"";width:30px;height:30px;border:5px solid rgba(26,16,0,.82);border-top-color:transparent;border-radius:50%;animation:pendingSpin 1s linear infinite}
+.result-icon.pending::after{content:"";position:absolute;width:7px;height:7px;border-radius:50%;background:rgba(26,16,0,.82)}
 .result-title{font-family:'Sora',sans-serif;font-size:1.06rem;font-weight:900;color:var(--text);margin-bottom:7px}
 .result-message{font-size:.82rem;color:var(--text2);line-height:1.65;font-weight:650;margin-bottom:18px}
 .result-ref{font-size:.7rem;color:var(--text3);margin-bottom:18px;font-weight:700;margin-top:-12px}
@@ -284,6 +287,7 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
 @keyframes waitGlow{0%,100%{transform:translateX(-10%)}50%{transform:translateX(18%)}}
 @keyframes popIn{from{opacity:0;transform:translateY(18px) scale(.96)}to{opacity:1;transform:none}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes pendingSpin{to{transform:rotate(360deg)}}
 
 /* ── MISC ── */
 .register-banner{display:none;margin-top:12px;padding:9px 10px;background:var(--surface2);border:1px dashed var(--border);border-radius:14px;align-items:center;justify-content:space-between;gap:10px}
@@ -498,7 +502,7 @@ const params=new URLSearchParams(window.location.search);
 const USERNAME=(params.get("u")||"").toLowerCase();
 const SITE_URL="https://bingwaflash.co.ke";
 let agentProfile=null,selectedOffer=null;
-let activeTxId=null,stkPollInterval=null,lastPaymentResult="";
+let activeTxId=null,stkPollInterval=null,lastPaymentResult="",pendingDialogShownForTx="";
 
 function el(id){return document.getElementById(id);}
 function cleanPreviewText(value){
@@ -721,7 +725,7 @@ async function init(){
 
 function valid07(p){return/^(07|01)\d{8}$/.test(p.trim());}
 function norm(p){const s=p.trim().replace(/\s/g,"");return(/^0/.test(s))?"254"+s.slice(1):s;}
-function stopOrderPolling(){activeTxId=null;if(stkPollInterval){clearInterval(stkPollInterval);stkPollInterval=null;}}
+function stopOrderPolling(){activeTxId=null;pendingDialogShownForTx="";if(stkPollInterval){clearInterval(stkPollInterval);stkPollInterval=null;}}
 function resetStkState(){stopOrderPolling();}
 function restoreOrderForm(){
   el("stk-screen").style.display="none";
@@ -751,19 +755,42 @@ function clearOfferSelection(){
 function showResultDialog(type,title,message,ref){
   lastPaymentResult=type;
   const dialog=el("result-dialog");const icon=el("result-icon");
-  icon.className="result-icon "+(type==="success"?"success":"fail");
+  icon.className="result-icon "+(type==="success"?"success":(type==="pending"||type==="unconfirmed"?"pending":"fail"));
   el("result-title").textContent=title;el("result-message").textContent=message;
   const refEl=el("result-ref");
   if(ref){refEl.textContent=ref;refEl.style.display="block";}else{refEl.style.display="none";}
+  el("result-ok").textContent=type==="pending"?"Keep waiting":"OK";
   dialog.style.display="flex";
 }
 function showOrderSuccess(message,ref){
   resetStkState();el("stk-screen").style.display="none";
   showResultDialog("success","Payment Confirmed",message||"Your payment was confirmed. Your order is now being processed.",ref);
 }
-function showOrderFailure(message){
-  resetStkState();el("stk-screen").style.display="none";
+function showOrderFailure(message,keepPolling=false){
+  if(!keepPolling)resetStkState();el("stk-screen").style.display="none";
   showResultDialog("fail","Payment Not Completed",message||"Payment failed or was cancelled. You were not charged if the prompt was not approved.");
+}
+function showOrderPending(txId){
+  if(pendingDialogShownForTx===txId)return;
+  pendingDialogShownForTx=txId;
+  el("stk-screen").style.display="none";
+  showResultDialog(
+    "pending",
+    "Payment Confirmation Delayed",
+    "M-Pesa has not returned a final result yet. You do not need to pay again. We are still checking automatically, and this page will update as soon as the payment is confirmed.",
+    "You can keep this page open or close this message."
+  );
+}
+function showUnconfirmedFailure(txId,message){
+  if(pendingDialogShownForTx===txId+"-failed")return;
+  pendingDialogShownForTx=txId+"-failed";
+  el("stk-screen").style.display="none";
+  showResultDialog(
+    "unconfirmed",
+    "Payment Could Not Be Confirmed",
+    message||"We could not confirm this payment with M-Pesa. If you received a debit message, do not pay again; a late confirmation can still update this page.",
+    "This page will continue checking while it remains open."
+  );
 }
 async function pollOrderStatus(txId){
   if(!txId)return;
@@ -771,9 +798,11 @@ async function pollOrderStatus(txId){
     const res=await fetch(`${STATUS_URL}?txId=${encodeURIComponent(txId)}`);
     const data=await res.json();if(!res.ok||data.error)return;
     const status=String(data.status||"pending").toLowerCase();
-    const failReason=data.failReason||"Payment was not completed. No charge was made — please try again.";
+    const failReason=data.failReason||"Payment was not completed. Please try again.";
     const mpesaRef=data.mpesaRef||data.checkoutRequestID||"";
     if(status==="executed"){showOrderSuccess("Your payment was confirmed successfully. Your order is being processed.",mpesaRef?"M-Pesa Ref: "+mpesaRef:"");return;}
+    if(data.confirmationDelayed===true&&status!=="failed"){showOrderPending(txId);return;}
+    if(status==="failed"&&String(data.statusQueryState||"")==="FAILED_UNCONFIRMED"){showUnconfirmedFailure(txId,failReason);return;}
     if(status==="failed"||status==="cancelled"||status==="expired"){showOrderFailure(failReason);return;}
   }catch(e){console.error("pollOrderStatus:",e);}
 }
@@ -809,10 +838,14 @@ window.submitOrder=async function(){
 
 window.closeResultDialog=function(){
   el("result-dialog").style.display="none";
-  el("stk-screen").style.display="none";
   if(lastPaymentResult==="success"){
+    el("stk-screen").style.display="none";
     clearOfferSelection();
+  }else if(lastPaymentResult==="pending"||lastPaymentResult==="unconfirmed"){
+    // Keep polling and leave checkout locked. A late callback can replace the
+    // dismissed message with the normal success dialog on this same page.
   }else{
+    el("stk-screen").style.display="none";
     // Failure: just re-enable the pay button; order form & offer stay selected
     const btn=el("pay-btn");btn.disabled=false;setPayButtonLabel(selectedOffer?selectedOffer.agentPrice:null);
   }
@@ -855,7 +888,7 @@ init();
     <div class="result-title" id="result-title">Payment Confirmed</div>
     <div class="result-message" id="result-message">Your payment was received successfully.</div>
     <div class="result-ref" id="result-ref" style="display:none"></div>
-    <button class="result-ok" onclick="closeResultDialog()">OK</button>
+    <button class="result-ok" id="result-ok" onclick="closeResultDialog()">OK</button>
   </div>
 </div>
 
