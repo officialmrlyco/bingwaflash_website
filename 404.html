@@ -23,7 +23,7 @@ const second=(segs[1]||'').toLowerCase();
 
 if(!first){
   window.location.replace('/');
-}else if(first==='download'){
+}else if(first==='download'||first==='downloads'){
   // Keep old download paths quiet on the main site; the real installer lives on the separate noindex subdomain.
   window.location.replace('/download/');
 }else if(first==='privacy'){
