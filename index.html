@@ -170,6 +170,17 @@
     .check-list li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--y);flex:0 0 8px;margin-top:7px}
     .green .check-list li::before{background:var(--g)}
 
+    .proof-grid,.faq-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .proof-card,.faq-card{
+      background:linear-gradient(180deg,var(--card-bg),var(--card-end));border:1.5px solid var(--border);border-radius:var(--r20);
+      padding:22px;box-shadow:var(--cs);transition:transform .18s,border-color .18s,background .25s;
+    }
+    .proof-card:hover,.faq-card:hover{transform:translateY(-3px);border-color:rgba(251,191,36,.36)}
+    .proof-card small,.faq-card small{display:block;margin-bottom:9px;color:var(--gd);font-size:.68rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+    .proof-card h3,.faq-card h3{font-family:"Sora",sans-serif;font-size:1rem;font-weight:900;color:var(--text);margin-bottom:8px}
+    .proof-card p,.faq-card p{font-size:.82rem;line-height:1.7;color:var(--text2);font-weight:650}
+    .proof-card p::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--y);margin-right:8px;vertical-align:1px}
+
     .support-box{
       display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;padding:48px;border-radius:24px;
       background:linear-gradient(135deg,rgba(251,191,36,.12),rgba(16,185,129,.08));border:1.5px solid var(--border);box-shadow:var(--cl);
@@ -180,20 +191,24 @@
     .support-pill{padding:12px 18px;border:1.5px solid var(--border);background:var(--surface);color:var(--text2)}
     .support-pill:first-child{background:linear-gradient(135deg,var(--g),var(--gd));color:#fff;border-color:transparent;box-shadow:var(--cg)}
 
-    footer{background:var(--surface);border-top:2px solid var(--border);padding:27px 32px;transition:background .25s,border-color .25s}
-    .ft-in{max-width:1120px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px}
+    footer{background:var(--surface);border-top:2px solid var(--border);padding:34px 32px 24px;transition:background .25s,border-color .25s}
+    .ft-in{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:1.2fr repeat(3,1fr);gap:24px;align-items:start}
     .ft-logo{display:flex;align-items:center;gap:9px;text-decoration:none;color:inherit}
     .ft-logo img{width:26px;height:26px;border-radius:7px;object-fit:contain}
     .ft-name{font-family:"Sora",sans-serif;font-size:.82rem;font-weight:800;color:var(--text2)}
-    .ft-links{display:flex;gap:18px;flex-wrap:wrap}
-    .ft-links a{font-size:.76rem;font-weight:800;color:var(--text3);text-decoration:none;transition:color .15s}
+    .ft-about{display:grid;gap:12px}
+    .ft-about p{max-width:320px;color:var(--text3);font-size:.78rem;font-weight:700;line-height:1.65}
+    .ft-col{display:grid;gap:9px}
+    .ft-col h3{font-family:"Sora",sans-serif;font-size:.78rem;font-weight:900;color:var(--text);margin-bottom:3px}
+    .ft-links{display:grid;gap:8px}
+    .ft-links a,.ft-links span{font-size:.76rem;font-weight:800;color:var(--text3);text-decoration:none;transition:color .15s}
     .ft-links a:hover{color:var(--text2)}
-    .ft-copy{font-size:.72rem;color:var(--text3);font-weight:700}
+    .ft-copy{max-width:1120px;margin:24px auto 0;padding-top:16px;border-top:1.5px solid var(--border);font-size:.72rem;color:var(--text3);font-weight:700}
     .reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
     .reveal.on{opacity:1;transform:none}
 
     @media(max-width:980px){
-      .hero-grid,.section-head,.support-box{grid-template-columns:1fr}
+      .hero-grid,.section-head,.support-box,.proof-grid,.faq-grid{grid-template-columns:1fr}
       .ops-shell{max-width:520px}.feature-grid{grid-template-columns:repeat(2,1fr)}
       .steps{grid-template-columns:repeat(2,1fr)}.step::after{display:none}
       .bar-grid{grid-template-columns:repeat(2,1fr)}.bar-item:nth-child(2){border-right:0}.bar-item:nth-child(-n+2){border-bottom:2px solid var(--border)}
@@ -205,7 +220,7 @@
       .feature-grid,.steps,.who-grid,.control-grid,.bar-grid{grid-template-columns:1fr}
       .bar-item{border-right:0;border-bottom:2px solid var(--border)}.bar-item:last-child{border-bottom:0}
       section{padding:62px 0}.control-card{padding:24px}.support-box{padding:31px 22px}.contact-actions{min-width:0}
-      .ops-foot{grid-template-columns:1fr}.ft-in{flex-direction:column;text-align:center}
+      .ops-foot{grid-template-columns:1fr}.ft-in{grid-template-columns:1fr;text-align:left}.ft-copy{text-align:left}
     }
   </style>
 </head>
@@ -390,16 +405,55 @@
       </div>
     </section>
 
+    <!-- Root page keeps social proof focused on operating concerns, not unverified public claims. -->
+    <section id="clients-say">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <div class="tag">What clients ask</div>
+            <h2>The questions agents hear <em>every day.</em></h2>
+          </div>
+          <p>Customers usually care about speed, proof, and whether a delayed request has been lost. Bingwa Flash is structured around those practical worries.</p>
+        </div>
+        <div class="proof-grid">
+          <article class="proof-card reveal"><small>Proof</small><h3>Has my bundle gone through?</h3><p>Final carrier text and transaction status stay visible so the agent can answer from history instead of guessing.</p></article>
+          <article class="proof-card reveal"><small>Speed</small><h3>Can you serve me now?</h3><p>Matched payments move into a controlled queue, so busy agents can keep selling while requests run in order.</p></article>
+          <article class="proof-card reveal"><small>Recovery</small><h3>What happened to my pending order?</h3><p>Held, failed, retried and verified states stay separate, which makes follow-up clearer when network prompts delay the flow.</p></article>
+          <article class="proof-card reveal"><small>Online orders</small><h3>Can I order without calling?</h3><p>Agent web order pages let selected offers receive paid requests and route them into the same fulfilment trail.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="workflow" id="faq">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <div class="tag">Q&amp;A</div>
+            <h2>Questions before an agent <em>goes live.</em></h2>
+          </div>
+          <p>Short answers for the public site. Setup videos and direct community links live only on the download subdomain.</p>
+        </div>
+        <div class="faq-grid">
+          <article class="faq-card reveal"><small>Automation</small><h3>Does Bingwa Flash replace the agent?</h3><p>No. It runs configured fulfilment flows and keeps the agent in control when a request needs review, retry, or confirmation.</p></article>
+          <article class="faq-card reveal"><small>Permissions</small><h3>Why does the app need phone and SMS permissions?</h3><p>Those permissions are only for enabled automation paths such as reading payment signals, placing USSD requests, and recording the final result.</p></article>
+          <article class="faq-card reveal"><small>Web orders</small><h3>Can customers order from a link?</h3><p>Yes, when the agent enables web orders and publishes selected offers. Paid requests still follow the agent's configured fulfilment rules.</p></article>
+          <article class="faq-card reveal"><small>Safety</small><h3>What if Safaricom menus or network prompts change?</h3><p>The app should fail clearly, hold the row, or use configured recovery paths instead of silently losing the request.</p></article>
+          <article class="faq-card reveal"><small>Records</small><h3>Can the agent check old transactions?</h3><p>Transaction history keeps the customer, offer, status, response text, retry notes, and recovery action together for later review.</p></article>
+          <article class="faq-card reveal"><small>Support</small><h3>Where should official questions go?</h3><p>Use the support email for account, setup, web order, and transaction recovery questions that need a durable reply trail.</p></article>
+        </div>
+      </div>
+    </section>
+
     <section id="support">
       <div class="wrap">
         <div class="support-box reveal">
           <div>
-            <h2>Ready to install or need setup help?</h2>
-            <p>Contact support if permissions, offers, web orders or transaction recovery need help before your agent phone goes live.</p>
+            <h2>Need a clear answer before setup?</h2>
+            <p>Email support for account questions, web order readiness, offer mapping concerns, or transaction recovery cases that need a written trail.</p>
           </div>
           <div class="contact-actions">
-            <a class="support-pill" href="https://wa.me/254748008585" target="_blank" rel="noopener">WhatsApp support</a>
             <a class="support-pill" href="mailto:support@bingwaflash.co.ke">Email support</a>
+            <a class="support-pill" href="/terms.html">Read terms</a>
           </div>
         </div>
       </div>
@@ -408,16 +462,38 @@
 
   <footer>
     <div class="ft-in">
-      <a class="ft-logo" href="/"><img src="/logo.png" alt="Bingwa Flash"><span class="ft-name">Bingwa Flash</span></a>
-      <div class="ft-links">
-        <a href="/">Home</a>
-        <a href="#features">Features</a>
-        <a href="/privacy.html">Privacy Policy</a>
-        <a href="/terms.html">Terms</a>
-        <a href="mailto:support@bingwaflash.co.ke">Contact</a>
+      <div class="ft-about">
+        <a class="ft-logo" href="/"><img src="/logo.png" alt="Bingwa Flash"><span class="ft-name">Bingwa Flash</span></a>
+        <p>USSD automation, web orders, transaction recovery and local agent tools for Bingwa Sokoni sellers who need every request to stay traceable.</p>
       </div>
-      <div class="ft-copy">&copy; 2026 Bingwa Flash</div>
+      <div class="ft-col">
+        <h3>Product</h3>
+        <div class="ft-links">
+          <a href="#features">Features</a>
+          <a href="#workflow">How it works</a>
+          <a href="#built-for">Built for</a>
+          <a href="#faq">Q&amp;A</a>
+        </div>
+      </div>
+      <div class="ft-col">
+        <h3>Trust</h3>
+        <div class="ft-links">
+          <a href="#clients-say">Client questions</a>
+          <a href="#control">Agent control</a>
+          <a href="/privacy.html">Privacy Policy</a>
+          <a href="/terms.html">Terms</a>
+        </div>
+      </div>
+      <div class="ft-col">
+        <h3>Contact</h3>
+        <div class="ft-links">
+          <a href="mailto:support@bingwaflash.co.ke">support@bingwaflash.co.ke</a>
+          <a href="mailto:bingwaflash@gmail.com">bingwaflash@gmail.com</a>
+          <span>Nairobi, Kenya</span>
+        </div>
+      </div>
     </div>
+    <div class="ft-copy">&copy; 2026 Bingwa Flash. Public website for agent automation and web order information.</div>
   </footer>
 
   <script>
