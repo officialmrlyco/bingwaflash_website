@@ -170,16 +170,55 @@
     .check-list li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--y);flex:0 0 8px;margin-top:7px}
     .green .check-list li::before{background:var(--g)}
 
-    .proof-grid,.faq-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-    .proof-card,.faq-card{
+    .proof-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .proof-card{
       background:linear-gradient(180deg,var(--card-bg),var(--card-end));border:1.5px solid var(--border);border-radius:var(--r20);
       padding:22px;box-shadow:var(--cs);transition:transform .18s,border-color .18s,background .25s;
     }
-    .proof-card:hover,.faq-card:hover{transform:translateY(-3px);border-color:rgba(251,191,36,.36)}
-    .proof-card small,.faq-card small{display:block;margin-bottom:9px;color:var(--gd);font-size:.68rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
-    .proof-card h3,.faq-card h3{font-family:"Sora",sans-serif;font-size:1rem;font-weight:900;color:var(--text);margin-bottom:8px}
-    .proof-card p,.faq-card p{font-size:.82rem;line-height:1.7;color:var(--text2);font-weight:650}
+    .proof-card:hover{transform:translateY(-3px);border-color:rgba(251,191,36,.36)}
+    .proof-card small{display:block;margin-bottom:9px;color:var(--gd);font-size:.68rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+    .proof-card h3{font-family:"Sora",sans-serif;font-size:1rem;font-weight:900;color:var(--text);margin-bottom:8px}
+    .proof-card p{font-size:.82rem;line-height:1.7;color:var(--text2);font-weight:650}
     .proof-card p::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--y);margin-right:8px;vertical-align:1px}
+
+    /* FAQ mirrors the compact help-center pattern while keeping root-only, non-installer content. */
+    .faq-panel{
+      background:linear-gradient(180deg,var(--card-bg),var(--card-end));border:1.5px solid var(--border);
+      border-radius:var(--r20);box-shadow:var(--cm);padding:22px;
+    }
+    .faq-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+    .faq-tab{
+      appearance:none;border:1.5px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;
+      border-radius:var(--pill);padding:7px 13px;font-family:"Nunito",sans-serif;font-size:.78rem;font-weight:900;
+      transition:background .15s,border-color .15s,color .15s,transform .15s;
+    }
+    .faq-tab:hover{transform:translateY(-1px);border-color:rgba(16,185,129,.34);color:var(--text)}
+    .faq-tab.on{background:rgba(16,185,129,.13);border-color:rgba(16,185,129,.42);color:var(--gd)}
+    .faq-category{margin-top:18px}
+    .faq-tabs + .faq-category{margin-top:0}
+    .faq-category[hidden]{display:none}
+    .faq-category-head{
+      display:flex;align-items:center;gap:8px;margin:0 0 9px;color:var(--gd);font-size:.7rem;font-weight:900;
+      letter-spacing:.09em;text-transform:uppercase;
+    }
+    .faq-category-head::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--g);box-shadow:0 0 0 4px rgba(16,185,129,.11)}
+    .faq-list{display:grid;gap:8px}
+    .faq-item{
+      background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r12);overflow:hidden;
+      box-shadow:var(--soft-shadow);transition:border-color .15s,background .25s;
+    }
+    .faq-item[open]{border-color:rgba(251,191,36,.32)}
+    .faq-item summary{
+      list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;
+      padding:14px 16px;font-size:.88rem;font-weight:900;color:var(--text);
+    }
+    .faq-item summary::-webkit-details-marker{display:none}
+    .faq-item summary::after{
+      content:"+";display:flex;align-items:center;justify-content:center;flex:0 0 24px;width:24px;height:24px;
+      border-radius:var(--pill);background:rgba(16,185,129,.11);color:var(--gd);font-family:"Sora",sans-serif;font-size:.9rem;font-weight:900;
+    }
+    .faq-item[open] summary::after{content:"-";background:rgba(251,191,36,.16);color:var(--yd)}
+    .faq-item p{border-top:1.5px solid var(--border);padding:13px 16px 16px;font-size:.82rem;line-height:1.7;color:var(--text2);font-weight:650}
 
     .support-box{
       display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;padding:48px;border-radius:24px;
@@ -208,7 +247,7 @@
     .reveal.on{opacity:1;transform:none}
 
     @media(max-width:980px){
-      .hero-grid,.section-head,.support-box,.proof-grid,.faq-grid{grid-template-columns:1fr}
+      .hero-grid,.section-head,.support-box,.proof-grid{grid-template-columns:1fr}
       .ops-shell{max-width:520px}.feature-grid{grid-template-columns:repeat(2,1fr)}
       .steps{grid-template-columns:repeat(2,1fr)}.step::after{display:none}
       .bar-grid{grid-template-columns:repeat(2,1fr)}.bar-item:nth-child(2){border-right:0}.bar-item:nth-child(-n+2){border-bottom:2px solid var(--border)}
@@ -428,18 +467,110 @@
       <div class="wrap">
         <div class="section-head reveal">
           <div>
-            <div class="tag">Q&amp;A</div>
-            <h2>Questions before an agent <em>goes live.</em></h2>
+            <div class="tag">Frequently asked questions</div>
+            <h2>Got questions? <em>Quick answers.</em></h2>
           </div>
-          <p>Short answers for the public site. Setup videos and direct community links live only on the download subdomain.</p>
+          <p>Brief answers to common questions customers and agents ask before trusting Bingwa Flash with a real order flow.</p>
         </div>
-        <div class="faq-grid">
-          <article class="faq-card reveal"><small>Automation</small><h3>Does Bingwa Flash replace the agent?</h3><p>No. It runs configured fulfilment flows and keeps the agent in control when a request needs review, retry, or confirmation.</p></article>
-          <article class="faq-card reveal"><small>Permissions</small><h3>Why does the app need phone and SMS permissions?</h3><p>Those permissions are only for enabled automation paths such as reading payment signals, placing USSD requests, and recording the final result.</p></article>
-          <article class="faq-card reveal"><small>Web orders</small><h3>Can customers order from a link?</h3><p>Yes, when the agent enables web orders and publishes selected offers. Paid requests still follow the agent's configured fulfilment rules.</p></article>
-          <article class="faq-card reveal"><small>Safety</small><h3>What if Safaricom menus or network prompts change?</h3><p>The app should fail clearly, hold the row, or use configured recovery paths instead of silently losing the request.</p></article>
-          <article class="faq-card reveal"><small>Records</small><h3>Can the agent check old transactions?</h3><p>Transaction history keeps the customer, offer, status, response text, retry notes, and recovery action together for later review.</p></article>
-          <article class="faq-card reveal"><small>Support</small><h3>Where should official questions go?</h3><p>Use the support email for account, setup, web order, and transaction recovery questions that need a durable reply trail.</p></article>
+        <div class="faq-panel reveal">
+          <div class="faq-tabs" role="tablist" aria-label="FAQ categories">
+            <button class="faq-tab on" type="button" role="tab" aria-selected="true" data-faq-filter="all">All</button>
+            <button class="faq-tab" type="button" role="tab" aria-selected="false" data-faq-filter="general">General</button>
+            <button class="faq-tab" type="button" role="tab" aria-selected="false" data-faq-filter="automation">Automation</button>
+            <button class="faq-tab" type="button" role="tab" aria-selected="false" data-faq-filter="web">Web Orders</button>
+            <button class="faq-tab" type="button" role="tab" aria-selected="false" data-faq-filter="security">Security</button>
+            <button class="faq-tab" type="button" role="tab" aria-selected="false" data-faq-filter="support">Support</button>
+          </div>
+
+          <div class="faq-category" data-faq-category="general">
+            <div class="faq-category-head">General</div>
+            <div class="faq-list">
+              <details class="faq-item" open>
+                <summary>What is Bingwa Flash?</summary>
+                <p>Bingwa Flash is an Android tool for Bingwa Sokoni agents. It helps match paid customer requests to configured offers, run guarded USSD fulfilment, and keep the final result in transaction history.</p>
+              </details>
+              <details class="faq-item">
+                <summary>Who is it built for?</summary>
+                <p>It is built for agents and bundle sellers who receive many customer requests and need a traceable way to serve them faster without losing control of the phone.</p>
+              </details>
+              <details class="faq-item">
+                <summary>Does the agent still control the process?</summary>
+                <p>Yes. Automation follows the agent's saved offers, SIM choices, retry rules, and review decisions. A request can still be held, checked, retried, or handled manually.</p>
+              </details>
+            </div>
+          </div>
+
+          <div class="faq-category" data-faq-category="automation">
+            <div class="faq-category-head">Automation</div>
+            <div class="faq-list">
+              <details class="faq-item">
+                <summary>What happens after a customer pays?</summary>
+                <p>When the signal matches a configured offer, Bingwa Flash can create a transaction, queue the correct fulfilment flow, and record the carrier response when it arrives.</p>
+              </details>
+              <details class="faq-item">
+                <summary>What if a USSD menu changes?</summary>
+                <p>The app should fail clearly, hold the request, or use a configured recovery path. It should not silently guess through a changed menu.</p>
+              </details>
+              <details class="faq-item">
+                <summary>Can failed orders be retried?</summary>
+                <p>Yes, when the agent has enabled safe retry rules. Retry notes stay attached to the same transaction so the history remains easy to audit.</p>
+              </details>
+            </div>
+          </div>
+
+          <div class="faq-category" data-faq-category="web">
+            <div class="faq-category-head">Web Orders</div>
+            <div class="faq-list">
+              <details class="faq-item">
+                <summary>Can customers order from a link?</summary>
+                <p>Yes. When web orders are enabled, selected offers can appear online and paid requests can enter the same fulfilment trail.</p>
+              </details>
+              <details class="faq-item">
+                <summary>Can I choose what appears online?</summary>
+                <p>Yes. The agent controls which offers are published and how those offers are fulfilled.</p>
+              </details>
+              <details class="faq-item">
+                <summary>What does a customer see when something fails?</summary>
+                <p>The customer-facing flow should show a clear failure or pending state, while the agent keeps the detailed transaction record for follow-up.</p>
+              </details>
+            </div>
+          </div>
+
+          <div class="faq-category" data-faq-category="security">
+            <div class="faq-category-head">Security and Privacy</div>
+            <div class="faq-list">
+              <details class="faq-item">
+                <summary>Why does the app need SMS, phone, and accessibility permissions?</summary>
+                <p>Those permissions are used for enabled automation paths such as reading allowed payment signals, placing USSD requests, and capturing final carrier dialogs.</p>
+              </details>
+              <details class="faq-item">
+                <summary>Can Bingwa Flash access my M-Pesa account?</summary>
+                <p>No. It reads supported SMS signals and works with configured fulfilment steps. It does not log into or control your M-Pesa account.</p>
+              </details>
+              <details class="faq-item">
+                <summary>Are transaction records kept?</summary>
+                <p>Yes. Records keep the customer, offer, status, response text, retry notes, and recovery action together so the agent can review what happened.</p>
+              </details>
+            </div>
+          </div>
+
+          <div class="faq-category" data-faq-category="support">
+            <div class="faq-category-head">Support</div>
+            <div class="faq-list">
+              <details class="faq-item">
+                <summary>Where should official questions go?</summary>
+                <p>Email support@bingwaflash.co.ke or bingwaflash@gmail.com for account, setup, web order, or transaction recovery questions that need a written trail.</p>
+              </details>
+              <details class="faq-item">
+                <summary>What should I include when reporting a transaction issue?</summary>
+                <p>Share the customer number, amount, offer name, time, and the visible transaction status. That helps support trace the issue faster.</p>
+              </details>
+              <details class="faq-item">
+                <summary>Can I ask before going live?</summary>
+                <p>Yes. Ask first if you are unsure about permissions, SIM setup, offer mapping, or web order readiness.</p>
+              </details>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -512,6 +643,32 @@
       syncThemeIcon();
     };
     syncThemeIcon();
+
+    // Category chips keep the root FAQ scannable without sending visitors to installer-only content.
+    (function () {
+      var tabs = document.querySelectorAll("[data-faq-filter]");
+      var groups = document.querySelectorAll("[data-faq-category]");
+      if (!tabs.length || !groups.length) return;
+
+      function setFilter(filter) {
+        tabs.forEach(function (tab) {
+          var selected = tab.getAttribute("data-faq-filter") === filter;
+          tab.classList.toggle("on", selected);
+          tab.setAttribute("aria-selected", selected ? "true" : "false");
+        });
+        groups.forEach(function (group) {
+          var show = filter === "all" || group.getAttribute("data-faq-category") === filter;
+          group.hidden = !show;
+        });
+      }
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          setFilter(tab.getAttribute("data-faq-filter"));
+        });
+      });
+      setFilter("all");
+    })();
 
     // Reveal sections progressively so the long explanatory page still feels light on mobile.
     (function () {
