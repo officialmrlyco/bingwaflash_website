@@ -624,6 +624,18 @@ function hasActiveWebOrderSubscription(agent,cfg){
   if(Number(cfg.pricePerMonth||0)<=0)return true;
   return tsMillis(agent.webOrderSubscriptionUntil)>Date.now();
 }
+async function loadLiveAgentGate(uid){
+  if(!uid)return{state:"missing"};
+  try{
+    const snap=await getDoc(doc(db,"agents",uid));
+    if(!snap.exists())return{state:"missing"};
+    return{state:"ok",profile:snap.data()||{}};
+  }catch(err){
+    const code=String(err?.code||err?.message||"").toLowerCase();
+    if(code.includes("permission-denied")||code.includes("not-found"))return{state:"denied"};
+    return{state:"error",error:err};
+  }
+}
 async function loadAgentBundle(username){
   const publicSnap=await getDoc(doc(db,"publicAgents",username));
   if(publicSnap.exists()){
@@ -667,9 +679,22 @@ async function init(){
     const n=agentProfile.agentName||USERNAME;
     const businessName=agentProfile.businessName||n;
     const agentPhone=agentProfile.phoneNumber||"";
-    updateAgentSharePreview(agentProfile);
     const subscriptionConfig=await loadSubscriptionConfig();
+    const liveGate=await loadLiveAgentGate(bundle.uid);
+    if(liveGate.state==="error"){showError("Unable to verify whether this order page is active. Please try again.");return;}
+    if(liveGate.state==="denied"||liveGate.state==="missing"){showMaintenance(n,agentPhone);return;}
 
+    const liveProfile=liveGate.profile||{};
+    agentProfile={
+      ...agentProfile,
+      ...liveProfile,
+      username:agentProfile.username||USERNAME,
+      uid:bundle.uid
+    };
+    updateAgentSharePreview(agentProfile);
+
+    // The public mirror keeps the page fast, but the live agent doc is the
+    // final gate so a reset or expiry cannot keep the order form visible.
     if(agentProfile.adminWebOrdersDisabled===true||!agentProfile.webOrdersOn||!hasActiveWebOrderSubscription(agentProfile,subscriptionConfig)){
       showMaintenance(n,agentPhone);return;
     }
