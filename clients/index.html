@@ -541,12 +541,12 @@ async function init(){
     agentUid=bundle.uid;agentProfile=bundle.profile;
     if(agentProfile.clientRegistrationOn!==true){showError('This agent has disabled registering as his client.');return;}
     const displayName=agentProfile.agentName||USERNAME;
-    const handle=agentProfile.username||USERNAME;
-    $('ag-av').textContent=displayName.charAt(0).toUpperCase();
-    $('ag-name').textContent=displayName;
+    const businessName=agentProfile.businessName||displayName;
+    $('ag-av').textContent=businessName.charAt(0).toUpperCase();
+    $('ag-name').textContent=businessName;
     const verifiedBadge=$('verified-badge');
     if(verifiedBadge) verifiedBadge.style.display=agentProfile.isVerified===true?'inline-block':'none';
-    $('ag-handle').textContent='@'+handle;
+    $('ag-handle').textContent='AGENT '+displayName;
     $('agent-bar').style.display='flex';
     $('reg-title').textContent=`Register as ${displayName}'s Client`;
     $('reg-sub').textContent=`You'll be added to ${displayName}'s client list and receive personalised data offers.`;
