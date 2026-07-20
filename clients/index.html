@@ -48,16 +48,66 @@ header{position:sticky;top:0;z-index:100;background:var(--hbg);backdrop-filter:b
 .logo img{width:30px;height:30px;border-radius:var(--r12);object-fit:contain;}
 .logo-text{font-family:'Sora',sans-serif;font-size:.9rem;font-weight:700;color:var(--text)}
 .logo-text b{color:var(--gd);font-weight:800}
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Register as Client — Bingwa Flash</title>
+<link rel="icon" type="image/png" href="/logo.png">
+<script>
+(function(){
+  var t=localStorage.getItem('bf-theme')||'dark';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --y:#FBBF24;--yd:#F59E0B;--yp:#FEF3C7;--g:#10B981;--gd:#059669;--gp:#D1FAE5;
+  --red:#EF4444;--rp:#FEE2E2;--blue:#3B82F6;
+  --cs:0 2px 0 rgba(0,0,0,.15),0 6px 20px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.1);
+  --cm:0 4px 0 rgba(0,0,0,.18),0 12px 32px rgba(0,0,0,.16),inset 0 2px 0 rgba(255,255,255,.1);
+  --cl:0 6px 0 rgba(0,0,0,.2),0 20px 56px rgba(0,0,0,.2),inset 0 2px 0 rgba(255,255,255,.1);
+  --cy:0 4px 0 rgba(160,100,0,.3),0 10px 28px rgba(245,197,24,.25),inset 0 1px 0 rgba(255,240,150,.4);
+  --cg:0 4px 0 rgba(18,100,45,.28),0 10px 28px rgba(34,197,94,.22),inset 0 1px 0 rgba(150,255,200,.4);
+  --r8:8px;--r12:12px;--r16:16px;--r20:20px;--r24:24px;--pill:999px;
+}
+[data-theme="dark"]{
+  --bg:#0B0F0D;--surface:#111715;--surface2:#18201D;--border:#26302C;--border2:#34423D;
+  --text:#F7FAF8;--text2:#C7D2CC;--text3:#84918A;--hbg:rgba(9,13,12,.92);--card-bg:#141A18;--card-end:#101613;--input-bg:#18201D;
+  --offer-section-bg:rgba(255,255,255,.025);--offer-section-border:rgba(255,255,255,.055);
+  --offer-bg:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.018));--offer-name:#DDE6E1;--price:#FBBF24;--soft-shadow:0 8px 22px rgba(0,0,0,.14);
+  --blob1:rgba(251,191,36,.10);--blob2:rgba(16,185,129,.11);}
+[data-theme="light"]{
+  --bg:#FFF8DB;--surface:#FFFFFF;--surface2:#FFFCF2;--border:#F0D889;--border2:#E9D8A7;
+  --text:#18231F;--text2:#3F4A45;--text3:#708078;--hbg:rgba(255,252,242,.94);--card-bg:#FFFFFF;--card-end:#FFF9E8;--input-bg:#FFFFFF;
+  --offer-section-bg:linear-gradient(180deg,#FFFFFF,#FFF5CF);--offer-section-border:#EDD47C;
+  --offer-bg:linear-gradient(180deg,#FFFFFF,#FFF8DF);--offer-name:#27362F;--price:#D97706;--soft-shadow:0 10px 26px rgba(185,128,0,.12);
+  --blob1:rgba(245,158,11,.20);--blob2:rgba(16,185,129,.14);}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;transition:background .25s,color .25s}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(ellipse 600px 500px at -5% -5%,var(--blob1) 0%,transparent 65%),
+  radial-gradient(ellipse 500px 400px at 105% 25%,var(--blob2) 0%,transparent 65%),var(--bg);}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:100;background:var(--hbg);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:2px solid var(--border);height:52px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;transition:background .25s,border-color .25s}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.logo img{width:30px;height:30px;border-radius:var(--r12);object-fit:contain;}
+.logo-text{font-family:'Sora',sans-serif;font-size:.9rem;font-weight:700;color:var(--text)}
+.logo-text b{color:var(--gd);font-weight:800}
 .thm{width:32px;height:32px;border-radius:var(--pill);background:var(--surface2);border:2px solid var(--border);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
 .thm:hover{border-color:var(--y);color:var(--text)} .thm svg{width:13px;height:13px}
 
 /* AGENT BAR */
 .agent-bar{padding:11px 20px;border-bottom:2px solid var(--border);display:none;align-items:center;gap:12px;background:rgba(34,197,94,.06);transition:background .25s}
 .ag-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--gd));flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:800;font-size:.9rem;color:#fff;box-shadow:var(--cg)}
-.ag-name{font-size:.88rem;font-weight:700;color:var(--text);font-family:'Sora',sans-serif}
+.ag-name{font-size:.88rem;font-weight:700;color:var(--text);font-family:'Sora',sans-serif;text-transform:uppercase}
 .ag-title{display:flex;align-items:center;gap:7px;min-width:0}
 .verified-badge{display:none;width:17px;height:17px;flex:0 0 17px;color:#0EA5E9;filter:drop-shadow(0 0 7px rgba(14,165,233,.45))}
-.ag-handle{font-size:.72rem;color:var(--text3);font-weight:600}
+.ag-handle{font-size:.72rem;color:var(--text3);font-weight:600;text-transform:uppercase}
 .ag-live{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:.7rem;color:var(--gd);font-weight:800}
 .ag-dot{width:7px;height:7px;border-radius:50%;background:var(--g);animation:pulse 2s infinite;box-shadow:0 0 0 3px rgba(34,197,94,.2)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
@@ -507,52 +557,6 @@ function normalizePaymentMode(value){
 function validAgentPaymentNumber(mode,number){
   const n=String(number||'').replace(/\D/g,'');
   if(mode==='SEND_MONEY')return/^0[17]\d{8}$/.test(n);
-  if(mode==='TILL'||mode==='PAYBILL')return/^\d{6,7}$/.test(n);
-  return false;
-}
-function agentPaymentInfo(agent){
-  if(!agent)return null;
-  let mode=normalizePaymentMode(agent.paymentMode||agent.payoutType);
-  const send=String(agent.sendMoneyPhoneNumber||agent.payoutPhoneNumber||'').replace(/\D/g,'');
-  const till=String(agent.tillNumber||agent.payoutTillNumber||'').replace(/\D/g,'');
-  const paybill=String(agent.paybillNumber||agent.payoutPaybillNumber||'').replace(/\D/g,'');
-  if(!mode){mode=paybill?'PAYBILL':(send?'SEND_MONEY':'TILL');}
-  const number=mode==='SEND_MONEY'?send:(mode==='PAYBILL'?paybill:till);
-  if(!validAgentPaymentNumber(mode,number))return null;
-  if(mode==='SEND_MONEY')return{mode,label:'Send Money',line:'Send money to '+number,hint:'Use this number when paying this agent.'};
-  if(mode==='PAYBILL')return{mode,label:'Paybill',line:'Paybill '+number,hint:'Account number is the number to receive, also treated as the paying number.'};
-  return{mode,label:'Till Number',line:'Till Number '+number,hint:'Pay using Buy Goods.'};
-}
-function renderAgentPaymentDetails(){
-  const info=agentPaymentInfo(agentProfile);
-  const row=$('contact-payment-row');
-  if(!row||!info){if(row)row.style.display='none';return;}
-  $('contact-payment-label').textContent=info.label;
-  $('contact-payment').textContent=info.line;
-  $('contact-payment-hint').textContent=info.hint;
-  row.style.display='flex';
-}
-
-async function init(){
-  if(!USERNAME){showError('No agent username found. Please use the link your agent shared with you.');return;}
-  try{
-    const bundle=await loadAgentProfile(USERNAME);
-    if(!bundle){showError(`Agent "${USERNAME}" not found.`);return;}
-    agentUid=bundle.uid;agentProfile=bundle.profile;
-    if(agentProfile.clientRegistrationOn!==true){showError('This agent has disabled registering as his client.');return;}
-    const displayName=agentProfile.agentName||USERNAME;
-    const handle=agentProfile.username||USERNAME;
-    $('ag-av').textContent=displayName.charAt(0).toUpperCase();
-    $('ag-name').textContent=displayName;
-    const verifiedBadge=$('verified-badge');
-    if(verifiedBadge) verifiedBadge.style.display=agentProfile.isVerified===true?'inline-block':'none';
-    $('ag-handle').textContent='@'+handle;
-    $('agent-bar').style.display='flex';
-    $('reg-title').textContent=`Register as ${displayName}'s Client`;
-    $('reg-sub').textContent=`You'll be added to ${displayName}'s client list and receive personalised data offers.`;
-    $('btn-agent-name').textContent=displayName+"'s";
-    const phone=agentProfile.phoneNumber||'';
-    if(phone){$('contact-phone').innerHTML=`<a href="tel:${phone}">${phone}</a>`;$('contact-phone-row').style.display='flex';}
     renderAgentPaymentDetails();
     $('contact-card').style.display='block';
     $('loading').style.display='none';$('reg-section').style.display='block';
