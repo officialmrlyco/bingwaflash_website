@@ -1,6 +1,6 @@
 {
-  "versionCode": 36,
-  "versionName": "1.3.6",
-  "apkUrl": "https://github.com/officialmrlyco/BingwaFlashApp/releases/download/v36/BingwaFlash_v1.3.6.apk",
-  "notes": "Bug fixes and performance improvements"
+  "versionCode": 37,
+  "versionName": "1.3.7",
+  "apkUrl": "https://github.com/officialmrlyco/BingwaFlashApp/releases/download/v37/BingwaFlash_v1.3.7.apk",
+  "notes": "Improved scheduled offer availability, automatic fallback handling, payment recovery, performance, and stability."
 }
