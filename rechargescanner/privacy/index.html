@@ -464,7 +464,7 @@
         <div class="page-meta">
           <span class="meta-chip">App: <strong>Airtime Recharge Scanner</strong></span>
           <span class="meta-chip">Package: <strong>com.airtime.dkarl</strong></span>
-          <span class="meta-chip">Effective: <strong>January 2024</strong></span>
+          <span class="meta-chip">Effective: <strong>August 25, 2026</strong></span>
         </div>
       </div>
     </div>
@@ -493,10 +493,10 @@
           <div class="section-num">01 / Overview</div>
           <h2>Our commitment to your privacy</h2>
           <p>Airtime Recharge Scanner ("the App") is developed and published by Bingwa Flash. This policy explains what information the App accesses, how it is used, and what we do not do with it.</p>
-          <p>The App is a local utility. Its core purpose is to help you scan airtime voucher digits and run USSD recharge codes on your device. Most functionality works entirely on-device with no server communication.</p>
+          <p>The App is a local utility. Its core purpose is to help you scan airtime voucher digits and run USSD recharge codes on your device. Voucher scanning, history, carrier settings, and recharge preparation are handled locally. The App also uses Google Mobile Ads and Google ML Kit, which process limited technical data as explained below.</p>
           <div class="info-card highlight">
             <div class="info-card-title">🔒 Bottom line</div>
-            <p>We do not collect, store, or transmit your personal data to remote servers. Your voucher digits, history, and SIM preferences stay on your device.</p>
+            <p>Bingwa Flash does not receive your voucher digits, recharge history, SIM details, carrier settings, or camera images. These remain on your device. Google services used for advertising and on-device text recognition may collect limited identifiers, app interactions, approximate location derived from an IP address, and diagnostic information.</p>
           </div>
         </div>
 
@@ -510,7 +510,7 @@
             <span class="pill-item">✗ Photos are never saved</span>
             <span class="pill-item">✗ No background camera access</span>
             <span class="pill-item">✗ Not used for facial recognition</span>
-            <span class="pill-item">✗ Not transmitted anywhere</span>
+            <span class="pill-item">✗ Camera images are not uploaded</span>
           </div>
           <p>Camera access is only active while the scanner screen is open and in use. The App does not take photos or record video. Camera frames are processed on-device for text/digit recognition only and are immediately discarded.</p>
         </div>
@@ -518,24 +518,25 @@
         <div class="policy-section" id="data">
           <div class="section-num">03 / Data collection</div>
           <h2>What we collect and why</h2>
-          <p>The App does not collect personal information. No accounts are required, no email or phone number is captured, and no data is sent to remote servers.</p>
+          <p>The App does not require an account and does not ask you to provide Bingwa Flash with your name, email address, or phone number. The App stores the following operational data locally:</p>
           <ul class="policy-list">
-            <li>Voucher digits you scan or manually enter — stored locally for your history</li>
-            <li>Recharge responses from your carrier — stored locally in your voucher history</li>
-            <li>SIM preferences and USSD templates — stored locally in app preferences</li>
-            <li>Carrier settings you configure — stored locally on-device only</li>
+            <li>Voucher digits you scan or manually enter - stored locally for your history</li>
+            <li>Recharge responses from your carrier - stored locally in your voucher history</li>
+            <li>SIM preferences and USSD templates - stored locally in app preferences</li>
+            <li>Carrier settings, theme choices, and rewarded bulk-run credits - stored locally on-device</li>
           </ul>
+          <p>Third-party Google SDKs may automatically collect and transmit limited technical data. Depending on the device and service, this can include the Android advertising ID, App Set ID or another per-installation identifier, IP address and approximate location, app launches and interactions, SDK events, device and app information, performance metrics, and diagnostic or error information. This data is used for advertising, analytics, service performance, and fraud prevention, security, and compliance.</p>
           <div class="info-card">
             <div class="info-card-title">📱 On-device only</div>
-            <p>All stored data lives on your device. Uninstalling the app removes all associated data. We have no access to your voucher history, recharge records, or settings.</p>
+            <p>Your voucher records, recharge responses, carrier configuration, and SIM preferences are not uploaded to Bingwa Flash. We have no remote access to this local information.</p>
           </div>
         </div>
 
         <div class="policy-section" id="storage">
           <div class="section-num">04 / Local storage</div>
           <h2>How data is stored</h2>
-          <p>The App uses Android's standard local storage mechanisms to persist your settings and voucher history between sessions. This data is private to the App and is not accessible to other apps or to Bingwa Flash.</p>
-          <p>You can clear all App data at any time through Android Settings → Apps → Airtime Recharge Scanner → Storage → Clear Data. This will delete your voucher history, saved vouchers, and all preferences.</p>
+          <p>The App uses Android's standard local storage mechanisms to persist your settings and voucher history between sessions. This data is private to the App and is not accessible to Bingwa Flash. Android may include this local data in a user-initiated device-to-device transfer when you move to a new phone; the App excludes it from Android cloud backup.</p>
+          <p>You can delete locally stored data at any time through Android Settings &gt; Apps &gt; Airtime Recharge Scanner &gt; Storage &gt; Clear Data, or by uninstalling the App. This removes voucher history, saved vouchers, and preferences from that device. Data processed by Google is retained and deleted according to Google's policies and the privacy controls available in your Google and Android settings.</p>
         </div>
 
         <div class="policy-section" id="ussd">
@@ -552,14 +553,14 @@
         <div class="policy-section" id="third-party">
           <div class="section-num">06 / Third parties</div>
           <h2>Third-party services</h2>
-          <p>The App does not integrate analytics SDKs, advertising networks, or crash-reporting services that transmit personal data off-device.</p>
-          <p>The App is distributed through Google Play. Google's Play Store policies and privacy terms apply to the download and installation process. We do not receive any personally identifying information from Google as part of this distribution.</p>
+          <p>The App uses the following Google services:</p>
           <ul class="policy-list">
-            <li>No analytics or crash-reporting SDKs</li>
-            <li>No advertising networks</li>
-            <li>No social media integrations</li>
-            <li>No remote configuration servers</li>
+            <li><strong>Google Mobile Ads (AdMob):</strong> displays banner, interstitial, and rewarded ads. Google documents that this SDK automatically collects and shares IP address information, app interactions, diagnostic information, and device or account identifiers for advertising, analytics, and fraud prevention.</li>
+            <li><strong>Google ML Kit:</strong> performs text recognition for voucher scanning. Voucher images and recognized text are processed on-device and are not sent to Google. ML Kit may send device and app information, per-installation identifiers, performance metrics, feature events, and error information to Google for diagnostics and usage analytics. Google documents that ML Kit encrypts this information in transit and does not share it with third parties.</li>
+            <li><strong>Google Play:</strong> distributes the App and provides platform services. Google's terms and privacy practices apply to downloading and installing the App.</li>
           </ul>
+          <p>Data transmitted by Google Mobile Ads is protected in transit using TLS, and ML Kit uses HTTPS. For current details, review the <a href="https://developers.google.com/admob/android/privacy/play-data-disclosure" target="_blank" rel="noopener">Google Mobile Ads data disclosure</a>, the <a href="https://developers.google.com/ml-kit/android-data-disclosure" target="_blank" rel="noopener">ML Kit data disclosure</a>, and <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
+          <p>The App does not include Bingwa Flash-operated analytics, crash reporting, social media, account, or remote configuration services.</p>
         </div>
 
         <div class="policy-section" id="children">
@@ -578,13 +579,13 @@
         <div class="policy-section" id="contact">
           <div class="section-num">09 / Contact</div>
           <h2>Questions or concerns</h2>
-          <p>If you have any questions about this Privacy Policy or the App's data practices, please reach out to the Bingwa Flash team.</p>
+          <p>If you have questions about this Privacy Policy, the App's data practices, or deletion of information controlled by Bingwa Flash, contact our privacy support team.</p>
           <div class="contact-card">
             <div>
               <h3>Bingwa Flash</h3>
-              <p>Developer of Airtime Recharge Scanner<br>bingwaflash.co.ke</p>
+              <p>Developer of Airtime Recharge Scanner<br>support@bingwaflash.co.ke<br>bingwaflash.co.ke</p>
             </div>
-            <a href="https://bingwaflash.co.ke" target="_blank" rel="noopener">Visit Bingwa Flash →</a>
+            <a href="mailto:support@bingwaflash.co.ke?subject=Airtime%20Recharge%20Scanner%20Privacy">Email privacy support</a>
           </div>
         </div>
 
