@@ -3,622 +3,223 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Privacy Policy — Airtime Recharge Scanner</title>
-  <meta name="description" content="Privacy policy for Airtime Recharge Scanner by Bingwa Flash. Learn how we handle camera permissions, local data, and your privacy." />
+  <title>Privacy Policy - Airtime Recharge Scanner</title>
+  <meta name="description" content="Privacy policy for Airtime Recharge Scanner, including local voucher data, AdMob disclosures, ML Kit diagnostics, retention, and deletion." />
+  <link rel="canonical" href="https://bingwaflash.co.ke/rechargescanner/privacy/" />
   <link rel="icon" type="image/png" href="../logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --red:      #F90106;
-      --red-deep: #8B0003;
-      --red-glow: rgba(249,1,6,0.28);
-      --red-soft: rgba(249,1,6,0.10);
-      --red-line: rgba(249,1,6,0.22);
-      --bg:       #07050b;
-      --surface:  #0f0b16;
-      --glass:    rgba(255,255,255,0.038);
-      --glass-border: rgba(255,255,255,0.08);
-      --ink:      #eeeaf8;
-      --ink2:     #cdc8de;
-      --muted:    #7a7589;
-      --ff-head:  'Syne', sans-serif;
-      --ff-body:  'DM Sans', sans-serif;
-      --ff-mono:  'JetBrains Mono', monospace;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--ff-body);
-      background: var(--bg);
-      color: var(--ink);
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 9999;
-      opacity: .55;
-    }
-
-    /* ── TOPBAR ─────────────────────────────────────── */
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(7,5,11,0.82);
-      backdrop-filter: blur(20px) saturate(1.4);
-      -webkit-backdrop-filter: blur(20px) saturate(1.4);
-      border-bottom: 1px solid var(--red-line);
-    }
-    .topbar-inner {
-      width: min(1140px, calc(100% - 40px));
-      margin: 0 auto;
-      height: 70px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      text-decoration: none;
-      color: var(--ink);
-    }
-    .brand-logo-wrap {
-      width: 42px; height: 42px;
-      border-radius: 12px;
-      background: linear-gradient(145deg, var(--red), var(--red-deep));
-      display: grid;
-      place-items: center;
-      box-shadow: 0 0 20px var(--red-glow), 0 4px 12px rgba(0,0,0,.4);
-      flex-shrink: 0;
-      overflow: hidden;
-    }
-    .brand-logo-wrap img { width: 34px; height: 34px; object-fit: contain; }
-    .brand-text strong {
-      display: block;
-      font-family: var(--ff-head);
-      font-weight: 700;
-      font-size: .92rem;
-      line-height: 1.1;
-    }
-    .brand-text em {
-      display: block;
-      font-style: normal;
-      font-size: .73rem;
-      color: var(--muted);
-      font-family: var(--ff-mono);
-    }
-
-    .nav { display: flex; align-items: center; gap: 6px; }
-    .nav a {
-      text-decoration: none;
-      font-size: .83rem;
-      font-weight: 500;
-      color: var(--ink2);
-      padding: 7px 14px;
-      border-radius: 8px;
-      border: 1px solid transparent;
-      transition: color .2s, border-color .2s, background .2s;
-    }
-    .nav a:hover {
-      color: var(--ink);
-      border-color: var(--red-line);
-      background: var(--red-soft);
-    }
-    .nav .nav-back {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--muted);
-    }
-    .nav .nav-back::before { content: "←"; }
-    .nav .nav-back:hover { color: var(--ink); }
-
-    /* ── PAGE HEADER ────────────────────────────────── */
-    .page-header {
-      position: relative;
-      overflow: hidden;
-      border-bottom: 1px solid var(--red-line);
-    }
-    .page-header::before {
-      content: "";
-      position: absolute;
-      top: -100px; left: -100px;
-      width: 500px; height: 500px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(249,1,6,.12), transparent 70%);
-      pointer-events: none;
-    }
-    .page-header::after {
-      content: "";
-      position: absolute;
-      top: 0; right: 0;
-      width: 400px; height: 300px;
-      background: radial-gradient(ellipse at 100% 0%, rgba(139,0,3,.12), transparent 70%);
-      pointer-events: none;
-    }
-    .page-header-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(249,1,6,.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(249,1,6,.05) 1px, transparent 1px);
-      background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse 100% 80% at 50% 0%, black 0%, transparent 100%);
-    }
-    .page-header-inner {
-      position: relative;
-      z-index: 1;
-      width: min(1140px, calc(100% - 40px));
-      margin: 0 auto;
-      padding: 64px 0 52px;
-    }
-
-    .page-eyebrow {
-      font-family: var(--ff-mono);
-      font-size: .72rem;
-      text-transform: uppercase;
-      letter-spacing: .14em;
-      color: var(--red);
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .page-eyebrow::before {
-      content: "";
-      display: inline-block;
-      width: 28px; height: 2px;
-      background: var(--red);
-    }
-
-    .page-title {
-      font-family: var(--ff-head);
-      font-size: clamp(2.4rem, 5vw, 4.8rem);
-      font-weight: 800;
-      letter-spacing: -.05em;
-      line-height: .92;
-      margin-bottom: 20px;
-    }
-    .page-title .accent { color: var(--red); }
-
-    .page-meta {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .meta-chip {
-      font-family: var(--ff-mono);
-      font-size: .72rem;
-      color: var(--muted);
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      padding: 5px 12px;
-      border-radius: 999px;
-    }
-    .meta-chip strong { color: var(--ink2); }
-
-    /* ── CONTENT LAYOUT ─────────────────────────────── */
-    .content-wrap {
-      width: min(1140px, calc(100% - 40px));
-      margin: 0 auto;
-      padding: 56px 0 80px;
-      display: grid;
-      grid-template-columns: 240px 1fr;
-      gap: 56px;
-      align-items: start;
-    }
-
-    /* Sticky TOC */
-    .toc {
-      position: sticky;
-      top: 90px;
-    }
-    .toc-title {
-      font-family: var(--ff-mono);
-      font-size: .68rem;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      color: var(--muted);
-      margin-bottom: 14px;
-    }
-    .toc ul { list-style: none; }
-    .toc li + li { margin-top: 4px; }
-    .toc a {
-      display: block;
-      text-decoration: none;
-      font-size: .84rem;
-      color: var(--muted);
-      padding: 6px 12px;
-      border-radius: 8px;
-      border-left: 2px solid transparent;
-      transition: color .2s, border-color .2s, background .2s;
-      line-height: 1.4;
-    }
-    .toc a:hover, .toc a.active {
-      color: var(--ink);
-      border-color: var(--red);
-      background: var(--red-soft);
-    }
-
-    /* Privacy sections */
-    .privacy-content { min-width: 0; }
-
-    .policy-section {
-      margin-bottom: 48px;
-      padding-bottom: 48px;
-      border-bottom: 1px solid rgba(255,255,255,.05);
-    }
-    .policy-section:last-child {
-      margin-bottom: 0;
-      padding-bottom: 0;
-      border-bottom: none;
-    }
-
-    .section-num {
-      font-family: var(--ff-mono);
-      font-size: .7rem;
-      color: var(--red);
-      text-transform: uppercase;
-      letter-spacing: .1em;
-      margin-bottom: 8px;
-    }
-    .policy-section h2 {
-      font-family: var(--ff-head);
-      font-size: clamp(1.3rem, 2.5vw, 1.9rem);
-      font-weight: 800;
-      letter-spacing: -.04em;
-      margin-bottom: 18px;
-      color: var(--ink);
-    }
-    .policy-section p {
-      color: var(--ink2);
-      font-size: .96rem;
-      line-height: 1.8;
-      margin-bottom: 14px;
-    }
-    .policy-section p:last-child { margin-bottom: 0; }
-
-    .info-card {
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      border-radius: 16px;
-      padding: 20px 22px;
-      margin: 20px 0;
-    }
-    .info-card.highlight {
-      background: rgba(249,1,6,.06);
-      border-color: rgba(249,1,6,.2);
-    }
-    .info-card-title {
-      font-family: var(--ff-head);
-      font-size: .95rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .info-card p { color: var(--muted); font-size: .88rem; line-height: 1.65; margin: 0; }
-
-    .pill-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 16px 0;
-    }
-    .pill-item {
-      font-family: var(--ff-mono);
-      font-size: .75rem;
-      color: var(--ink2);
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      padding: 5px 13px;
-      border-radius: 999px;
-    }
-    .pill-item.red {
-      color: var(--red);
-      background: rgba(249,1,6,.07);
-      border-color: rgba(249,1,6,.2);
-    }
-
-    policy-list { list-style: none; margin: 14px 0; }
-    .policy-list li {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(255,255,255,.04);
-      font-size: .9rem;
-      color: var(--ink2);
-      line-height: 1.6;
-    }
-    .policy-list li:last-child { border-bottom: none; }
-    .policy-list li::before {
-      content: "—";
-      color: var(--red);
-      flex-shrink: 0;
-      font-family: var(--ff-mono);
-      margin-top: 1px;
-    }
-
-    .contact-card {
-      background: linear-gradient(155deg, rgba(249,1,6,.1), rgba(249,1,6,.03));
-      border: 1px solid rgba(249,1,6,.25);
-      border-radius: 20px;
-      padding: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    .contact-card h3 {
-      font-family: var(--ff-head);
-      font-size: 1.15rem;
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-    .contact-card p { color: var(--muted); font-size: .88rem; }
-    .contact-card a {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 20px;
-      background: var(--red);
-      color: #fff;
-      text-decoration: none;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: .88rem;
-      white-space: nowrap;
-      box-shadow: 0 6px 20px rgba(249,1,6,.35);
-      transition: transform .2s, box-shadow .2s;
-    }
-    .contact-card a:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(249,1,6,.5);
-    }
-
-    /* ── FOOTER ─────────────────────────────────────── */
-    footer {
-      border-top: 1px solid rgba(255,255,255,.05);
-      padding: 28px 20px 40px;
-    }
-    .footer-inner {
-      width: min(1140px, calc(100% - 40px));
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .footer-brand { font-family: var(--ff-head); font-size: .88rem; font-weight: 700; color: var(--ink2); }
-    .footer-brand span { color: var(--red); }
-    .footer-links { display: flex; gap: 20px; }
-    .footer-links a { text-decoration: none; color: var(--muted); font-size: .82rem; transition: color .2s; }
-    .footer-links a:hover { color: var(--red); }
-    .footer-mono { font-family: var(--ff-mono); font-size: .72rem; color: var(--muted); }
-
-    /* ── RESPONSIVE ─────────────────────────────────── */
-    @media (max-width: 860px) {
-      .nav .nav-label { display: none; }
-      .content-wrap { grid-template-columns: 1fr; }
-      .toc { display: none; }
-    }
-    @media (max-width: 600px) {
-      .page-header-inner { padding: 40px 0 36px; }
-      .nav { display: none; }
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .page-header-inner > * { animation: fadeUp .5s ease both; }
-    .page-header-inner > *:nth-child(1) { animation-delay: .05s; }
-    .page-header-inner > *:nth-child(2) { animation-delay: .13s; }
-    .page-header-inner > *:nth-child(3) { animation-delay: .22s; }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../site.css" />
 </head>
 <body>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="../" aria-label="Back to Airtime Recharge Scanner">
-        <div class="brand-logo-wrap">
-          <img src="../logo.png" alt="" />
-        </div>
-        <div class="brand-text">
+  <a class="skip-link" href="#policy-content">Skip to policy</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="../" aria-label="Airtime Recharge Scanner home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-copy">
           <strong>Airtime Recharge Scanner</strong>
-          <em>by Bingwa Flash</em>
-        </div>
+          <small>A Bingwa Flash utility</small>
+        </span>
       </a>
-      <nav class="nav">
-        <a href="../" class="nav-back"><span class="nav-label">Back to Home</span></a>
-        <a href="https://play.google.com/store/apps/details?id=com.airtime.dkarl" target="_blank" rel="noopener">Google Play</a>
+      <nav class="site-nav" aria-label="Site navigation">
+        <a href="../#features">What it does</a>
+        <a href="../#workflow">How it works</a>
+        <a href="../">Back home</a>
+        <a class="nav-action" href="https://play.google.com/store/apps/details?id=com.airtime.dkarl" target="_blank" rel="noopener">Google Play</a>
       </nav>
     </div>
   </header>
 
-  <main>
-    <div class="page-header">
-      <div class="page-header-grid" aria-hidden="true"></div>
-      <div class="page-header-inner">
-        <div class="page-eyebrow">Legal document</div>
-        <h1 class="page-title">Privacy<br><span class="accent">Policy</span></h1>
-        <div class="page-meta">
-          <span class="meta-chip">App: <strong>Airtime Recharge Scanner</strong></span>
-          <span class="meta-chip">Package: <strong>com.airtime.dkarl</strong></span>
-          <span class="meta-chip">Effective: <strong>August 25, 2026</strong></span>
+  <main id="policy-content">
+    <!-- The cover treats privacy as a product document, with the key promise visible before legal detail. -->
+    <section class="legal-hero" aria-labelledby="policy-title">
+      <div class="legal-hero__inner">
+        <div>
+          <p class="eyebrow">Public product record</p>
+          <h1 id="policy-title">Privacy<br /><span>policy.</span></h1>
+        </div>
+        <div class="legal-summary">
+          <p>Voucher digits and operational history stay on your phone. Limited technical data is processed by Google services used for ads and text recognition. This document separates the two plainly.</p>
+          <dl class="document-meta">
+            <div><dt>App</dt><dd>Airtime Recharge Scanner</dd></div>
+            <div><dt>Package</dt><dd>com.airtime.dkarl</dd></div>
+            <div><dt>Effective</dt><dd>August 25, 2026</dd></div>
+          </dl>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="content-wrap">
-      <!-- Table of contents -->
-      <nav class="toc" aria-label="Page contents">
-        <div class="toc-title">Contents</div>
-        <ul>
-          <li><a href="#overview">Overview</a></li>
-          <li><a href="#camera">Camera permission</a></li>
-          <li><a href="#data">Data we collect</a></li>
-          <li><a href="#storage">Local storage</a></li>
-          <li><a href="#ussd">USSD & recharge</a></li>
-          <li><a href="#third-party">Third parties</a></li>
-          <li><a href="#children">Children</a></li>
-          <li><a href="#changes">Policy changes</a></li>
-          <li><a href="#contact">Contact us</a></li>
-        </ul>
+    <div class="legal-layout">
+      <nav class="legal-toc" aria-label="Policy contents">
+        <strong>Document index</strong>
+        <ol>
+          <li><a href="#overview"><span>01</span><span>Overview</span></a></li>
+          <li><a href="#camera"><span>02</span><span>Camera</span></a></li>
+          <li><a href="#data"><span>03</span><span>Data</span></a></li>
+          <li><a href="#storage"><span>04</span><span>Storage</span></a></li>
+          <li><a href="#ussd"><span>05</span><span>USSD</span></a></li>
+          <li><a href="#services"><span>06</span><span>Services</span></a></li>
+          <li><a href="#children"><span>07</span><span>Children</span></a></li>
+          <li><a href="#changes"><span>08</span><span>Changes</span></a></li>
+          <li><a href="#contact"><span>09</span><span>Contact</span></a></li>
+        </ol>
       </nav>
 
-      <!-- Policy content -->
-      <article class="privacy-content">
-
-        <div class="policy-section" id="overview">
-          <div class="section-num">01 / Overview</div>
-          <h2>Our commitment to your privacy</h2>
-          <p>Airtime Recharge Scanner ("the App") is developed and published by Bingwa Flash. This policy explains what information the App accesses, how it is used, and what we do not do with it.</p>
-          <p>The App is a local utility. Its core purpose is to help you scan airtime voucher digits and run USSD recharge codes on your device. Voucher scanning, history, carrier settings, and recharge preparation are handled locally. The App also uses Google Mobile Ads and Google ML Kit, which process limited technical data as explained below.</p>
-          <div class="info-card highlight">
-            <div class="info-card-title">🔒 Bottom line</div>
-            <p>Bingwa Flash does not receive your voucher digits, recharge history, SIM details, carrier settings, or camera images. These remain on your device. Google services used for advertising and on-device text recognition may collect limited identifiers, app interactions, approximate location derived from an IP address, and diagnostic information.</p>
-          </div>
-        </div>
-
-        <div class="policy-section" id="camera">
-          <div class="section-num">02 / Camera permission</div>
-          <h2>Camera use</h2>
-          <p>The App requests camera permission to scan airtime voucher cards and printed voucher lists. Camera access is used exclusively for digit recognition within the App.</p>
-          <div class="pill-list">
-            <span class="pill-item red">✓ Voucher digit scanning</span>
-            <span class="pill-item red">✓ Bulk voucher list scanning</span>
-            <span class="pill-item">✗ Photos are never saved</span>
-            <span class="pill-item">✗ No background camera access</span>
-            <span class="pill-item">✗ Not used for facial recognition</span>
-            <span class="pill-item">✗ Camera images are not uploaded</span>
-          </div>
-          <p>Camera access is only active while the scanner screen is open and in use. The App does not take photos or record video. Camera frames are processed on-device for text/digit recognition only and are immediately discarded.</p>
-        </div>
-
-        <div class="policy-section" id="data">
-          <div class="section-num">03 / Data collection</div>
-          <h2>What we collect and why</h2>
-          <p>The App does not require an account and does not ask you to provide Bingwa Flash with your name, email address, or phone number. The App stores the following operational data locally:</p>
-          <ul class="policy-list">
-            <li>Voucher digits you scan or manually enter - stored locally for your history</li>
-            <li>Recharge responses from your carrier - stored locally in your voucher history</li>
-            <li>SIM preferences and USSD templates - stored locally in app preferences</li>
-            <li>Carrier settings, theme choices, and rewarded bulk-run credits - stored locally on-device</li>
-          </ul>
-          <p>Third-party Google SDKs may automatically collect and transmit limited technical data. Depending on the device and service, this can include the Android advertising ID, App Set ID or another per-installation identifier, IP address and approximate location, app launches and interactions, SDK events, device and app information, performance metrics, and diagnostic or error information. This data is used for advertising, analytics, service performance, and fraud prevention, security, and compliance.</p>
-          <div class="info-card">
-            <div class="info-card-title">📱 On-device only</div>
-            <p>Your voucher records, recharge responses, carrier configuration, and SIM preferences are not uploaded to Bingwa Flash. We have no remote access to this local information.</p>
-          </div>
-        </div>
-
-        <div class="policy-section" id="storage">
-          <div class="section-num">04 / Local storage</div>
-          <h2>How data is stored</h2>
-          <p>The App uses Android's standard local storage mechanisms to persist your settings and voucher history between sessions. This data is private to the App and is not accessible to Bingwa Flash. Android may include this local data in a user-initiated device-to-device transfer when you move to a new phone; the App excludes it from Android cloud backup.</p>
-          <p>You can delete locally stored data at any time through Android Settings &gt; Apps &gt; Airtime Recharge Scanner &gt; Storage &gt; Clear Data, or by uninstalling the App. This removes voucher history, saved vouchers, and preferences from that device. Data processed by Google is retained and deleted according to Google's policies and the privacy controls available in your Google and Android settings.</p>
-        </div>
-
-        <div class="policy-section" id="ussd">
-          <div class="section-num">05 / USSD & recharge actions</div>
-          <h2>Recharge actions</h2>
-          <p>When you choose to run a recharge, the App constructs a USSD string using your entered voucher digits and your selected carrier template, then triggers it through your device's dialer. This is the same as manually dialing a USSD code yourself.</p>
-          <p>The App always shows a confirmation step before running any USSD code. You can review, edit, or cancel the action before proceeding. No USSD action is triggered without your explicit confirmation.</p>
-          <div class="info-card highlight">
-            <div class="info-card-title">⚡ Important</div>
-            <p>USSD recharge actions interact with your mobile carrier's network directly via your SIM. Any charges or recharge outcomes are between you and your carrier. Bingwa Flash is not responsible for carrier responses or recharge outcomes.</p>
-          </div>
-        </div>
-
-        <div class="policy-section" id="third-party">
-          <div class="section-num">06 / Third parties</div>
-          <h2>Third-party services</h2>
-          <p>The App uses the following Google services:</p>
-          <ul class="policy-list">
-            <li><strong>Google Mobile Ads (AdMob):</strong> displays banner, interstitial, and rewarded ads. Google documents that this SDK automatically collects and shares IP address information, app interactions, diagnostic information, and device or account identifiers for advertising, analytics, and fraud prevention.</li>
-            <li><strong>Google ML Kit:</strong> performs text recognition for voucher scanning. Voucher images and recognized text are processed on-device and are not sent to Google. ML Kit may send device and app information, per-installation identifiers, performance metrics, feature events, and error information to Google for diagnostics and usage analytics. Google documents that ML Kit encrypts this information in transit and does not share it with third parties.</li>
-            <li><strong>Google Play:</strong> distributes the App and provides platform services. Google's terms and privacy practices apply to downloading and installing the App.</li>
-          </ul>
-          <p>Data transmitted by Google Mobile Ads is protected in transit using TLS, and ML Kit uses HTTPS. For current details, review the <a href="https://developers.google.com/admob/android/privacy/play-data-disclosure" target="_blank" rel="noopener">Google Mobile Ads data disclosure</a>, the <a href="https://developers.google.com/ml-kit/android-data-disclosure" target="_blank" rel="noopener">ML Kit data disclosure</a>, and <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
-          <p>The App does not include Bingwa Flash-operated analytics, crash reporting, social media, account, or remote configuration services.</p>
-        </div>
-
-        <div class="policy-section" id="children">
-          <div class="section-num">07 / Children</div>
-          <h2>Children's privacy</h2>
-          <p>The App is not directed at children under 13. We do not knowingly collect any information from children. If you believe a child has used this App in a way that raises a privacy concern, please contact us and we will address it promptly.</p>
-        </div>
-
-        <div class="policy-section" id="changes">
-          <div class="section-num">08 / Policy changes</div>
-          <h2>Updates to this policy</h2>
-          <p>We may update this Privacy Policy from time to time. When we do, the updated version will be published at this URL with a revised effective date. We encourage you to review this policy periodically.</p>
-          <p>Continued use of the App after a policy update constitutes acceptance of the revised terms. If the changes are material, we will note this in the App's Play Store listing.</p>
-        </div>
-
-        <div class="policy-section" id="contact">
-          <div class="section-num">09 / Contact</div>
-          <h2>Questions or concerns</h2>
-          <p>If you have questions about this Privacy Policy, the App's data practices, or deletion of information controlled by Bingwa Flash, contact our privacy support team.</p>
-          <div class="contact-card">
-            <div>
-              <h3>Bingwa Flash</h3>
-              <p>Developer of Airtime Recharge Scanner<br>support@bingwaflash.co.ke<br>bingwaflash.co.ke</p>
+      <article class="legal-document">
+        <section class="policy-section" id="overview">
+          <div class="policy-number">01</div>
+          <div class="policy-body">
+            <h2>What this policy covers</h2>
+            <p>Airtime Recharge Scanner ("the App") is developed and published by Bingwa Flash. It helps you scan airtime voucher digits, review them, and run a confirmed USSD recharge on your chosen SIM.</p>
+            <p>Voucher scanning, history, carrier settings, and recharge preparation are handled locally. The App also uses Google Mobile Ads and Google ML Kit, which process limited technical data as described in section 06.</p>
+            <div class="policy-callout">
+              <strong>The short version</strong>
+              <p>Bingwa Flash does not receive your voucher digits, recharge history, SIM details, carrier settings, or camera images. Google services used for ads and text recognition may process identifiers, app interactions, approximate location derived from an IP address, and diagnostics.</p>
             </div>
-            <a href="mailto:support@bingwaflash.co.ke?subject=Airtime%20Recharge%20Scanner%20Privacy">Email privacy support</a>
           </div>
-        </div>
+        </section>
 
+        <section class="policy-section" id="camera">
+          <div class="policy-number">02</div>
+          <div class="policy-body">
+            <h2>Camera and image use</h2>
+            <p>The App requests camera permission only to read digits from airtime voucher cards and printed voucher lists. Camera access is active while the scanner screen is open. The App does not take photographs for a gallery, record video, use facial recognition, or access the camera in the background.</p>
+            <p>Camera frames and imported voucher images are processed on-device for text recognition and are immediately discarded after processing. Google states that ML Kit does not send the input image or recognized output to its servers.</p>
+            <ul class="policy-facts">
+              <li>Camera access is tied to the visible scanning screen.</li>
+              <li>Voucher images are not saved by the scanner.</li>
+              <li>Images and recognized voucher text are not uploaded to Bingwa Flash or Google.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="policy-section" id="data">
+          <div class="policy-number">03</div>
+          <div class="policy-body">
+            <h2>Data used by the App</h2>
+            <p>The App does not require an account and does not ask you to provide Bingwa Flash with your name, email address, or phone number. The following operational information is stored locally:</p>
+            <ul class="policy-facts">
+              <li>Voucher digits you scan or enter and their local history status.</li>
+              <li>Recharge and balance responses returned by your mobile carrier.</li>
+              <li>SIM preferences, editable USSD templates, and carrier settings.</li>
+              <li>Theme choices and rewarded bulk-run credits.</li>
+            </ul>
+            <p>Google SDKs may automatically process Android advertising ID, App Set ID or another per-installation identifier, IP address and approximate location, app launches and interactions, SDK events, device and app information, performance metrics, and diagnostic or error information. Their purposes include advertising, analytics, service performance, and fraud prevention, security, and compliance.</p>
+          </div>
+        </section>
+
+        <section class="policy-section" id="storage">
+          <div class="policy-number">04</div>
+          <div class="policy-body">
+            <h2>Storage, retention, and deletion</h2>
+            <p>The App uses Android's private local storage for voucher history and settings. This information is not remotely accessible to Bingwa Flash. Android may include local app data in a user-initiated device-to-device transfer when you move to a new phone; the App excludes voucher records and settings from Android cloud backup.</p>
+            <p>You can delete locally stored data through Android Settings &gt; Apps &gt; Airtime Recharge Scanner &gt; Storage &gt; Clear Data, or by uninstalling the App. Data processed by Google is retained and deleted according to Google's policies and the privacy controls available in your Google and Android settings.</p>
+          </div>
+        </section>
+
+        <section class="policy-section" id="ussd">
+          <div class="policy-number">05</div>
+          <div class="policy-body">
+            <h2>USSD and carrier actions</h2>
+            <p>When you choose to recharge, the App constructs a USSD string from the reviewed voucher digits and the configured carrier template. It then sends that request through the SIM you selected, in the same way as manually dialing the carrier code.</p>
+            <p>The App shows a confirmation step before running a recharge. You can edit, save, cancel, or continue. Carrier charges and recharge outcomes are governed by your mobile network provider.</p>
+            <div class="policy-callout">
+              <strong>Your decision controls execution</strong>
+              <p>A detected voucher is not automatically submitted. The scan pauses for review before any recharge request is made.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="policy-section" id="services">
+          <div class="policy-number">06</div>
+          <div class="policy-body">
+            <h2>Google services</h2>
+            <p>The App uses three Google services with distinct roles:</p>
+            <div class="service-records">
+              <div class="service-record">
+                <b>Google Mobile Ads</b>
+                <p>Displays banner, interstitial, and rewarded ads. Google documents collection and sharing of IP address information, app interactions, diagnostics, and device or account identifiers for ads, analytics, and fraud prevention.</p>
+              </div>
+              <div class="service-record">
+                <b>Google ML Kit</b>
+                <p>Runs on-device voucher text recognition. It may send device and app information, per-installation identifiers, performance metrics, feature events, and errors to Google for diagnostics and usage analytics.</p>
+              </div>
+              <div class="service-record">
+                <b>Google Play</b>
+                <p>Distributes the App and provides platform services. Google's terms and privacy practices apply to downloading and installing the App.</p>
+              </div>
+            </div>
+            <p>Google Mobile Ads protects transmitted data using TLS, and ML Kit uses HTTPS. Read the current <a href="https://developers.google.com/admob/android/privacy/play-data-disclosure" target="_blank" rel="noopener">Google Mobile Ads disclosure</a>, <a href="https://developers.google.com/ml-kit/android-data-disclosure" target="_blank" rel="noopener">ML Kit disclosure</a>, and <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>.</p>
+            <p>The App does not include Bingwa Flash-operated analytics, crash reporting, social media, account, or remote configuration services.</p>
+          </div>
+        </section>
+
+        <section class="policy-section" id="children">
+          <div class="policy-number">07</div>
+          <div class="policy-body">
+            <h2>Children's privacy</h2>
+            <p>The App is not directed at children under 13. Bingwa Flash does not knowingly collect personal information from children through the App. If you believe a child has used the App in a way that raises a privacy concern, contact us so we can review it.</p>
+          </div>
+        </section>
+
+        <section class="policy-section" id="changes">
+          <div class="policy-number">08</div>
+          <div class="policy-body">
+            <h2>Policy changes</h2>
+            <p>We may update this policy when the App, its SDKs, or applicable requirements change. The revised document will be published at this URL with an updated effective date. Material changes may also be noted on the Google Play listing.</p>
+          </div>
+        </section>
+
+        <section class="policy-section" id="contact">
+          <div class="policy-number">09</div>
+          <div class="policy-body">
+            <h2>Questions or concerns</h2>
+            <p>Contact Bingwa Flash for questions about this policy, the App's privacy practices, or deletion of information controlled by Bingwa Flash.</p>
+            <div class="contact-panel">
+              <div>
+                <strong>Privacy support</strong>
+                <span>support@bingwaflash.co.ke / bingwaflash.co.ke</span>
+              </div>
+              <a class="button" href="mailto:support@bingwaflash.co.ke?subject=Airtime%20Recharge%20Scanner%20Privacy">Email support</a>
+            </div>
+          </div>
+        </section>
       </article>
     </div>
   </main>
 
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-brand">Airtime Recharge Scanner <span>×</span> Bingwa Flash</div>
-      <div class="footer-links">
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="footer-name">Airtime Recharge Scanner<small>Built by Bingwa Flash</small></div>
+      <nav class="footer-links" aria-label="Footer navigation">
         <a href="../">Home</a>
-        <a href="../#features">Features</a>
+        <a href="../#features">What it does</a>
+        <a href="../#workflow">How it works</a>
         <a href="https://play.google.com/store/apps/details?id=com.airtime.dkarl" target="_blank" rel="noopener">Google Play</a>
-      </div>
-      <div class="footer-mono">Privacy Policy</div>
+      </nav>
+      <div class="footer-code">com.airtime.dkarl<br />&copy; 2026 Bingwa Flash</div>
     </div>
   </footer>
 
   <script>
-    // Active TOC highlight on scroll
+    // Keep the document index synchronized with the section currently being read.
     const sections = document.querySelectorAll('.policy-section[id]');
-    const tocLinks = document.querySelectorAll('.toc a');
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          tocLinks.forEach(l => l.classList.remove('active'));
-          const active = document.querySelector(`.toc a[href="#${e.target.id}"]`);
-          if (active) active.classList.add('active');
-        }
+    const links = document.querySelectorAll('.legal-toc a');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        links.forEach((link) => {
+          const active = link.getAttribute('href') === `#${entry.target.id}`;
+          link.classList.toggle('active', active);
+          if (active) link.setAttribute('aria-current', 'true');
+          else link.removeAttribute('aria-current');
+        });
       });
-    }, { threshold: 0.35 });
-    sections.forEach(s => obs.observe(s));
+    }, { rootMargin: '-18% 0px -68% 0px' });
+    sections.forEach((section) => observer.observe(section));
   </script>
 </body>
 </html>
