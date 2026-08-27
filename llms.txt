@@ -316,7 +316,7 @@ On public pages, a verified agent should be shown clearly as a verified Bingwa F
 
 ### Relay
 
-Relay helps phones or agents pass order/execution information between devices or channels.
+Relay helps phones or agents pass order/execution information between devices using SMS, Online, Hotspot/Wi-Fi, or Bluetooth.
 
 Relay concepts:
 
@@ -338,7 +338,7 @@ If the portal says paused, it means the app or config has disabled portal sync.
 
 ### Tokens, Subscription, and Billing
 
-Some Bingwa Flash features may require tokens, subscriptions, or a free/paid status. Agents should keep enough tokens for automation if their account requires them.
+Bingwa Flash automation uses the account's current Time Tokens or token balance where required. Web Orders may have a separate paid availability period shown before purchase; Relay does not create its own subscription or access product.
 
 If a transaction is pending due to no tokens:
 
