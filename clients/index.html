@@ -2,716 +2,1232 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Register as Client — Bingwa Flash</title>
+<title>Register as Client - Bingwa Flash</title>
+<meta name="description" content="Register as a client of a verified Bingwa Flash agent to receive automated bundle and airtime recommendations.">
+<link rel="canonical" href="https://bingwaflash.co.ke/clients/">
+<meta property="og:site_name" content="Bingwa Flash">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Register as Client - Bingwa Flash">
+<meta property="og:description" content="Register with your agent for automated data bundle and airtime recommendations.">
+<meta property="og:url" content="https://bingwaflash.co.ke/clients/">
+<meta property="og:image" content="https://bingwaflash.co.ke/logo.png">
 <link rel="icon" type="image/png" href="/logo.png">
 <script>
 (function(){
   try { var t=localStorage.getItem('bf-theme'); if(t==='dark'||t==='light') document.documentElement.setAttribute('data-theme',t); }
-  catch(error) { /* Keep the server-rendered dark default when storage is unavailable. */ }
+  catch(error) {}
 })();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site-theme.css?v=20260830-6">
+<script src="/site-theme.js?v=20260830-2" defer></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --y: var(--bf-yellow);
-  --yd: var(--bf-yellow-strong);
-  --g: var(--bf-green);
-  --gd: var(--bf-green-strong);
-  --red: var(--bf-red);
-  --r8: 8px;
-  --r12: 12px;
-  --r16: 16px;
-  --r20: 20px;
-  --r24: 24px;
+  --y: #facc15;
+  --yd: #eab308;
+  --g: #15a76c;
+  --gd: #0d8d59;
+  --red: #ef4444;
   --pill: 999px;
-  --cs: none;
-  --cm: none;
-  --cl: none;
-  --cy: none;
-  --cg: none;
 }
+
 [data-theme="dark"]{
-  --bg: var(--bf-bg);
-  --surface: var(--bf-surface);
-  --surface2: var(--bf-surface-raised);
-  --border: var(--bf-border);
-  --border2: var(--bf-border-strong);
-  --text: var(--bf-text);
-  --text2: var(--bf-text-muted);
-  --text3: var(--bf-text-soft);
-  --hbg: var(--bf-surface-muted);
-  --card-bg: var(--bf-surface);
-  --card-end: var(--bf-surface);
-  --input-bg: var(--bf-surface-muted);
-  --offer-section-bg: var(--bf-surface-muted);
-  --offer-section-border: var(--bf-border);
-  --offer-bg: var(--bf-surface);
-  --offer-name: var(--bf-text);
-  --price: var(--bf-yellow);
-  --soft-shadow: var(--bf-shadow);
+  --bg: #060907;
+  --surface: #0e1410;
+  --surface2: #16201a;
+  --surface-muted: #0a0e0b;
+  --border: #1c2720;
+  --border-strong: #27382d;
+  --text: #ffffff;
+  --text-muted: #a1a8a3;
+  --text-soft: #6b756e;
+  --card-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  --badge-bg: rgba(21, 167, 108, 0.15);
+  --tag-yellow-bg: rgba(250, 204, 21, 0.15);
+  --tag-yellow-color: #facc15;
 }
+
 [data-theme="light"]{
-  --bg: var(--bf-bg);
-  --surface: var(--bf-surface);
-  --surface2: var(--bf-surface-raised);
-  --border: var(--bf-border);
-  --border2: var(--bf-border-strong);
-  --text: var(--bf-text);
-  --text2: var(--bf-text-muted);
-  --text3: var(--bf-text-soft);
-  --hbg: var(--bf-surface-muted);
-  --card-bg: var(--bf-surface);
-  --card-end: var(--bf-surface);
-  --input-bg: var(--bf-surface-muted);
-  --offer-section-bg: var(--bf-surface-muted);
-  --offer-section-border: var(--bf-border);
-  --offer-bg: var(--bf-surface);
-  --offer-name: var(--bf-text);
-  --price: var(--bf-yellow-strong);
-  --soft-shadow: var(--bf-shadow);
+  --bg: #ffffff;
+  --surface: #fbfcfb;
+  --surface2: #f2f4f2;
+  --surface-muted: #f7f9f7;
+  --border: #e2e6e3;
+  --border-strong: #cbcfcc;
+  --text: #0a0e0b;
+  --text-muted: #4b554e;
+  --text-soft: #8a948d;
+  --card-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  --badge-bg: #ecfdf5;
+  --tag-yellow-bg: #fefce8;
+  --tag-yellow-color: #ca8a04;
 }
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;transition:background .25s,color .25s}
-body::before{content:none !important;display:none !important;}
+
+body{
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
 /* HEADER */
-header{position:sticky;top:0;z-index:100;background:var(--hbg);border-bottom:1px solid var(--border);height:56px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;transition:background .25s,border-color .25s}
-.logo{display:flex;align-items:center;gap:9px;text-decoration:none}
-.logo img{width:30px;height:30px;border-radius:var(--r8);object-fit:contain;}
-.logo-text{font-family:'Sora',sans-serif;font-size:.9rem;font-weight:700;color:var(--text)}
-.logo-text b{color:var(--g);font-weight:800}
-.thm{width:36px;height:36px;border-radius:8px;background:var(--surface);border:1px solid var(--border);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
-.thm:hover{border-color:var(--y);color:var(--text);background:var(--surface2)} .thm svg{width:14px;height:14px}
+header.client-header{
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  height: 60px !important;
+  padding: 0 16px !important;
+  background: var(--surface) !important;
+  border-bottom: 1px solid var(--border) !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.client-brand{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--text);
+  white-space: nowrap;
+}
+.client-brand img{
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+}
+.client-brand b{
+  color: var(--g);
+}
 
-/* AGENT BAR */
-.agent-bar{padding:11px 20px;border-bottom:1px solid var(--border);display:none;align-items:center;gap:12px;background:var(--hbg);transition:background .25s}
-.ag-av{width:36px;height:36px;border-radius:50%;background:var(--g);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:800;font-size:.9rem;color:#fff;}
-.ag-name{font-size:.88rem;font-weight:700;color:var(--text);font-family:'Sora',sans-serif;text-transform:uppercase}
-.ag-title{display:flex;align-items:center;gap:7px;min-width:0}
-.verified-badge{display:none;width:17px;height:17px;flex:0 0 17px;color:#0EA5E9;}
-.ag-handle{font-size:.72rem;color:var(--text3);font-weight:600;text-transform:uppercase}
-.ag-live{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:.7rem;color:var(--g);font-weight:800}
-.ag-dot{width:7px;height:7px;border-radius:50%;background:var(--g);}
+.header-trust{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--g);
+  background: var(--badge-bg);
+  padding: 4px 10px;
+  border-radius: var(--pill);
+  border: 1px solid rgba(21, 167, 108, 0.25);
+  white-space: nowrap;
+}
 
-/* MAIN */
-main{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:28px 16px 56px}
-.card{background:var(--surface);border-radius:var(--r16);box-shadow:var(--soft-shadow);border:1px solid var(--border);width:100%;max-width:480px;overflow:hidden;animation:fadeUp .4s ease both;transition:background .25s,border-color .25s}
-.card-body{padding:22px 20px 26px}
+/* MAIN CONTAINER */
+main.client-main{
+  flex: 1;
+  width: 100%;
+  max-width: 580px;
+  margin: 0 auto;
+  padding: 20px 14px 56px;
+}
 
-/* STATES */
-#loading{text-align:center;padding:34px 0}
-.spin{width:32px;height:32px;border:2px solid var(--border2);border-top-color:var(--y);border-radius:50%;animation:spin .7s linear infinite;display:inline-block;margin-bottom:10px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.spin-label{font-size:.76rem;color:var(--text3);font-weight:700}
-#error-state{display:none;text-align:center;padding:32px 0}
-.err-icon img{width:40px;height:40px;object-fit:contain;opacity:.45;margin-bottom:12px}
-.err-text{font-size:.84rem;color:var(--text2);line-height:1.65;font-weight:500}
-#reg-section,#del-section{display:none}
-#success-state,#delete-success-state{display:none;text-align:center;padding:28px 0}
+/* CENTERED CIRCULAR AGENT PROFILE CARD */
+.agent-hero-card{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px 18px 20px;
+  margin-bottom: 24px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+}
+.ag-avatar-circle{
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--g);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-bottom: 12px;
+  border: 3px solid var(--surface2);
+  box-shadow: 0 0 0 2px var(--g);
+}
+.ag-meta h1{
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.verified-icon{
+  width: 18px;
+  height: 18px;
+  display: none;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+.ag-sub{
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.ag-status-pill{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  background: var(--badge-bg);
+  border: 1px solid rgba(21, 167, 108, 0.25);
+  border-radius: var(--pill);
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--g);
+}
+.ag-status-pill .dot{
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--g);
+}
 
-/* TYPOGRAPHY */
-.sec-ttl{font-family:'Sora',sans-serif;font-size:.98rem;font-weight:800;color:var(--text);margin-bottom:4px}
-.sec-sub{font-size:.78rem;color:var(--text2);margin-bottom:18px;font-weight:500;line-height:1.55}
+/* AGENT DIRECT META CHIPS */
+.agent-direct-meta{
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 12px;
+}
+.meta-chip{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--pill);
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.meta-chip svg{
+  color: var(--g);
+}
+.meta-chip a{
+  color: inherit;
+  text-decoration: none;
+}
+.meta-chip a:hover{
+  color: var(--g);
+}
 
-/* FIELDS */
-.field{margin-bottom:14px}
-.field label{display:block;font-size:.7rem;font-weight:800;color:var(--text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
-.field input{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:11px 13px;color:var(--text);font-family:inherit;font-size:.86rem;outline:none;transition:border-color .15s,box-shadow .15s;font-weight:500}
-.field input:focus{border-color:var(--y);background:var(--surface)}
-.field input::placeholder{color:var(--text3);font-weight:400}
-.field-hint{font-size:.69rem;color:var(--text3);margin-top:4px;font-weight:600}
-.name-preview{font-size:.76rem;margin-top:6px;padding:8px 12px;border-radius:8px;background:rgba(245,197,24,.08);border:1.5px solid rgba(245,197,24,.22);display:none}
-.name-preview span{font-weight:800;color:var(--yd)}
-#form-err,#del-err{font-size:.76rem;color:var(--red);margin-bottom:11px;display:none;background:rgba(239,68,68,.08);padding:9px 12px;border-radius:8px;border:1px solid rgba(239,68,68,.22)}
+.fraud-disclaimer{
+  font-size: 0.68rem;
+  color: var(--text-soft);
+  text-align: center;
+  margin-top: 4px;
+}
+.fraud-disclaimer a{
+  color: var(--text-muted);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.fraud-disclaimer a:hover{
+  color: var(--g);
+}
 
-/* BUTTONS */
-.submit-btn{width:100%;padding:13px;background:var(--y);color:#1a1000;font-weight:800;font-size:.88rem;border:1px solid var(--yd);border-radius:var(--pill);cursor:pointer;transition:all 0.15s;margin-bottom:8px;font-family:'Sora',sans-serif}
-.submit-btn:hover{background:var(--yd)} .submit-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
-.submit-btn.green{background:var(--g);color:#fff;border-color:var(--gd)}
-.submit-btn.green:hover{background:var(--gd)}
-.pay-secure{font-size:.69rem;color:var(--text3);text-align:center;font-weight:700}
-.divider{border:none;height:1px;background:var(--border);margin:18px 0}
-.ghost-link{background:none;border:none;color:var(--text3);font-family:'Sora',sans-serif;font-size:.76rem;font-weight:700;cursor:pointer;padding:0;transition:color .15s;display:block;text-align:center;margin-top:10px;text-decoration:none}
-.ghost-link:hover{color:var(--text2)}
-.ghost-link::before{content:'→ '}
+/* REGISTRATION CARD */
+.form-card{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px 20px;
+  box-shadow: var(--card-shadow);
+  margin-bottom: 20px;
+}
+.form-card-head{
+  margin-bottom: 18px;
+}
+.form-card-head h2{
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.form-card-head p{
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
 
-/* PIN */
-.pin-wrap{position:relative}
-.pin-wrap input{letter-spacing:.3em;font-size:1rem;font-weight:700;text-align:center;padding-right:44px}
-.pin-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);padding:4px;display:flex;align-items:center;transition:color .15s}
-.pin-toggle:hover{color:var(--text2)}
-.pin-strength{margin-top:7px;height:4px;border-radius:var(--pill);background:var(--border2);overflow:hidden}
-.pin-strength-bar{height:100%;width:0;border-radius:var(--pill);transition:width .25s,background .25s}
-.pin-rule{font-size:.71rem;margin-top:5px;display:flex;align-items:center;gap:6px;color:var(--text3);font-weight:600}
-.pin-rule.ok{color:var(--gd)} .pin-rule.fail{color:var(--red)}
-.pin-notice{padding:11px 13px;border-radius:8px;background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.22);margin-bottom:16px;font-size:.76rem;color:#93c5fd;line-height:1.55}
-.pin-notice strong{color:#bfdbfe;display:block;margin-bottom:3px}
-.pin-notice-green{background:rgba(34,197,94,.07);border-color:rgba(34,197,94,.22)}
-.pin-notice-green strong{color:#6ee7b7} .pin-notice-green span{color:#a7f3d0}
-#pin-err{font-size:.76rem;color:var(--red);margin-bottom:11px;display:none;background:rgba(239,68,68,.08);padding:9px 12px;border-radius:8px;border:1px solid rgba(239,68,68,.22)}
+.field{
+  margin-bottom: 14px;
+}
+.field label{
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.field input{
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 11px 14px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  outline: none;
+  transition: all 0.15s;
+}
+.field input:focus{
+  border-color: var(--g);
+  background: var(--surface);
+}
+.field-hint{
+  font-size: 0.7rem;
+  color: var(--text-soft);
+  margin-top: 4px;
+  font-weight: 600;
+}
 
-/* AGENT LIST */
-.agents-list{display:flex;flex-direction:column;gap:8px;margin-top:4px}
-.agent-item{display:flex;align-items:center;gap:10px;padding:11px 13px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;transition:border-color .15s}
-.agent-item:hover{border-color:var(--border2)}
-.agent-item-av{width:32px;height:32px;border-radius:50%;background:var(--y);display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:800;font-size:.8rem;color:#000;flex-shrink:0;}
-.agent-item-info{flex:1;min-width:0}
-.agent-item-name{font-size:.84rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.agent-item-handle{font-size:.71rem;color:var(--text3);font-weight:600}
-.btn-remove{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);color:var(--red);font-size:.71rem;font-weight:800;padding:5px 12px;border-radius:var(--pill);cursor:pointer;transition:all .15s;font-family:'Sora',sans-serif;white-space:nowrap;flex-shrink:0}
-.btn-remove:hover{background:rgba(239,68,68,.16)}
-.btn-remove:disabled{opacity:.45;cursor:not-allowed;transform:none}
-.limit-note{font-size:.71rem;color:var(--text3);margin-top:10px;text-align:center;font-weight:600}
-.limit-hit{color:var(--red);font-weight:800}
+.name-preview{
+  font-size: 0.76rem;
+  margin-top: 6px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--tag-yellow-bg);
+  border: 1px solid rgba(250,204,21,0.25);
+  color: var(--text);
+  display: none;
+}
+.name-preview span{
+  font-weight: 800;
+  color: var(--tag-yellow-color);
+}
 
-/* SUCCESS */
-.success-icon{font-size:2.2rem;margin-bottom:12px}
-.success-title{font-family:'Sora',sans-serif;font-size:1rem;font-weight:800;color:var(--text);margin-bottom:6px}
-.success-desc{font-size:.81rem;color:var(--text2);line-height:1.65;margin-bottom:16px;font-weight:500}
-.back-link{font-size:.77rem;color:var(--text3);background:none;border:1px solid var(--border);border-radius:var(--pill);font-family:'Sora',sans-serif;font-weight:700;cursor:pointer;padding:9px 20px;transition:all .15s;display:inline-block}
-.back-link:hover{border-color:var(--border2);color:var(--text2)}
+/* PIN BLOCKS */
+.pin-wrap{
+  position: relative;
+}
+.pin-wrap input{
+  letter-spacing: 0.25em;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-align: center;
+  padding-right: 44px;
+}
+.pin-toggle{
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-soft);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+.pin-strength{
+  margin-top: 7px;
+  height: 4px;
+  border-radius: var(--pill);
+  background: var(--border-strong);
+  overflow: hidden;
+}
+.pin-strength-bar{
+  height: 100%;
+  width: 0;
+  border-radius: var(--pill);
+  transition: width .25s, background .25s;
+}
+.pin-rule{
+  font-size: 0.7rem;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-soft);
+  font-weight: 600;
+}
+.pin-rule.ok{ color: var(--g); }
+.pin-rule.fail{ color: var(--red); }
 
-/* CONTACT CARD */
-.contact-card{margin-top:16px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:background .25s,border-color .25s}
-.contact-card-title{font-size:.66rem;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;padding:10px 14px 6px}
-.contact-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--border)}
-.contact-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.contact-label{font-size:.67rem;color:var(--text3);margin-bottom:1px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
-.contact-value{font-size:.83rem;font-weight:700;color:var(--text2)}
-.contact-value a{color:var(--text2);text-decoration:none;transition:color .15s}.contact-value a:hover{color:var(--g)}
+.pin-notice{
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  margin-bottom: 14px;
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.pin-notice strong{
+  color: var(--text);
+  display: block;
+  margin-bottom: 2px;
+}
+.pin-notice-green{
+  background: var(--badge-bg);
+  border-color: rgba(21,167,108,0.25);
+}
+.pin-notice-green strong{
+  color: var(--g);
+}
 
-/* FOOTER */
-footer{background:var(--surface);border-top:1px solid var(--border);padding:18px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;transition:background .25s,border-color .25s}
-.ft-logo{display:flex;align-items:center;gap:7px;text-decoration:none}
-.ft-logo img{width:22px;height:22px;border-radius:6px;object-fit:contain;}
-.ft-name{font-family:'Sora',sans-serif;font-size:.8rem;font-weight:700;color:var(--text2)}
-.ft-copy{font-size:.71rem;color:var(--text3);font-weight:600}
-@media(max-width:480px){footer{flex-direction:column;text-align:center}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.form-alert{
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: none;
+}
+
+.submit-btn{
+  width: 100%;
+  min-height: 48px;
+  background: var(--y);
+  border: 1px solid var(--yd);
+  color: #060907;
+  font-size: 0.92rem;
+  font-weight: 800;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.15s;
+  margin-bottom: 10px;
+}
+.submit-btn:hover{
+  background: var(--yd);
+}
+.submit-btn:disabled{
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.security-note{
+  font-size: 0.69rem;
+  color: var(--text-soft);
+  text-align: center;
+  font-weight: 600;
+}
+
+.divider{
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 18px 0;
+}
+.ghost-link{
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.ghost-link:hover{
+  color: var(--g);
+}
+
+/* AGENTS LIST */
+.agents-list{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+.agent-item{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.agent-item-av{
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--g);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.82rem;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+.agent-item-info{
+  flex: 1;
+  min-width: 0;
+}
+.agent-item-name{
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.agent-item-handle{
+  font-size: 0.7rem;
+  color: var(--text-soft);
+  font-weight: 600;
+}
+.btn-remove{
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.3);
+  color: #f87171;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 5px 12px;
+  border-radius: var(--pill);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-remove:hover{
+  background: rgba(239,68,68,0.2);
+}
+
+/* SUCCESS / STATUS SCREENS */
+.status-card{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 32px 20px 24px;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+  display: none;
+}
+.status-icon-circle{
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+}
+.status-icon-circle.green{ background: var(--badge-bg); color: var(--g); border: 2px solid var(--g); }
+.status-icon-circle.red{ background: rgba(239,68,68,0.12); color: var(--red); border: 2px solid var(--red); }
+.status-card h2{
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.status-card p{
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+.back-action-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 20px;
+  border-radius: var(--pill);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+}
+.back-action-btn:hover{
+  border-color: var(--g);
+  color: var(--g);
+}
+
+/* LOADING & ERROR */
+#loading{
+  text-align: center;
+  padding: 48px 0;
+}
+.spinner{
+  width: 34px;
+  height: 34px;
+  border: 3px solid var(--border-strong);
+  border-top-color: var(--g);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 12px;
+}
+@keyframes spin{ to{ transform: rotate(360deg); } }
+#error-state{
+  text-align: center;
+  padding: 40px 16px;
+  display: none;
+}
 </style>
-<!-- Shared flat theme tokens keep agent registration visually consistent with the public site. -->
-<link rel="stylesheet" href="/site-theme.css?v=20260830-2">
-<script src="/site-theme.js?v=20260830" defer></script>
 </head>
 <body>
 
-<header>
-  <a class="logo" href="/"><img src="/logo.png" alt="Bingwa Flash"><span class="logo-text">Bingwa <b>Flash</b></span></a>
-  <button class="thm" id="thm-btn" data-theme-toggle title="Toggle theme" aria-label="Toggle dark/light mode">
-    <svg id="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-    <svg id="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-  </button>
+<header class="client-header">
+  <a class="client-brand" href="/" aria-label="Bingwa Flash home">
+    <img src="/logo.png" alt="Bingwa Flash">
+    <span>Bingwa <b>Flash</b></span>
+  </a>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <div class="header-trust">
+      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Client Registration
+    </div>
+    <button class="thm" id="thm-btn" data-theme-toggle title="Toggle theme" aria-label="Toggle theme">
+      ☼
+    </button>
+  </div>
 </header>
 
-<div id="agent-bar" class="agent-bar">
-  <div class="ag-av" id="ag-av">?</div>
-  <div><div class="ag-title"><div class="ag-name" id="ag-name"></div><svg class="verified-badge" id="verified-badge" viewBox="0 0 24 24" aria-label="Verified agent" role="img"><path fill="currentColor" d="M22 12l-2.44-2.78.34-3.68-3.61-.82-1.89-3.18L11 3 7.6 1.54 5.71 4.72l-3.61.82.34 3.68L0 12l2.44 2.78-.34 3.68 3.61.82 1.89 3.18L11 21l3.4 1.46 1.89-3.18 3.61-.82-.34-3.68L22 12z" transform="translate(1 0)"/><path fill="#fff" d="M9.2 15.8L5.7 12.3l1.4-1.4 2.1 2.1 5-5 1.4 1.4z"/></svg></div><div class="ag-handle" id="ag-handle"></div></div>
-  <div class="ag-live"><div class="ag-dot"></div>Online</div>
-</div>
+<main class="client-main">
+  <!-- Loading state -->
+  <div id="loading">
+    <div class="spinner"></div>
+    <div style="font-size:0.82rem;color:var(--text-muted);font-weight:700;">Loading agent details...</div>
+  </div>
 
-<main>
-  <div class="card">
-    <div class="card-body">
+  <!-- Error state -->
+  <div id="error-state">
+    <img src="/logo.png" alt="" style="width:44px;height:44px;opacity:0.6;margin-bottom:12px;">
+    <div id="err-msg" style="font-size:0.86rem;color:var(--text-muted);font-weight:600;"></div>
+  </div>
 
-      <div id="loading"><div class="spin"></div><div class="spin-label">Loading…</div></div>
-
-      <div id="error-state">
-        <div class="err-icon"><img src="/logo.png" alt=""></div>
-        <div class="err-text" id="err-msg">Something went wrong.</div>
+  <!-- Agent Centered Profile Hero Card -->
+  <div class="agent-hero-card" id="agent-bar">
+    <div class="ag-avatar-circle" id="ag-av">?</div>
+    <div class="ag-meta">
+      <h1>
+        <span id="ag-name">Agent</span>
+        <svg class="verified-icon" id="verified-badge" viewBox="0 0 24 24" aria-label="Verified Agent" role="img">
+          <path fill="#0ea5e9" d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.79-4-4-4-.495 0-.965.084-1.4.238C14.55 2.475 13.18 1.6 11.6 1.6c-1.58 0-2.95.875-3.6 2.148-.435-.154-.905-.238-1.4-.238-2.21 0-4 1.79-4 4 0 .495.084.965.238 1.4C1.575 9.55.7 10.92.7 12.5c0 1.58.875 2.95 2.148 3.6-.154.435-.238.905-.238 1.4 0 2.21 1.79 4 4 4 .495 0 .965-.084 1.4-.238.65 1.273 2.02 2.148 3.6 2.148 1.58 0 2.95-.875 3.6-2.148.435.154.905.238 1.4.238 2.21 0 4-1.79 4-4 0-.495-.084-.965-.238-1.4 1.273-.65 2.148-2.02 2.148-3.6z"/>
+          <path fill="#ffffff" d="M10.2 16.2l-3.7-3.7 1.4-1.4 2.3 2.3 5.4-5.4 1.4 1.4z"/>
+        </svg>
+      </h1>
+      <div class="ag-sub">
+        <span id="ag-handle">OFFICIAL AGENT</span>
+        <span id="ag-verified-note" style="display:none;color:var(--g);font-weight:800;">· Verified</span>
+        <span class="ag-status-pill">
+          <span class="dot"></span>
+          <span>Online</span>
+        </span>
       </div>
+    </div>
 
-      <!-- Registration form -->
-      <div id="reg-section">
-        <div class="sec-ttl" id="reg-title">Register as Client</div>
-        <div class="sec-sub" id="reg-sub">Fill in your details below to register.</div>
-
-        <div class="field">
-          <label for="reg-name">Your Full Name</label>
-          <input type="text" id="reg-name" placeholder="e.g. John Doe"
-            autocomplete="name" autocorrect="off" autocapitalize="off" spellcheck="false"
-            oninput="onNameInput()">
-          <div class="name-preview" id="name-preview">Will be stored as: <span id="name-preview-val"></span></div>
-          <div class="field-hint">⚠️ Case-sensitive — type your name exactly as it appears on M-Pesa</div>
-        </div>
-
-        <div class="field">
-          <label for="reg-phone">Your Phone Number</label>
-          <input type="tel" id="reg-phone" placeholder="07xxxxxxxx or 01xxxxxxxx"
-            inputmode="numeric" maxlength="10"
-            oninput="this.value=this.value.replace(/\D/g,'');onRegPhoneInput()">
-          <div class="field-hint">Safaricom number only. Must start with 07 or 01.</div>
-        </div>
-
-        <!-- PIN block -->
-        <div id="pin-block" style="display:none">
-          <div id="set-pin-wrap">
-            <div class="pin-notice">
-              <strong>🔐 Create your Security PIN</strong>
-              This 5-digit PIN protects your registrations. You'll need it to add yourself to other agents or to remove yourself later. To reset a forgotten PIN contact <a href="mailto:support@bingwaflash.co.ke" style="color:#93c5fd">support@bingwaflash.co.ke</a>.
-            </div>
-            <div class="field">
-              <label for="reg-pin">Create PIN</label>
-              <div class="pin-wrap">
-                <input type="password" id="reg-pin" placeholder="•••••" inputmode="numeric" maxlength="5"
-                  oninput="this.value=this.value.replace(/\D/g,'');onPinInput('reg-pin','reg-pin-strength','reg-pin-rules')">
-                <button type="button" class="pin-toggle" onclick="togglePinVis('reg-pin',this)">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                </button>
-              </div>
-              <div class="pin-strength"><div class="pin-strength-bar" id="reg-pin-strength"></div></div>
-              <div id="reg-pin-rules"></div>
-            </div>
-            <div class="field">
-              <label for="reg-pin2">Confirm PIN</label>
-              <div class="pin-wrap">
-                <input type="password" id="reg-pin2" placeholder="•••••" inputmode="numeric" maxlength="5"
-                  oninput="this.value=this.value.replace(/\D/g,'')">
-                <button type="button" class="pin-toggle" onclick="togglePinVis('reg-pin2',this)">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div id="verify-pin-wrap" style="display:none">
-            <div class="pin-notice pin-notice-green">
-              <strong>✅ Welcome back!</strong>
-              <span>Enter your PIN to register with this new agent.</span>
-            </div>
-            <div class="field">
-              <label for="verify-pin">Your PIN</label>
-              <div class="pin-wrap">
-                <input type="password" id="verify-pin" placeholder="•••••" inputmode="numeric" maxlength="5"
-                  oninput="this.value=this.value.replace(/\D/g,'')">
-                <button type="button" class="pin-toggle" onclick="togglePinVis('verify-pin',this)">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                </button>
-              </div>
-              <div class="field-hint">Forgot your PIN? <a href="mailto:support@bingwaflash.co.ke" style="color:var(--yd)">Contact support</a></div>
-            </div>
-          </div>
-        </div>
-
-        <div id="form-err"></div>
-        <button class="submit-btn" id="reg-btn" onclick="submitRegistration()">
-          Register as <span id="btn-agent-name">Agent's</span> Client
-        </button>
-        <div class="pay-secure">🔒 Your info is only shared with this agent</div>
-
-        <!-- Agent contact -->
-        <div class="contact-card" id="contact-card" style="display:none">
-          <div class="contact-card-title">Contact This Agent</div>
-          <div class="contact-row" id="contact-phone-row" style="display:none">
-            <div class="contact-icon" style="background:rgba(34,197,94,.1)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gd)" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 15.92z"/></svg>
-            </div>
-            <div><div class="contact-label">Phone Number</div><div class="contact-value" id="contact-phone"></div></div>
-          </div>
-          <div class="contact-row" id="contact-payment-row" style="display:none">
-            <div class="contact-icon" style="background:rgba(245,197,24,.12)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--yd)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
-            </div>
-            <div><div class="contact-label" id="contact-payment-label">Payment</div><div class="contact-value" id="contact-payment"></div><div class="field-hint" id="contact-payment-hint"></div></div>
-          </div>
-          <div class="contact-row">
-            <div class="contact-icon" style="background:rgba(99,102,241,.1)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            </div>
-            <div><div class="contact-label">Support Email</div><div class="contact-value"><a href="mailto:support@bingwaflash.co.ke">support@bingwaflash.co.ke</a></div></div>
-          </div>
-        </div>
-
-        <div class="divider"></div>
-        <button class="ghost-link" onclick="showDelSection()">Already registered? Remove yourself from an agent</button>
-        <button class="ghost-link" style="margin-top:6px" onclick="showPinChangeSection()">Change my PIN</button>
+    <!-- Embedded Agent Direct Chips -->
+    <div class="agent-direct-meta">
+      <div class="meta-chip" id="contact-phone-row" style="display:none;">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 15.92z"/></svg>
+        <span id="contact-phone">-</span>
       </div>
-
-      <!-- Registration success -->
-      <div id="success-state">
-        <div class="success-icon">✅</div>
-        <div class="success-title">You're Registered!</div>
-        <div class="success-desc" id="success-desc">You are now a client of this agent.</div>
-        <button class="back-link" onclick="location.reload()">← Back to page</button>
+      <div class="meta-chip" id="contact-payment-row" style="display:none;">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
+        <span id="contact-payment-label">Till</span>: <strong id="contact-payment" style="margin-left:3px;">-</strong>
       </div>
+    </div>
 
-      <!-- Remove section -->
-      <div id="del-section">
-        <div class="sec-ttl">Remove Yourself</div>
-        <div class="sec-sub">Enter your number to find your agent registrations.</div>
-        <div class="field">
-          <label for="del-phone">Your Phone Number</label>
-          <input type="tel" id="del-phone" placeholder="07xxxxxxxx or 01xxxxxxxx"
-            inputmode="numeric" maxlength="10"
-            oninput="this.value=this.value.replace(/\D/g,'')">
+    <div class="fraud-disclaimer">
+      For concerns, fraud or reports, <a href="mailto:support@bingwaflash.co.ke">click here</a>.
+    </div>
+  </div>
+
+  <!-- Registration Form Section -->
+  <div class="form-card" id="reg-section" style="display:none;">
+    <div class="form-card-head">
+      <h2 id="reg-title">Register as Client</h2>
+      <p id="reg-sub">Fill in your details below to register for priority delivery.</p>
+    </div>
+
+    <div class="field">
+      <label for="reg-name">Your Full Name</label>
+      <input type="text" id="reg-name" placeholder="e.g. John Doe"
+        autocomplete="name" autocorrect="off" autocapitalize="off" spellcheck="false"
+        oninput="onNameInput()">
+      <div class="name-preview" id="name-preview">Will be stored as: <span id="name-preview-val"></span></div>
+      <div class="field-hint">Case-sensitive: enter your name exactly as registered on M-Pesa.</div>
+    </div>
+
+    <div class="field">
+      <label for="reg-phone">Your Phone Number</label>
+      <input type="tel" id="reg-phone" placeholder="07XXXXXXXX or 01XXXXXXXX"
+        inputmode="numeric" maxlength="10"
+        oninput="this.value=this.value.replace(/\D/g,'');onRegPhoneInput()">
+      <div class="field-hint">Safaricom or Airtel number starting with 07 or 01.</div>
+    </div>
+
+    <!-- PIN Block -->
+    <div id="pin-block" style="display:none">
+      <div id="set-pin-wrap">
+        <div class="pin-notice">
+          <strong>Create your Security PIN</strong>
+          This 5-digit PIN protects your registrations. You will need it to add yourself to other agents or remove yourself later.
         </div>
         <div class="field">
-          <label for="del-pin">Your PIN</label>
+          <label for="reg-pin">Create 5-Digit PIN</label>
           <div class="pin-wrap">
-            <input type="password" id="del-pin" placeholder="•••••" inputmode="numeric" maxlength="5"
-              oninput="this.value=this.value.replace(/\D/g,'')">
-            <button type="button" class="pin-toggle" onclick="togglePinVis('del-pin',this)">
+            <input type="password" id="reg-pin" placeholder="•••••" inputmode="numeric" maxlength="5"
+              oninput="this.value=this.value.replace(/\D/g,'');onPinInput('reg-pin','reg-pin-strength','reg-pin-rules')">
+            <button type="button" class="pin-toggle" onclick="togglePinVis('reg-pin',this)">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
             </button>
           </div>
-          <div class="field-hint">Forgot your PIN? <a href="mailto:support@bingwaflash.co.ke" style="color:var(--yd)">Contact support</a></div>
-        </div>
-        <div id="del-err"></div>
-        <button class="submit-btn" id="del-lookup-btn" onclick="lookupMyAgents()" style="margin-bottom:12px">
-          Look Up My Registrations
-        </button>
-        <div id="my-agents-wrap" style="display:none">
-          <div class="agents-list" id="my-agents-list"></div>
-          <div class="limit-note" id="limit-note"></div>
-        </div>
-        <div class="divider"></div>
-        <button class="ghost-link" onclick="showRegSection()" style="--content:'← '">← Back to registration</button>
-      </div>
-
-      <!-- Delete success -->
-      <div id="delete-success-state">
-        <div class="success-icon">🗑️</div>
-        <div class="success-title">Removed Successfully</div>
-        <div class="success-desc" id="delete-success-desc">You have been removed from this agent's client list.</div>
-        <button class="back-link" onclick="location.reload()">← Back to page</button>
-      </div>
-
-      <!-- Change PIN section -->
-      <div id="pin-change-section" style="display:none">
-        <div class="sec-ttl">Change Your PIN</div>
-        <div class="sec-sub">You must know your current PIN to set a new one. Forgotten? <a href="mailto:support@bingwaflash.co.ke" style="color:var(--text2)">support@bingwaflash.co.ke</a></div>
-        <div class="field">
-          <label for="chg-phone">Your Phone Number</label>
-          <input type="tel" id="chg-phone" placeholder="07xxxxxxxx or 01xxxxxxxx" inputmode="numeric" maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')">
+          <div class="pin-strength"><div class="pin-strength-bar" id="reg-pin-strength"></div></div>
+          <div id="reg-pin-rules"></div>
         </div>
         <div class="field">
-          <label for="chg-old-pin">Current PIN</label>
+          <label for="reg-pin2">Confirm 5-Digit PIN</label>
           <div class="pin-wrap">
-            <input type="password" id="chg-old-pin" placeholder="•••••" inputmode="numeric" maxlength="5" oninput="this.value=this.value.replace(/\D/g,'')">
-            <button type="button" class="pin-toggle" onclick="togglePinVis('chg-old-pin',this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+            <input type="password" id="reg-pin2" placeholder="•••••" inputmode="numeric" maxlength="5"
+              oninput="this.value=this.value.replace(/\D/g,'')">
+            <button type="button" class="pin-toggle" onclick="togglePinVis('reg-pin2',this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
           </div>
         </div>
-        <div class="field">
-          <label for="chg-new-pin">New PIN</label>
-          <div class="pin-wrap">
-            <input type="password" id="chg-new-pin" placeholder="•••••" inputmode="numeric" maxlength="5" oninput="this.value=this.value.replace(/\D/g,'');onPinInput('chg-new-pin','chg-pin-strength','chg-pin-rules')">
-            <button type="button" class="pin-toggle" onclick="togglePinVis('chg-new-pin',this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-          </div>
-          <div class="pin-strength"><div class="pin-strength-bar" id="chg-pin-strength"></div></div>
-          <div id="chg-pin-rules"></div>
-        </div>
-        <div class="field">
-          <label for="chg-new-pin2">Confirm New PIN</label>
-          <div class="pin-wrap">
-            <input type="password" id="chg-new-pin2" placeholder="•••••" inputmode="numeric" maxlength="5" oninput="this.value=this.value.replace(/\D/g,'')">
-            <button type="button" class="pin-toggle" onclick="togglePinVis('chg-new-pin2',this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-          </div>
-        </div>
-        <div id="pin-err"></div>
-        <button class="submit-btn" id="chg-pin-btn" onclick="submitPinChange()">Update PIN</button>
-        <div class="divider"></div>
-        <button class="ghost-link" onclick="showRegSection()">← Back to registration</button>
       </div>
+      <div id="verify-pin-wrap" style="display:none">
+        <div class="pin-notice pin-notice-green">
+          <strong>Welcome back!</strong>
+          <span>Enter your 5-digit PIN to register with this agent.</span>
+        </div>
+        <div class="field">
+          <label for="verify-pin">Your 5-Digit PIN</label>
+          <div class="pin-wrap">
+            <input type="password" id="verify-pin" placeholder="•••••" inputmode="numeric" maxlength="5"
+              oninput="this.value=this.value.replace(/\D/g,'')">
+            <button type="button" class="pin-toggle" onclick="togglePinVis('verify-pin',this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="field-hint">Forgot your PIN? <a href="mailto:support@bingwaflash.co.ke" style="color:var(--y)">Contact support</a></div>
+        </div>
+      </div>
+    </div>
 
-    </div><!-- /.card-body -->
-  </div><!-- /.card -->
+    <div class="form-alert" id="form-err"></div>
+
+    <button class="submit-btn" id="reg-btn" onclick="submitRegistration()">
+      Register as <span id="btn-agent-name">Agent's</span> Client
+    </button>
+    <div class="security-note">Your details are stored securely for automated order delivery.</div>
+
+    <div class="divider"></div>
+    <button class="ghost-link" onclick="showDelSection()">Already registered? Manage or remove registrations</button>
+    <button class="ghost-link" onclick="showPinChangeSection()">Change my Security PIN</button>
+  </div>
+
+  <!-- Registration Success State -->
+  <div class="status-card" id="success-state">
+    <div class="status-icon-circle green">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h2>Registration Complete</h2>
+    <p id="success-desc">You are now registered with this agent.</p>
+    <button class="back-action-btn" onclick="location.reload()">Back to Page</button>
+  </div>
+
+  <!-- Remove Registration Section -->
+  <div class="form-card" id="del-section" style="display:none;">
+    <div class="form-card-head">
+      <h2>Manage Registrations</h2>
+      <p>Enter your phone number and PIN to view and manage agent registrations.</p>
+    </div>
+    <div class="field">
+      <label for="del-phone">Your Phone Number</label>
+      <input type="tel" id="del-phone" placeholder="07XXXXXXXX or 01XXXXXXXX" inputmode="numeric" maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')">
+    </div>
+    <div class="field">
+      <label for="del-pin">Your 5-Digit PIN</label>
+      <div class="pin-wrap">
+        <input type="password" id="del-pin" placeholder="•••••" inputmode="numeric" maxlength="5" oninput="this.value=this.value.replace(/\D/g,'')">
+        <button type="button" class="pin-toggle" onclick="togglePinVis('del-pin',this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      </div>
+      <div class="field-hint">Forgot your PIN? <a href="mailto:support@bingwaflash.co.ke" style="color:var(--y)">Contact support</a></div>
+    </div>
+    <div class="form-alert" id="del-err"></div>
+    <button class="submit-btn" id="del-lookup-btn" onclick="lookupMyAgents()">Look Up Registrations</button>
+    <div id="my-agents-wrap" style="display:none">
+      <div class="agents-list" id="my-agents-list"></div>
+      <div class="security-note" id="limit-note" style="margin-top:10px;"></div>
+    </div>
+    <div class="divider"></div>
+    <button class="ghost-link" onclick="showRegSection()">Back to registration</button>
+  </div>
+
+  <!-- Delete Success State -->
+  <div class="status-card" id="delete-success-state">
+    <div class="status-icon-circle green">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h2>Removed Successfully</h2>
+    <p id="delete-success-desc">You have been removed from this agent's client list.</p>
+    <button class="back-action-btn" onclick="location.reload()">Back to Page</button>
+  </div>
+
+  <!-- Change PIN Section -->
+  <div class="form-card" id="pin-change-section" style="display:none;">
+    <div class="form-card-head">
+      <h2>Change Security PIN</h2>
+      <p>Enter your phone number, current PIN, and new PIN.</p>
+    </div>
+    <div class="field">
+      <label for="chg-phone">Your Phone Number</label>
+      <input type="tel" id="chg-phone" placeholder="07XXXXXXXX or 01XXXXXXXX" inputmode="numeric" maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')">
+    </div>
+    <div class="field">
+      <label for="chg-old-pin">Current PIN</label>
+      <div class="pin-wrap">
+        <input type="password" id="chg-old-pin" placeholder="•••••" inputmode="numeric" maxlength="5" oninput="this.value=this.value.replace(/\D/g,'')">
+        <button type="button" class="pin-toggle" onclick="togglePinVis('chg-old-pin',this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      </div>
+    </div>
+    <div class="field">
+      <label for="chg-new-pin">New 5-Digit PIN</label>
+      <div class="pin-wrap">
+        <input type="password" id="chg-new-pin" placeholder="•••••" inputmode="numeric" maxlength="5" oninput="this.value=this.value.replace(/\D/g,'');onPinInput('chg-new-pin','chg-pin-strength','chg-pin-rules')">
+        <button type="button" class="pin-toggle" onclick="togglePinVis('chg-new-pin',this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      </div>
+      <div class="pin-strength"><div class="pin-strength-bar" id="chg-pin-strength"></div></div>
+      <div id="chg-pin-rules"></div>
+    </div>
+    <div class="field">
+      <label for="chg-new-pin2">Confirm New PIN</label>
+      <div class="pin-wrap">
+        <input type="password" id="chg-new-pin2" placeholder="•••••" inputmode="numeric" maxlength="5" oninput="this.value=this.value.replace(/\D/g,'')">
+        <button type="button" class="pin-toggle" onclick="togglePinVis('chg-new-pin2',this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      </div>
+    </div>
+    <div class="form-alert" id="pin-err"></div>
+    <button class="submit-btn" id="chg-pin-btn" onclick="submitPinChange()">Update Security PIN</button>
+    <div class="divider"></div>
+    <button class="ghost-link" onclick="showRegSection()">Back to registration</button>
+  </div>
 </main>
 
-<footer>
-  <a class="ft-logo" href="/"><img src="/logo.png" alt="Bingwa Flash"><span class="ft-name">Bingwa Flash</span></a>
-  <div class="ft-copy">© 2026 Bingwa Flash</div>
-</footer>
-
 <script type="module">
-import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import{getFirestore,doc,getDoc,setDoc,deleteDoc,collection,query,where,getDocs,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, deleteDoc, collection, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const FC={apiKey:"AIzaSyBMf_Kc6gFA30TiiqTvPGEUOHRD0ikpL9c",authDomain:"bingwa-flash.firebaseapp.com",projectId:"bingwa-flash",storageBucket:"bingwa-flash.firebasestorage.app",messagingSenderId:"141272100218",appId:"1:141272100218:web:bcfc60bfd8e5945cedbac3"};
-const app=initializeApp(FC);
-const db=getFirestore(app);
-const MAX_AGENTS=3;
+const FC = {
+  apiKey: "AIzaSyBMf_Kc6gFA30TiiqTvPGEUOHRD0ikpL9c",
+  authDomain: "bingwa-flash.firebaseapp.com",
+  projectId: "bingwa-flash",
+  storageBucket: "bingwa-flash.firebasestorage.app",
+  messagingSenderId: "141272100218",
+  appId: "1:141272100218:web:bcfc60bfd8e5945cedbac3"
+};
+const app = initializeApp(FC);
+const db = getFirestore(app);
+const MAX_AGENTS = 3;
 
-const params=new URLSearchParams(window.location.search);
-const pathSegs=window.location.pathname.split('/').filter(Boolean);
-const pathUsername=(pathSegs[1]||'').toLowerCase().trim();
-const USERNAME=(params.get('u')||pathUsername||'').toLowerCase().trim();
+const params = new URLSearchParams(window.location.search);
+const pathSegs = window.location.pathname.split('/').filter(Boolean);
+const pathUsername = (pathSegs[1] || '').toLowerCase().trim();
+const USERNAME = (params.get('u') || pathUsername || '').toLowerCase().trim();
 
-let agentProfile=null,agentUid=null,regPhoneHasPin=false;
-const $=id=>document.getElementById(id);
+let agentProfile = null, agentUid = null, regPhoneHasPin = false;
+const $ = id => document.getElementById(id);
 
-// PIN rules: 5 digits, no all-same, no sequential
-function validatePin(pin){
-  const e=[];
-  if(pin.length!==5)e.push('Must be exactly 5 digits');
-  if(/^(\d)\1{4}$/.test(pin))e.push('Cannot be all the same digit (e.g. 11111)');
-  if(pin.length===5){
-    const d=pin.split('').map(Number);
-    const asc=d.every((v,i)=>i===0||v===d[i-1]+1);
-    const desc=d.every((v,i)=>i===0||v===d[i-1]-1);
-    if(asc||desc)e.push('Cannot be sequential digits (e.g. 12345 or 98765)');
+function validatePin(pin) {
+  const e = [];
+  if (pin.length !== 5) e.push('Must be exactly 5 digits');
+  if (/^(\d)\1{4}$/.test(pin)) e.push('Cannot be all the same digit (e.g. 11111)');
+  if (pin.length === 5) {
+    const d = pin.split('').map(Number);
+    const asc = d.every((v, i) => i === 0 || v === d[i - 1] + 1);
+    const desc = d.every((v, i) => i === 0 || v === d[i - 1] - 1);
+    if (asc || desc) e.push('Cannot be sequential digits (e.g. 12345 or 98765)');
   }
   return e;
 }
 
-window.togglePinVis=function(id,btn){
-  const inp=$(id);const t=inp.type==='text';inp.type=t?'password':'text';
-  btn.querySelector('svg').style.opacity=t?'1':'0.45';
+window.togglePinVis = function(id, btn) {
+  const inp = $(id);
+  const t = inp.type === 'text';
+  inp.type = t ? 'password' : 'text';
+  btn.querySelector('svg').style.opacity = t ? '1' : '0.45';
 };
 
-window.onPinInput=function(inputId,strengthId,rulesId){
-  const pin=$(inputId).value;const errs=validatePin(pin);
-  const bar=$(strengthId);
-  const pct=pin.length===5&&errs.length===0?100:Math.min(80,pin.length*16);
-  const col=errs.length===0&&pin.length===5?'var(--green)':pin.length>=3?'var(--amber)':'var(--red)';
-  bar.style.width=pct+'%';bar.style.background=col;
-  const checks=[
-    {text:'Exactly 5 digits',ok:pin.length===5},
-    {text:'No all-same digits (e.g. 11111)',ok:pin.length>0&&!/^(\d)\1{4}$/.test(pin)},
-    {text:'No sequential digits (e.g. 12345 / 98765)',ok:pin.length<5||(()=>{const d=pin.split('').map(Number);return!d.every((v,i)=>i===0||v===d[i-1]+1)&&!d.every((v,i)=>i===0||v===d[i-1]-1);})()},
+window.onPinInput = function(inputId, strengthId, rulesId) {
+  const pin = $(inputId).value;
+  const errs = validatePin(pin);
+  const bar = $(strengthId);
+  const pct = pin.length === 5 && errs.length === 0 ? 100 : Math.min(80, pin.length * 16);
+  const col = errs.length === 0 && pin.length === 5 ? 'var(--g)' : pin.length >= 3 ? 'var(--y)' : 'var(--red)';
+  bar.style.width = pct + '%';
+  bar.style.background = col;
+  const checks = [
+    { text: 'Exactly 5 digits', ok: pin.length === 5 },
+    { text: 'No all-same digits', ok: pin.length > 0 && !/^(\d)\1{4}$/.test(pin) },
+    { text: 'No sequential digits', ok: pin.length < 5 || (() => { const d = pin.split('').map(Number); return !d.every((v, i) => i === 0 || v === d[i - 1] + 1) && !d.every((v, i) => i === 0 || v === d[i - 1] - 1); })() },
   ];
-  $(rulesId).innerHTML=checks.map(c=>`<div class="pin-rule ${c.ok?'ok':'fail'}">${c.ok?'✓':'✗'} ${c.text}</div>`).join('');
+  $(rulesId).innerHTML = checks.map(c => `<div class="pin-rule ${c.ok ? 'ok' : 'fail'}">${c.ok ? '✓' : '✗'} ${c.text}</div>`).join('');
 };
 
-let phoneCheckTimeout=null;
-window.onRegPhoneInput=async function(){
-  const phone=$('reg-phone').value.trim();
+let phoneCheckTimeout = null;
+window.onRegPhoneInput = async function() {
+  const phone = $('reg-phone').value.trim();
   clearTimeout(phoneCheckTimeout);
-  $('pin-block').style.display='none';regPhoneHasPin=false;
-  if(!valid07(phone))return;
-  phoneCheckTimeout=setTimeout(async()=>{
-    try{
-      const snap=await getDoc(doc(db,'clientPins',phone));
-      regPhoneHasPin=snap.exists();
-      $('set-pin-wrap').style.display=regPhoneHasPin?'none':'block';
-      $('verify-pin-wrap').style.display=regPhoneHasPin?'block':'none';
-      $('pin-block').style.display='block';
-    }catch(e){
-      $('set-pin-wrap').style.display='block';$('verify-pin-wrap').style.display='none';$('pin-block').style.display='block';
+  $('pin-block').style.display = 'none';
+  regPhoneHasPin = false;
+  if (!valid07(phone)) return;
+  phoneCheckTimeout = setTimeout(async () => {
+    try {
+      const snap = await getDoc(doc(db, 'clientPins', phone));
+      regPhoneHasPin = snap.exists();
+      $('set-pin-wrap').style.display = regPhoneHasPin ? 'none' : 'block';
+      $('verify-pin-wrap').style.display = regPhoneHasPin ? 'block' : 'none';
+      $('pin-block').style.display = 'block';
+    } catch (e) {
+      $('set-pin-wrap').style.display = 'block';
+      $('verify-pin-wrap').style.display = 'none';
+      $('pin-block').style.display = 'block';
     }
-  },400);
+  }, 400);
 };
 
-function hideAll(){['reg-section','del-section','pin-change-section','success-state','delete-success-state','error-state'].forEach(id=>$(id).style.display='none');}
-function showError(msg){$('loading').style.display='none';hideAll();$('error-state').style.display='block';$('err-msg').textContent=msg;}
-function valid07(p){return/^(07|01)\d{8}$/.test(p.trim());}
-function fingerprint(phone){const p=phone.trim();if(!/^(07|01)\d{8}$/.test(p))return'';return'MID:'+p.substring(2,4)+'_'+p.slice(-3);}
-window.showRegSection=function(){hideAll();$('reg-section').style.display='block';};
-window.showDelSection=function(){hideAll();$('del-section').style.display='block';};
-window.showPinChangeSection=function(){hideAll();$('pin-change-section').style.display='block';};
+function hideAll() {
+  ['reg-section', 'del-section', 'pin-change-section', 'success-state', 'delete-success-state', 'error-state'].forEach(id => $(id).style.display = 'none');
+}
 
-async function loadAgentProfile(username){
-  // Public mirror avoids a private agents collection query on normal page load.
-  const publicSnap=await getDoc(doc(db,'publicAgents',username));
-  if(publicSnap.exists()){
-    const profile=publicSnap.data();profile.username=profile.username||username;
-    if(profile.uid)return{uid:profile.uid,profile};
+function showError(msg) {
+  $('loading').style.display = 'none';
+  hideAll();
+  $('error-state').style.display = 'block';
+  $('err-msg').textContent = msg;
+}
+
+function valid07(p) { return /^(07|01)\d{8}$/.test(p.trim()); }
+function fingerprint(phone) { const p = phone.trim(); if (!/^(07|01)\d{8}$/.test(p)) return ''; return 'MID:' + p.substring(2, 4) + '_' + p.slice(-3); }
+
+window.showRegSection = function() { hideAll(); $('reg-section').style.display = 'block'; };
+window.showDelSection = function() { hideAll(); $('del-section').style.display = 'block'; };
+window.showPinChangeSection = function() { hideAll(); $('pin-change-section').style.display = 'block'; };
+
+async function loadAgentProfile(username) {
+  const publicSnap = await getDoc(doc(db, 'publicAgents', username));
+  if (publicSnap.exists()) {
+    const profile = publicSnap.data();
+    profile.username = profile.username || username;
+    if (profile.uid) return { uid: profile.uid, profile };
   }
-  const q=query(collection(db,'agents'),where('username','==',username));
-  const snap=await getDocs(q);
-  if(snap.empty)return null;
-  const profile=snap.docs[0].data();profile.uid=profile.uid||snap.docs[0].id;
-  return{uid:snap.docs[0].id,profile};
+  const q = query(collection(db, 'agents'), where('username', '==', username));
+  const snap = await getDocs(q);
+  if (snap.empty) return null;
+  const profile = snap.docs[0].data();
+  profile.uid = profile.uid || snap.docs[0].id;
+  return { uid: snap.docs[0].id, profile };
 }
 
-async function touchClientSync(agentUidTarget,action,changedPhone='',deletedPhone=''){
-  // The app listens to this one marker doc, then reads only the changed client.
-  await setDoc(doc(db,'agents',agentUidTarget,'meta','clientSync'),{action,changedPhone,deletedPhone,updatedAtMs:Date.now(),updatedAt:serverTimestamp()},{merge:true});
+async function touchClientSync(agentUidTarget, action, changedPhone = '', deletedPhone = '') {
+  await setDoc(doc(db, 'agents', agentUidTarget, 'meta', 'clientSync'), { action, changedPhone, deletedPhone, updatedAtMs: Date.now(), updatedAt: serverTimestamp() }, { merge: true });
 }
 
-function normalizePaymentMode(value){
-  const clean=String(value||'').trim().toUpperCase().replace(/[-\s]+/g,'_');
-  if(clean==='SEND'||clean==='SENDMONEY'||clean==='SEND_MONEY')return'SEND_MONEY';
-  if(clean==='PAYBILL'||clean==='PAY_BILL')return'PAYBILL';
-  if(clean==='TILL'||clean==='BUY_GOODS'||clean==='BUYGOODS')return'TILL';
-  return'';
+function normalizePaymentMode(value) {
+  const clean = String(value || '').trim().toUpperCase().replace(/[-\s]+/g, '_');
+  if (clean === 'SEND' || clean === 'SENDMONEY' || clean === 'SEND_MONEY') return 'SEND_MONEY';
+  if (clean === 'PAYBILL' || clean === 'PAY_BILL') return 'PAYBILL';
+  if (clean === 'TILL' || clean === 'BUY_GOODS' || clean === 'BUYGOODS') return 'TILL';
+  return '';
 }
-function validAgentPaymentNumber(mode,number){
-  const n=String(number||'').replace(/\D/g,'');
-  if(mode==='SEND_MONEY')return/^0[17]\d{8}$/.test(n);
-  if(mode==='TILL'||mode==='PAYBILL')return/^\d{6,7}$/.test(n);
+
+function validAgentPaymentNumber(mode, number) {
+  const n = String(number || '').replace(/\D/g, '');
+  if (mode === 'SEND_MONEY') return /^0[17]\d{8}$/.test(n);
+  if (mode === 'TILL' || mode === 'PAYBILL') return /^\d{6,7}$/.test(n);
   return false;
 }
-function agentPaymentInfo(agent){
-  if(!agent)return null;
-  let mode=normalizePaymentMode(agent.paymentMode||agent.payoutType);
-  const send=String(agent.sendMoneyPhoneNumber||agent.payoutPhoneNumber||'').replace(/\D/g,'');
-  const till=String(agent.tillNumber||agent.payoutTillNumber||'').replace(/\D/g,'');
-  const paybill=String(agent.paybillNumber||agent.payoutPaybillNumber||'').replace(/\D/g,'');
-  if(!mode){mode=paybill?'PAYBILL':(send?'SEND_MONEY':'TILL');}
-  const number=mode==='SEND_MONEY'?send:(mode==='PAYBILL'?paybill:till);
-  if(!validAgentPaymentNumber(mode,number))return null;
-  if(mode==='SEND_MONEY')return{mode,label:'Send Money',line:'Send money to '+number,hint:'Use this number when paying this agent.'};
-  if(mode==='PAYBILL')return{mode,label:'Paybill',line:'Paybill '+number,hint:'Account number is the number to receive, also treated as the paying number.'};
-  return{mode,label:'Till Number',line:'Till Number '+number,hint:'Pay using Buy Goods.'};
-}
-function renderAgentPaymentDetails(){
-  const info=agentPaymentInfo(agentProfile);
-  const row=$('contact-payment-row');
-  if(!row||!info){if(row)row.style.display='none';return;}
-  $('contact-payment-label').textContent=info.label;
-  $('contact-payment').textContent=info.line;
-  $('contact-payment-hint').textContent=info.hint;
-  row.style.display='flex';
+
+function agentPaymentInfo(agent) {
+  if (!agent) return null;
+  let mode = normalizePaymentMode(agent.paymentMode || agent.payoutType);
+  const send = String(agent.sendMoneyPhoneNumber || agent.payoutPhoneNumber || '').replace(/\D/g, '');
+  const till = String(agent.tillNumber || agent.payoutTillNumber || '').replace(/\D/g, '');
+  const paybill = String(agent.paybillNumber || agent.payoutPaybillNumber || '').replace(/\D/g, '');
+  if (!mode) { mode = paybill ? 'PAYBILL' : (send ? 'SEND_MONEY' : 'TILL'); }
+  const number = mode === 'SEND_MONEY' ? send : (mode === 'PAYBILL' ? paybill : till);
+  if (!validAgentPaymentNumber(mode, number)) return null;
+  if (mode === 'SEND_MONEY') return { mode, label: 'Send Money', line: number };
+  if (mode === 'PAYBILL') return { mode, label: 'Paybill', line: number };
+  return { mode, label: 'Till', line: number };
 }
 
-async function init(){
-  if(!USERNAME){showError('No agent username found. Please use the link your agent shared with you.');return;}
-  try{
-    const bundle=await loadAgentProfile(USERNAME);
-    if(!bundle){showError(`Agent "${USERNAME}" not found.`);return;}
-    agentUid=bundle.uid;agentProfile=bundle.profile;
-    if(agentProfile.clientRegistrationOn!==true){showError('This agent has disabled registering as his client.');return;}
-    const displayName=agentProfile.agentName||USERNAME;
-    const businessName=agentProfile.businessName||displayName;
-    $('ag-av').textContent=businessName.charAt(0).toUpperCase();
-    $('ag-name').textContent=businessName;
-    const verifiedBadge=$('verified-badge');
-    if(verifiedBadge) verifiedBadge.style.display=agentProfile.isVerified===true?'inline-block':'none';
-    $('ag-handle').textContent='AGENT '+displayName;
-    $('agent-bar').style.display='flex';
-    $('reg-title').textContent=`Register as ${displayName}'s Client`;
-    $('reg-sub').textContent=`You'll be added to ${displayName}'s client list and receive personalised data offers.`;
-    $('btn-agent-name').textContent=displayName+"'s";
-    const phone=agentProfile.phoneNumber||'';
-    if(phone){$('contact-phone').innerHTML=`<a href="tel:${phone}">${phone}</a>`;$('contact-phone-row').style.display='flex';}
+function renderAgentPaymentDetails() {
+  const info = agentPaymentInfo(agentProfile);
+  const row = $('contact-payment-row');
+  if (!row || !info) { if (row) row.style.display = 'none'; return; }
+  $('contact-payment-label').textContent = info.label;
+  $('contact-payment').textContent = info.line;
+  row.style.display = 'inline-flex';
+}
+
+async function init() {
+  if (!USERNAME) { showError('No agent username found. Please open a valid agent link.'); return; }
+  try {
+    const bundle = await loadAgentProfile(USERNAME);
+    if (!bundle) { showError(`Agent "${USERNAME}" not found.`); return; }
+    agentUid = bundle.uid;
+    agentProfile = bundle.profile;
+    if (agentProfile.clientRegistrationOn !== true) { showError('This agent is not currently accepting client registrations.'); return; }
+    const displayName = agentProfile.agentName || USERNAME;
+    const businessName = agentProfile.businessName || displayName;
+    $('ag-av').textContent = businessName.charAt(0).toUpperCase();
+    $('ag-name').textContent = businessName;
+    const verified = agentProfile.isVerified === true;
+    $('verified-badge').style.display = verified ? 'inline-block' : 'none';
+    $('ag-verified-note').style.display = verified ? 'inline' : 'none';
+    $('ag-handle').textContent = 'AGENT ' + displayName.toUpperCase();
+    $('agent-bar').style.display = 'flex';
+    $('reg-title').textContent = `Register as ${displayName}'s Client`;
+    $('reg-sub').textContent = `You will be added to ${displayName}'s client list for automated data & airtime recommendations.`;
+    $('btn-agent-name').textContent = displayName + "'s";
+    const phone = agentProfile.phoneNumber || '';
+    if (phone) {
+      $('contact-phone').innerHTML = `<a href="tel:${phone}">${phone}</a>`;
+      $('contact-phone-row').style.display = 'inline-flex';
+    }
     renderAgentPaymentDetails();
-    $('contact-card').style.display='block';
-    $('loading').style.display='none';$('reg-section').style.display='block';
-  }catch(e){showError('Failed to load: '+e.message);}
+    $('loading').style.display = 'none';
+    $('reg-section').style.display = 'block';
+  } catch (e) {
+    showError('Failed to load: ' + e.message);
+  }
 }
 
-window.onNameInput=function(){
-  const val=$('reg-name').value;
-  if(val.trim()){$('name-preview-val').textContent=val;$('name-preview').style.display='block';}
-  else{$('name-preview').style.display='none';}
+window.onNameInput = function() {
+  const val = $('reg-name').value;
+  if (val.trim()) {
+    $('name-preview-val').textContent = val;
+    $('name-preview').style.display = 'block';
+  } else {
+    $('name-preview').style.display = 'none';
+  }
 };
 
-window.submitRegistration=async function(){
-  const name=$('reg-name').value.trim();
-  const phone=$('reg-phone').value.trim();
-  const errEl=$('form-err');errEl.style.display='none';
-  if(!name){errEl.textContent='Please enter your full name.';errEl.style.display='block';return;}
-  if(!valid07(phone)){errEl.textContent='Enter a valid Safaricom number starting with 07 or 01.';errEl.style.display='block';return;}
+window.submitRegistration = async function() {
+  const name = $('reg-name').value.trim();
+  const phone = $('reg-phone').value.trim();
+  const errEl = $('form-err');
+  errEl.style.display = 'none';
+  if (!name) { errEl.textContent = 'Please enter your full name.'; errEl.style.display = 'block'; return; }
+  if (!valid07(phone)) { errEl.textContent = 'Enter a valid Safaricom or Airtel number starting with 07 or 01.'; errEl.style.display = 'block'; return; }
 
-  let pinHash=null;
-  if(!regPhoneHasPin){
-    const pin=$('reg-pin').value;const pin2=$('reg-pin2').value;
-    const pinErrs=validatePin(pin);
-    if(pinErrs.length>0){errEl.textContent='PIN issue: '+pinErrs[0];errEl.style.display='block';return;}
-    if(pin!==pin2){errEl.textContent='PINs do not match. Please re-enter.';errEl.style.display='block';return;}
-    pinHash=pin;
-  }else{
-    const pin=$('verify-pin').value;
-    if(pin.length!==5){errEl.textContent='Please enter your 5-digit PIN.';errEl.style.display='block';return;}
-    const entered=pin;
-    const snap=await getDoc(doc(db,'clientPins',phone));
-    if(!snap.exists()||snap.data().pin!==entered){
-      errEl.textContent='Incorrect PIN. Forgot your PIN? Email support@bingwaflash.co.ke';
-      errEl.style.display='block';return;
+  let pinHash = null;
+  if (!regPhoneHasPin) {
+    const pin = $('reg-pin').value;
+    const pin2 = $('reg-pin2').value;
+    const pinErrs = validatePin(pin);
+    if (pinErrs.length > 0) { errEl.textContent = 'PIN error: ' + pinErrs[0]; errEl.style.display = 'block'; return; }
+    if (pin !== pin2) { errEl.textContent = 'PINs do not match. Please re-enter.'; errEl.style.display = 'block'; return; }
+    pinHash = pin;
+  } else {
+    const pin = $('verify-pin').value;
+    if (pin.length !== 5) { errEl.textContent = 'Please enter your 5-digit PIN.'; errEl.style.display = 'block'; return; }
+    const entered = pin;
+    const snap = await getDoc(doc(db, 'clientPins', phone));
+    if (!snap.exists() || snap.data().pin !== entered) {
+      errEl.textContent = 'Incorrect PIN. Forgot your PIN? Email support@bingwaflash.co.ke';
+      errEl.style.display = 'block';
+      return;
     }
-    pinHash=entered;
+    pinHash = entered;
   }
 
-  const btn=$('reg-btn');btn.disabled=true;btn.textContent='Registering…';
-  try{
-    const existingSnap=await getDocs(query(collection(db,'clientRegistrations'),where('phone','==',phone)));
-    const existingDocs=existingSnap.docs;
-    const alreadyHere=existingDocs.find(d=>d.data().agentUid===agentUid);
-    if(alreadyHere){
-      errEl.textContent='You are already registered as a client of this agent.';errEl.style.display='block';
-      btn.disabled=false;btn.textContent=`Register as ${agentProfile.agentName||USERNAME}'s Client`;return;
+  const btn = $('reg-btn');
+  btn.disabled = true;
+  btn.textContent = 'Registering...';
+  try {
+    const existingSnap = await getDocs(query(collection(db, 'clientRegistrations'), where('phone', '==', phone)));
+    const existingDocs = existingSnap.docs;
+    const alreadyHere = existingDocs.find(d => d.data().agentUid === agentUid);
+    if (alreadyHere) {
+      errEl.textContent = 'You are already registered as a client of this agent.';
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = `Register as ${agentProfile.agentName || USERNAME}'s Client`;
+      return;
     }
-    if(existingDocs.length>=MAX_AGENTS){
-      errEl.innerHTML=`You are already registered under ${MAX_AGENTS} agents (the maximum allowed).<br>Remove yourself from another agent first.`;
-      errEl.style.display='block';btn.disabled=false;btn.textContent=`Register as ${agentProfile.agentName||USERNAME}'s Client`;return;
+    if (existingDocs.length >= MAX_AGENTS) {
+      errEl.innerHTML = `You are already registered under ${MAX_AGENTS} agents (the maximum allowed). Remove yourself from another agent first.`;
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = `Register as ${agentProfile.agentName || USERNAME}'s Client`;
+      return;
     }
-    if(!regPhoneHasPin){
-      await setDoc(doc(db,'clientPins',phone),{pin:pinHash,createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
+    if (!regPhoneHasPin) {
+      await setDoc(doc(db, 'clientPins', phone), { pin: pinHash, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
     }
-    const regId=`${phone}_${agentUid}`;
-    await setDoc(doc(db,'clientRegistrations',regId),{phone,name,agentUid,agentUsername:agentProfile.username||USERNAME,agentName:agentProfile.agentName||USERNAME,registeredAt:serverTimestamp(),registrationId:regId});
-    await setDoc(doc(db,'agents',agentUid,'clients',phone),{phone,name,totalSpent:0,lastSeenAtMs:Date.now(),isBlacklisted:false,source:'website',maskedDigits:fingerprint(phone),registrationId:regId,updatedAtMs:Date.now()},{merge:true});
-    await touchClientSync(agentUid,'UPSERT',phone,'');
+    const regId = `${phone}_${agentUid}`;
+    await setDoc(doc(db, 'clientRegistrations', regId), { phone, name, agentUid, agentUsername: agentProfile.username || USERNAME, agentName: agentProfile.agentName || USERNAME, registeredAt: serverTimestamp(), registrationId: regId });
+    await setDoc(doc(db, 'agents', agentUid, 'clients', phone), { phone, name, totalSpent: 0, lastSeenAtMs: Date.now(), isBlacklisted: false, source: 'website', maskedDigits: fingerprint(phone), registrationId: regId, updatedAtMs: Date.now() }, { merge: true });
+    await touchClientSync(agentUid, 'UPSERT', phone, '');
     hideAll();
-    $('success-desc').textContent=`You're now registered as a client of ${agentProfile.agentName||USERNAME}. When you make a payment, they can recommend data offers to ${phone}.`;
-    $('success-state').style.display='block';
-  }catch(e){
-    errEl.textContent='Registration failed: '+e.message;errEl.style.display='block';
-    btn.disabled=false;btn.textContent=`Register as ${agentProfile.agentName||USERNAME}'s Client`;
+    $('success-desc').textContent = `You are now registered as a client of ${agentProfile.agentName || USERNAME}. When you make a payment, they can recommend bundles to ${phone}.`;
+    $('success-state').style.display = 'block';
+  } catch (e) {
+    errEl.textContent = 'Registration failed: ' + e.message;
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = `Register as ${agentProfile.agentName || USERNAME}'s Client`;
   }
 };
 
-window.lookupMyAgents=async function(){
-  const phone=$('del-phone').value.trim();
-  const pin=$('del-pin').value.trim();
-  const errEl=$('del-err');errEl.style.display='none';
-  if(!valid07(phone)){errEl.textContent='Enter a valid Safaricom number starting with 07 or 01.';errEl.style.display='block';return;}
-  if(pin.length!==5){errEl.textContent='Enter your 5-digit PIN.';errEl.style.display='block';return;}
-  const btn=$('del-lookup-btn');btn.disabled=true;btn.textContent='Verifying PIN…';
-  try{
-    const pinSnap=await getDoc(doc(db,'clientPins',phone));
-    if(!pinSnap.exists()){errEl.textContent='No account found for this number. Register first.';errEl.style.display='block';btn.disabled=false;btn.textContent='Look Up My Registrations';return;}
-    const enteredHash=pin;
-    if(pinSnap.data().pin!==enteredHash){errEl.textContent='Incorrect PIN. Forgot it? Contact support@bingwaflash.co.ke';errEl.style.display='block';btn.disabled=false;btn.textContent='Look Up My Registrations';return;}
-    btn.textContent='Loading…';
-    const snap=await getDocs(query(collection(db,'clientRegistrations'),where('phone','==',phone)));
-    const listEl=$('my-agents-list');const limitEl=$('limit-note');listEl.innerHTML='';
-    if(snap.empty){
-      listEl.innerHTML=`<div style="font-size:.82rem;color:var(--text3);padding:8px 0">No registrations found for ${phone}.</div>`;
-    }else{
-      snap.docs.forEach(d=>{
-        const data=d.data();const item=document.createElement('div');item.className='agent-item';
-        item.innerHTML=`<div class="agent-item-av">${(data.agentName||data.agentUsername||'?').charAt(0).toUpperCase()}</div><div class="agent-item-info"><div class="agent-item-name">${data.agentName||data.agentUsername}</div><div class="agent-item-handle">@${data.agentUsername}</div></div><button class="btn-remove" onclick="removeFromAgent('${d.id}','${data.agentUid}','${phone}','${(data.agentName||data.agentUsername).replace(/'/g,"\\'")}',this)">Remove</button>`;
+window.lookupMyAgents = async function() {
+  const phone = $('del-phone').value.trim();
+  const pin = $('del-pin').value.trim();
+  const errEl = $('del-err');
+  errEl.style.display = 'none';
+  if (!valid07(phone)) { errEl.textContent = 'Enter a valid Safaricom or Airtel number starting with 07 or 01.'; errEl.style.display = 'block'; return; }
+  if (pin.length !== 5) { errEl.textContent = 'Enter your 5-digit PIN.'; errEl.style.display = 'block'; return; }
+  const btn = $('del-lookup-btn');
+  btn.disabled = true;
+  btn.textContent = 'Verifying PIN...';
+  try {
+    const pinSnap = await getDoc(doc(db, 'clientPins', phone));
+    if (!pinSnap.exists()) {
+      errEl.textContent = 'No account found for this number. Register first.';
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Look Up Registrations';
+      return;
+    }
+    const enteredHash = pin;
+    if (pinSnap.data().pin !== enteredHash) {
+      errEl.textContent = 'Incorrect PIN. Forgot it? Contact support@bingwaflash.co.ke';
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Look Up Registrations';
+      return;
+    }
+    btn.textContent = 'Loading...';
+    const snap = await getDocs(query(collection(db, 'clientRegistrations'), where('phone', '==', phone)));
+    const listEl = $('my-agents-list');
+    const limitEl = $('limit-note');
+    listEl.innerHTML = '';
+    if (snap.empty) {
+      listEl.innerHTML = `<div style="font-size:0.82rem;color:var(--text-soft);padding:8px 0;text-align:center;">No registrations found for ${phone}.</div>`;
+    } else {
+      snap.docs.forEach(d => {
+        const data = d.data();
+        const item = document.createElement('div');
+        item.className = 'agent-item';
+        item.innerHTML = `<div class="agent-item-av">${(data.agentName || data.agentUsername || '?').charAt(0).toUpperCase()}</div><div class="agent-item-info"><div class="agent-item-name">${data.agentName || data.agentUsername}</div><div class="agent-item-handle">@${data.agentUsername}</div></div><button class="btn-remove" onclick="removeFromAgent('${d.id}','${data.agentUid}','${phone}','${(data.agentName || data.agentUsername).replace(/'/g, "\\'")}',this)">Remove</button>`;
         listEl.appendChild(item);
       });
-      const count=snap.docs.length;
-      limitEl.innerHTML=`${count} / ${MAX_AGENTS} agent slot${count!==1?'s':''} used.`+(count>=MAX_AGENTS?' <span class="limit-hit">Limit reached.</span>':'');
+      const count = snap.docs.length;
+      limitEl.innerHTML = `${count} / ${MAX_AGENTS} agent slots used.` + (count >= MAX_AGENTS ? ' (Limit reached)' : '');
     }
-    $('my-agents-wrap').style.display='block';btn.disabled=false;btn.textContent='Look Up My Registrations';
-  }catch(e){errEl.textContent='Lookup failed: '+e.message;errEl.style.display='block';btn.disabled=false;btn.textContent='Look Up My Registrations';}
-};
-
-window.removeFromAgent=async function(regDocId,agentUidTarget,phone,agentDisplayName,btnEl){
-  if(!confirm(`Remove yourself from ${agentDisplayName}'s client list?\n\nThis will sync to their app immediately.`))return;
-  btnEl.disabled=true;btnEl.textContent='Removing…';
-  try{
-    await deleteDoc(doc(db,'clientRegistrations',regDocId));
-    await deleteDoc(doc(db,'agents',agentUidTarget,'clients',phone));
-    await touchClientSync(agentUidTarget,'DELETE','',phone);
-    hideAll();
-    $('delete-success-desc').textContent=`You have been removed from ${agentDisplayName}'s client list. This change syncs to their app instantly.`;
-    $('delete-success-state').style.display='block';
-  }catch(e){
-    const errEl=$('del-err');errEl.textContent='Removal failed: '+e.message;errEl.style.display='block';btnEl.disabled=false;btnEl.textContent='Remove';
+    $('my-agents-wrap').style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Look Up Registrations';
+  } catch (e) {
+    errEl.textContent = 'Lookup failed: ' + e.message;
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Look Up Registrations';
   }
 };
 
-window.submitPinChange=async function(){
-  const phone=$('chg-phone').value.trim();
-  const oldPin=$('chg-old-pin').value;
-  const newPin=$('chg-new-pin').value;
-  const newPin2=$('chg-new-pin2').value;
-  const errEl=$('pin-err');errEl.style.background='var(--red-bg)';errEl.style.color='var(--red)';errEl.style.display='none';
-  if(!valid07(phone)){errEl.textContent='Enter a valid Safaricom number starting with 07 or 01.';errEl.style.display='block';return;}
-  if(oldPin.length!==5){errEl.textContent='Enter your current 5-digit PIN.';errEl.style.display='block';return;}
-  const pinErrs=validatePin(newPin);
-  if(pinErrs.length>0){errEl.textContent='New PIN issue: '+pinErrs[0];errEl.style.display='block';return;}
-  if(newPin!==newPin2){errEl.textContent='New PINs do not match.';errEl.style.display='block';return;}
-  if(oldPin===newPin){errEl.textContent='New PIN must be different from your current PIN.';errEl.style.display='block';return;}
-  const btn=$('chg-pin-btn');btn.disabled=true;btn.textContent='Verifying…';
-  try{
-    const pinSnap=await getDoc(doc(db,'clientPins',phone));
-    if(!pinSnap.exists()){errEl.textContent='No account found for this number.';errEl.style.display='block';btn.disabled=false;btn.textContent='Update PIN';return;}
-    const oldHash=oldPin;
-    if(pinSnap.data().pin!==oldHash){errEl.textContent='Current PIN is incorrect. Forgot it? Contact support@bingwaflash.co.ke';errEl.style.display='block';btn.disabled=false;btn.textContent='Update PIN';return;}
-    btn.textContent='Saving…';
-    const newHash=newPin;
-    await setDoc(doc(db,'clientPins',phone),{pin:newHash,updatedAt:serverTimestamp()},{merge:true});
-    errEl.style.background='var(--green-bg)';errEl.style.color='var(--green)';
-    errEl.textContent='✓ PIN updated successfully!';errEl.style.display='block';
-    $('chg-old-pin').value='';$('chg-new-pin').value='';$('chg-new-pin2').value='';
-    btn.disabled=false;btn.textContent='Update PIN';
-  }catch(e){errEl.textContent='Failed: '+e.message;errEl.style.display='block';btn.disabled=false;btn.textContent='Update PIN';}
+window.removeFromAgent = async function(regDocId, agentUidTarget, phone, agentDisplayName, btnEl) {
+  if (!confirm(`Remove yourself from ${agentDisplayName}'s client list?\n\nThis change will sync to their app immediately.`)) return;
+  btnEl.disabled = true;
+  btnEl.textContent = 'Removing...';
+  try {
+    await deleteDoc(doc(db, 'clientRegistrations', regDocId));
+    await deleteDoc(doc(db, 'agents', agentUidTarget, 'clients', phone));
+    await touchClientSync(agentUidTarget, 'DELETE', '', phone);
+    hideAll();
+    $('delete-success-desc').textContent = `You have been removed from ${agentDisplayName}'s client list.`;
+    $('delete-success-state').style.display = 'block';
+  } catch (e) {
+    const errEl = $('del-err');
+    errEl.textContent = 'Removal failed: ' + e.message;
+    errEl.style.display = 'block';
+    btnEl.disabled = false;
+    btnEl.textContent = 'Remove';
+  }
+};
+
+window.submitPinChange = async function() {
+  const phone = $('chg-phone').value.trim();
+  const oldPin = $('chg-old-pin').value;
+  const newPin = $('chg-new-pin').value;
+  const newPin2 = $('chg-new-pin2').value;
+  const errEl = $('pin-err');
+  errEl.style.display = 'none';
+  if (!valid07(phone)) { errEl.textContent = 'Enter a valid Safaricom or Airtel number starting with 07 or 01.'; errEl.style.display = 'block'; return; }
+  if (oldPin.length !== 5) { errEl.textContent = 'Enter your current 5-digit PIN.'; errEl.style.display = 'block'; return; }
+  const pinErrs = validatePin(newPin);
+  if (pinErrs.length > 0) { errEl.textContent = 'New PIN error: ' + pinErrs[0]; errEl.style.display = 'block'; return; }
+  if (newPin !== newPin2) { errEl.textContent = 'New PINs do not match.'; errEl.style.display = 'block'; return; }
+  if (oldPin === newPin) { errEl.textContent = 'New PIN must be different from your current PIN.'; errEl.style.display = 'block'; return; }
+  const btn = $('chg-pin-btn');
+  btn.disabled = true;
+  btn.textContent = 'Verifying...';
+  try {
+    const pinSnap = await getDoc(doc(db, 'clientPins', phone));
+    if (!pinSnap.exists()) { errEl.textContent = 'No account found for this number.'; errEl.style.display = 'block'; btn.disabled = false; btn.textContent = 'Update Security PIN'; return; }
+    const oldHash = oldPin;
+    if (pinSnap.data().pin !== oldHash) { errEl.textContent = 'Current PIN is incorrect. Forgot it? Contact support@bingwaflash.co.ke'; errEl.style.display = 'block'; btn.disabled = false; btn.textContent = 'Update Security PIN'; return; }
+    btn.textContent = 'Saving...';
+    const newHash = newPin;
+    await setDoc(doc(db, 'clientPins', phone), { pin: newHash, updatedAt: serverTimestamp() }, { merge: true });
+    errEl.style.background = 'var(--badge-bg)';
+    errEl.style.color = 'var(--g)';
+    errEl.style.border = '1px solid rgba(21,167,108,0.3)';
+    errEl.textContent = 'PIN updated successfully.';
+    errEl.style.display = 'block';
+    $('chg-old-pin').value = '';
+    $('chg-new-pin').value = '';
+    $('chg-new-pin2').value = '';
+    btn.disabled = false;
+    btn.textContent = 'Update Security PIN';
+  } catch (e) {
+    errEl.textContent = 'Failed: ' + e.message;
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Update Security PIN';
+  }
 };
 
 init();

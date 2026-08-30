@@ -143,7 +143,7 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:18px
       </div>
       <div class="state" id="state-reset-form">
         <div class="field"><label>New Password</label>
-          <div class="pw-wrap"><input type="password" id="pw1" placeholder="Enter new password" oninput="checkReqs()"><button class="eye-btn" type="button" onclick="toggleEye('pw1','e1')" id="e1">👁</button></div>
+          <div class="pw-wrap"><input type="password" id="pw1" placeholder="Enter new password" oninput="checkReqs()"><button class="eye-btn" type="button" onclick="toggleEye('pw1',this)" aria-label="Toggle password visibility"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
         </div>
         <div class="reqs">
           <div class="reqs-ttl">Password requirements</div>
@@ -153,7 +153,7 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:18px
           <div class="req" id="r-num"><div class="req-chk" id="rc-num"></div>One number</div>
         </div>
         <div class="field"><label>Confirm Password</label>
-          <div class="pw-wrap"><input type="password" id="pw2" placeholder="Repeat new password" oninput="checkMatch()"><button class="eye-btn" type="button" onclick="toggleEye('pw2','e2')" id="e2">👁</button></div>
+          <div class="pw-wrap"><input type="password" id="pw2" placeholder="Repeat new password" oninput="checkMatch()"><button class="eye-btn" type="button" onclick="toggleEye('pw2',this)" aria-label="Toggle password visibility"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
         </div>
         <div id="match-msg"></div>
         <button class="submit-btn" id="reset-btn" onclick="doReset()">Set New Password</button>
@@ -204,7 +204,7 @@ else if(mode==='verifyEmail')applyActionCode(auth,oob).then(()=>show('state-veri
 else if(mode==='resetPassword')verifyPasswordResetCode(auth,oob).then(()=>show('state-reset-form')).catch(()=>showError('This reset link has expired. Request a new one from the app.'));
 else if(mode==='recoverEmail')applyActionCode(auth,oob).then(()=>show('state-email-changed')).catch(()=>showError('This email change link is invalid or expired.'));
 else showError('Unknown action. Please use the link sent to your email.');
-window.toggleEye=function(i,b){const el=document.getElementById(i);const btn=document.getElementById(b);el.type=el.type==='password'?'text':'password';btn.textContent=el.type==='password'?'👁':'🙈'};
+window.toggleEye=function(i,btn){const el=document.getElementById(i);const t=el.type==='password';el.type=t?'text':'password';btn.querySelector('svg').style.opacity=t?'1':'0.45';};
 window.checkReqs=function(){const pw=document.getElementById('pw1').value;[['r-len','rc-len',pw.length>=6],['r-up','rc-up',/[A-Z]/.test(pw)],['r-lo','rc-lo',/[a-z]/.test(pw)],['r-num','rc-num',/[0-9]/.test(pw)]].forEach(([r,c,ok])=>{document.getElementById(r).classList.toggle('met',ok);document.getElementById(c).textContent=ok?'✓':''});checkMatch()};
 window.checkMatch=function(){const a=document.getElementById('pw1').value,b=document.getElementById('pw2').value,m=document.getElementById('match-msg');if(!b){m.textContent='';return}m.style.color=a===b?'var(--gd)':'var(--red)';m.textContent=a===b?'✓ Passwords match':'✕ Passwords do not match'};
 window.doReset=async function(){const pw1=document.getElementById('pw1').value,pw2=document.getElementById('pw2').value;const e=document.getElementById('reset-err'),btn=document.getElementById('reset-btn');e.style.display='none';if(pw1.length<6){e.textContent='Minimum 6 characters required.';e.style.display='block';return}if(!/[A-Z]/.test(pw1)){e.textContent='Include at least one uppercase letter.';e.style.display='block';return}if(!/[a-z]/.test(pw1)){e.textContent='Include at least one lowercase letter.';e.style.display='block';return}if(!/[0-9]/.test(pw1)){e.textContent='Include at least one number.';e.style.display='block';return}if(pw1!==pw2){e.textContent='Passwords do not match.';e.style.display='block';return}btn.disabled=true;btn.textContent='Saving…';try{await confirmPasswordReset(auth,window._oob,pw1);show('state-reset-done')}catch(err){btn.disabled=false;btn.textContent='Set New Password';e.textContent=err.message||'Something went wrong. Try again.';e.style.display='block'}};
