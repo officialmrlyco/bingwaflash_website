@@ -1209,8 +1209,13 @@ svg {
     gap: 48px;
   }
 
+  .legal-hero__inner > * {
+    min-width: 0;
+  }
+
   .legal-hero h1 {
-    font-size: clamp(4.3rem, 22vw, 6.4rem);
+    /* Keep the long privacy heading inside narrow phones without clipping. */
+    font-size: clamp(3.2rem, 18vw, 5rem);
   }
 
   .legal-layout {
@@ -1261,4 +1266,76 @@ svg {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Shared Bingwa theme controls let the utility keep the same preference as the main site. */
+[data-theme="dark"] {
+  --paper: #101713;
+  --paper-deep: #17221b;
+  --ink: #f3f7f2;
+  --red: #18b875;
+  --red-dark: #0d8d59;
+  --white: #f3f7f2;
+  --muted: #aebbb1;
+  --line: rgba(243, 247, 242, .22);
+  --line-light: rgba(243, 247, 242, .24);
+}
+
+[data-theme="light"] {
+  --paper: #fbfaf5;
+  --paper-deep: #f2eedb;
+  --ink: #18231d;
+  --red: #0d8d59;
+  --red-dark: #087147;
+  --white: #ffffff;
+  --muted: #68756c;
+  --line: rgba(24, 35, 29, .2);
+  --line-light: rgba(255, 255, 255, .24);
+}
+
+body { transition: background-color .2s ease, color .2s ease; }
+body * { box-shadow: none !important; background-image: none !important; }
+.site-header { background: var(--paper) !important; border-bottom-color: var(--ink) !important; backdrop-filter: none !important; }
+.theme-toggle { min-width: 44px; min-height: 44px; margin-left: 8px; display: inline-flex; align-items: center; justify-content: center; color: var(--ink); background: transparent; border: 1px solid var(--line); cursor: pointer; }
+.theme-toggle:hover, .theme-toggle:focus-visible { color: var(--red); border-color: var(--red); }
+.theme-toggle svg { width: 18px; height: 18px; }
+.site-nav { align-items: center; }
+.site-nav .nav-action { color: #fff; background: var(--red); }
+.site-nav .nav-action:hover, .site-nav .nav-action:focus-visible { color: #fff; background: var(--red-dark); }
+.button--primary { background: var(--red); border-color: var(--red); box-shadow: none; }
+.button:hover, .button:focus-visible, .privacy-stamp { transform: none; }
+.eyebrow::before { background: #f4c542; }
+
+/* Components that used the light theme's ink token as a surface need a stable dark surface. */
+[data-theme="dark"] .skip-link,
+[data-theme="dark"] .scanner-board,
+[data-theme="dark"] .workflow-band,
+[data-theme="dark"] .policy-callout,
+[data-theme="dark"] .site-footer {
+  color: #f3f7f2;
+  background: #09100c;
+}
+[data-theme="dark"] .hero-lead,
+[data-theme="dark"] .policy-body p,
+[data-theme="dark"] .policy-facts li {
+  color: var(--muted);
+}
+[data-theme="dark"] .button:hover,
+[data-theme="dark"] .button:focus-visible,
+[data-theme="dark"] .feature-row:hover {
+  color: #f3f7f2;
+  background: #1b2720;
+  border-color: #f3f7f2;
+}
+[data-theme="dark"] .button--primary:hover,
+[data-theme="dark"] .button--primary:focus-visible {
+  color: #fff;
+  background: var(--red-dark);
+  border-color: var(--red-dark);
+}
+
+@media (max-width: 640px) {
+  /* Keep the added control reachable beside the utility's existing mobile action. */
+  .site-header__inner { flex-wrap: wrap; padding: 10px 0; }
+  .theme-toggle { margin-left: auto; }
 }

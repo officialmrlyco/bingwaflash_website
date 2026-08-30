@@ -3,8 +3,8 @@
 <head>
 <script>
 (function(){
-  var t=localStorage.getItem('bf-theme')||'dark';
-  document.documentElement.setAttribute('data-theme',t);
+  try { var t=localStorage.getItem('bf-theme'); if(t==='dark'||t==='light') document.documentElement.setAttribute('data-theme',t); }
+  catch(error) { /* Keep the server-rendered dark default when storage is unavailable. */ }
 })();
 </script>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -93,9 +93,12 @@ footer{background:var(--surface);border-top:2px solid var(--border);padding:22px
 .ft-name{font-family:'Sora',sans-serif;font-size:.82rem;font-weight:700;color:var(--text2)}
 .ft-copy{font-size:.72rem;color:var(--text3);font-weight:600}
 </style>
+<!-- Shared flat theme tokens keep authentication states visually consistent with the public site. -->
+<link rel="stylesheet" href="/site-theme.css?v=20260830-2">
+<script src="/site-theme.js?v=20260830" defer></script>
 </head>
 <body>
-<button class="page-theme" onclick="toggleTheme()" type="button" title="Toggle theme" aria-label="Toggle dark/light mode">
+<button class="page-theme" data-theme-toggle type="button" title="Toggle theme" aria-label="Toggle dark/light mode">
   <svg id="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
   <svg id="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
 </button>
@@ -183,12 +186,6 @@ window.toggleEye=function(i,b){const el=document.getElementById(i);const btn=doc
 window.checkReqs=function(){const pw=document.getElementById('pw1').value;[['r-len','rc-len',pw.length>=6],['r-up','rc-up',/[A-Z]/.test(pw)],['r-lo','rc-lo',/[a-z]/.test(pw)],['r-num','rc-num',/[0-9]/.test(pw)]].forEach(([r,c,ok])=>{document.getElementById(r).classList.toggle('met',ok);document.getElementById(c).textContent=ok?'✓':''});checkMatch()};
 window.checkMatch=function(){const a=document.getElementById('pw1').value,b=document.getElementById('pw2').value,m=document.getElementById('match-msg');if(!b){m.textContent='';return}m.style.color=a===b?'var(--gd)':'var(--red)';m.textContent=a===b?'✓ Passwords match':'✕ Passwords do not match'};
 window.doReset=async function(){const pw1=document.getElementById('pw1').value,pw2=document.getElementById('pw2').value;const e=document.getElementById('reset-err'),btn=document.getElementById('reset-btn');e.style.display='none';if(pw1.length<6){e.textContent='Minimum 6 characters required.';e.style.display='block';return}if(!/[A-Z]/.test(pw1)){e.textContent='Include at least one uppercase letter.';e.style.display='block';return}if(!/[a-z]/.test(pw1)){e.textContent='Include at least one lowercase letter.';e.style.display='block';return}if(!/[0-9]/.test(pw1)){e.textContent='Include at least one number.';e.style.display='block';return}if(pw1!==pw2){e.textContent='Passwords do not match.';e.style.display='block';return}btn.disabled=true;btn.textContent='Saving…';try{await confirmPasswordReset(auth,window._oob,pw1);show('state-reset-done')}catch(err){btn.disabled=false;btn.textContent='Set New Password';e.textContent=err.message||'Something went wrong. Try again.';e.style.display='block'}};
-</script>
-<script>
-// Keep the theme available on secure account pages without adding back a full header.
-function syncThemeIcon(){var d=document.documentElement.getAttribute('data-theme')==='dark';document.getElementById('ico-moon').style.display=d?'block':'none';document.getElementById('ico-sun').style.display=d?'none':'block'}
-function toggleTheme(){var n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('bf-theme',n);syncThemeIcon()}
-syncThemeIcon();
 </script>
 </body>
 </html>

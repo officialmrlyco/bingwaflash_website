@@ -7,7 +7,7 @@
 <meta name="description" content="Terms governing the Bingwa Flash Android app, agent tools, public order pages, payments, Relay, Portal, and support services.">
 <link rel="canonical" href="https://bingwaflash.co.ke/terms.html">
 <link rel="icon" type="image/png" href="/logo.png">
-<script>(function(){var t=localStorage.getItem('bf-theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
+<script>(function(){try{var t=localStorage.getItem('bf-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(error){/* Keep the server-rendered dark default when storage is unavailable. */}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
@@ -57,9 +57,12 @@ footer{background:var(--surface);border-top:2px solid var(--border);padding:22px
 @media(max-width:900px){.doc-layout{grid-template-columns:1fr}.toc{display:none}}
 @media(max-width:768px){.wrap{padding:0 20px}.ft-in{flex-direction:column;text-align:center}}
 </style>
+<!-- Shared flat theme tokens keep legal pages readable in both modes. -->
+<link rel="stylesheet" href="/site-theme.css?v=20260830-2">
+<script src="/site-theme.js?v=20260830" defer></script>
 </head>
 <body>
-<button class="page-theme" onclick="toggleTheme()" type="button" title="Toggle theme" aria-label="Toggle dark/light mode">
+<button class="page-theme" data-theme-toggle type="button" title="Toggle theme" aria-label="Toggle dark/light mode">
   <svg id="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
   <svg id="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
 </button>
@@ -226,10 +229,6 @@ footer{background:var(--surface);border-top:2px solid var(--border);padding:22px
   <div class="ft-links"><a href="/">Home</a><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a></div>
   <div class="ft-copy">&copy; 2026 Bingwa Flash</div>
 </div></footer>
-<script>
-function syncThemeIcon(){var d=document.documentElement.getAttribute('data-theme')==='dark';document.getElementById('ico-moon').style.display=d?'block':'none';document.getElementById('ico-sun').style.display=d?'none':'block'}
-function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark';var n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('bf-theme',n);syncThemeIcon()}
-syncThemeIcon();
 document.querySelectorAll('.toc-list a').forEach(function(a){a.addEventListener('click',function(){document.querySelectorAll('.toc-list a').forEach(function(x){x.classList.remove('active')});a.classList.add('active')})});
 </script>
 </body>
