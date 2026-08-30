@@ -109,7 +109,7 @@ body.bf-home {
   font-size: 1.25rem;
 }
 
-.header-download-btn {
+.header-support-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -122,7 +122,7 @@ body.bf-home {
   border-radius: var(--bf-pill);
   transition: var(--bf-transition);
 }
-.header-download-btn:hover {
+.header-support-btn:hover {
   background: var(--bf-green-strong);
 }
 

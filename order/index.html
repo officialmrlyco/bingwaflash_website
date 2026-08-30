@@ -20,7 +20,8 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/site-theme.css?v=20260830-5">
+<link rel="stylesheet" href="/site-theme.css?v=20260830-6">
+<script src="/site-theme.js?v=20260830-2" defer></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -170,8 +171,9 @@ main.order-main{
 .verified-icon{
   width: 18px;
   height: 18px;
-  color: #0ea5e9;
   display: none;
+  vertical-align: middle;
+  flex-shrink: 0;
 }
 .ag-sub{
   font-size: 0.78rem;
@@ -830,8 +832,9 @@ main.order-main{
         <div class="ag-meta">
           <h1>
             <span id="ag-name">Agent</span>
-            <svg class="verified-icon" id="verified-badge" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M22 12l-2.44-2.78.34-3.68-3.61-.82-1.89-3.18L11 3 7.6 1.54 5.71 4.72l-3.61.82.34 3.68L0 12l2.44 2.78-.34 3.68 3.61.82 1.89 3.18L11 21l3.4 1.46 1.89-3.18 3.61-.82-.34-3.68L22 12z"/>
+            <svg class="verified-icon" id="verified-badge" viewBox="0 0 24 24" aria-label="Verified Agent" role="img">
+              <path fill="#0ea5e9" d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.79-4-4-4-.495 0-.965.084-1.4.238C14.55 2.475 13.18 1.6 11.6 1.6c-1.58 0-2.95.875-3.6 2.148-.435-.154-.905-.238-1.4-.238-2.21 0-4 1.79-4 4 0 .495.084.965.238 1.4C1.575 9.55.7 10.92.7 12.5c0 1.58.875 2.95 2.148 3.6-.154.435-.238.905-.238 1.4 0 2.21 1.79 4 4 4 .495 0 .965-.084 1.4-.238.65 1.273 2.02 2.148 3.6 2.148 1.58 0 2.95-.875 3.6-2.148.435.154.905.238 1.4.238 2.21 0 4-1.79 4-4 0-.495-.084-.965-.238-1.4 1.273-.65 2.148-2.02 2.148-3.6z"/>
+              <path fill="#ffffff" d="M10.2 16.2l-3.7-3.7 1.4-1.4 2.3 2.3 5.4-5.4 1.4 1.4z"/>
             </svg>
           </h1>
           <div class="ag-sub">
@@ -1028,7 +1031,6 @@ const FURL = "https://initiateorder-kerhygd7aa-uc.a.run.app";
 const STATUS_URL = "https://getorderstatus-kerhygd7aa-uc.a.run.app";
 const params = new URLSearchParams(window.location.search);
 const USERNAME = (params.get("u") || "").toLowerCase();
-const SITE_URL = "https://bingwaflash.co.ke";
 
 let agentProfile = null, selectedOffer = null;
 let activeTxId = null, stkPollInterval = null, lastPaymentResult = "", pendingDialogShownForTx = "";
