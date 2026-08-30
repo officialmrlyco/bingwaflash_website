@@ -1,708 +1,158 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="dark">
 <head>
   <script>
-    (function () {
-      try {
-        var theme = localStorage.getItem("bf-theme");
-        if (theme === "dark" || theme === "light") document.documentElement.setAttribute("data-theme", theme);
-      } catch (error) { /* Keep the server-rendered dark default when storage is unavailable. */ }
-    })();
+    // Apply the saved appearance before paint so each visit stays calm and consistent.
+    try { var savedTheme = localStorage.getItem("bf-theme"); if (savedTheme === "dark" || savedTheme === "light") document.documentElement.dataset.theme = savedTheme; } catch (error) {}
   </script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Bingwa Flash | USSD Automation for Bingwa Sokoni Safaricom Agents</title>
-  <meta name="description" content="Bingwa Flash helps Bingwa Sokoni Safaricom agents match M-Pesa payments to offers, run guarded USSD automation, handle web orders, relay fulfilment, retries, alerts and transaction logs.">
-  <meta property="og:title" content="Bingwa Flash | USSD Automation for Bingwa Sokoni Safaricom Agents">
-  <meta property="og:description" content="Payment-triggered USSD automation, web orders, retries, relay tools and audit-ready fulfilment for Safaricom agents.">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bingwa Flash | Practical USSD automation for agents</title>
+  <meta name="description" content="Bingwa Flash gives Safaricom agents a controlled way to handle payment-led USSD work, records, retries, and web orders.">
+  <meta property="og:title" content="Bingwa Flash | Practical USSD automation for agents">
+  <meta property="og:description" content="A calm, controlled workflow for payment-led USSD fulfilment.">
   <meta property="og:image" content="https://bingwaflash.co.ke/logo.png">
   <link rel="icon" type="image/png" href="/logo.png">
   <link rel="apple-touch-icon" href="/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
-  <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --y:#FBBF24;--yd:#F59E0B;--yp:#FEF3C7;--g:#10B981;--gd:#059669;--gp:#D1FAE5;
-      --red:#EF4444;--r8:8px;--r12:12px;--r16:16px;--r20:20px;--r24:24px;--pill:999px;
-      --cs:0 2px 0 rgba(0,0,0,.15),0 6px 20px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.1);
-      --cm:0 4px 0 rgba(0,0,0,.18),0 12px 32px rgba(0,0,0,.16),inset 0 2px 0 rgba(255,255,255,.1);
-      --cl:0 6px 0 rgba(0,0,0,.2),0 20px 56px rgba(0,0,0,.2),inset 0 2px 0 rgba(255,255,255,.1);
-      --cy:0 4px 0 rgba(160,100,0,.3),0 10px 28px rgba(245,197,24,.25),inset 0 1px 0 rgba(255,240,150,.4);
-      --cg:0 4px 0 rgba(18,100,45,.28),0 10px 28px rgba(34,197,94,.22),inset 0 1px 0 rgba(150,255,200,.4);
-    }
-    [data-theme="dark"]{
-      --bg:#0B0F0D;--surface:#111715;--surface2:#18201D;--border:#26302C;--border2:#34423D;
-      --text:#F7FAF8;--text2:#C7D2CC;--text3:#84918A;--hbg:rgba(9,13,12,.92);--card-bg:#141A18;--card-end:#101613;
-      --section-bg:rgba(255,255,255,.025);--section-border:rgba(255,255,255,.055);--soft-shadow:0 8px 22px rgba(0,0,0,.14);
-      --blob1:rgba(251,191,36,.10);--blob2:rgba(16,185,129,.11);
-    }
-    [data-theme="light"]{
-      --bg:#FFF8DB;--surface:#FFFFFF;--surface2:#FFFCF2;--border:#F0D889;--border2:#E9D8A7;
-      --text:#18231F;--text2:#3F4A45;--text3:#708078;--hbg:rgba(255,252,242,.94);--card-bg:#FFFFFF;--card-end:#FFF9E8;
-      --section-bg:linear-gradient(180deg,#FFFFFF,#FFF5CF);--section-border:#EDD47C;--soft-shadow:0 10px 26px rgba(185,128,0,.12);
-      --blob1:rgba(245,158,11,.20);--blob2:rgba(16,185,129,.14);
-    }
-    html{scroll-behavior:smooth}
-    body{
-      min-height:100vh;background:var(--bg);color:var(--text);font-family:"Nunito",sans-serif;
-      line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:background .25s,color .25s;
-    }
-    body::before{
-      content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
-      background:
-        radial-gradient(ellipse 620px 480px at -8% -8%,var(--blob1) 0%,transparent 66%),
-        radial-gradient(ellipse 560px 430px at 108% 18%,var(--blob2) 0%,transparent 66%),
-        radial-gradient(ellipse 520px 360px at 50% 105%,var(--blob1) 0%,transparent 66%),
-        var(--bg);
-    }
-    a{color:inherit}
-    .wrap{width:min(1120px,calc(100% - 40px));margin:0 auto}
-    .muted{color:var(--text2)}
-
-    /* Shared public-site navigation, matched to the order page header colors. */
-    header{
-      position:sticky;top:0;z-index:50;height:64px;padding:0 32px;background:var(--hbg);
-      backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:2px solid var(--border);
-      display:flex;align-items:center;justify-content:space-between;gap:20px;transition:background .25s,border-color .25s;
-    }
-    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
-    .logo img{width:36px;height:36px;border-radius:var(--r12);object-fit:contain}
-    .logo-text{font-family:"Sora",sans-serif;font-size:.93rem;font-weight:700;color:var(--text);white-space:nowrap}
-    .logo-text b{color:var(--gd);font-weight:800}
-    nav{display:flex;align-items:center;gap:4px}
-    nav a{font-size:.81rem;font-weight:800;color:var(--text2);text-decoration:none;padding:7px 13px;border-radius:var(--pill);transition:all .15s}
-    nav a:hover,nav a.on{background:rgba(251,191,36,.13);color:var(--text)}
-    .hdr-r{display:flex;align-items:center;gap:8px}
-    .thm{width:36px;height:36px;border-radius:var(--pill);background:var(--surface2);border:2px solid var(--border);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
-    .thm:hover{border-color:var(--y);color:var(--text)}
-    .thm svg{width:15px;height:15px}
-    .btn-primary,.btn-secondary,.support-pill{
-      display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;border-radius:var(--pill);
-      font-family:"Sora",sans-serif;font-size:.86rem;font-weight:900;transition:transform .15s,box-shadow .15s,border-color .15s;
-    }
-    .btn-primary:hover,.btn-secondary:hover,.support-pill:hover{transform:translateY(-2px)}
-
-    /* Hero uses the old homepage message, but the visual tokens now match the order page. */
-    .hero{padding:76px 0 66px}
-    .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:58px;align-items:center}
-    .pill,.tag{
-      display:inline-flex;align-items:center;gap:8px;border-radius:var(--pill);font-size:.72rem;font-weight:900;
-      letter-spacing:.08em;text-transform:uppercase;
-    }
-    .pill{padding:6px 14px 6px 8px;background:var(--surface);border:2px solid rgba(16,185,129,.26);color:var(--gd);box-shadow:var(--cs)}
-    .tag{padding:6px 13px;background:rgba(16,185,129,.11);border:1.5px solid rgba(16,185,129,.24);color:var(--gd)}
-    .pulse{width:8px;height:8px;border-radius:50%;background:var(--g);box-shadow:0 0 0 4px rgba(16,185,129,.16);animation:pulse 2s infinite}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.42}}
-    h1{
-      font-family:"Sora",sans-serif;font-size:clamp(2.45rem,5.2vw,4.55rem);font-weight:900;line-height:1.03;
-      letter-spacing:0;color:var(--text);margin:20px 0 18px;max-width:720px;
-    }
-    h1 em,h2 em{font-style:normal;color:var(--gd)}
-    .hero-desc{font-size:1.04rem;color:var(--text2);line-height:1.78;max-width:640px;font-weight:600}
-    .btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:31px}
-    .btn-primary{padding:13px 23px;background:linear-gradient(135deg,var(--y),var(--yd));color:#1a1000;box-shadow:var(--cy)}
-    .btn-secondary{padding:12px 22px;background:var(--surface);color:var(--text2);border:2px solid var(--border2);box-shadow:var(--cs)}
-    .trust-row{display:flex;flex-wrap:wrap;gap:12px 22px;margin-top:31px;color:var(--text3);font-size:.78rem;font-weight:800}
-    .trust-row span::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--g);margin-right:8px;vertical-align:middle}
-
-    /* Product preview explains the real transaction states without needing screenshots. */
-    .ops-shell{background:linear-gradient(180deg,var(--card-bg),var(--card-end));border:1.5px solid var(--border);border-radius:24px;box-shadow:var(--cl);overflow:hidden}
-    .ops-head{display:flex;align-items:center;justify-content:space-between;padding:19px 20px;border-bottom:2px solid var(--border);background:rgba(16,185,129,.06)}
-    .ops-title{font-size:.72rem;font-weight:900;color:var(--text3);text-transform:uppercase;letter-spacing:.08em}
-    .ops-live{display:flex;align-items:center;gap:7px;font-size:.72rem;font-weight:900;color:var(--gd)}
-    .ops-live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--g);box-shadow:0 0 0 4px rgba(16,185,129,.13)}
-    .ops-list{padding:16px;display:grid;gap:10px}
-    .tx{display:grid;grid-template-columns:8px 1fr auto;gap:12px;align-items:center;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r16);padding:12px;box-shadow:var(--soft-shadow)}
-    .state{width:8px;height:36px;border-radius:var(--pill);background:var(--g)}
-    .state.wait{background:var(--y)}.state.fail{background:var(--red)}
-    .tx-name{font-size:.84rem;font-weight:900;color:var(--text)}
-    .tx-meta{font-size:.71rem;font-weight:700;color:var(--text3);margin-top:1px}
-    .chip{font-size:.63rem;font-weight:900;border-radius:var(--pill);padding:4px 9px;white-space:nowrap}
-    .chip.g{background:rgba(16,185,129,.14);color:var(--gd);border:1px solid rgba(16,185,129,.26)}
-    .chip.y{background:rgba(251,191,36,.14);color:var(--yd);border:1px solid rgba(251,191,36,.30)}
-    .ops-foot{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 16px 16px}
-    .mini{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r12);padding:10px}
-    .mini strong{display:block;font-family:"Sora",sans-serif;font-size:.96rem;color:var(--text);line-height:1.1}
-    .mini span{font-size:.62rem;color:var(--text3);text-transform:uppercase;font-weight:900;letter-spacing:.05em}
-
-    /* Compact highlight strip keeps the homepage close to the old fast-read design. */
-    .bar{border-block:2px solid var(--border);background:var(--surface);transition:background .25s,border-color .25s}
-    .bar-grid{display:grid;grid-template-columns:repeat(4,1fr)}
-    .bar-item{padding:24px 22px;border-right:2px solid var(--border)}
-    .bar-item:last-child{border-right:0}
-    .bar-item strong{display:block;font-family:"Sora",sans-serif;font-size:1.05rem;font-weight:900;color:var(--text);margin-bottom:3px}
-    .bar-item span{font-size:.78rem;font-weight:700;color:var(--text2)}
-
-    section{padding:82px 0}
-    .section-head{display:grid;grid-template-columns:.82fr 1fr;gap:42px;align-items:end;margin-bottom:42px}
-    h2{font-family:"Sora",sans-serif;font-size:clamp(1.9rem,3.5vw,3rem);font-weight:900;line-height:1.12;letter-spacing:0;color:var(--text);margin-top:14px}
-    .section-head p{font-size:.95rem;line-height:1.76;color:var(--text2);font-weight:600}
-    .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    .feature,.step,.who-card,.control-card,.contact-card{
-      background:linear-gradient(180deg,var(--card-bg),var(--card-end));border:1.5px solid var(--border);border-radius:var(--r20);
-      box-shadow:var(--cs);transition:transform .18s,border-color .18s,background .25s;
-    }
-    .feature{min-height:208px;padding:23px 21px}
-    .feature:hover,.who-card:hover,.contact-card:hover{transform:translateY(-3px);border-color:rgba(16,185,129,.38)}
-    .feature-number{font-family:"Sora",sans-serif;font-size:.68rem;font-weight:900;color:var(--gd);letter-spacing:.1em;margin-bottom:20px}
-    .feature h3,.step h3,.who-card h3,.control-card h3{font-family:"Sora",sans-serif;font-size:.96rem;font-weight:900;color:var(--text);margin-bottom:7px}
-    .feature p,.step p,.who-card p,.control-card p{font-size:.8rem;line-height:1.7;color:var(--text2);font-weight:600}
-
-    /* The workflow section spells out what happens from payment to final response. */
-    .workflow{background:var(--section-bg);border-block:1px solid var(--section-border)}
-    .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:11px}
-    .step{position:relative;padding:19px 16px;min-height:170px}
-    .step-no{font-family:"Sora",sans-serif;font-size:.68rem;font-weight:900;color:var(--gd);letter-spacing:.08em;margin-bottom:13px}
-    .step:not(:last-child)::after{content:"";position:absolute;right:-12px;top:37px;width:12px;height:2px;background:var(--y)}
-
-    /* Audience cards bring back the old "built for" explanation. */
-    .who-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-    .who-card{display:flex;gap:15px;align-items:flex-start;padding:20px}
-    .who-icon{width:44px;height:44px;flex:0 0 44px;border-radius:var(--r12);background:rgba(16,185,129,.11);display:flex;align-items:center;justify-content:center;color:var(--gd);font-family:"Sora",sans-serif;font-weight:900}
-
-    /* Control copy keeps the public claims honest about permissions and recovery. */
-    .control-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    .control-card{padding:30px;min-height:282px}
-    .control-card.gold{background:linear-gradient(140deg,rgba(251,191,36,.13),var(--card-bg) 58%)}
-    .control-card.green{background:linear-gradient(140deg,rgba(16,185,129,.13),var(--card-bg) 58%)}
-    .check-list{display:grid;gap:9px;list-style:none;margin-top:17px}
-    .check-list li{display:flex;gap:9px;font-size:.8rem;font-weight:800;color:var(--text2)}
-    .check-list li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--y);flex:0 0 8px;margin-top:7px}
-    .green .check-list li::before{background:var(--g)}
-
-    .proof-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-    .proof-card{
-      background:linear-gradient(180deg,var(--card-bg),var(--card-end));border:1.5px solid var(--border);border-radius:var(--r20);
-      padding:22px;box-shadow:var(--cs);transition:transform .18s,border-color .18s,background .25s;
-    }
-    .proof-card:hover{transform:translateY(-3px);border-color:rgba(251,191,36,.36)}
-    .proof-card small{display:block;margin-bottom:9px;color:var(--gd);font-size:.68rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
-    .proof-card h3{font-family:"Sora",sans-serif;font-size:1rem;font-weight:900;color:var(--text);margin-bottom:8px}
-    .proof-card p{font-size:.82rem;line-height:1.7;color:var(--text2);font-weight:650}
-    .proof-card p::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--y);margin-right:8px;vertical-align:1px}
-
-    /* FAQ mirrors the compact help-center pattern while keeping root-only, non-installer content. */
-    .faq-panel{
-      background:linear-gradient(180deg,var(--card-bg),var(--card-end));border:1.5px solid var(--border);
-      border-radius:var(--r20);box-shadow:var(--cm);padding:22px;
-    }
-    .faq-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
-    .faq-tab{
-      appearance:none;border:1.5px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;
-      border-radius:var(--pill);padding:7px 13px;font-family:"Nunito",sans-serif;font-size:.78rem;font-weight:900;
-      transition:background .15s,border-color .15s,color .15s,transform .15s;
-    }
-    .faq-tab:hover{transform:translateY(-1px);border-color:rgba(16,185,129,.34);color:var(--text)}
-    .faq-tab.on{background:rgba(16,185,129,.13);border-color:rgba(16,185,129,.42);color:var(--gd)}
-    .faq-category{margin-top:18px}
-    .faq-tabs + .faq-category{margin-top:0}
-    .faq-category[hidden]{display:none}
-    .faq-category-head{
-      display:flex;align-items:center;gap:8px;margin:0 0 9px;color:var(--gd);font-size:.7rem;font-weight:900;
-      letter-spacing:.09em;text-transform:uppercase;
-    }
-    .faq-category-head::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--g);box-shadow:0 0 0 4px rgba(16,185,129,.11)}
-    .faq-list{display:grid;gap:8px}
-    .faq-item{
-      background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r12);overflow:hidden;
-      box-shadow:var(--soft-shadow);transition:border-color .15s,background .25s;
-    }
-    .faq-item[open]{border-color:rgba(251,191,36,.32)}
-    .faq-item summary{
-      list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;
-      padding:14px 16px;font-size:.88rem;font-weight:900;color:var(--text);
-    }
-    .faq-item summary::-webkit-details-marker{display:none}
-    .faq-item summary::after{
-      content:"+";display:flex;align-items:center;justify-content:center;flex:0 0 24px;width:24px;height:24px;
-      border-radius:var(--pill);background:rgba(16,185,129,.11);color:var(--gd);font-family:"Sora",sans-serif;font-size:.9rem;font-weight:900;
-    }
-    .faq-item[open] summary::after{content:"-";background:rgba(251,191,36,.16);color:var(--yd)}
-    .faq-item p{border-top:1.5px solid var(--border);padding:13px 16px 16px;font-size:.82rem;line-height:1.7;color:var(--text2);font-weight:650}
-
-    .support-box{
-      display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;padding:48px;border-radius:24px;
-      background:linear-gradient(135deg,rgba(251,191,36,.12),rgba(16,185,129,.08));border:1.5px solid var(--border);box-shadow:var(--cl);
-    }
-    .support-box h2{margin:0 0 10px;font-size:clamp(1.65rem,3vw,2.4rem)}
-    .support-box p{max-width:650px;color:var(--text2);font-size:.9rem;font-weight:600}
-    .contact-actions{display:grid;gap:10px;min-width:210px}
-    .support-pill{padding:12px 18px;border:1.5px solid var(--border);background:var(--surface);color:var(--text2)}
-    .support-pill:first-child{background:linear-gradient(135deg,var(--g),var(--gd));color:#fff;border-color:transparent;box-shadow:var(--cg)}
-
-    footer{background:var(--surface);border-top:2px solid var(--border);padding:34px 32px 24px;transition:background .25s,border-color .25s}
-    .ft-in{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:1.2fr repeat(3,1fr);gap:24px;align-items:start}
-    .ft-logo{display:flex;align-items:center;gap:9px;text-decoration:none;color:inherit}
-    .ft-logo img{width:26px;height:26px;border-radius:7px;object-fit:contain}
-    .ft-name{font-family:"Sora",sans-serif;font-size:.82rem;font-weight:800;color:var(--text2)}
-    .ft-about{display:grid;gap:12px}
-    .ft-about p{max-width:320px;color:var(--text3);font-size:.78rem;font-weight:700;line-height:1.65}
-    .ft-col{display:grid;gap:9px}
-    .ft-col h3{font-family:"Sora",sans-serif;font-size:.78rem;font-weight:900;color:var(--text);margin-bottom:3px}
-    .ft-links{display:grid;gap:8px}
-    .ft-links a,.ft-links span{font-size:.76rem;font-weight:800;color:var(--text3);text-decoration:none;transition:color .15s}
-    .ft-links a:hover{color:var(--text2)}
-    .ft-copy{max-width:1120px;margin:24px auto 0;padding-top:16px;border-top:1.5px solid var(--border);font-size:.72rem;color:var(--text3);font-weight:700}
-    .reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
-    .reveal.on{opacity:1;transform:none}
-
-    @media(max-width:980px){
-      .hero-grid,.section-head,.support-box,.proof-grid{grid-template-columns:1fr}
-      .ops-shell{max-width:520px}.feature-grid{grid-template-columns:repeat(2,1fr)}
-      .steps{grid-template-columns:repeat(2,1fr)}.step::after{display:none}
-      .bar-grid{grid-template-columns:repeat(2,1fr)}.bar-item:nth-child(2){border-right:0}.bar-item:nth-child(-n+2){border-bottom:2px solid var(--border)}
-    }
-    @media(max-width:740px){
-      header{height:60px;padding:0 16px}nav{display:none}.logo-text{font-size:.88rem}
-      .wrap{width:min(100% - 32px,1120px)}.hero{padding:52px 0 48px}.hero-grid{gap:38px}
-      h1{font-size:clamp(2.15rem,12vw,3.2rem)}.hero-desc{font-size:.94rem}
-      .feature-grid,.steps,.who-grid,.control-grid,.bar-grid{grid-template-columns:1fr}
-      .bar-item{border-right:0;border-bottom:2px solid var(--border)}.bar-item:last-child{border-bottom:0}
-      section{padding:62px 0}.control-card{padding:24px}.support-box{padding:31px 22px}.contact-actions{min-width:0}
-      .ops-foot{grid-template-columns:1fr}.ft-in{grid-template-columns:1fr;text-align:left}.ft-copy{text-align:left}
-    }
-  </style>
-  <!-- Shared flat theme tokens keep the marketing page aligned with its companion pages. -->
-  <link rel="stylesheet" href="/site-theme.css?v=20260830-2">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/site-theme.css?v=20260830-3">
+  <link rel="stylesheet" href="/home.css?v=20260830-1">
   <script src="/site-theme.js?v=20260830" defer></script>
 </head>
-<body>
-  <header>
-    <a class="logo" href="/" aria-label="Bingwa Flash home">
-      <img src="/logo.png" alt="Bingwa Flash">
-      <span class="logo-text">Bingwa <b>Flash</b></span>
-    </a>
-    <nav id="main-nav" aria-label="Site navigation">
-      <a class="on" href="/">Home</a>
-      <a href="#features">Features</a>
-      <a href="#workflow">How it works</a>
-      <a href="/privacy.html">Privacy</a>
+<body class="bf-home">
+  <header class="home-header">
+    <a class="home-brand" href="/" aria-label="Bingwa Flash home"><img src="/logo.png" alt=""><span>Bingwa <b>Flash</b></span></a>
+    <nav class="home-nav" id="homeNav" aria-label="Primary navigation">
+      <a href="#how-it-runs">How it runs</a>
+      <a href="#for-agents">For agents</a>
+      <a href="#questions">Questions</a>
+      <a href="#support">Support</a>
     </nav>
-    <div class="hdr-r">
-      <!-- The compact menu keeps every public-site section reachable on small screens. -->
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Open navigation">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-      </button>
-      <button class="thm" data-theme-toggle type="button" title="Toggle theme" aria-label="Toggle dark/light mode">
-        <svg id="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-        <svg id="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
-      </button>
+    <div class="home-actions">
+      <button class="home-theme" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-icon="sun" aria-hidden="true">☼</span><span data-theme-icon="moon" aria-hidden="true">◐</span></button>
+      <button class="home-menu" type="button" data-menu-toggle aria-controls="homeNav" aria-expanded="false" aria-label="Open navigation">≡</button>
+      <a class="home-order" href="/order/">Start a web order</a>
     </div>
   </header>
 
   <main>
-    <!-- Hero: the old homepage promise, rewritten to explain the app more clearly. -->
-    <section class="hero">
-      <div class="wrap hero-grid">
-        <div class="reveal">
-          <div class="pill"><span class="pulse"></span>v1.3.8 now available</div>
-          <div style="height:14px"></div>
-          <div class="tag">Safaricom Bingwa Sokoni agent automation</div>
-          <h1>Speed that wins. <em>Automation</em> that stays accountable.</h1>
-          <p class="hero-desc">Bingwa Flash helps agents turn paid customer requests into controlled fulfilment. It can read permitted payment and SMS signals, match them to your configured offers, run the correct USSD path, retry safely when allowed, and keep the final response visible in your transaction history.</p>
-          <div class="btn-row">
-            <a class="btn-primary" href="#features">See features</a>
-            <a class="btn-secondary" href="#workflow">How it works</a>
-          </div>
-          <div class="trust-row">
-            <span>Payment-triggered requests</span>
-            <span>Dual SIM offer routing</span>
-            <span>Web order pages</span>
-            <span>Retry and recovery tools</span>
-          </div>
+    <section class="home-hero">
+      <div class="home-wrap hero-layout">
+        <div>
+          <p class="home-kicker">For Bingwa Sokoni Safaricom agents</p>
+          <h1 class="home-title">Keep the sale moving.<span>Keep the control.</span></h1>
+          <p class="home-intro">Bingwa Flash helps you turn a confirmed payment into a careful, traceable USSD run — without making your everyday work feel like a control room.</p>
+          <a class="home-primary" href="/order/">Use the web order desk</a>
+          <p class="hero-note">For orders, support, and account follow-up. The official installer stays on the separate download site.</p>
         </div>
-        <div class="ops-shell reveal" aria-label="Example Bingwa Flash transaction activity">
-          <div class="ops-head">
-            <span class="ops-title">Live automation feed</span>
-            <span class="ops-live">Automation on</span>
+        <aside class="lane-note" aria-label="A typical Bingwa Flash workflow">
+          <div class="lane-top"><small>One sale, kept in view</small><strong>From payment to record</strong></div>
+          <div class="lane-flow">
+            <div><span>01</span><p><strong>Read the payment</strong>The correct amount is matched to the enabled offer.</p></div>
+            <div><span>02</span><p><strong>Run the saved flow</strong>Bingwa Flash follows the USSD route you reviewed.</p></div>
+            <div><span>03</span><p><strong>Keep the result</strong>The response, retry state, and transaction record stay together.</p></div>
           </div>
-          <div class="ops-list">
-            <div class="tx">
-              <span class="state"></span>
-              <div><div class="tx-name">KSh 50 airtime</div><div class="tx-meta">M-Pesa matched, USSD response verified</div></div>
-              <span class="chip g">Done</span>
-            </div>
-            <div class="tx">
-              <span class="state wait"></span>
-              <div><div class="tx-name">Daily bundle</div><div class="tx-meta">Running mapped flow on SIM 1</div></div>
-              <span class="chip y">Executing</span>
-            </div>
-            <div class="tx">
-              <span class="state fail"></span>
-              <div><div class="tx-name">Held request</div><div class="tx-meta">Waiting for agent confirmation</div></div>
-              <span class="chip y">Review</span>
-            </div>
-          </div>
-          <div class="ops-foot">
-            <div class="mini"><strong>USSD</strong><span>Mapped paths</span></div>
-            <div class="mini"><strong>Web</strong><span>Paid orders</span></div>
-            <div class="mini"><strong>Logs</strong><span>Audit trail</span></div>
-          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="home-band" aria-labelledby="bandTitle">
+      <div class="home-wrap band-inner">
+        <h2 id="bandTitle">It is not about doing more taps. It is about removing the repeat work around every sale.</h2>
+        <p>Set up the offers and routes you actually sell. Then let one measured workflow handle the payment match, carrier interaction, record keeping, and the exceptions that need your attention.</p>
+      </div>
+    </section>
+
+    <section class="home-section" id="work">
+      <div class="home-wrap">
+        <div class="section-lead">
+          <div><span class="section-number">What changes</span><h2>Less retyping. More certainty at the moment it matters.</h2></div>
+          <p>This is built around the agent’s real day: customers waiting, carrier menus changing, and a need to know exactly what happened after a payment arrives.</p>
+        </div>
+        <div class="relief-list">
+          <article class="relief-item"><h3>Stop rebuilding the same <em>USSD path</em> for every customer.</h3><p>Save and review the route once. Bingwa Flash uses that mapping for eligible work, while leaving you a visible record of each result.</p></article>
+          <article class="relief-item"><h3>See a sale as one <em>whole story.</em></h3><p>Payment, selected offer, carrier response, retry state, and notes belong in the same transaction trail instead of being split across SMS messages and memory.</p></article>
+          <article class="relief-item"><h3>Keep exceptions from becoming <em>silent mistakes.</em></h3><p>Changed menus, disabled offers, mapping checks, and failed replies are surfaced for a decision. The app does not pretend an uncertain run is complete.</p></article>
         </div>
       </div>
     </section>
 
-    <div class="bar" aria-label="Bingwa Flash platform highlights">
-      <div class="wrap bar-grid">
-        <div class="bar-item"><strong>Automation</strong><span>Runs configured USSD steps for matched offers</span></div>
-        <div class="bar-item"><strong>Recovery</strong><span>Retries, holds, skips and manual review paths</span></div>
-        <div class="bar-item"><strong>Commerce</strong><span>Public web orders and client registration tools</span></div>
-        <div class="bar-item"><strong>Insight</strong><span>Transaction history, alerts and airtime tracking</span></div>
-      </div>
-    </div>
-
-    <!-- Features: old-index breadth restored, grouped around real app behavior. -->
-    <section id="features">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <div>
-            <div class="tag">Features</div>
-            <h2>Everything an agent needs to <em>serve faster.</em></h2>
-          </div>
-          <p>The app is built for the full day-to-day flow: receive payment, match the offer, execute the right path, detect the response, recover from blocks, and keep the customer or agent informed.</p>
+    <section class="home-section process-stage" id="how-it-runs">
+      <div class="home-wrap">
+        <div class="section-lead">
+          <div><span class="section-number">How it runs</span><h2>One lane for every step that spends a customer’s payment.</h2></div>
+          <p>Automation should be deliberate. Bingwa Flash verifies the conditions it can verify, runs one carrier interaction at a time, and makes the outcome visible when your input is needed.</p>
         </div>
-        <div class="feature-grid">
-          <article class="feature reveal"><div class="feature-number">01 / PAYMENTS</div><h3>Payment-triggered automation</h3><p>Configured M-Pesa and SMS signals can create requests, match amounts to offers and move work into the right transaction state.</p></article>
-          <article class="feature reveal"><div class="feature-number">02 / USSD</div><h3>Multi-step USSD mappings</h3><p>Build offer flows with specific menu responses, SIM assignment and fallback paths when carrier menus or responses change.</p></article>
-          <article class="feature reveal"><div class="feature-number">03 / WEB ORDERS</div><h3>Agent order pages</h3><p>Agents can expose selected offers online, collect STK payments and route paid web requests into the same fulfilment queue.</p></article>
-          <article class="feature reveal"><div class="feature-number">04 / RETRIES</div><h3>Retry and alternative USSD</h3><p>Failures that are safe to retry can use configured rules or an alternative USSD path while preserving one visible transaction trail.</p></article>
-          <article class="feature reveal"><div class="feature-number">05 / RELAY</div><h3>Four-mode Relay</h3><p>Guided Sender and Receiver setup supports SMS, Online, Hotspot/Wi-Fi, and Bluetooth, with QR pairing and one normal transaction trail.</p></article>
-          <article class="feature reveal"><div class="feature-number">06 / CLIENTS</div><h3>Client tools</h3><p>Search and manage clients, resolve masked numbers, save selected contacts, apply blacklist controls, and review each client's transaction history.</p></article>
-          <article class="feature reveal"><div class="feature-number">07 / ALERTS</div><h3>Agent alerts</h3><p>Important events such as failures, automation interruptions, reversals or low readiness can be surfaced so the agent acts quickly.</p></article>
-          <article class="feature reveal"><div class="feature-number">08 / BALANCES</div><h3>Airtime and token safeguards</h3><p>Track airtime usage, watch token access, and use enabled emergency purchase flows when supported by the configured offer.</p></article>
-          <article class="feature reveal"><div class="feature-number">09 / HISTORY</div><h3>Searchable transaction logs</h3><p>Every important request keeps status, phone details, selected offer, response text, failure reason and recovery action in one place.</p></article>
-          <article class="feature reveal"><div class="feature-number">10 / OFFERS</div><h3>Safer offer catalogue</h3><p>Compact offer routes keep payment, SIM, category, retry, verifier, timing, mapping and USSD details clear while blocking conflicting active prices.</p></article>
-          <article class="feature reveal"><div class="feature-number">11 / QUICK DIAL</div><h3>Controlled manual fulfilment</h3><p>Start a normal tracked transaction from a saved offer, add up to ten customer numbers, and search contacts without mixing names into the number field.</p></article>
-          <article class="feature reveal"><div class="feature-number">12 / SECURITY</div><h3>PIN and device controls</h3><p>Protect sensitive screens with a security PIN or biometrics, recover a forgotten PIN through support, and review connected portal and alert controls.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Workflow: this explains the app like the old homepage, but with cleaner state language. -->
-    <section class="workflow" id="workflow">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <div>
-            <div class="tag">How it works</div>
-            <h2>From customer payment to <em>final response.</em></h2>
+        <div class="process-grid">
+          <div class="process-list">
+            <article><span>01 — MATCH</span><h3>Match an eligible payment to an enabled offer.</h3><p>The amount and payment route need to agree before a transaction enters the execution lane.</p></article>
+            <article><span>02 — CHECK</span><h3>Use the mapping and mode you have saved.</h3><p>Simple, visible, and advanced paths are distinct choices, with their own permission and safety requirements.</p></article>
+            <article><span>03 — RECORD</span><h3>Finish with evidence, not a guess.</h3><p>A final carrier response, failure, or pending state stays attached to the transaction for follow-up.</p></article>
           </div>
-          <p>Bingwa Flash is not just a button that dials USSD. It is a controlled transaction flow that checks readiness, runs the selected path, records the result, and gives the agent a decision when automation should not continue blindly.</p>
-        </div>
-        <div class="steps">
-          <article class="step reveal"><div class="step-no">STEP 01</div><h3>Detect</h3><p>A payment, SMS, web order or relay event is received through enabled permissions and configured rules.</p></article>
-          <article class="step reveal"><div class="step-no">STEP 02</div><h3>Match</h3><p>The amount, offer, SIM, customer and receiver details are matched before execution starts.</p></article>
-          <article class="step reveal"><div class="step-no">STEP 03</div><h3>Execute</h3><p>The mapped USSD flow runs through the selected SIM and captures carrier dialog responses.</p></article>
-          <article class="step reveal"><div class="step-no">STEP 04</div><h3>Recover</h3><p>If blocked, the transaction can fail nicely, wait on hold, retry, skip or ask for agent confirmation.</p></article>
-          <article class="step reveal"><div class="step-no">STEP 05</div><h3>Report</h3><p>The final status, response, airtime impact, commission and alert trail remain auditable.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Built-for section restores the practical audience language from the old homepage. -->
-    <section id="built-for">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <div>
-            <div class="tag">Built for</div>
-            <h2>The agents who <em>keep moving.</em></h2>
-          </div>
-          <p>Whether you run a small till, a busy shop, online bundle orders or a partner relay setup, the app is meant to reduce manual work without hiding what happened.</p>
-        </div>
-        <div class="who-grid">
-          <article class="who-card reveal"><div class="who-icon">01</div><div><h3>Safaricom agents</h3><p>Serve airtime and bundle customers faster while keeping final transaction outcomes visible.</p></div></article>
-          <article class="who-card reveal"><div class="who-icon">02</div><div><h3>High-volume till operators</h3><p>Let matched requests queue and execute while you focus on customers who need attention.</p></div></article>
-          <article class="who-card reveal"><div class="who-icon">03</div><div><h3>Web-enabled sellers</h3><p>Receive paid orders from your public link and fulfil them through your configured app setup.</p></div></article>
-          <article class="who-card reveal"><div class="who-icon">04</div><div><h3>Relay networks</h3><p>Use controlled sender and receiver modes where partner fulfilment is part of the workflow.</p></div></article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Control section keeps installation and setup expectations honest. -->
-    <section id="control" class="workflow">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <div>
-            <div class="tag">Agent control</div>
-            <h2>Setup matters. Recovery matters <em>more.</em></h2>
-          </div>
-          <p>Android permissions, Safaricom menus, SIM state, airtime balance and network prompts can change. Bingwa Flash gives the agent clear setup controls and recovery states instead of crashing or silently losing the request.</p>
-        </div>
-        <div class="control-grid">
-          <article class="control-card gold reveal">
-            <div class="tag">Before going live</div>
-            <h3>Configure the phone properly</h3>
-            <p>Reliable automation starts with the right permissions, SIM selection, offer mappings and tested USSD paths.</p>
-            <ul class="check-list">
-              <li>SMS, phone and accessibility permissions enabled</li>
-              <li>Offers mapped to the correct USSD code and SIM</li>
-              <li>Enough airtime or token access for the selected offer</li>
-              <li>Retry, verifier and alert rules reviewed</li>
-            </ul>
-          </article>
-          <article class="control-card green reveal">
-            <div class="tag">When something blocks</div>
-            <h3>Fail clearly and recover safely</h3>
-            <p>When execution cannot continue, the app should show why and give the agent a sensible next action.</p>
-            <ul class="check-list">
-              <li>Held requests remain visible for confirmation</li>
-              <li>Failures keep their response and reason</li>
-              <li>Retry paths stay tied to the same transaction trail</li>
-              <li>Customer-facing web order screens fail gracefully</li>
-            </ul>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Root page keeps social proof focused on operating concerns, not unverified public claims. -->
-    <section id="clients-say">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <div>
-            <div class="tag">What clients ask</div>
-            <h2>The questions agents hear <em>every day.</em></h2>
-          </div>
-          <p>Customers usually care about speed, proof, and whether a delayed request has been lost. Bingwa Flash is structured around those practical worries.</p>
-        </div>
-        <div class="proof-grid">
-          <article class="proof-card reveal"><small>Proof</small><h3>Has my bundle gone through?</h3><p>Final carrier text and transaction status stay visible so the agent can answer from history instead of guessing.</p></article>
-          <article class="proof-card reveal"><small>Speed</small><h3>Can you serve me now?</h3><p>Matched payments move into a controlled queue, so busy agents can keep selling while requests run in order.</p></article>
-          <article class="proof-card reveal"><small>Recovery</small><h3>What happened to my pending order?</h3><p>Held, failed, retried and verified states stay separate, which makes follow-up clearer when network prompts delay the flow.</p></article>
-          <article class="proof-card reveal"><small>Online orders</small><h3>Can I order without calling?</h3><p>Agent web order pages let selected offers receive paid requests and route them into the same fulfilment trail.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="workflow" id="faq">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <div>
-            <div class="tag">Frequently asked questions</div>
-            <h2>Got questions? <em>Quick answers.</em></h2>
-          </div>
-          <p>Brief answers to common questions customers and agents ask before trusting Bingwa Flash with a real order flow.</p>
-        </div>
-        <div class="faq-panel reveal">
-          <div class="faq-tabs" role="tablist" aria-label="FAQ categories">
-            <button class="faq-tab on" type="button" role="tab" aria-selected="true" data-faq-filter="all">All</button>
-            <button class="faq-tab" type="button" role="tab" aria-selected="false" data-faq-filter="general">General</button>
-            <button class="faq-tab" type="button" role="tab" aria-selected="false" data-faq-filter="automation">Automation</button>
-            <button class="faq-tab" type="button" role="tab" aria-selected="false" data-faq-filter="web">Web Orders</button>
-            <button class="faq-tab" type="button" role="tab" aria-selected="false" data-faq-filter="security">Security</button>
-            <button class="faq-tab" type="button" role="tab" aria-selected="false" data-faq-filter="support">Support</button>
-          </div>
-
-          <div class="faq-category" data-faq-category="general">
-            <div class="faq-category-head">General</div>
-            <div class="faq-list">
-              <details class="faq-item" open>
-                <summary>What is Bingwa Flash?</summary>
-                <p>Bingwa Flash is an Android tool for Bingwa Sokoni agents. It helps match paid customer requests to configured offers, run guarded USSD fulfilment, and keep the final result in transaction history.</p>
-              </details>
-              <details class="faq-item">
-                <summary>Who is it built for?</summary>
-                <p>It is built for agents and bundle sellers who receive many customer requests and need a traceable way to serve them faster without losing control of the phone.</p>
-              </details>
-              <details class="faq-item">
-                <summary>Does the agent still control the process?</summary>
-                <p>Yes. Automation follows the agent's saved offers, SIM choices, retry rules, and review decisions. A request can still be held, checked, retried, or handled manually.</p>
-              </details>
-            </div>
-          </div>
-
-          <div class="faq-category" data-faq-category="automation">
-            <div class="faq-category-head">Automation</div>
-            <div class="faq-list">
-              <details class="faq-item">
-                <summary>What happens after a customer pays?</summary>
-                <p>When the signal matches a configured offer, Bingwa Flash can create a transaction, queue the correct fulfilment flow, and record the carrier response when it arrives.</p>
-              </details>
-              <details class="faq-item">
-                <summary>What if a USSD menu changes?</summary>
-                <p>The app should fail clearly, hold the request, or use a configured recovery path. It should not silently guess through a changed menu.</p>
-              </details>
-              <details class="faq-item">
-                <summary>Can failed orders be retried?</summary>
-                <p>Yes, when the agent has enabled safe retry rules. Retry notes stay attached to the same transaction so the history remains easy to audit.</p>
-              </details>
-            </div>
-          </div>
-
-          <div class="faq-category" data-faq-category="web">
-            <div class="faq-category-head">Web Orders</div>
-            <div class="faq-list">
-              <details class="faq-item">
-                <summary>Can customers order from a link?</summary>
-                <p>Yes. When web orders are enabled, selected offers can appear online and paid requests can enter the same fulfilment trail.</p>
-              </details>
-              <details class="faq-item">
-                <summary>Can I choose what appears online?</summary>
-                <p>Yes. The agent controls which offers are published and how those offers are fulfilled.</p>
-              </details>
-              <details class="faq-item">
-                <summary>What does a customer see when something fails?</summary>
-                <p>The customer-facing flow should show a clear failure or pending state, while the agent keeps the detailed transaction record for follow-up.</p>
-              </details>
-            </div>
-          </div>
-
-          <div class="faq-category" data-faq-category="security">
-            <div class="faq-category-head">Security and Privacy</div>
-            <div class="faq-list">
-              <details class="faq-item">
-                <summary>Why does the app need SMS, phone, and accessibility permissions?</summary>
-                <p>Those permissions are used for enabled automation paths such as reading allowed payment signals, placing USSD requests, and capturing final carrier dialogs.</p>
-              </details>
-              <details class="faq-item">
-                <summary>Can Bingwa Flash access my M-Pesa account?</summary>
-                <p>No. It reads supported SMS signals and works with configured fulfilment steps. It does not log into or control your M-Pesa account.</p>
-              </details>
-              <details class="faq-item">
-                <summary>Are transaction records kept?</summary>
-                <p>Yes. Records keep the customer, offer, status, response text, retry notes, and recovery action together so the agent can review what happened.</p>
-              </details>
-            </div>
-          </div>
-
-          <div class="faq-category" data-faq-category="support">
-            <div class="faq-category-head">Support</div>
-            <div class="faq-list">
-              <details class="faq-item">
-                <summary>Where should official questions go?</summary>
-                <p>Email support@bingwaflash.co.ke or bingwaflash@gmail.com for account, setup, web order, or transaction recovery questions that need a written trail.</p>
-              </details>
-              <details class="faq-item">
-                <summary>What should I include when reporting a transaction issue?</summary>
-                <p>Share the customer number, amount, offer name, time, and the visible transaction status. That helps support trace the issue faster.</p>
-              </details>
-              <details class="faq-item">
-                <summary>Can I ask before going live?</summary>
-                <p>Yes. Ask first if you are unsure about permissions, SIM setup, offer mapping, or web order readiness.</p>
-              </details>
+          <div class="flow-surface" aria-label="Example execution log">
+            <div class="flow-caption"><span>Execution view</span><span>Example only</span></div>
+            <div class="flow-code">
+              <p class="dim">route: saved Safaricom flow</p>
+              <p class="warm">payment matched to selected offer</p>
+              <p>opening carrier interaction</p>
+              <p>waiting for final network response</p>
+              <p class="good">result recorded — ready for your review</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="support">
-      <div class="wrap">
-        <div class="support-box reveal">
-          <div>
-            <h2>Need a clear answer before setup?</h2>
-            <p>Email support for account questions, web order readiness, offer mapping concerns, or transaction recovery cases that need a written trail.</p>
-          </div>
-          <div class="contact-actions">
-            <a class="support-pill" href="mailto:support@bingwaflash.co.ke">Email support</a>
-            <a class="support-pill" href="/terms.html">Read terms</a>
+    <section class="home-section" id="for-agents">
+      <div class="home-wrap">
+        <div class="section-lead">
+          <div><span class="section-number">Built around your desk</span><h2>Useful when business is moving; clear when something changes.</h2></div>
+          <p>The tools stay close to the work: offers, clients, mappings, retries, records, and the web order flow — without turning every screen into a dashboard.</p>
+        </div>
+        <div class="fit-grid">
+          <article class="fit-main"><h3>Offers and routes belong to you.</h3><p>Shape the products you sell, review price collisions, choose a SIM and execution mode, and maintain the mappings the carrier route needs. These settings are not hidden behind a generic setup wizard.</p><a class="fit-link" href="/order/">Open the order desk →</a></article>
+          <div class="fit-side">
+            <article><h3>When a route shifts</h3><p>Mapping and tracing are designed to show you what needs attention before a stale carrier menu creates the wrong outcome.</p></article>
+            <article><h3>When a sale cannot finish</h3><p>Pending and failed work stays visible. Retry only after you have a reason to run it again.</p></article>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="home-section" id="questions">
+      <div class="home-wrap">
+        <div class="section-lead"><div><span class="section-number">Before you start</span><h2>Questions agents ask before they trust a workflow.</h2></div><p>Short answers for the decisions that should be clear before you connect a payment to an automated carrier action.</p></div>
+        <div class="home-faq">
+          <details><summary>Does Bingwa Flash run every payment automatically?</summary><p>No. A payment needs to meet the offer and payment conditions you configured. Holds, failures, disabled offers, and mapping concerns remain visible instead of being treated as a successful sale.</p></details>
+          <details><summary>What happens when Safaricom changes a USSD menu?</summary><p>Saved mappings and live responses are checked during the flow. A change that does not match the expected route is a reason to stop and review, not a reason to keep sending inputs.</p></details>
+          <details><summary>Can I still handle a customer manually?</summary><p>Yes. The app is designed to give you a controlled record and execution lane, not to remove the agent’s judgement from a customer situation.</p></details>
+          <details><summary>Where do I get the Android installer and tutorials?</summary><p>The installer, tutorial library, WhatsApp, Telegram, and download support live at the official download site so the marketing and ordering site remains focused.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-close" id="support">
+      <div class="home-wrap close-grid">
+        <div><h2>Need a written trail for an order or account question?</h2><p>Use the web order desk for a new order, or email support with the details of the transaction that needs follow-up.</p></div>
+        <div class="close-actions"><a href="/order/">Start a web order</a><a href="mailto:support@bingwaflash.co.ke">Email support</a></div>
       </div>
     </section>
   </main>
 
-  <footer>
-    <div class="ft-in">
-      <div class="ft-about">
-        <a class="ft-logo" href="/"><img src="/logo.png" alt="Bingwa Flash"><span class="ft-name">Bingwa Flash</span></a>
-        <p>USSD automation, web orders, transaction recovery and local agent tools for Bingwa Sokoni sellers who need every request to stay traceable.</p>
-      </div>
-      <div class="ft-col">
-        <h3>Product</h3>
-        <div class="ft-links">
-          <a href="#features">Features</a>
-          <a href="#workflow">How it works</a>
-          <a href="#built-for">Built for</a>
-          <a href="#faq">Q&amp;A</a>
-        </div>
-      </div>
-      <div class="ft-col">
-        <h3>Trust</h3>
-        <div class="ft-links">
-          <a href="#clients-say">Client questions</a>
-          <a href="#control">Agent control</a>
-          <a href="/privacy.html">Privacy Policy</a>
-          <a href="/terms.html">Terms</a>
-        </div>
-      </div>
-      <div class="ft-col">
-        <h3>Contact</h3>
-        <div class="ft-links">
-          <a href="mailto:support@bingwaflash.co.ke">support@bingwaflash.co.ke</a>
-          <a href="mailto:bingwaflash@gmail.com">bingwaflash@gmail.com</a>
-          <span>Nairobi, Kenya</span>
-        </div>
-      </div>
+  <footer class="home-footer">
+    <div class="home-wrap footer-row">
+      <div><a class="home-brand" href="/"><img src="/logo.png" alt=""><span>Bingwa <b>Flash</b></span></a><p>Practical payment-led USSD workflow support for Bingwa Sokoni Safaricom agents.</p></div>
+      <div><h3>Product</h3><a href="#how-it-runs">How it runs</a><a href="#for-agents">For agents</a><a href="#questions">Questions</a></div>
+      <div><h3>Help</h3><a href="/order/">Web order desk</a><a href="mailto:support@bingwaflash.co.ke">support@bingwaflash.co.ke</a><a href="/privacy.html">Privacy policy</a></div>
+      <div><h3>Legal</h3><a href="/terms.html">Terms of service</a><a href="/privacy.html">Privacy policy</a></div>
     </div>
-    <div class="ft-copy">&copy; 2026 Bingwa Flash. Public website for agent automation and web order information.</div>
+    <div class="home-wrap footer-copy">© 2026 Bingwa Flash. Independent automation and payment-facilitation platform.</div>
   </footer>
-
   <script>
-    // Close the phone navigation after selection and expose its state to assistive technology.
-    (function () {
-      var menuButton = document.querySelector(".menu-toggle");
-      var menu = document.getElementById("main-nav");
-      if (!menuButton || !menu) return;
-      menuButton.addEventListener("click", function () {
-        var open = menu.classList.toggle("is-open");
-        menuButton.setAttribute("aria-expanded", open ? "true" : "false");
-        menuButton.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
-      });
-      menu.querySelectorAll("a").forEach(function (link) {
-        link.addEventListener("click", function () {
-          menu.classList.remove("is-open");
-          menuButton.setAttribute("aria-expanded", "false");
-          menuButton.setAttribute("aria-label", "Open navigation");
-        });
-      });
-    }());
-
-    // Category chips keep the root FAQ scannable without sending visitors to installer-only content.
-    (function () {
-      var tabs = document.querySelectorAll("[data-faq-filter]");
-      var groups = document.querySelectorAll("[data-faq-category]");
-      if (!tabs.length || !groups.length) return;
-
-      function setFilter(filter) {
-        tabs.forEach(function (tab) {
-          var selected = tab.getAttribute("data-faq-filter") === filter;
-          tab.classList.toggle("on", selected);
-          tab.setAttribute("aria-selected", selected ? "true" : "false");
-        });
-        groups.forEach(function (group) {
-          var show = filter === "all" || group.getAttribute("data-faq-category") === filter;
-          group.hidden = !show;
-        });
-      }
-
-      tabs.forEach(function (tab) {
-        tab.addEventListener("click", function () {
-          setFilter(tab.getAttribute("data-faq-filter"));
-        });
-      });
-      setFilter("all");
-    })();
-
-    // Reveal sections progressively so the long explanatory page still feels light on mobile.
-    (function () {
-      var items = document.querySelectorAll(".reveal");
-      function show(item) { item.classList.add("on"); }
-      if (!("IntersectionObserver" in window)) {
-        items.forEach(show);
-        return;
-      }
-      var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            show(entry.target);
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.08, rootMargin: "40px" });
-      items.forEach(function (item) { observer.observe(item); });
-    })();
+    // Phone navigation is deliberately small and only exposes the existing anchor destinations.
+    document.querySelector("[data-menu-toggle]").addEventListener("click", function () { var nav = document.getElementById("homeNav"); var open = nav.classList.toggle("is-open"); this.setAttribute("aria-expanded", String(open)); });
   </script>
 </body>
 </html>
