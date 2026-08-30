@@ -7,152 +7,262 @@
   </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bingwa Flash | Practical USSD automation for agents</title>
-  <meta name="description" content="Bingwa Flash gives Safaricom agents a controlled way to handle payment-led USSD work, records, retries, and web orders.">
-  <meta property="og:title" content="Bingwa Flash | Practical USSD automation for agents">
-  <meta property="og:description" content="A calm, controlled workflow for payment-led USSD fulfilment.">
+  <title>Bingwa Flash | USSD Automation for Android</title>
+  <meta name="description" content="Bingwa Flash gives Safaricom & Airtel agents a fast, automated way to handle USSD payments, airtime, and data bundles in seconds.">
+  <meta property="og:title" content="Bingwa Flash | USSD Automation for Android">
+  <meta property="og:description" content="Sell faster. Do more. Automate your USSD flows in seconds.">
   <meta property="og:image" content="https://bingwaflash.co.ke/logo.png">
   <link rel="icon" type="image/png" href="/logo.png">
   <link rel="apple-touch-icon" href="/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/site-theme.css?v=20260830-3">
-  <link rel="stylesheet" href="/home.css?v=20260830-1">
+  <link rel="stylesheet" href="/site-theme.css?v=20260830-4">
+  <link rel="stylesheet" href="/home.css?v=20260830-2">
   <script src="/site-theme.js?v=20260830" defer></script>
 </head>
 <body class="bf-home">
   <header class="home-header">
     <a class="home-brand" href="/" aria-label="Bingwa Flash home"><img src="/logo.png" alt=""><span>Bingwa <b>Flash</b></span></a>
     <nav class="home-nav" id="homeNav" aria-label="Primary navigation">
-      <a href="#how-it-runs">How it runs</a>
-      <a href="#for-agents">For agents</a>
-      <a href="#questions">Questions</a>
-      <a href="#support">Support</a>
+      <a href="#home" class="active">Home</a>
+      <a href="https://download.bingwaflash.co.ke/tutorials/">Help center</a>
+      <a href="https://download.bingwaflash.co.ke/tutorials/">Tutorials</a>
+      <a href="#questions">FAQ</a>
+      <a href="https://download.bingwaflash.co.ke/">Downloads</a>
+      <a href="#support">Contact</a>
     </nav>
     <div class="home-actions">
-      <button class="home-theme" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-icon="sun" aria-hidden="true">☼</span><span data-theme-icon="moon" aria-hidden="true">◐</span></button>
+      <button class="home-theme" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-icon="sun" aria-hidden="true">☼</span><span data-theme-icon="moon" aria-hidden="true" style="display:none">☾</span></button>
       <button class="home-menu" type="button" data-menu-toggle aria-controls="homeNav" aria-expanded="false" aria-label="Open navigation">≡</button>
-      <a class="home-order" href="/order/">Start a web order</a>
+      <a class="header-download-btn" href="https://download.bingwaflash.co.ke/">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download
+      </a>
     </div>
   </header>
 
-  <main>
+  <main id="home">
+    <!-- Centered Hero Section -->
     <section class="home-hero">
-      <div class="home-wrap hero-layout">
-        <div>
-          <p class="home-kicker">For Bingwa Sokoni Safaricom agents</p>
-          <h1 class="home-title">Keep the sale moving.<span>Keep the control.</span></h1>
-          <p class="home-intro">Bingwa Flash helps you turn a confirmed payment into a careful, traceable USSD run — without making your everyday work feel like a control room.</p>
-          <a class="home-primary" href="/order/">Use the web order desk</a>
-          <p class="hero-note">For orders, support, and account follow-up. The official installer stays on the separate download site.</p>
-        </div>
-        <aside class="lane-note" aria-label="A typical Bingwa Flash workflow">
-          <div class="lane-top"><small>One sale, kept in view</small><strong>From payment to record</strong></div>
-          <div class="lane-flow">
-            <div><span>01</span><p><strong>Read the payment</strong>The correct amount is matched to the enabled offer.</p></div>
-            <div><span>02</span><p><strong>Run the saved flow</strong>Bingwa Flash follows the USSD route you reviewed.</p></div>
-            <div><span>03</span><p><strong>Keep the result</strong>The response, retry state, and transaction record stay together.</p></div>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section class="home-band" aria-labelledby="bandTitle">
-      <div class="home-wrap band-inner">
-        <h2 id="bandTitle">It is not about doing more taps. It is about removing the repeat work around every sale.</h2>
-        <p>Set up the offers and routes you actually sell. Then let one measured workflow handle the payment match, carrier interaction, record keeping, and the exceptions that need your attention.</p>
-      </div>
-    </section>
-
-    <section class="home-section" id="work">
       <div class="home-wrap">
-        <div class="section-lead">
-          <div><span class="section-number">What changes</span><h2>Less retyping. More certainty at the moment it matters.</h2></div>
-          <p>This is built around the agent’s real day: customers waiting, carrier menus changing, and a need to know exactly what happened after a payment arrives.</p>
+        <div class="hero-badge">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          USSD automation for Android
         </div>
-        <div class="relief-list">
-          <article class="relief-item"><h3>Stop rebuilding the same <em>USSD path</em> for every customer.</h3><p>Save and review the route once. Bingwa Flash uses that mapping for eligible work, while leaving you a visible record of each result.</p></article>
-          <article class="relief-item"><h3>See a sale as one <em>whole story.</em></h3><p>Payment, selected offer, carrier response, retry state, and notes belong in the same transaction trail instead of being split across SMS messages and memory.</p></article>
-          <article class="relief-item"><h3>Keep exceptions from becoming <em>silent mistakes.</em></h3><p>Changed menus, disabled offers, mapping checks, and failed replies are surfaced for a decision. The app does not pretend an uncertain run is complete.</p></article>
+        <h1 class="hero-title">
+          Sell faster. Do more.
+          <span class="hero-title-accent">Automate your USSD in seconds.</span>
+        </h1>
+        <p class="hero-desc">
+          Bingwa Flash records your USSD flows once — airtime, M-Pesa, data bundles — and replays them instantly. Save hours every day, close more sales, and never dial a menu again.
+        </p>
+        <div class="hero-actions">
+          <a class="btn-hero-primary" href="https://download.bingwaflash.co.ke/">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download APK
+          </a>
+          <a class="btn-hero-secondary" href="https://download.bingwaflash.co.ke/tutorials/">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Help center
+          </a>
+        </div>
+        <p class="hero-microcopy">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          Android only · Free · All Kenyan networks
+        </p>
+
+        <!-- Stats Grid (4 cols desktop / 2x2 mobile) -->
+        <div class="stats-box">
+          <div class="stat-col">
+            <strong>10,000+</strong>
+            <small>Downloads</small>
+          </div>
+          <div class="stat-col">
+            <strong>4.7★</strong>
+            <small>Rating</small>
+          </div>
+          <div class="stat-col">
+            <strong>3 sec</strong>
+            <small>Avg run</small>
+          </div>
+          <div class="stat-col">
+            <strong>All</strong>
+            <small>KE networks</small>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="home-section process-stage" id="how-it-runs">
+    <!-- Quick Resources / Feature Grid -->
+    <section class="quick-section">
       <div class="home-wrap">
-        <div class="section-lead">
-          <div><span class="section-number">How it runs</span><h2>One lane for every step that spends a customer’s payment.</h2></div>
-          <p>Automation should be deliberate. Bingwa Flash verifies the conditions it can verify, runs one carrier interaction at a time, and makes the outcome visible when your input is needed.</p>
-        </div>
-        <div class="process-grid">
-          <div class="process-list">
-            <article><span>01 — MATCH</span><h3>Match an eligible payment to an enabled offer.</h3><p>The amount and payment route need to agree before a transaction enters the execution lane.</p></article>
-            <article><span>02 — CHECK</span><h3>Use the mapping and mode you have saved.</h3><p>Simple, visible, and advanced paths are distinct choices, with their own permission and safety requirements.</p></article>
-            <article><span>03 — RECORD</span><h3>Finish with evidence, not a guess.</h3><p>A final carrier response, failure, or pending state stays attached to the transaction for follow-up.</p></article>
-          </div>
-          <div class="flow-surface" aria-label="Example execution log">
-            <div class="flow-caption"><span>Execution view</span><span>Example only</span></div>
-            <div class="flow-code">
-              <p class="dim">route: saved Safaricom flow</p>
-              <p class="warm">payment matched to selected offer</p>
-              <p>opening carrier interaction</p>
-              <p>waiting for final network response</p>
-              <p class="good">result recorded — ready for your review</p>
+        <div class="quick-grid">
+          <a class="quick-card" href="https://download.bingwaflash.co.ke/tutorials/">
+            <div class="quick-card-icon green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
             </div>
-          </div>
+            <div>
+              <h3>Help center</h3>
+              <p>Guides & support</p>
+            </div>
+          </a>
+          <a class="quick-card" href="https://download.bingwaflash.co.ke/tutorials/">
+            <div class="quick-card-icon orange">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+            <div>
+              <h3>Tutorials</h3>
+              <p>Video & article guides</p>
+            </div>
+          </a>
+          <a class="quick-card" href="#questions">
+            <div class="quick-card-icon purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            </div>
+            <div>
+              <h3>FAQ</h3>
+              <p>Common questions</p>
+            </div>
+          </a>
+          <a class="quick-card" href="https://download.bingwaflash.co.ke/">
+            <div class="quick-card-icon blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </div>
+            <div>
+              <h3>Downloads</h3>
+              <p>APK & changelog</p>
+            </div>
+          </a>
         </div>
       </div>
     </section>
 
+    <!-- How It Runs - 3 Step Flow -->
+    <section class="home-section" id="how-it-runs">
+      <div class="home-wrap">
+        <div class="section-head">
+          <span class="section-tag">How It Runs</span>
+          <h2>One lane for every step that spends a customer’s payment.</h2>
+          <p>Automation should be deliberate. Bingwa Flash verifies conditions, executes USSD interactions sequentially, and leaves an audit trail for every completed sale.</p>
+        </div>
+        <div class="steps-grid">
+          <article class="step-card">
+            <div class="step-number">01</div>
+            <h3>Read the payment</h3>
+            <p>Customer payment SMS (Till or PayBill) is captured instantly and matched against your enabled offer amounts.</p>
+          </article>
+          <article class="step-card">
+            <div class="step-number">02</div>
+            <h3>Run the saved flow</h3>
+            <p>Bingwa Flash follows your pre-configured USSD route on the selected SIM card without manual dialing delay.</p>
+          </article>
+          <article class="step-card">
+            <div class="step-number">03</div>
+            <h3>Keep the result</h3>
+            <p>The carrier network response, retry outcome, and transaction receipt are securely logged in your local ledger.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features for Agents -->
     <section class="home-section" id="for-agents">
       <div class="home-wrap">
-        <div class="section-lead">
-          <div><span class="section-number">Built around your desk</span><h2>Useful when business is moving; clear when something changes.</h2></div>
-          <p>The tools stay close to the work: offers, clients, mappings, retries, records, and the web order flow — without turning every screen into a dashboard.</p>
+        <div class="section-head">
+          <span class="section-tag">Built For Agents</span>
+          <h2>Less retyping. More certainty at the moment it matters.</h2>
+          <p>Engineered for high-volume airtime and bundle merchants who need reliable, fast automation with 100% offline safety.</p>
         </div>
-        <div class="fit-grid">
-          <article class="fit-main"><h3>Offers and routes belong to you.</h3><p>Shape the products you sell, review price collisions, choose a SIM and execution mode, and maintain the mappings the carrier route needs. These settings are not hidden behind a generic setup wizard.</p><a class="fit-link" href="/order/">Open the order desk →</a></article>
-          <div class="fit-side">
-            <article><h3>When a route shifts</h3><p>Mapping and tracing are designed to show you what needs attention before a stale carrier menu creates the wrong outcome.</p></article>
-            <article><h3>When a sale cannot finish</h3><p>Pending and failed work stays visible. Retry only after you have a reason to run it again.</p></article>
-          </div>
+        <div class="features-grid">
+          <article class="feature-card">
+            <h3>Stop rebuilding the same <em>USSD path.</em></h3>
+            <p>Save and review your carrier route once. Bingwa Flash replays that mapping automatically with smart multi-step handling.</p>
+          </article>
+          <article class="feature-card">
+            <h3>See a sale as one <em>whole story.</em></h3>
+            <p>Payment details, chosen bundles, carrier responses, and retry timestamps stay attached in one searchable record.</p>
+          </article>
+          <article class="feature-card">
+            <h3>Exceptions never become <em>silent mistakes.</em></h3>
+            <p>Changed carrier menus, temporary balance drops, and timeout alerts surface with clear next-step recovery options.</p>
+          </article>
         </div>
       </div>
     </section>
 
+    <!-- FAQ Section -->
     <section class="home-section" id="questions">
       <div class="home-wrap">
-        <div class="section-lead"><div><span class="section-number">Before you start</span><h2>Questions agents ask before they trust a workflow.</h2></div><p>Short answers for the decisions that should be clear before you connect a payment to an automated carrier action.</p></div>
-        <div class="home-faq">
-          <details><summary>Does Bingwa Flash run every payment automatically?</summary><p>No. A payment needs to meet the offer and payment conditions you configured. Holds, failures, disabled offers, and mapping concerns remain visible instead of being treated as a successful sale.</p></details>
-          <details><summary>What happens when Safaricom changes a USSD menu?</summary><p>Saved mappings and live responses are checked during the flow. A change that does not match the expected route is a reason to stop and review, not a reason to keep sending inputs.</p></details>
-          <details><summary>Can I still handle a customer manually?</summary><p>Yes. The app is designed to give you a controlled record and execution lane, not to remove the agent’s judgement from a customer situation.</p></details>
-          <details><summary>Where do I get the Android installer and tutorials?</summary><p>The installer, tutorial library, WhatsApp, Telegram, and download support live at the official download site so the marketing and ordering site remains focused.</p></details>
+        <div class="section-head">
+          <span class="section-tag">FAQ</span>
+          <h2>Frequently Asked Questions</h2>
+          <p>Everything you need to know before automating your phone sales.</p>
+        </div>
+        <div class="faq-wrap">
+          <details class="faq-card">
+            <summary>Does Bingwa Flash run every payment automatically?</summary>
+            <p>Yes, any incoming payment that matches an enabled offer amount and configured mode is queued and executed immediately on your selected SIM.</p>
+          </details>
+          <details class="faq-card">
+            <summary>What happens when Safaricom or Airtel changes a USSD menu?</summary>
+            <p>The app detects unexpected carrier dialogs and alerts you immediately so you can adjust your USSD mapping without losing transaction records.</p>
+          </details>
+          <details class="faq-card">
+            <summary>Can I still dial or handle transactions manually?</summary>
+            <p>Yes. You can use Quick Dial for manual numbers or pause automation at any time with a single tap on the dashboard toggle.</p>
+          </details>
+          <details class="faq-card">
+            <summary>Is my data and PIN stored safely?</summary>
+            <p>All transaction records and configuration stay strictly on your device in encrypted local storage. No sensitive carrier PINs are exposed.</p>
+          </details>
         </div>
       </div>
     </section>
 
-    <section class="home-close" id="support">
-      <div class="home-wrap close-grid">
-        <div><h2>Need a written trail for an order or account question?</h2><p>Use the web order desk for a new order, or email support with the details of the transaction that needs follow-up.</p></div>
-        <div class="close-actions"><a href="/order/">Start a web order</a><a href="mailto:support@bingwaflash.co.ke">Email support</a></div>
+    <!-- Bottom CTA Banner -->
+    <div class="home-wrap">
+      <div class="home-cta-banner" id="support">
+        <h2>Ready to automate your USSD sales?</h2>
+        <p>Download the official Bingwa Flash APK and start completing transactions in seconds.</p>
+        <a class="btn-hero-primary" href="https://download.bingwaflash.co.ke/">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Bingwa Flash v1.3.8
+        </a>
       </div>
-    </section>
+    </div>
   </main>
 
   <footer class="home-footer">
-    <div class="home-wrap footer-row">
-      <div><a class="home-brand" href="/"><img src="/logo.png" alt=""><span>Bingwa <b>Flash</b></span></a><p>Practical payment-led USSD workflow support for Bingwa Sokoni Safaricom agents.</p></div>
-      <div><h3>Product</h3><a href="#how-it-runs">How it runs</a><a href="#for-agents">For agents</a><a href="#questions">Questions</a></div>
-      <div><h3>Help</h3><a href="/order/">Web order desk</a><a href="mailto:support@bingwaflash.co.ke">support@bingwaflash.co.ke</a><a href="/privacy.html">Privacy policy</a></div>
-      <div><h3>Legal</h3><a href="/terms.html">Terms of service</a><a href="/privacy.html">Privacy policy</a></div>
+    <div class="home-wrap">
+      <div class="footer-row">
+        <div class="footer-brand">
+          <a class="home-brand" href="/"><img src="/logo.png" alt=""><span>Bingwa <b>Flash</b></span></a>
+          <p>High-performance USSD automation and receipt tracking for Kenyan airtime & bundle merchants.</p>
+        </div>
+        <div class="footer-col">
+          <h3>Product</h3>
+          <a href="#how-it-runs">How it runs</a>
+          <a href="#for-agents">Features</a>
+          <a href="#questions">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h3>Resources</h3>
+          <a href="https://download.bingwaflash.co.ke/">Download APK</a>
+          <a href="https://download.bingwaflash.co.ke/tutorials/">Tutorials</a>
+          <a href="https://chat.whatsapp.com/H2YoZHNmiuB6cxWsfOPV1I" target="_blank" rel="noopener">WhatsApp group</a>
+        </div>
+        <div class="footer-col">
+          <h3>Legal & Contact</h3>
+          <a href="/privacy.html">Privacy Policy</a>
+          <a href="/terms.html">Terms of Service</a>
+          <a href="mailto:support@bingwaflash.co.ke">Email support</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2026 Bingwa Flash. All rights reserved. Built for Kenyan mobile money and airtime agents.
+      </div>
     </div>
-    <div class="home-wrap footer-copy">© 2026 Bingwa Flash. Independent automation and payment-facilitation platform.</div>
   </footer>
-  <script>
-    // Phone navigation is deliberately small and only exposes the existing anchor destinations.
-    document.querySelector("[data-menu-toggle]").addEventListener("click", function () { var nav = document.getElementById("homeNav"); var open = nav.classList.toggle("is-open"); this.setAttribute("aria-expanded", String(open)); });
-  </script>
 </body>
 </html>
