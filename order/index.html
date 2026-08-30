@@ -2,941 +2,1480 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Order - Bingwa Flash</title>
-<meta name="description" content="Order active Safaricom offers from a Bingwa Flash agent, pay with M-Pesa STK push, and view the agent payment details before contacting them.">
+<title>Order Offers - Bingwa Flash</title>
+<meta name="description" content="Order active Safaricom & Airtel offers from a verified Bingwa Flash agent. Pay securely via M-Pesa STK push.">
 <link rel="canonical" href="https://bingwaflash.co.ke/order/">
 <meta property="og:site_name" content="Bingwa Flash">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Order Offers - Bingwa Flash">
-<meta property="og:description" content="Open this Bingwa Flash agent order page to view the business name, agent name, active offers, and payment mode.">
+<meta property="og:description" content="View active offers, bundles, and airtime from a verified Bingwa Flash agent. Instant M-Pesa STK push payment.">
 <meta property="og:url" content="https://bingwaflash.co.ke/order/">
 <meta property="og:image" content="https://bingwaflash.co.ke/logo.png">
-<meta property="og:image:alt" content="Bingwa Flash logo">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Order Offers - Bingwa Flash">
-<meta name="twitter:description" content="Open this Bingwa Flash agent order page to view the business name, agent name, active offers, and payment mode.">
-<meta name="twitter:image" content="https://bingwaflash.co.ke/logo.png">
 <link rel="icon" type="image/png" href="/logo.png">
 <script>
 (function(){
   try { var t=localStorage.getItem('bf-theme'); if(t==='dark'||t==='light') document.documentElement.setAttribute('data-theme',t); }
-  catch(error) { /* Keep the server-rendered dark default when storage is unavailable. */ }
+  catch(error) {}
 })();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site-theme.css?v=20260830-5">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --y: var(--bf-yellow);
-  --yd: var(--bf-yellow-strong);
-  --g: var(--bf-green);
-  --gd: var(--bf-green-strong);
-  --red: var(--bf-red);
-  --r8: 8px;
-  --r12: 12px;
-  --r16: 16px;
-  --r20: 20px;
-  --r24: 24px;
+  --y: #facc15;
+  --yd: #eab308;
+  --g: #15a76c;
+  --gd: #0d8d59;
+  --red: #ef4444;
   --pill: 999px;
-  --cs: none;
-  --cm: none;
-  --cl: none;
-  --cy: none;
-  --cg: none;
 }
+
 [data-theme="dark"]{
-  --bg: var(--bf-bg);
-  --surface: var(--bf-surface);
-  --surface2: var(--bf-surface-raised);
-  --border: var(--bf-border);
-  --border2: var(--bf-border-strong);
-  --text: var(--bf-text);
-  --text2: var(--bf-text-muted);
-  --text3: var(--bf-text-soft);
-  --hbg: var(--bf-surface-muted);
-  --card-bg: var(--bf-surface);
-  --card-end: var(--bf-surface);
-  --input-bg: var(--bf-surface-muted);
-  --offer-section-bg: var(--bf-surface-muted);
-  --offer-section-border: var(--bf-border);
-  --offer-bg: var(--bf-surface);
-  --offer-name: var(--bf-text);
-  --price: var(--bf-yellow);
-  --soft-shadow: var(--bf-shadow);
-  --chk-border: var(--bf-border-strong);
-  --chk-bg: var(--bf-surface-muted);
+  --bg: #060907;
+  --surface: #0e1410;
+  --surface2: #16201a;
+  --surface-muted: #0a0e0b;
+  --border: #1c2720;
+  --border-strong: #27382d;
+  --text: #ffffff;
+  --text-muted: #a1a8a3;
+  --text-soft: #6b756e;
+  --card-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  --badge-bg: rgba(21, 167, 108, 0.15);
+  --tag-yellow-bg: rgba(250, 204, 21, 0.15);
+  --tag-yellow-color: #facc15;
 }
+
 [data-theme="light"]{
-  --bg: var(--bf-bg);
-  --surface: var(--bf-surface);
-  --surface2: var(--bf-surface-raised);
-  --border: var(--bf-border);
-  --border2: var(--bf-border-strong);
-  --text: var(--bf-text);
-  --text2: var(--bf-text-muted);
-  --text3: var(--bf-text-soft);
-  --hbg: var(--bf-surface-muted);
-  --card-bg: var(--bf-surface);
-  --card-end: var(--bf-surface);
-  --input-bg: var(--bf-surface-muted);
-  --offer-section-bg: var(--bf-surface-muted);
-  --offer-section-border: var(--bf-border);
-  --offer-bg: var(--bf-surface);
-  --offer-name: var(--bf-text);
-  --price: var(--bf-yellow-strong);
-  --soft-shadow: var(--bf-shadow);
-  --chk-border: var(--bf-border-strong);
-  --chk-bg: var(--bf-surface-muted);
+  --bg: #ffffff;
+  --surface: #fbfcfb;
+  --surface2: #f2f4f2;
+  --surface-muted: #f7f9f7;
+  --border: #e2e6e3;
+  --border-strong: #cbcfcc;
+  --text: #0a0e0b;
+  --text-muted: #4b554e;
+  --text-soft: #8a948d;
+  --card-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  --badge-bg: #ecfdf5;
+  --tag-yellow-bg: #fefce8;
+  --tag-yellow-color: #ca8a04;
 }
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;transition:background .25s,color .25s}
-body::before{content:none !important;display:none !important;}
+
+body{
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
 /* HEADER */
-header{position:sticky;top:0;z-index:100;background:var(--hbg);border-bottom:1px solid var(--border);height:56px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;transition:background .25s,border-color .25s}
-.logo{display:flex;align-items:center;gap:9px;text-decoration:none}
-.logo img{width:30px;height:30px;border-radius:var(--r8);object-fit:contain;}
-.logo-text{font-family:'Sora',sans-serif;font-size:.9rem;font-weight:700;color:var(--text)}
-.logo-text b{color:var(--g);font-weight:800}
-.thm{width:36px;height:36px;border-radius:8px;background:var(--surface);border:1px solid var(--border);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
-.thm:hover{border-color:var(--y);color:var(--text);background:var(--surface2)} .thm svg{width:14px;height:14px}
+header.order-header{
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  height: 64px !important;
+  padding: 0 20px !important;
+  background: var(--surface) !important;
+  border-bottom: 1px solid var(--border) !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.order-brand{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+.order-brand img{
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+}
+.order-brand b{
+  color: var(--g);
+}
 
-/* AGENT BAR */
-.agent-bar{padding:11px 20px;border-bottom:1px solid var(--border);display:none;align-items:center;gap:12px;background:var(--hbg);transition:background .25s}
-.ag-av{width:36px;height:36px;border-radius:50%;background:var(--g);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:800;font-size:.9rem;color:#fff;}
-.ag-name{font-size:.88rem;font-weight:700;color:var(--text);font-family:'Sora',sans-serif;text-transform:uppercase}
-.ag-title{display:flex;align-items:center;gap:7px;min-width:0}
-.verified-badge{display:none;width:17px;height:17px;flex:0 0 17px;color:#0EA5E9;}
-.ag-handle{font-size:.72rem;color:var(--text3);font-weight:600;text-transform:uppercase}
-.ag-info{min-width:0}
-.ag-verified-note{display:none;font-size:.58rem;color:var(--g);font-weight:900;letter-spacing:.05em;text-transform:uppercase;line-height:1.1;margin-top:1px}
-.ag-live{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:.7rem;color:var(--g);font-weight:800}
-.ag-dot{width:7px;height:7px;border-radius:50%;background:var(--g);}
+.header-trust{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--g);
+  background: var(--badge-bg);
+  padding: 5px 12px;
+  border-radius: var(--pill);
+  border: 1px solid rgba(21, 167, 108, 0.25);
+}
 
-/* ── LAYOUT ── */
-main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px 14px 52px}
-.card{background:var(--surface);border-radius:var(--r16);box-shadow:var(--soft-shadow);border:1px solid var(--border);width:100%;max-width:900px;overflow:hidden;animation:fadeUp .4s ease both;transition:background .25s,border-color .25s}
-.card-body{padding:20px 18px 24px}
-@media(min-width:700px){.card-body{padding:24px 24px 28px}}
+/* MAIN LAYOUT */
+main.order-main{
+  flex: 1;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
 
-/* ── LOADING / STATES ── */
-#loading{text-align:center;padding:34px 0}
-.spin{width:32px;height:32px;border:2px solid var(--border2);border-top-color:var(--y);border-radius:50%;animation:spin .7s linear infinite;display:inline-block;margin-bottom:10px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.spin-label{font-size:.76rem;color:var(--text3);font-weight:700}
-#error-state{display:none;text-align:center;padding:32px 0}
-.err-icon{margin-bottom:12px}
-.err-icon img{width:40px;height:40px;object-fit:contain;opacity:.45}
-.err-text{font-size:.84rem;color:var(--text2);line-height:1.65;font-weight:500}
-#content{display:none}
+/* AGENT BAR / HERO CARD */
+.agent-hero-card{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-bottom: 24px;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: var(--card-shadow);
+}
+.agent-left{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.ag-avatar{
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: var(--g);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+.ag-meta h1{
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+.verified-icon{
+  width: 18px;
+  height: 18px;
+  color: #0ea5e9;
+  display: none;
+}
+.ag-sub{
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ag-status-pill{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--badge-bg);
+  border: 1px solid rgba(21, 167, 108, 0.25);
+  border-radius: var(--pill);
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--g);
+}
+.ag-status-pill .dot{
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--g);
+}
 
-/* ── MAINTENANCE ── */
-#maintenance-state{display:none;text-align:center;padding:32px 8px 24px}
-.maint-gfx{width:72px;height:72px;border-radius:50%;background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.25);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
-.maint-gfx svg{width:32px;height:32px;color:var(--yd)}
-.maint-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.25);border-radius:var(--pill);font-size:.7rem;font-weight:800;color:var(--yd);margin-bottom:14px;font-family:'Sora',sans-serif;letter-spacing:.04em}
-.maint-dot{width:6px;height:6px;border-radius:50%;background:var(--yd);}
-.maint-title{font-family:'Sora',sans-serif;font-size:1.05rem;font-weight:800;color:var(--text);margin-bottom:8px}
-.maint-sub{font-size:.8rem;color:var(--text2);line-height:1.7;margin-bottom:18px;font-weight:500}
-.maint-contact-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;text-align:left;display:flex;align-items:center;gap:12px}
-.maint-contact-icon{width:36px;height:36px;border-radius:8px;background:rgba(245,197,24,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.maint-contact-icon svg{width:16px;height:16px;color:var(--yd)}
-.maint-contact-label{font-size:.65rem;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-.maint-contact-value{font-size:.82rem;font-weight:700;color:var(--text2)}
-.maint-contact-value a{color:var(--text2);text-decoration:none;transition:color .15s}
-.maint-contact-value a:hover{color:var(--yd)}
+/* SECTION HEADER */
+.catalog-head{
+  margin-bottom: 18px;
+}
+.catalog-head h2{
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.catalog-head p{
+  font-size: 0.86rem;
+  color: var(--text-muted);
+}
 
-/* ── OFFERS ── */
-.sec-ttl{font-family:'Sora',sans-serif;font-size:1.02rem;font-weight:800;color:var(--text);margin-bottom:2px}
-.sec-sub{font-size:.76rem;color:var(--text2);margin-bottom:14px;font-weight:650}
-.offer-section{background:var(--offer-section-bg);border:1px solid var(--offer-section-border);border-radius:12px;padding:12px;margin:12px 0}
-.cat-header{display:flex;align-items:center;gap:8px;font-size:.7rem;font-weight:900;color:var(--text);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px}
-.cat-header::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--g);box-shadow:none}
+/* CATEGORY TABS */
+.category-tabs{
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  scrollbar-width: none;
+}
+.category-tabs::-webkit-scrollbar{ display: none; }
+.cat-tab-btn{
+  padding: 8px 16px;
+  border-radius: var(--pill);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.cat-tab-btn:hover{
+  border-color: var(--g);
+  color: var(--text);
+}
+.cat-tab-btn.active{
+  background: var(--g);
+  border-color: var(--gd);
+  color: #ffffff;
+}
 
+/* OFFERS GRID */
 .offers-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:10px;
-  margin-bottom:2px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
 }
-@media(min-width:480px){
-  .offers-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
+.offer-card{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 14px;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 120px;
+  box-shadow: var(--card-shadow);
+  position: relative;
+  text-align: left;
 }
-@media(min-width:700px){
-  .offers-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;}
+.offer-card:hover{
+  border-color: var(--g);
+  transform: translateY(-2px);
+}
+.offer-card.selected{
+  border-color: var(--g);
+  background: var(--surface2);
+  outline: 2px solid var(--g);
+}
+.offer-tag{
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--g);
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.offer-check{
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-strong);
+  display: inline-grid;
+  place-items: center;
+  color: transparent;
+}
+.offer-card.selected .offer-check{
+  background: var(--g);
+  border-color: var(--g);
+  color: #ffffff;
+}
+.offer-name{
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.35;
+  margin-bottom: 12px;
+}
+.offer-price{
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--y);
+  letter-spacing: -0.02em;
 }
 
-.offer-btn{
-  min-height:84px;
-  background:var(--offer-bg);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:12px 10px;
-  text-align:left;
-  cursor:pointer;
-  transition:all .16s;
-  font-family:inherit;
-  box-shadow:var(--soft-shadow);
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  gap:6px;
+/* CHECKOUT DRAWER / FORM */
+.checkout-panel{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px 20px;
+  box-shadow: var(--card-shadow);
+  display: none;
+  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 24px;
 }
-.offer-btn:hover{border-color:var(--g);background:rgba(21,167,108,.05);}
-.offer-btn.selected{border-color:var(--g);background:var(--surface2);box-shadow:0 4px 12px rgba(21,167,108,0.1)}
-.ob-name{font-size:.72rem;font-weight:900;color:var(--offer-name);line-height:1.3;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.ob-price{font-family:'Sora',sans-serif;font-size:.95rem;font-weight:900;color:var(--price);letter-spacing:-.02em}
-@media(min-width:700px){
-  .offer-btn{min-height:90px;padding:13px 12px;border-radius:12px;}
-  .ob-name{font-size:.74rem;}
-  .ob-price{font-size:1rem;}
+@keyframes slideUp{
+  from{ opacity: 0; transform: translateY(12px); }
+  to{ opacity: 1; transform: translateY(0); }
 }
 
-/* ── ORDER FORM ── */
-.divider{border:none;height:1px;background:var(--border);margin:18px 0}
-#order-form{display:none}
-.selected-row{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.sr-label{font-size:.65rem;color:var(--gd);font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
-.sr-name{font-size:.85rem;font-weight:700;color:var(--text)}
-.sr-price{font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:800;color:var(--gd)}
-.field{margin-bottom:13px}
-.field label{display:block;font-size:.7rem;font-weight:800;color:var(--text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
-.field input[type="tel"]{width:100%;background:var(--input-bg);border:1px solid var(--border2);border-radius:8px;padding:11px 13px;color:var(--text);font-family:inherit;font-size:.86rem;outline:none;transition:all .15s;font-weight:500}
-.field input[type="tel"]:focus{border-color:var(--y);background:var(--surface)}
-.field input[type="tel"]::placeholder{color:var(--text3);font-weight:400}
-.field-hint{font-size:.69rem;color:var(--text3);margin-top:3px;font-weight:600}
-
-/* Same-number checkbox row */
-.same-num-row{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  margin-bottom:13px;
-  padding:9px 12px;
-  background:var(--surface2);
-  border:1px solid var(--border);
-  border-radius:8px;
-  cursor:pointer;
-  transition:all .15s;
-  user-select:none;
+.checkout-summary-banner{
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
-.same-num-row:hover{border-color:var(--border2)}
-.same-num-row input[type="checkbox"]{
-  appearance:none;-webkit-appearance:none;
-  width:18px;height:18px;flex-shrink:0;
-  border:1.5px solid var(--chk-border);
-  border-radius:4px;
-  background:var(--chk-bg);
-  cursor:pointer;
-  position:relative;
-  transition:all .15s;
+.cs-left small{
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--g);
+  letter-spacing: 0.05em;
 }
-.same-num-row input[type="checkbox"]:checked{
-  background:var(--g);
-  border-color:var(--g);
+.cs-left strong{
+  font-size: 0.95rem;
+  color: var(--text);
 }
-.same-num-row input[type="checkbox"]:checked::after{
-  content:"";
-  position:absolute;
-  left:5px;top:2px;
-  width:5px;height:9px;
-  border-right:2px solid #fff;
-  border-bottom:2px solid #fff;
-  transform:rotate(42deg);
+.cs-price{
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--y);
 }
-.same-num-label-text{font-size:.76rem;font-weight:700;color:var(--text2);line-height:1.35}
-.same-num-label-text small{display:block;font-size:.67rem;color:var(--text3);font-weight:600;margin-top:1px}
 
-#recv-field{transition:opacity .2s;}
-#recv-field.hidden{display:none}
+.field-group{
+  margin-bottom: 16px;
+}
+.field-label{
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.input-with-icon{
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.input-with-icon svg{
+  position: absolute;
+  left: 14px;
+  width: 18px;
+  height: 18px;
+  color: var(--text-soft);
+  pointer-events: none;
+}
+.input-with-icon input{
+  width: 100%;
+  padding-left: 42px !important;
+  font-weight: 600;
+}
+.field-tip{
+  font-size: 0.72rem;
+  color: var(--text-soft);
+  margin-top: 4px;
+}
 
-#form-err{font-size:.76rem;color:var(--red);margin-bottom:11px;display:none;background:rgba(239,68,68,.08);padding:9px 12px;border-radius:8px;border:1px solid rgba(239,68,68,.22)}
-.pay-btn{width:100%;padding:13px;background:var(--y);color:#1a1000;font-weight:800;font-size:.9rem;border:1px solid var(--yd);border-radius:var(--pill);cursor:pointer;transition:all .15s;margin-bottom:7px;font-family:'Sora',sans-serif}
-.pay-btn:hover{background:var(--yd)} .pay-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
-.pay-secure{font-size:.69rem;color:var(--text3);text-align:center;font-weight:700}
-.pay-legal{margin-top:12px;padding:12px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;display:flex;flex-direction:column;gap:7px}
-.pay-legal p{font-size:.67rem;color:var(--text3);line-height:1.6;font-weight:600}
-.pay-legal a{color:var(--g);text-decoration:none;font-weight:800}
-.pay-legal a:hover{text-decoration:underline}
-.pay-legal p:first-child{font-size:.69rem;font-weight:700;color:var(--text2);text-align:center}
-.pay-legal p+p{padding-top:7px;border-top:1px solid var(--border)}
+/* TOGGLE SAME NUMBER */
+.same-num-pill{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  user-select: none;
+  margin-bottom: 16px;
+}
+.same-num-pill input[type="checkbox"]{
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 4px;
+  background: var(--surface);
+  cursor: pointer;
+  position: relative;
+}
+.same-num-pill input[type="checkbox"]:checked{
+  background: var(--g);
+  border-color: var(--g);
+}
+.same-num-pill input[type="checkbox"]:checked::after{
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 5px;
+  height: 9px;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  transform: rotate(42deg);
+}
+.same-num-text strong{
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text);
+}
+.same-num-text small{
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-soft);
+}
 
-/* ── STK SCREEN ── */
+.form-alert{
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  display: none;
+}
+
+.checkout-pay-btn{
+  width: 100%;
+  min-height: 50px;
+  background: var(--y);
+  border: 1px solid var(--yd);
+  color: #060907;
+  font-size: 0.95rem;
+  font-weight: 800;
+  border-radius: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.15s;
+  margin-bottom: 12px;
+}
+.checkout-pay-btn:hover{
+  background: var(--yd);
+}
+.checkout-pay-btn:disabled{
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.trust-strip{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 0.72rem;
+  color: var(--text-soft);
+  font-weight: 600;
+}
+.trust-strip span{
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* CONTACT & CLIENT CARD */
+.agent-contact-box{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: var(--card-shadow);
+  display: none;
+  margin-bottom: 18px;
+}
+.contact-head{
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-soft);
+  margin-bottom: 12px;
+}
+.contact-rows{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.contact-row-item{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.contact-row-icon{
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.contact-row-icon.green{ background: var(--badge-bg); color: var(--g); }
+.contact-row-icon.yellow{ background: var(--tag-yellow-bg); color: var(--yd); }
+.contact-row-text small{
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+.contact-row-text strong{
+  display: block;
+  font-size: 0.84rem;
+  color: var(--text);
+}
+
+.register-banner-box{
+  background: var(--surface);
+  border: 1px dashed var(--border-strong);
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.rb-left strong{
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+.rb-left p{
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+.rb-btn-link{
+  padding: 8px 16px;
+  border-radius: var(--pill);
+  background: var(--g);
+  color: #ffffff !important;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* STK MODAL */
 #stk-screen{
-  position:fixed;inset:0;z-index:190;display:none;
-  align-items:center;justify-content:center;
-  padding:18px;
-  background:rgba(7,10,9,.6);
-  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(6, 9, 7, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
-.stk-overlay-card{
-  width:min(420px,100%);
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:0;
-  box-shadow:var(--soft-shadow);
-  animation:popIn .28s ease both;
-  overflow:hidden;
+.stk-modal-card{
+  width: min(440px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 22px 20px;
+  text-align: center;
+  box-shadow: var(--card-shadow);
 }
-.stk-inner{position:relative;overflow:hidden;padding:22px;text-align:center;border-bottom:1px solid var(--border)}
-.stk-inner::before{content:none;}
-.wait-orb{position:relative;width:60px;height:60px;border-radius:50%;margin:0 auto 14px;background:var(--g);display:flex;align-items:center;justify-content:center}
-.wait-orb::before,.wait-orb::after{content:none;}
-.wait-phone{width:24px;height:36px;border:3px solid rgba(11,15,13,.75);border-radius:6px;background:#fff;}
-.stk-title{position:relative;font-family:'Sora',sans-serif;font-size:1rem;font-weight:900;color:var(--text);margin-bottom:6px}
-.stk-desc{position:relative;font-size:.78rem;color:var(--text2);line-height:1.65;margin-bottom:12px;font-weight:650}
-.stk-sender-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.25);border-radius:var(--pill);font-size:.68rem;font-weight:900;color:var(--yd);margin-bottom:12px;font-family:'Sora',sans-serif;letter-spacing:.04em}
-.stk-sender-tag svg{width:11px;height:11px}
-.stk-status{position:relative;display:inline-flex;align-items:center;gap:8px;font-size:.72rem;color:var(--text2);background:var(--surface2);border:1px solid var(--border);border-radius:var(--pill);padding:7px 13px;margin-bottom:12px;font-weight:800;}
-.stk-status-dot{width:7px;height:7px;border-radius:50%;background:var(--g);}
-.stk-steps{text-align:left;display:flex;flex-direction:column;gap:7px;position:relative}
-.stk-step{display:flex;align-items:flex-start;gap:10px;font-size:.76rem;color:var(--text2);font-weight:650;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 10px}
-.step-n{width:22px;height:22px;border-radius:50%;background:var(--surface);border:1px solid rgba(34,197,94,.3);display:flex;align-items:center;justify-content:center;font-size:.67rem;font-weight:900;color:var(--gd);flex-shrink:0;}
-.stk-cancel-row{padding:12px 22px 16px;text-align:center}
-.stk-cancel-btn{font-size:.72rem;font-weight:800;color:var(--text3);background:none;border:none;cursor:pointer;font-family:inherit;text-decoration:underline;text-underline-offset:3px;transition:color .15s}
-.stk-cancel-btn:hover{color:var(--red)}
+.stk-radar-icon{
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--badge-bg);
+  border: 2px solid var(--g);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  color: var(--g);
+}
+.stk-modal-card h2{
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.stk-sender-badge{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: var(--tag-yellow-bg);
+  border: 1px solid rgba(250, 204, 21, 0.3);
+  border-radius: var(--pill);
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--tag-yellow-color);
+  margin-bottom: 16px;
+}
+.stk-prompt-steps{
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.stk-step-box{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.stk-step-num{
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--g);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.stk-cancel-action{
+  background: none;
+  border: none;
+  color: var(--text-soft);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
 
-/* ── RESULT DIALOG ── */
-.result-dialog{position:fixed;inset:0;z-index:200;display:none;align-items:flex-end;justify-content:center;padding:18px;background:rgba(7,10,9,.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
-.result-card{width:min(400px,100%);background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px 20px 20px;text-align:center;box-shadow:var(--soft-shadow);animation:popIn .28s ease both}
-.result-icon{position:relative;width:64px;height:64px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;}
-.result-icon.success{background:var(--g)}
-.result-icon.fail{background:var(--red)}
-.result-icon.pending{background:var(--y)}
-.result-icon.success::before{content:"";width:12px;height:22px;border-right:3px solid #fff;border-bottom:3px solid #fff;transform:rotate(42deg) translate(-2px,-3px);border-radius:1px}
-.result-icon.fail::before,.result-icon.fail::after{content:"";position:absolute;width:24px;height:4px;background:#fff;border-radius:10px}
-.result-icon.fail::before{transform:rotate(45deg)}.result-icon.fail::after{transform:rotate(-45deg)}
-.result-icon.pending::before{content:"";width:24px;height:24px;border:4px solid rgba(26,16,0,.8);border-top-color:transparent;border-radius:50%;animation:pendingSpin 1s linear infinite}
-.result-icon.pending::after{content:none;}
-.result-title{font-family:'Sora',sans-serif;font-size:1.06rem;font-weight:900;color:var(--text);margin-bottom:7px}
-.result-message{font-size:.82rem;color:var(--text2);line-height:1.65;font-weight:650;margin-bottom:18px}
-.result-ref{font-size:.7rem;color:var(--text3);margin-bottom:18px;font-weight:700;margin-top:-12px}
-.result-ok{width:100%;padding:12px 18px;border:none;border-radius:var(--pill);font-family:'Sora',sans-serif;font-size:.86rem;font-weight:900;cursor:pointer;color:#1a1000;background:var(--y);border:1px solid var(--yd)}
-.result-ok:hover{background:var(--yd)}
+/* RESULT DIALOG */
+.result-dialog{
+  position: fixed;
+  inset: 0;
+  z-index: 160;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(6, 9, 7, 0.75);
+  backdrop-filter: blur(6px);
+}
+.result-card{
+  width: min(400px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 22px 22px;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+}
+.result-icon{
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+.result-icon.success{ background: var(--g); color: #ffffff; }
+.result-icon.fail{ background: var(--red); color: #ffffff; }
+.result-icon.pending{ background: var(--y); color: #060907; }
+.result-card h2{
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.result-card p{
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-bottom: 16px;
+}
+.result-ref-code{
+  font-size: 0.74rem;
+  color: var(--g);
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+.result-action-btn{
+  width: 100%;
+  padding: 12px;
+  background: var(--y);
+  border: 1px solid var(--yd);
+  color: #060907;
+  font-weight: 800;
+  border-radius: var(--pill);
+  cursor: pointer;
+}
 
-/* ── ANIMATIONS ── */
-@keyframes popIn{from{opacity:0;transform:translateY(18px) scale(.96)}to{opacity:1;transform:none}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-@keyframes pendingSpin{to{transform:rotate(360deg)}}
+/* LOADING & ERROR */
+#loading{
+  text-align: center;
+  padding: 48px 0;
+}
+.spinner{
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--border-strong);
+  border-top-color: var(--g);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 12px;
+}
+@keyframes spin{ to{ transform: rotate(360deg); } }
+#error-state{
+  text-align: center;
+  padding: 40px 16px;
+  display: none;
+}
 
-/* ── MISC ── */
-.register-banner{display:none;margin-top:12px;padding:9px 10px;background:var(--surface2);border:1px dashed var(--border);border-radius:8px;align-items:center;justify-content:space-between;gap:10px}
-.rb-text{font-size:.68rem;color:var(--text3);line-height:1.35;font-weight:650}
-.rb-text strong{color:var(--text2);font-weight:800;font-family:'Sora',sans-serif;display:inline;margin-right:4px}
-.rb-btn{flex-shrink:0;font-size:.68rem;font-weight:900;padding:6px 10px;background:var(--surface);border:1px solid var(--border);color:var(--g);border-radius:var(--pill);cursor:pointer;font-family:'Sora',sans-serif;text-decoration:none;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;transition:all .15s}
-.rb-btn:hover{background:var(--surface2)}
-.contact-card{margin-top:16px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:background .25s,border-color .25s}
-.contact-card-title{font-size:.66rem;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;padding:10px 14px 6px}
-.contact-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--border)}
-.contact-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.contact-label{font-size:.67rem;color:var(--text3);margin-bottom:1px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
-.contact-value{font-size:.83rem;font-weight:700;color:var(--text2)}
-.contact-value a{color:var(--text2);text-decoration:none;transition:color .15s}.contact-value a:hover{color:var(--g)}
-.page-support{width:100%;max-width:900px;margin-top:12px;font-size:.62rem;color:var(--text3);text-align:center;font-weight:600}
-.page-support a{color:var(--text3);font-weight:800;text-decoration:underline;text-underline-offset:2px}
-.page-support a:hover{color:var(--g)}
-footer{background:var(--surface);border-top:1px solid var(--border);padding:18px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;transition:background .25s,border-color .25s}
-.ft-logo{display:flex;align-items:center;gap:7px;text-decoration:none}
-.ft-logo img{width:22px;height:22px;border-radius:6px;object-fit:contain;}
-.ft-name{font-family:'Sora',sans-serif;font-size:.8rem;font-weight:700;color:var(--text2)}
-.ft-copy{font-size:.71rem;color:var(--text3);font-weight:600}
-@media(max-width:480px){footer{flex-direction:column;text-align:center}}
-@media(min-width:700px){.result-dialog{align-items:center;padding:18px}.result-card{border-radius:16px}}
+/* RESPONSIVENESS */
+@media(max-width: 600px){
+  .agent-hero-card{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .offers-grid{
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .contact-rows{
+    grid-template-columns: 1fr;
+  }
+}
 </style>
-<!-- Shared flat theme tokens keep public order pages visually consistent with the public site. -->
-<link rel="stylesheet" href="/site-theme.css?v=20260830-2">
-<script src="/site-theme.js?v=20260830" defer></script>
 </head>
 <body>
 
-<header>
-  <a class="logo" href="/"><img src="/logo.png" alt="Bingwa Flash"><span class="logo-text">Bingwa <b>Flash</b></span></a>
-  <button class="thm" id="thm-btn" data-theme-toggle title="Toggle theme" aria-label="Toggle dark/light mode">
-    <svg id="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-    <svg id="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-  </button>
+<header class="order-header">
+  <a class="order-brand" href="/" aria-label="Bingwa Flash home">
+    <img src="/logo.png" alt="Bingwa Flash">
+    <span>Bingwa <b>Flash</b></span>
+  </a>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="header-trust">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Secure Order Desk
+    </div>
+    <button class="thm" id="thm-btn" data-theme-toggle title="Toggle theme" aria-label="Toggle theme">
+      ☼
+    </button>
+  </div>
 </header>
 
-<div id="agent-bar" class="agent-bar">
-  <div class="ag-av" id="ag-av">?</div>
-  <div class="ag-info">
-    <div class="ag-title">
-      <div class="ag-name" id="ag-name"></div>
-      <svg class="verified-badge" id="verified-badge" viewBox="0 0 24 24" aria-label="Verified agent" role="img">
-        <path fill="currentColor" d="M22 12l-2.44-2.78.34-3.68-3.61-.82-1.89-3.18L11 3 7.6 1.54 5.71 4.72l-3.61.82.34 3.68L0 12l2.44 2.78-.34 3.68 3.61.82 1.89 3.18L11 21l3.4 1.46 1.89-3.18 3.61-.82-.34-3.68L22 12z" transform="translate(1 0)"/>
-        <path fill="#fff" d="M9.2 15.8L5.7 12.3l1.4-1.4 2.1 2.1 5-5 1.4 1.4z"/>
-      </svg>
-    </div>
-    <div class="ag-handle" id="ag-handle"></div>
-    <div class="ag-verified-note" id="ag-verified-note">This agent has been verified by BINGWA FLASH</div>
+<main class="order-main">
+  <!-- Loading state -->
+  <div id="loading">
+    <div class="spinner"></div>
+    <div style="font-size:0.84rem;color:var(--text-muted);font-weight:700;">Loading verified offers...</div>
   </div>
-  <div class="ag-live"><div class="ag-dot"></div>Online</div>
-</div>
 
-<main>
-  <div class="card">
-    <div class="card-body">
+  <!-- Maintenance state -->
+  <div id="maintenance-state" style="display:none;text-align:center;padding:48px 16px;">
+    <div style="width:64px;height:64px;border-radius:50%;background:rgba(250,204,21,0.15);border:1px solid rgba(250,204,21,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--y);">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+    </div>
+    <h2 style="font-size:1.25rem;font-weight:800;margin-bottom:8px;">Order Desk Maintenance</h2>
+    <p id="maint-sub" style="font-size:0.86rem;color:var(--text-muted);max-width:480px;margin:0 auto 20px;">This agent's order desk is temporarily unavailable. Please check back shortly.</p>
+    <div id="maint-contact-value" style="font-size:0.84rem;font-weight:700;color:var(--text);"></div>
+  </div>
 
-      <div id="loading"><div class="spin"></div><div class="spin-label">Loading offers...</div></div>
+  <!-- Error state -->
+  <div id="error-state">
+    <img src="/logo.png" alt="" style="width:48px;height:48px;opacity:0.6;margin-bottom:12px;">
+    <div id="err-msg" style="font-size:0.88rem;color:var(--text-muted);font-weight:600;"></div>
+  </div>
 
-      <!-- MAINTENANCE STATE -->
-      <div id="maintenance-state">
-        <div class="maint-gfx">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
-          </svg>
-        </div>
-        <div class="maint-badge"><div class="maint-dot"></div>Under Maintenance</div>
-        <div class="maint-title">We'll Be Back Soon</div>
-        <div class="maint-sub" id="maint-sub">This service is temporarily unavailable while we perform scheduled maintenance. Please check back shortly.</div>
-        <div class="maint-contact-card">
-          <div class="maint-contact-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 15.92z"/></svg>
-          </div>
-          <div>
-            <div class="maint-contact-label">Need help?</div>
-            <div class="maint-contact-value" id="maint-contact-value">Contact your agent directly.</div>
+  <!-- Main Content View -->
+  <div id="content" style="display:none;">
+    <!-- Agent Hero / Verification Bar -->
+    <div class="agent-hero-card" id="agent-bar">
+      <div class="agent-left">
+        <div class="ag-avatar" id="ag-av">?</div>
+        <div class="ag-meta">
+          <h1>
+            <span id="ag-name">Agent</span>
+            <svg class="verified-icon" id="verified-badge" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M22 12l-2.44-2.78.34-3.68-3.61-.82-1.89-3.18L11 3 7.6 1.54 5.71 4.72l-3.61.82.34 3.68L0 12l2.44 2.78-.34 3.68 3.61.82 1.89 3.18L11 21l3.4 1.46 1.89-3.18 3.61-.82-.34-3.68L22 12z"/>
+            </svg>
+          </h1>
+          <div class="ag-sub">
+            <span id="ag-handle">OFFICIAL AGENT</span>
+            <span id="ag-verified-note" style="display:none;color:var(--g);font-weight:800;">· Verified</span>
           </div>
         </div>
       </div>
+      <div class="ag-status-pill">
+        <span class="dot"></span>
+        <span>Online &amp; Instant Delivery</span>
+      </div>
+    </div>
 
-      <div id="error-state">
-        <div class="err-icon"><img src="/logo.png" alt=""></div>
-        <div class="err-text" id="err-msg">Something went wrong.</div>
+    <!-- Catalog Section -->
+    <div class="catalog-head">
+      <h2>Select Your Offer</h2>
+      <p>Choose an airtime or bundle package below to begin checkout.</p>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="category-tabs" id="categoryTabs"></div>
+
+    <!-- Dynamic Offers Container -->
+    <div id="offers-container"></div>
+
+    <!-- Checkout Panel Drawer -->
+    <div class="checkout-panel" id="order-form">
+      <div class="checkout-summary-banner">
+        <div class="cs-left">
+          <small>Selected Package</small>
+          <strong id="sel-name">-</strong>
+        </div>
+        <div class="cs-price" id="sel-price">-</div>
       </div>
 
-      <div id="content">
-        <div class="sec-ttl">Available Offers</div>
-        <div class="sec-sub">Select an offer to get started</div>
-        <div id="offers-container"></div>
-        <div class="divider"></div>
+      <!-- Payment Phone Input -->
+      <div class="field-group">
+        <label class="field-label">M-Pesa Payment Number</label>
+        <div class="input-with-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 15.92z"/></svg>
+          <input id="pay-phone" type="tel" placeholder="07XX XXX XXX or 01XX XXX XXX" inputmode="numeric" maxlength="10" oninput="syncSameNumber()">
+        </div>
+        <div class="field-tip">STK prompt will be sent from <strong>FLASH PAY SERVICES</strong></div>
+      </div>
 
-        <div id="order-form">
-          <div class="selected-row">
-            <div><div class="sr-label">Selected Offer</div><div class="sr-name" id="sel-name">-</div></div>
-            <div class="sr-price" id="sel-price">-</div>
+      <!-- Same Number Checkbox -->
+      <label class="same-num-pill" for="same-num-chk">
+        <input type="checkbox" id="same-num-chk" onchange="toggleSameNumber()">
+        <div class="same-num-text">
+          <strong>Paying &amp; receiving numbers are the same</strong>
+          <small>Uncheck if buying for a friend or another phone</small>
+        </div>
+      </label>
+
+      <!-- Receiving Phone Input (Hidden when checked) -->
+      <div class="field-group" id="recv-field">
+        <label class="field-label">Receiving Number</label>
+        <div class="input-with-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          <input id="recv-phone" type="tel" placeholder="07XX XXX XXX" inputmode="numeric" maxlength="10">
+        </div>
+        <div class="field-tip">The destination phone number that receives the airtime/bundle</div>
+      </div>
+
+      <div class="form-alert" id="form-err"></div>
+
+      <button class="checkout-pay-btn" id="pay-btn" onclick="submitOrder()">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span>Pay via M-Pesa</span>
+      </button>
+
+      <div class="trust-strip">
+        <span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> M-Pesa STK Push</span>
+        <span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Automated USSD</span>
+        <span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> 100% Secure</span>
+      </div>
+    </div>
+
+    <!-- Agent Contact Card -->
+    <div class="agent-contact-box" id="contact-card">
+      <div class="contact-head">Agent Payment &amp; Contact Info</div>
+      <div class="contact-rows">
+        <div class="contact-row-item" id="contact-phone-row" style="display:none;">
+          <div class="contact-row-icon green">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 15.92z"/></svg>
           </div>
-
-          <!-- Payment number -->
-          <div class="field">
-            <label>M-Pesa Payment Number</label>
-            <input id="pay-phone" type="tel" placeholder="07XX XXX XXX" inputmode="numeric" maxlength="10" oninput="syncSameNumber()">
-            <div class="field-hint">STK push from <strong>FLASH PAY SERVICES</strong> will be sent to this number</div>
-          </div>
-
-          <!-- Same-number checkbox -->
-          <label class="same-num-row" id="same-num-row" for="same-num-chk">
-            <input type="checkbox" id="same-num-chk" onchange="toggleSameNumber()">
-            <div class="same-num-label-text">
-              Paying &amp; receiving number are the same
-              <small>Tick this to auto-fill the receiving number</small>
-            </div>
-          </label>
-
-          <!-- Receiving number (hidden when checkbox checked) -->
-          <div class="field" id="recv-field">
-            <label>Receiving Number</label>
-            <input id="recv-phone" type="tel" placeholder="07XX XXX XXX" inputmode="numeric" maxlength="10">
-            <div class="field-hint">Number that receives the bundle or airtime</div>
-          </div>
-
-          <div id="form-err"></div>
-          <button class="pay-btn" id="pay-btn" onclick="submitOrder()">Pay -</button>
-          <div class="pay-secure">Secured by M-Pesa &middot; Powered by Bingwa Flash</div>
-          <div class="pay-legal">
-            <p>By continuing you agree to our <a href="https://bingwaflash.co.ke/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://bingwaflash.co.ke/terms" target="_blank" rel="noopener">Terms of Service</a>.</p>
+          <div class="contact-row-text">
+            <small>Direct Phone</small>
+            <strong id="contact-phone">-</strong>
           </div>
         </div>
-
-        <!-- Contact card -->
-        <div class="contact-card" id="contact-card" style="display:none">
-          <div class="contact-card-title">Contact Agent</div>
-          <div class="contact-row" id="contact-phone-row" style="display:none">
-            <div class="contact-icon" style="background:rgba(34,197,94,.1)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gd)" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 15.92z"/></svg>
-            </div>
-            <div><div class="contact-label">Phone Number</div><div class="contact-value" id="contact-phone"></div></div>
+        <div class="contact-row-item" id="contact-payment-row" style="display:none;">
+          <div class="contact-row-icon yellow">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
           </div>
-          <div class="contact-row" id="contact-payment-row" style="display:none">
-            <div class="contact-icon" style="background:rgba(245,197,24,.12)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--yd)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
-            </div>
-            <div><div class="contact-label" id="contact-payment-label">Payment</div><div class="contact-value" id="contact-payment"></div><div class="field-hint" id="contact-payment-hint"></div></div>
+          <div class="contact-row-text">
+            <small id="contact-payment-label">Payment Mode</small>
+            <strong id="contact-payment">-</strong>
+            <span id="contact-payment-hint" style="display:none;"></span>
           </div>
         </div>
+      </div>
+    </div>
 
-        <!-- Register banner -->
-        <div class="register-banner" id="register-banner">
-          <div class="rb-text">
-            <strong>Want faster service?</strong>
-            Register as a client so your agent can recommend offers directly to your number.
-          </div>
-          <a class="rb-btn" id="register-link" href="#">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="13" height="13"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
-            Register
-          </a>
-        </div>
-
-      </div><!-- /#content -->
-    </div><!-- /.card-body -->
-  </div><!-- /.card -->
-  <!-- Reporting contact belongs below the complete order card, not inside checkout. -->
-  <div class="page-support">For concerns, fraud or reports, email us <a href="mailto:support@bingwaflash.co.ke">here</a>.</div>
+    <!-- Client Registration Banner -->
+    <div class="register-banner-box" id="register-banner">
+      <div class="rb-left">
+        <strong>Want instant automatic recommendations?</strong>
+        <p>Register as a regular client with this agent for priority deliveries.</p>
+      </div>
+      <a class="rb-btn-link" id="register-link" href="#">Register Client</a>
+    </div>
+  </div>
 </main>
 
-<footer>
-  <a class="ft-logo" href="/"><img src="/logo.png" alt="Bingwa Flash"><span class="ft-name">Bingwa Flash</span></a>
-  <div class="ft-copy">&copy; 2026 Bingwa Flash</div>
-</footer>
+<!-- Fullscreen STK Prompt Overlay -->
+<div id="stk-screen" role="dialog" aria-modal="true">
+  <div class="stk-modal-card">
+    <div class="stk-radar-icon">
+      <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+    </div>
+    <h2>Approve M-Pesa Payment</h2>
+    <div class="stk-sender-badge">
+      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      Prompt From: FLASH PAY SERVICES
+    </div>
+    <div class="stk-prompt-steps">
+      <div class="stk-step-box">
+        <div class="stk-step-num">1</div>
+        <div>Check your phone for the <strong>M-Pesa PIN prompt</strong></div>
+      </div>
+      <div class="stk-step-box">
+        <div class="stk-step-num">2</div>
+        <div>Enter your M-Pesa PIN to complete payment</div>
+      </div>
+      <div class="stk-step-box">
+        <div class="stk-step-num">3</div>
+        <div>This screen automatically finishes once confirmed</div>
+      </div>
+    </div>
+    <button class="stk-cancel-action" onclick="cancelStkOverlay()">Didn't get prompt? Cancel and retry</button>
+  </div>
+</div>
+
+<!-- Result Modal Overlay -->
+<div class="result-dialog" id="result-dialog" role="dialog" aria-modal="true">
+  <div class="result-card">
+    <div class="result-icon success" id="result-icon">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h2 id="result-title">Payment Confirmed</h2>
+    <p id="result-message">Your order has been received and is being processed.</p>
+    <div class="result-ref-code" id="result-ref" style="display:none;"></div>
+    <button class="result-action-btn" id="result-ok" onclick="closeResultDialog()">OK</button>
+  </div>
+</div>
 
 <script>
-/* ── Same-number checkbox helpers ── */
-window.toggleSameNumber=function(){
-  var chk=document.getElementById('same-num-chk');
-  var recvField=document.getElementById('recv-field');
-  if(chk.checked){
-    recvField.classList.add('hidden');
-    document.getElementById('recv-phone').value=document.getElementById('pay-phone').value;
-  }else{
-    recvField.classList.remove('hidden');
+/* ── Same-number helpers ── */
+window.toggleSameNumber = function() {
+  var chk = document.getElementById('same-num-chk');
+  var recvField = document.getElementById('recv-field');
+  if (chk.checked) {
+    recvField.style.display = 'none';
+    document.getElementById('recv-phone').value = document.getElementById('pay-phone').value;
+  } else {
+    recvField.style.display = 'block';
   }
 };
-window.syncSameNumber=function(){
-  var chk=document.getElementById('same-num-chk');
-  if(chk&&chk.checked){
-    document.getElementById('recv-phone').value=document.getElementById('pay-phone').value;
+window.syncSameNumber = function() {
+  var chk = document.getElementById('same-num-chk');
+  if (chk && chk.checked) {
+    document.getElementById('recv-phone').value = document.getElementById('pay-phone').value;
   }
 };
 </script>
 
 <script type="module">
-import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import{getFirestore,doc,getDoc,collection,query,where,getDocs}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const FC={apiKey:"AIzaSyBMf_Kc6gFA30TiiqTvPGEUOHRD0ikpL9c",authDomain:"bingwa-flash.firebaseapp.com",projectId:"bingwa-flash",storageBucket:"bingwa-flash.firebasestorage.app",messagingSenderId:"141272100218",appId:"1:141272100218:web:bcfc60bfd8e5945cedbac3"};
-const app=initializeApp(FC);const db=getFirestore(app);
-const FURL="https://initiateorder-kerhygd7aa-uc.a.run.app";
-const STATUS_URL="https://getorderstatus-kerhygd7aa-uc.a.run.app";
-const params=new URLSearchParams(window.location.search);
-const USERNAME=(params.get("u")||"").toLowerCase();
-const SITE_URL="https://bingwaflash.co.ke";
-let agentProfile=null,selectedOffer=null;
-let activeTxId=null,stkPollInterval=null,lastPaymentResult="",pendingDialogShownForTx="";
+const FC = {
+  apiKey: "AIzaSyBMf_Kc6gFA30TiiqTvPGEUOHRD0ikpL9c",
+  authDomain: "bingwa-flash.firebaseapp.com",
+  projectId: "bingwa-flash",
+  storageBucket: "bingwa-flash.firebasestorage.app",
+  messagingSenderId: "141272100218",
+  appId: "1:141272100218:web:bcfc60bfd8e5945cedbac3"
+};
+const app = initializeApp(FC);
+const db = getFirestore(app);
+const FURL = "https://initiateorder-kerhygd7aa-uc.a.run.app";
+const STATUS_URL = "https://getorderstatus-kerhygd7aa-uc.a.run.app";
+const params = new URLSearchParams(window.location.search);
+const USERNAME = (params.get("u") || "").toLowerCase();
+const SITE_URL = "https://bingwaflash.co.ke";
 
-function el(id){return document.getElementById(id);}
-function cleanPreviewText(value){
-  return String(value||"").replace(/\s+/g," ").trim();
-}
-function setMetaContent(selector,value){
-  const node=document.head.querySelector(selector);
-  const text=cleanPreviewText(value);
-  if(node&&text)node.setAttribute("content",text);
-}
-function updateCanonical(url){
-  const link=document.head.querySelector('link[rel="canonical"]');
-  if(link)link.setAttribute("href",url);
-}
-function paymentPreviewLine(info){
-  if(!info)return"Payment mode is shown on the order page";
-  if(info.mode==="SEND_MONEY")return"Payment mode: Send Money to "+info.number;
-  if(info.mode==="PAYBILL")return"Payment mode: Paybill "+info.number+"; account number is your receiving/payment number";
-  return"Payment mode: Till Number "+info.number;
-}
-function offersPreviewLine(offers){
-  if(!Array.isArray(offers)||!offers.length)return"Open the page to view active offers";
-  const preview=offers.slice(0,3).map(o=>{
-    const name=cleanPreviewText(o.name||"Offer");
-    const price=Number(o.agentPrice||0);
-    return price>0?name+" KSh "+price:name;
-  }).filter(Boolean);
-  if(!preview.length)return"Open the page to view active offers";
-  return"Offers include "+preview.join(", ")+(offers.length>preview.length?", and more":"");
-}
-function updateAgentSharePreview(agent,offers=[]){
-  if(!agent)return;
-  const agentName=cleanPreviewText(agent.agentName||USERNAME||"Bingwa Flash Agent");
-  const businessName=cleanPreviewText(agent.businessName||agentName);
-  const sameName=businessName.toLowerCase()===agentName.toLowerCase();
-  const title=(sameName?businessName:(businessName+" - "+agentName))+" | Bingwa Flash";
-  const owner=sameName?businessName:(businessName+" ("+agentName+")");
-  const description=owner+" is taking Bingwa Flash web orders. "+paymentPreviewLine(agentPaymentInfo(agent))+". "+offersPreviewLine(offers)+". Pay securely with M-Pesa STK push.";
-  const username=cleanPreviewText(agent.username||USERNAME).toLowerCase();
-  const shareUrl=username?SITE_URL+"/"+encodeURIComponent(username):SITE_URL+"/order/";
+let agentProfile = null, selectedOffer = null;
+let activeTxId = null, stkPollInterval = null, lastPaymentResult = "", pendingDialogShownForTx = "";
+let allOffers = [];
 
-  // Share-preview tags are updated from Firestore for browsers. Static crawlers still need server-rendered HTML for guaranteed per-agent cards.
-  document.title=title;
-  updateCanonical(shareUrl);
-  setMetaContent('meta[name="description"]',description);
-  setMetaContent('meta[property="og:title"]',title);
-  setMetaContent('meta[property="og:description"]',description);
-  setMetaContent('meta[property="og:url"]',shareUrl);
-  setMetaContent('meta[name="twitter:title"]',title);
-  setMetaContent('meta[name="twitter:description"]',description);
+function el(id) { return document.getElementById(id); }
+
+function setPayButtonLabel(amount) {
+  const btn = el("pay-btn");
+  if (btn) {
+    const text = amount ? `Pay KSh ${amount} via M-Pesa` : "Pay via M-Pesa";
+    btn.querySelector("span").textContent = text;
+  }
 }
-function setPayButtonLabel(amount){
-  const btn=el("pay-btn");
-  if(btn)btn.textContent=amount?("Pay KSh "+amount):"Pay -";
+
+function normalizePaymentMode(value) {
+  const clean = String(value || "").trim().toUpperCase().replace(/[-\s]+/g, "_");
+  if (clean === "SEND" || clean === "SENDMONEY" || clean === "SEND_MONEY") return "SEND_MONEY";
+  if (clean === "PAYBILL" || clean === "PAY_BILL") return "PAYBILL";
+  if (clean === "TILL" || clean === "BUY_GOODS" || clean === "BUYGOODS") return "TILL";
+  return "";
 }
-function normalizePaymentMode(value){
-  const clean=String(value||"").trim().toUpperCase().replace(/[-\s]+/g,"_");
-  if(clean==="SEND"||clean==="SENDMONEY"||clean==="SEND_MONEY")return"SEND_MONEY";
-  if(clean==="PAYBILL"||clean==="PAY_BILL")return"PAYBILL";
-  if(clean==="TILL"||clean==="BUY_GOODS"||clean==="BUYGOODS")return"TILL";
-  return"";
-}
-function validAgentPaymentNumber(mode,number){
-  const n=String(number||"").replace(/\D/g,"");
-  if(mode==="SEND_MONEY")return/^0[17]\d{8}$/.test(n);
-  if(mode==="TILL"||mode==="PAYBILL")return/^\d{6,7}$/.test(n);
+
+function validAgentPaymentNumber(mode, number) {
+  const n = String(number || "").replace(/\D/g, "");
+  if (mode === "SEND_MONEY") return /^0[17]\d{8}$/.test(n);
+  if (mode === "TILL" || mode === "PAYBILL") return /^\d{6,7}$/.test(n);
   return false;
 }
-function agentPaymentInfo(agent,receivePhone=""){
-  if(!agent)return null;
-  let mode=normalizePaymentMode(agent.paymentMode||agent.payoutType);
-  const send=String(agent.sendMoneyPhoneNumber||agent.payoutPhoneNumber||"").replace(/\D/g,"");
-  const till=String(agent.tillNumber||agent.payoutTillNumber||"").replace(/\D/g,"");
-  const paybill=String(agent.paybillNumber||agent.payoutPaybillNumber||"").replace(/\D/g,"");
-  if(!mode){mode=paybill?"PAYBILL":(send?"SEND_MONEY":"TILL");}
-  const number=mode==="SEND_MONEY"?send:(mode==="PAYBILL"?paybill:till);
-  if(!validAgentPaymentNumber(mode,number))return null;
-  if(mode==="SEND_MONEY")return{mode,label:"Send Money",number,line:"Send money to "+number,hint:"Send payment directly to this agent number."};
-  if(mode==="PAYBILL"){
-    const account=String(receivePhone||"").trim()||"your receiving/payment number";
-    return{mode,label:"Paybill",number,line:"Paybill "+number,hint:"Account number: "+account};
-  }
-  return{mode,label:"Till Number",number,line:"Till Number "+number,hint:"Pay using Buy Goods."};
-}
-function renderAgentPaymentDetails(){
-  const info=agentPaymentInfo(agentProfile);
-  const row=el("contact-payment-row");
-  if(!row||!info){if(row)row.style.display="none";return;}
-  el("contact-payment-label").textContent=info.label;
-  el("contact-payment").textContent=info.line;
-  el("contact-payment-hint").textContent=info.hint;
-  row.style.display="flex";
-}
-function showError(m){el("loading").style.display="none";el("error-state").style.display="block";el("err-msg").innerHTML=m;}
-function showMaintenance(agentName,agentPhone){
-  el("loading").style.display="none";el("agent-bar").style.display="none";el("content").style.display="none";el("error-state").style.display="none";
-  const cv=el("maint-contact-value");
-  cv.textContent="Please check back shortly.";
-  el("maint-sub").textContent="This service is temporarily unavailable while we perform scheduled maintenance. Please check back shortly.";
-  if(agentPhone){cv.innerHTML=`Call your agent: <a href="tel:${agentPhone}">${agentPhone}</a>`;}
-  else if(agentName){cv.textContent="Contact "+agentName+" directly.";}
-  if(agentName){el("maint-sub").textContent=agentName+"'s order page is temporarily under maintenance. Please check back soon.";}
-  el("maintenance-state").style.display="block";
-}
-function tsMillis(v){
-  if(!v)return 0;if(typeof v.toMillis==="function")return v.toMillis();
-  if(typeof v.toDate==="function")return v.toDate().getTime();if(typeof v==="number")return v;return 0;
-}
-async function loadSubscriptionConfig(){
-  try{
-    const s=await getDoc(doc(db,"config","subscription"));
-    if(!s.exists())return{configured:false,pricePerMonth:1};
-    const d=s.exists()?s.data():{};
-    return{configured:true,pricePerMonth:Math.max(0,Number(d.pricePerMonth||0))};
-  }catch(_){return{configured:false,pricePerMonth:1};}
-}
-function hasActiveWebOrderSubscription(agent,cfg){
-  if(!cfg.configured)return false;
-  if(Number(cfg.pricePerMonth||0)<=0)return true;
-  return tsMillis(agent.webOrderSubscriptionUntil)>Date.now();
-}
-async function loadLiveAgentGate(uid){
-  if(!uid)return{state:"missing"};
-  try{
-    const snap=await getDoc(doc(db,"agents",uid));
-    if(!snap.exists())return{state:"missing"};
-    return{state:"ok",profile:snap.data()||{}};
-  }catch(err){
-    const code=String(err?.code||err?.message||"").toLowerCase();
-    if(code.includes("permission-denied")||code.includes("not-found"))return{state:"denied"};
-    return{state:"error",error:err};
-  }
-}
-async function loadAgentBundle(username){
-  const publicSnap=await getDoc(doc(db,"publicAgents",username));
-  if(publicSnap.exists()){
-    const profile=publicSnap.data();profile.username=profile.username||username;profile.uid=profile.uid||"";
-    if(profile.uid)return{profile,uid:profile.uid,offersJson:String(profile.offersJson||"")};
-  }
-  const q=query(collection(db,"agents"),where("username","==",username));
-  const snap=await getDocs(q);if(snap.empty)return null;
-  const profile=snap.docs[0].data();profile.uid=profile.uid||snap.docs[0].id;profile.username=profile.username||username;
-  return{profile,uid:snap.docs[0].id,offersJson:""};
+
+function agentPaymentInfo(agent, receivePhone = "") {
+  if (!agent) return null;
+  let mode = normalizePaymentMode(agent.paymentMode || agent.payoutType);
+  const send = String(agent.sendMoneyPhoneNumber || agent.payoutPhoneNumber || "").replace(/\D/g, "");
+  const till = String(agent.tillNumber || agent.payoutTillNumber || "").replace(/\D/g, "");
+  const paybill = String(agent.paybillNumber || agent.payoutPaybillNumber || "").replace(/\D/g, "");
+  if (!mode) { mode = paybill ? "PAYBILL" : (send ? "SEND_MONEY" : "TILL"); }
+  const number = mode === "SEND_MONEY" ? send : (mode === "PAYBILL" ? paybill : till);
+  if (!validAgentPaymentNumber(mode, number)) return null;
+  if (mode === "SEND_MONEY") return { mode, label: "Send Money", number, line: number };
+  if (mode === "PAYBILL") return { mode, label: "Paybill", number, line: number };
+  return { mode, label: "Till Number", number, line: number };
 }
 
-async function loadCurrentOffersJson(bundle){
-  // The public mirror keeps the order page fast, but agents/{uid}/meta/offers
-  // is the live source of truth. Read it first so a stale public mirror cannot
-  // hide newly enabled website offers after an app save.
-  if(bundle.uid){
-    try{
-      const liveSnap=await getDoc(doc(db,"agents",bundle.uid,"meta","offers"));
-      if(liveSnap.exists()){
-        const liveJson=String(liveSnap.data().json||"");
-        if(liveJson)return liveJson;
+function renderAgentPaymentDetails() {
+  const info = agentPaymentInfo(agentProfile);
+  const row = el("contact-payment-row");
+  if (!row || !info) { if (row) row.style.display = "none"; return; }
+  el("contact-payment-label").textContent = info.label;
+  el("contact-payment").textContent = info.line;
+  row.style.display = "flex";
+}
+
+function showError(m) {
+  el("loading").style.display = "none";
+  el("error-state").style.display = "block";
+  el("err-msg").innerHTML = m;
+}
+
+function showMaintenance(agentName, agentPhone) {
+  el("loading").style.display = "none";
+  el("agent-bar").style.display = "none";
+  el("content").style.display = "none";
+  el("error-state").style.display = "none";
+  const cv = el("maint-contact-value");
+  cv.textContent = "Please check back shortly.";
+  if (agentPhone) { cv.innerHTML = `Call agent: <a href="tel:${agentPhone}" style="color:var(--g);">${agentPhone}</a>`; }
+  else if (agentName) { cv.textContent = "Contact " + agentName + " directly."; }
+  if (agentName) { el("maint-sub").textContent = agentName + "'s order desk is temporarily under maintenance."; }
+  el("maintenance-state").style.display = "block";
+}
+
+function tsMillis(v) {
+  if (!v) return 0;
+  if (typeof v.toMillis === "function") return v.toMillis();
+  if (typeof v.toDate === "function") return v.toDate().getTime();
+  if (typeof v === "number") return v;
+  return 0;
+}
+
+async function loadSubscriptionConfig() {
+  try {
+    const s = await getDoc(doc(db, "config", "subscription"));
+    if (!s.exists()) return { configured: false, pricePerMonth: 1 };
+    const d = s.data();
+    return { configured: true, pricePerMonth: Math.max(0, Number(d.pricePerMonth || 0)) };
+  } catch (_) { return { configured: false, pricePerMonth: 1 }; }
+}
+
+function hasActiveWebOrderSubscription(agent, cfg) {
+  if (!cfg.configured) return false;
+  if (Number(cfg.pricePerMonth || 0) <= 0) return true;
+  return tsMillis(agent.webOrderSubscriptionUntil) > Date.now();
+}
+
+async function loadLiveAgentGate(uid) {
+  if (!uid) return { state: "missing" };
+  try {
+    const snap = await getDoc(doc(db, "agents", uid));
+    if (!snap.exists()) return { state: "missing" };
+    return { state: "ok", profile: snap.data() || {} };
+  } catch (err) {
+    const code = String(err?.code || err?.message || "").toLowerCase();
+    if (code.includes("permission-denied") || code.includes("not-found")) return { state: "denied" };
+    return { state: "error", error: err };
+  }
+}
+
+async function loadAgentBundle(username) {
+  const publicSnap = await getDoc(doc(db, "publicAgents", username));
+  if (publicSnap.exists()) {
+    const profile = publicSnap.data();
+    profile.username = profile.username || username;
+    profile.uid = profile.uid || "";
+    if (profile.uid) return { profile, uid: profile.uid, offersJson: String(profile.offersJson || "") };
+  }
+  const q = query(collection(db, "agents"), where("username", "==", username));
+  const snap = await getDocs(q);
+  if (snap.empty) return null;
+  const profile = snap.docs[0].data();
+  profile.uid = profile.uid || snap.docs[0].id;
+  profile.username = profile.username || username;
+  return { profile, uid: snap.docs[0].id, offersJson: "" };
+}
+
+async function loadCurrentOffersJson(bundle) {
+  if (bundle.uid) {
+    try {
+      const liveSnap = await getDoc(doc(db, "agents", bundle.uid, "meta", "offers"));
+      if (liveSnap.exists()) {
+        const liveJson = String(liveSnap.data().json || "");
+        if (liveJson) return liveJson;
       }
-    }catch(_){}
+    } catch (_) {}
   }
-  return String(bundle.offersJson||"");
+  return String(bundle.offersJson || "");
 }
 
-async function init(){
-  if(!USERNAME){showError("No agent username in URL.");return;}
-  try{
-    try{
-      const cfgSnap=await getDoc(doc(db,"config","global_settings"));
-      if(cfgSnap.exists()&&cfgSnap.data().websitesMaintenance===true){showMaintenance(null,null);return;}
-    }catch(_){}
+function renderOffersForCategory(catFilter) {
+  const container = el("offers-container");
+  container.innerHTML = "";
+  const grid = document.createElement("div");
+  grid.className = "offers-grid";
 
-    const bundle=await loadAgentBundle(USERNAME);
-    if(!bundle){showError(`Agent "${USERNAME}" not found.`);return;}
-    agentProfile=bundle.profile;
+  const list = catFilter === "ALL" ? allOffers : allOffers.filter(o => (o.category || "General").toUpperCase() === catFilter);
 
-    const n=agentProfile.agentName||USERNAME;
-    const businessName=agentProfile.businessName||n;
-    const agentPhone=agentProfile.phoneNumber||"";
-    const subscriptionConfig=await loadSubscriptionConfig();
-    const liveGate=await loadLiveAgentGate(bundle.uid);
-    if(liveGate.state==="error"){showError("Unable to verify whether this order page is active. Please try again.");return;}
-    if(liveGate.state==="denied"||liveGate.state==="missing"){showMaintenance(n,agentPhone);return;}
+  list.forEach(o => {
+    const card = document.createElement("div");
+    card.className = "offer-card" + (selectedOffer && selectedOffer.id === o.id ? " selected" : "");
+    card.dataset.id = o.id;
+    card.innerHTML = `
+      <div>
+        <div class="offer-tag">
+          <span>${o.category || "Offer"}</span>
+          <span class="offer-check">✓</span>
+        </div>
+        <div class="offer-name">${o.name}</div>
+      </div>
+      <div class="offer-price">KSh ${o.agentPrice}</div>
+    `;
+    card.addEventListener("click", () => {
+      document.querySelectorAll(".offer-card").forEach(c => c.classList.remove("selected"));
+      card.classList.add("selected");
+      selectedOffer = o;
+      el("sel-name").textContent = o.name;
+      el("sel-price").textContent = "KSh " + o.agentPrice;
+      setPayButtonLabel(o.agentPrice);
+      const form = el("order-form");
+      form.style.display = "block";
+      form.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+    grid.appendChild(card);
+  });
+  container.appendChild(grid);
+}
 
-    const liveProfile=liveGate.profile||{};
-    agentProfile={
-      ...agentProfile,
-      ...liveProfile,
-      username:agentProfile.username||USERNAME,
-      uid:bundle.uid
-    };
-    updateAgentSharePreview(agentProfile);
+function buildCategoryTabs(categories) {
+  const tabWrap = el("categoryTabs");
+  tabWrap.innerHTML = "";
 
-    // The public mirror keeps the page fast, but the live agent doc is the
-    // final gate so a reset or expiry cannot keep the order form visible.
-    if(agentProfile.adminWebOrdersDisabled===true||!agentProfile.webOrdersOn||!hasActiveWebOrderSubscription(agentProfile,subscriptionConfig)){
-      showMaintenance(n,agentPhone);return;
+  const allBtn = document.createElement("button");
+  allBtn.className = "cat-tab-btn active";
+  allBtn.textContent = "All Packages";
+  allBtn.addEventListener("click", () => {
+    document.querySelectorAll(".cat-tab-btn").forEach(b => b.classList.remove("active"));
+    allBtn.classList.add("active");
+    renderOffersForCategory("ALL");
+  });
+  tabWrap.appendChild(allBtn);
+
+  categories.forEach(cat => {
+    const btn = document.createElement("button");
+    btn.className = "cat-tab-btn";
+    btn.textContent = cat;
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".cat-tab-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderOffersForCategory(cat.toUpperCase());
+    });
+    tabWrap.appendChild(btn);
+  });
+}
+
+async function init() {
+  if (!USERNAME) { showError("No agent username in URL."); return; }
+  try {
+    try {
+      const cfgSnap = await getDoc(doc(db, "config", "global_settings"));
+      if (cfgSnap.exists() && cfgSnap.data().websitesMaintenance === true) {
+        showMaintenance(null, null);
+        return;
+      }
+    } catch (_) {}
+
+    const bundle = await loadAgentBundle(USERNAME);
+    if (!bundle) { showError(`Agent "${USERNAME}" not found.`); return; }
+    agentProfile = bundle.profile;
+
+    const n = agentProfile.agentName || USERNAME;
+    const businessName = agentProfile.businessName || n;
+    const agentPhone = agentProfile.phoneNumber || "";
+    const subscriptionConfig = await loadSubscriptionConfig();
+    const liveGate = await loadLiveAgentGate(bundle.uid);
+
+    if (liveGate.state === "error") { showError("Unable to verify order page. Please try again."); return; }
+    if (liveGate.state === "denied" || liveGate.state === "missing") { showMaintenance(n, agentPhone); return; }
+
+    agentProfile = { ...agentProfile, ...liveGate.profile, username: agentProfile.username || USERNAME, uid: bundle.uid };
+
+    if (agentProfile.adminWebOrdersDisabled === true || !agentProfile.webOrdersOn || !hasActiveWebOrderSubscription(agentProfile, subscriptionConfig)) {
+      showMaintenance(n, agentPhone); return;
     }
 
-    el("ag-name").textContent=businessName;
-    const verifiedBadge=el("verified-badge");const verified=agentProfile.isVerified===true;
-    if(verifiedBadge)verifiedBadge.style.display=verified?"inline-block":"none";
-    const verifiedNote=el("ag-verified-note");if(verifiedNote)verifiedNote.style.display=verified?"block":"none";
-    el("ag-handle").textContent="AGENT "+n;el("ag-av").textContent=businessName.charAt(0).toUpperCase();
-    el("agent-bar").style.display="flex";
+    el("ag-name").textContent = businessName;
+    const verified = agentProfile.isVerified === true;
+    el("verified-badge").style.display = verified ? "inline-block" : "none";
+    el("ag-verified-note").style.display = verified ? "inline" : "none";
+    el("ag-handle").textContent = "AGENT " + n.toUpperCase();
+    el("ag-av").textContent = businessName.charAt(0).toUpperCase();
+    el("agent-bar").style.display = "flex";
 
-    const regBanner=el("register-banner");const regLink=el("register-link");
-    if(agentProfile.clientRegistrationOn===true){
-      regLink.href="/clients/"+encodeURIComponent(USERNAME);regBanner.style.display="flex";
-    }else{regLink.removeAttribute("href");regBanner.remove();}
-    if(agentPhone){el("contact-phone").innerHTML=`<a href="tel:${agentPhone}">${agentPhone}</a>`;el("contact-phone-row").style.display="flex";}
+    const regBanner = el("register-banner");
+    const regLink = el("register-link");
+    if (agentProfile.clientRegistrationOn === true) {
+      regLink.href = "/clients/" + encodeURIComponent(USERNAME);
+      regBanner.style.display = "flex";
+    } else {
+      regBanner.remove();
+    }
+
+    if (agentPhone) {
+      el("contact-phone").innerHTML = `<a href="tel:${agentPhone}" style="color:inherit;text-decoration:none;">${agentPhone}</a>`;
+      el("contact-phone-row").style.display = "flex";
+    }
     renderAgentPaymentDetails();
-    el("contact-card").style.display="block";
+    el("contact-card").style.display = "block";
 
-    const offersJson=await loadCurrentOffersJson(bundle);
-    if(!offersJson){showError("No offers available.");return;}
-    const offers=JSON.parse(offersJson||"[]").filter(o=>o.enabled&&o.webOrderEnabled===true&&o.offerCode&&o.offerCode.trim()&&Number(o.agentPrice||0)>=10&&Number(o.agentPrice||0)<=100);
-    if(!offers.length){showError("No offers available.");return;}
-    updateAgentSharePreview(agentProfile,offers);
+    const offersJson = await loadCurrentOffersJson(bundle);
+    if (!offersJson) { showError("No offers available from this agent."); return; }
 
-    const categoryRank={DATA:1,SMS:2,MINUTES:3,AIRTIME:4,OTHER:8,GENERAL:9};
-    const catKey=c=>String(c||"General").trim().toUpperCase();
-    const cats=[...new Set(offers.map(o=>o.category||"General"))].sort((a,b)=>(categoryRank[catKey(a)]||50)-(categoryRank[catKey(b)]||50)||String(a).localeCompare(String(b)));
-    const grid=el("offers-container");grid.innerHTML="";
-    cats.forEach(cat=>{
-      const section=document.createElement("section");section.className="offer-section";
-      const h=document.createElement("div");h.className="cat-header";h.textContent=cat;section.appendChild(h);
-      const g=document.createElement("div");g.className="offers-grid";
-      offers.filter(o=>(o.category||"General")===cat)
-        .sort((a,b)=>Number(a.agentPrice||0)-Number(b.agentPrice||0)||String(a.name||"").localeCompare(String(b.name||"")))
-        .forEach(o=>{
-          const b=document.createElement("button");b.className="offer-btn";b.dataset.id=o.id;
-          b.innerHTML=`<div class="ob-name">${o.name}</div><div class="ob-price">KSh ${o.agentPrice}</div>`;
-          b.addEventListener("click",()=>{
-            document.querySelectorAll(".offer-btn").forEach(x=>x.classList.remove("selected"));
-            b.classList.add("selected");selectedOffer=o;
-            el("sel-name").textContent=o.name;el("sel-price").textContent="KSh "+o.agentPrice;
-            setPayButtonLabel(o.agentPrice);el("order-form").style.display="block";
-            el("order-form").scrollIntoView({behavior:"smooth",block:"nearest"});
-          });
-          g.appendChild(b);
-        });
-      section.appendChild(g);grid.appendChild(section);
-    });
-    el("loading").style.display="none";el("content").style.display="block";
-  }catch(e){showError("Failed to load: "+e.message);}
+    allOffers = JSON.parse(offersJson || "[]")
+      .filter(o => o.enabled && o.webOrderEnabled === true && o.offerCode && o.offerCode.trim() && Number(o.agentPrice || 0) >= 10 && Number(o.agentPrice || 0) <= 1000)
+      .sort((a, b) => Number(a.agentPrice || 0) - Number(b.agentPrice || 0));
+
+    if (!allOffers.length) { showError("No active offers available."); return; }
+
+    const cats = [...new Set(allOffers.map(o => o.category || "General"))];
+    buildCategoryTabs(cats);
+    renderOffersForCategory("ALL");
+
+    el("loading").style.display = "none";
+    el("content").style.display = "block";
+  } catch (e) {
+    showError("Failed to load offers: " + e.message);
+  }
 }
 
-function valid07(p){return/^(07|01)\d{8}$/.test(p.trim());}
-function norm(p){const s=p.trim().replace(/\s/g,"");return(/^0/.test(s))?"254"+s.slice(1):s;}
-function stopOrderPolling(){activeTxId=null;pendingDialogShownForTx="";if(stkPollInterval){clearInterval(stkPollInterval);stkPollInterval=null;}}
-function resetStkState(){stopOrderPolling();}
-function restoreOrderForm(){
-  el("stk-screen").style.display="none";
-  const btn=el("pay-btn");btn.disabled=false;setPayButtonLabel(selectedOffer?selectedOffer.agentPrice:null);
+function valid07(p) { return /^(07|01)\d{8}$/.test(p.trim()); }
+function norm(p) { const s = p.trim().replace(/\s/g, ""); return (/^0/.test(s)) ? "254" + s.slice(1) : s; }
+function stopOrderPolling() { activeTxId = null; pendingDialogShownForTx = ""; if (stkPollInterval) { clearInterval(stkPollInterval); stkPollInterval = null; } }
+function resetStkState() { stopOrderPolling(); }
+function restoreOrderForm() {
+  el("stk-screen").style.display = "none";
+  const btn = el("pay-btn");
+  btn.disabled = false;
+  setPayButtonLabel(selectedOffer ? selectedOffer.agentPrice : null);
 }
-function showStkWaiting(){
-  // Show as fixed overlay — order form stays visible underneath
-  el("stk-screen").style.display="flex";
+
+function showStkWaiting() {
+  el("stk-screen").style.display = "flex";
 }
-window.cancelStkOverlay=function(){
+
+window.cancelStkOverlay = function() {
   resetStkState();
-  el("stk-screen").style.display="none";
-  // Restore the pay button so the user can retry
-  const btn=el("pay-btn");btn.disabled=false;setPayButtonLabel(selectedOffer?selectedOffer.agentPrice:null);
+  el("stk-screen").style.display = "none";
+  const btn = el("pay-btn");
+  btn.disabled = false;
+  setPayButtonLabel(selectedOffer ? selectedOffer.agentPrice : null);
 };
-function clearOfferSelection(){
-  document.querySelectorAll(".offer-btn").forEach(x=>x.classList.remove("selected"));
-  selectedOffer=null;
-  el("order-form").style.display="none";
-  // Reset same-number checkbox
-  const chk=el("same-num-chk");if(chk){chk.checked=false;}
-  const recvField=el("recv-field");if(recvField)recvField.classList.remove("hidden");
-  const pp=el("pay-phone");if(pp)pp.value="";
-  const rp=el("recv-phone");if(rp)rp.value="";
-  const btn=el("pay-btn");btn.disabled=false;setPayButtonLabel(null);
-}
-function showResultDialog(type,title,message,ref){
-  lastPaymentResult=type;
-  const dialog=el("result-dialog");const icon=el("result-icon");
-  icon.className="result-icon "+(type==="success"?"success":(type==="pending"||type==="unconfirmed"?"pending":"fail"));
-  el("result-title").textContent=title;el("result-message").textContent=message;
-  const refEl=el("result-ref");
-  if(ref){refEl.textContent=ref;refEl.style.display="block";}else{refEl.style.display="none";}
-  el("result-ok").textContent=type==="pending"?"Keep waiting":"OK";
-  dialog.style.display="flex";
-}
-function showOrderSuccess(message,ref){
-  resetStkState();el("stk-screen").style.display="none";
-  showResultDialog("success","Payment Confirmed",message||"Your payment was confirmed. Your order is now being processed.",ref);
-}
-function showOrderFailure(message,keepPolling=false){
-  if(!keepPolling)resetStkState();el("stk-screen").style.display="none";
-  showResultDialog("fail","Payment Not Completed",message||"Payment failed or was cancelled. You were not charged if the prompt was not approved.");
-}
-function showOrderPending(txId){
-  if(pendingDialogShownForTx===txId)return;
-  pendingDialogShownForTx=txId;
-  el("stk-screen").style.display="none";
-  showResultDialog(
-    "pending",
-    "Payment Confirmation Delayed",
-    "M-Pesa has not returned a final result yet. You do not need to pay again. We are still checking automatically, and this page will update as soon as the payment is confirmed.",
-    "You can keep this page open or close this message."
-  );
-}
-function showUnconfirmedFailure(txId,message){
-  if(pendingDialogShownForTx===txId+"-failed")return;
-  pendingDialogShownForTx=txId+"-failed";
-  el("stk-screen").style.display="none";
-  showResultDialog(
-    "unconfirmed",
-    "Payment Could Not Be Confirmed",
-    message||"We could not confirm this payment with M-Pesa. If you received a debit message, do not pay again; a late confirmation can still update this page.",
-    "This page will continue checking while it remains open."
-  );
-}
-async function pollOrderStatus(txId){
-  if(!txId)return;
-  try{
-    const res=await fetch(`${STATUS_URL}?txId=${encodeURIComponent(txId)}`);
-    const data=await res.json();if(!res.ok||data.error)return;
-    const status=String(data.status||"pending").toLowerCase();
-    const failReason=data.failReason||"Payment was not completed. Please try again.";
-    const mpesaRef=data.mpesaRef||data.checkoutRequestID||"";
-    if(status==="executed"){showOrderSuccess("Your payment was confirmed successfully. Your order is being processed.",mpesaRef?"M-Pesa Ref: "+mpesaRef:"");return;}
-    if(data.confirmationDelayed===true&&status!=="failed"){showOrderPending(txId);return;}
-    if(status==="failed"&&String(data.statusQueryState||"")==="FAILED_UNCONFIRMED"){showUnconfirmedFailure(txId,failReason);return;}
-    if(status==="failed"||status==="cancelled"||status==="expired"){showOrderFailure(failReason);return;}
-  }catch(e){console.error("pollOrderStatus:",e);}
-}
-function startOrderStatusPolling(txId){
-  activeTxId=txId;if(stkPollInterval)clearInterval(stkPollInterval);
-  stkPollInterval=setInterval(()=>{pollOrderStatus(txId);},3000);pollOrderStatus(txId);
+
+function clearOfferSelection() {
+  document.querySelectorAll(".offer-card").forEach(x => x.classList.remove("selected"));
+  selectedOffer = null;
+  el("order-form").style.display = "none";
+  const chk = el("same-num-chk"); if (chk) chk.checked = false;
+  const recvField = el("recv-field"); if (recvField) recvField.style.display = "block";
+  const pp = el("pay-phone"); if (pp) pp.value = "";
+  const rp = el("recv-phone"); if (rp) rp.value = "";
+  const btn = el("pay-btn"); btn.disabled = false; setPayButtonLabel(null);
 }
 
-window.submitOrder=async function(){
-  if(!selectedOffer)return;
-  const pp=el("pay-phone").value;
-  const chk=el("same-num-chk");
-  const rp=chk&&chk.checked?pp:el("recv-phone").value;
-  const fe=el("form-err");fe.style.display="none";
-  if(!valid07(pp)){fe.textContent="Enter a valid M-Pesa number (07XX or 01XX)";fe.style.display="block";return;}
-  if(!valid07(rp)){fe.textContent="Enter a valid receiving number (07XX or 01XX)";fe.style.display="block";return;}
-  const btn=el("pay-btn");btn.disabled=true;btn.textContent="Processing...";
-  try{
-    const info=agentPaymentInfo(agentProfile,rp);
-    const res=await fetch(FURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({agentUsername:agentProfile.username,agentUid:agentProfile.uid,offerCode:selectedOffer.offerCode,offerName:selectedOffer.name,amount:selectedOffer.agentPrice,payPhone:norm(pp),receivePhone:norm(rp),agentPhone:agentProfile.phoneNumber,agentPaymentMode:info?info.mode:"",agentPaymentNumber:info?info.number:"",agentPaymentAccount:info&&info.mode==="PAYBILL"?rp:""})});
-    const data=await res.json();
-    if(data.code==="WEBSITES_MAINTENANCE"){
-      btn.disabled=false;setPayButtonLabel(selectedOffer.agentPrice);
-      showMaintenance(null,null);
-      if(data.error)el("maint-sub").textContent=data.error;
+function showResultDialog(type, title, message, ref) {
+  lastPaymentResult = type;
+  const dialog = el("result-dialog");
+  const icon = el("result-icon");
+  icon.className = "result-icon " + (type === "success" ? "success" : (type === "pending" || type === "unconfirmed" ? "pending" : "fail"));
+  el("result-title").textContent = title;
+  el("result-message").textContent = message;
+  const refEl = el("result-ref");
+  if (ref) { refEl.textContent = ref; refEl.style.display = "block"; } else { refEl.style.display = "none"; }
+  el("result-ok").textContent = type === "pending" ? "Keep waiting" : "OK";
+  dialog.style.display = "flex";
+}
+
+async function pollOrderStatus(txId) {
+  if (!txId) return;
+  try {
+    const res = await fetch(`${STATUS_URL}?txId=${encodeURIComponent(txId)}`);
+    const data = await res.json();
+    if (!res.ok || data.error) return;
+    const status = String(data.status || "pending").toLowerCase();
+    const failReason = data.failReason || "Payment was not completed. Please try again.";
+    const mpesaRef = data.mpesaRef || data.checkoutRequestID || "";
+
+    if (status === "executed") {
+      resetStkState();
+      el("stk-screen").style.display = "none";
+      showResultDialog("success", "Payment Confirmed", "Your payment was confirmed. Your airtime / bundle is now being delivered.", mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
       return;
     }
-    if(!res.ok||data.error){fe.textContent=data.error||"Payment failed. Try again.";fe.style.display="block";btn.disabled=false;setPayButtonLabel(selectedOffer.agentPrice);return;}
-    if(!data.txId){fe.textContent="Transaction was created without txId. Please try again.";fe.style.display="block";btn.disabled=false;setPayButtonLabel(selectedOffer.agentPrice);return;}
-    showStkWaiting();startOrderStatusPolling(data.txId);
-  }catch(e){fe.textContent="Network error: "+e.message;fe.style.display="block";btn.disabled=false;setPayButtonLabel(selectedOffer.agentPrice);}
+    if (data.confirmationDelayed === true && status !== "failed") {
+      if (pendingDialogShownForTx !== txId) {
+        pendingDialogShownForTx = txId;
+        el("stk-screen").style.display = "none";
+        showResultDialog("pending", "Payment Delayed", "M-Pesa confirmation is taking longer than usual. Please keep this page open; it will update automatically.", "");
+      }
+      return;
+    }
+    if (status === "failed" || status === "cancelled" || status === "expired") {
+      resetStkState();
+      el("stk-screen").style.display = "none";
+      showResultDialog("fail", "Payment Incomplete", failReason);
+      return;
+    }
+  } catch (e) {
+    console.error("pollOrderStatus:", e);
+  }
+}
+
+function startOrderStatusPolling(txId) {
+  activeTxId = txId;
+  if (stkPollInterval) clearInterval(stkPollInterval);
+  stkPollInterval = setInterval(() => { pollOrderStatus(txId); }, 3000);
+  pollOrderStatus(txId);
+}
+
+window.submitOrder = async function() {
+  if (!selectedOffer) return;
+  const pp = el("pay-phone").value;
+  const chk = el("same-num-chk");
+  const rp = chk && chk.checked ? pp : el("recv-phone").value;
+  const fe = el("form-err");
+  fe.style.display = "none";
+
+  if (!valid07(pp)) { fe.textContent = "Enter a valid M-Pesa payment number (07XX or 01XX)"; fe.style.display = "block"; return; }
+  if (!valid07(rp)) { fe.textContent = "Enter a valid receiving phone number (07XX or 01XX)"; fe.style.display = "block"; return; }
+
+  const btn = el("pay-btn");
+  btn.disabled = true;
+  btn.querySelector("span").textContent = "Sending M-Pesa Prompt...";
+
+  try {
+    const info = agentPaymentInfo(agentProfile, rp);
+    const res = await fetch(FURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        agentUsername: agentProfile.username,
+        agentUid: agentProfile.uid,
+        offerCode: selectedOffer.offerCode,
+        offerName: selectedOffer.name,
+        amount: selectedOffer.agentPrice,
+        payPhone: norm(pp),
+        receivePhone: norm(rp),
+        agentPhone: agentProfile.phoneNumber,
+        agentPaymentMode: info ? info.mode : "",
+        agentPaymentNumber: info ? info.number : "",
+        agentPaymentAccount: info && info.mode === "PAYBILL" ? rp : ""
+      })
+    });
+    const data = await res.json();
+    if (data.code === "WEBSITES_MAINTENANCE") {
+      btn.disabled = false;
+      setPayButtonLabel(selectedOffer.agentPrice);
+      showMaintenance(null, null);
+      return;
+    }
+    if (!res.ok || data.error) {
+      fe.textContent = data.error || "Payment request failed. Please try again.";
+      fe.style.display = "block";
+      btn.disabled = false;
+      setPayButtonLabel(selectedOffer.agentPrice);
+      return;
+    }
+    if (!data.txId) {
+      fe.textContent = "Transaction could not be initialized. Please try again.";
+      fe.style.display = "block";
+      btn.disabled = false;
+      setPayButtonLabel(selectedOffer.agentPrice);
+      return;
+    }
+    showStkWaiting();
+    startOrderStatusPolling(data.txId);
+  } catch (e) {
+    fe.textContent = "Network error: " + e.message;
+    fe.style.display = "block";
+    btn.disabled = false;
+    setPayButtonLabel(selectedOffer.agentPrice);
+  }
 };
 
-window.closeResultDialog=function(){
-  el("result-dialog").style.display="none";
-  if(lastPaymentResult==="success"){
-    el("stk-screen").style.display="none";
+window.closeResultDialog = function() {
+  el("result-dialog").style.display = "none";
+  if (lastPaymentResult === "success") {
+    el("stk-screen").style.display = "none";
     clearOfferSelection();
-  }else if(lastPaymentResult==="pending"||lastPaymentResult==="unconfirmed"){
-    // Keep polling and leave checkout locked. A late callback can replace the
-    // dismissed message with the normal success dialog on this same page.
-  }else{
-    el("stk-screen").style.display="none";
-    // Failure: just re-enable the pay button; order form & offer stay selected
-    const btn=el("pay-btn");btn.disabled=false;setPayButtonLabel(selectedOffer?selectedOffer.agentPrice:null);
+  } else {
+    el("stk-screen").style.display = "none";
+    const btn = el("pay-btn");
+    btn.disabled = false;
+    setPayButtonLabel(selectedOffer ? selectedOffer.agentPrice : null);
   }
-  lastPaymentResult="";
+  lastPaymentResult = "";
 };
-window.retryOrder=function(){resetStkState();restoreOrderForm();};
 
 init();
 </script>
-<!-- ═══ FULLSCREEN OVERLAYS — must be direct body children so position:fixed isn't clipped ═══ -->
-
-<!-- STK waiting overlay -->
-<div id="stk-screen" role="dialog" aria-modal="true" aria-labelledby="stk-title">
-  <div class="stk-overlay-card" id="stk-waiting">
-    <div class="stk-inner">
-      <div class="wait-orb" aria-hidden="true"><div class="wait-phone"></div></div>
-      <div class="stk-title" id="stk-title">Approve on Your Phone</div>
-      <div class="stk-sender-tag">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 15.92z"/></svg>
-        From: FLASH PAY SERVICES
-      </div>
-      <div class="stk-desc">You'll receive an M-Pesa STK prompt from <strong>FLASH PAY SERVICES</strong>. Enter your PIN to approve — this screen updates automatically once Safaricom confirms.</div>
-      <div class="stk-status"><span class="stk-status-dot"></span><span>Waiting for confirmation…</span></div>
-      <div class="stk-steps">
-        <div class="stk-step"><div class="step-n">1</div><div>WAIT for the M-Pesa Prompt from <strong>FLASH PAY SERVICES</strong> on your phone</div></div>
-        <div class="stk-step"><div class="step-n">2</div><div>Enter your M-Pesa PIN to approve the payment</div></div>
-        <div class="stk-step"><div class="step-n">3</div><div>This page updates automatically once Safaricom confirms</div></div>
-      </div>
-    </div>
-    <div class="stk-cancel-row">
-      <button class="stk-cancel-btn" onclick="cancelStkOverlay()">Didn't receive a prompt? Cancel and retry</button>
-    </div>
-  </div>
-</div>
-
-<!-- Result dialog overlay -->
-<div class="result-dialog" id="result-dialog" role="dialog" aria-modal="true" aria-labelledby="result-title">
-  <div class="result-card">
-    <div class="result-icon success" id="result-icon" aria-hidden="true"></div>
-    <div class="result-title" id="result-title">Payment Confirmed</div>
-    <div class="result-message" id="result-message">Your payment was received successfully.</div>
-    <div class="result-ref" id="result-ref" style="display:none"></div>
-    <button class="result-ok" id="result-ok" onclick="closeResultDialog()">OK</button>
-  </div>
-</div>
 
 </body>
 </html>

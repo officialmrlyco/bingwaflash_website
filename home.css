@@ -1,6 +1,6 @@
 /*
  * Homepage specific composition for bingwaflash.co.ke.
- * Clean, centered SaaS product layout matching reference design.
+ * Clean, centered SaaS product layout strictly using green, yellow, black, and white.
  */
 
 :root {
@@ -30,7 +30,7 @@ body.bf-home {
   margin: 0 auto;
 }
 
-/* HEADER - Clean, Flat */
+/* HEADER */
 .home-header {
   position: sticky;
   top: 0;
@@ -95,14 +95,14 @@ body.bf-home {
   place-items: center;
   border: 1px solid var(--bf-border);
   background: var(--bf-surface);
-  color: var(--bf-text);
+  color: var(--bf-yellow);
   border-radius: 8px;
   cursor: pointer;
   transition: var(--bf-transition);
 }
 .home-theme:hover, .home-menu:hover {
-  color: var(--bf-green);
-  border-color: var(--bf-green);
+  color: var(--bf-yellow-strong);
+  border-color: var(--bf-yellow);
 }
 .home-menu {
   display: none;
@@ -126,7 +126,7 @@ body.bf-home {
   background: var(--bf-green-strong);
 }
 
-/* HERO SECTION - Centered SaaS Layout */
+/* HERO SECTION - Centered */
 .home-hero {
   padding: 56px 0 40px;
   text-align: center;
@@ -138,7 +138,7 @@ body.bf-home {
   gap: 6px;
   padding: 6px 14px;
   background: var(--bf-selection);
-  border: 1px solid rgba(21, 167, 108, 0.25);
+  border: 1px solid rgba(21, 167, 108, 0.3);
   border-radius: var(--bf-pill);
   font-size: 0.76rem;
   font-weight: 700;
@@ -228,7 +228,7 @@ body.bf-home {
   font-weight: 600;
 }
 
-/* STATS BOX - 4 columns desktop / 2x2 grid mobile */
+/* STATS BOX (4 columns desktop / 2x2 grid mobile) */
 .stats-box {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -250,7 +250,7 @@ body.bf-home {
 }
 .stat-col strong {
   display: block;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 800;
   color: var(--bf-text);
   letter-spacing: -0.02em;
@@ -263,7 +263,7 @@ body.bf-home {
   font-weight: 600;
 }
 
-/* QUICK RESOURCES / FEATURE GRID - 4 cards with soft pastel icon badges */
+/* QUICK RESOURCES / FEATURE GRID */
 .quick-section {
   padding: 32px 0 56px;
 }
@@ -306,9 +306,8 @@ body.bf-home {
   height: 20px;
 }
 .quick-card-icon.green { background: var(--bf-icon-badge-green); color: var(--bf-green); }
-.quick-card-icon.orange { background: var(--bf-icon-badge-orange); color: #d97706; }
-.quick-card-icon.purple { background: var(--bf-icon-badge-purple); color: #9333ea; }
-.quick-card-icon.blue { background: var(--bf-icon-badge-blue); color: #2563eb; }
+.quick-card-icon.yellow { background: var(--bf-icon-badge-yellow); color: var(--bf-yellow-strong); }
+.quick-card-icon.neutral { background: var(--bf-icon-badge-neutral); color: var(--bf-text); }
 
 .quick-card h3 {
   margin: 0 0 4px;

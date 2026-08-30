@@ -1,7 +1,7 @@
 /*
  * Shared Bingwa Flash design system variables.
- * Flat, high-contrast, professional presentation layer.
- * Inspired by modern flat SaaS interfaces, completely removing claymorphism.
+ * Palette strictly uses Safaricom Green, Vivid Yellow/Gold, Pure Black, and Crisp White.
+ * Zero bluish tints. Flat, high-contrast, professional presentation.
  */
 :root {
   --bf-green: #15a76c;            /* Safaricom Green */
@@ -18,42 +18,40 @@
 }
 
 [data-theme="dark"] {
-  --bf-bg: #0b131e;               /* Deep rich navy-slate background */
-  --bf-surface: #111d2c;          /* Slate-card surface */
-  --bf-surface-raised: #18283b;   /* Raised card surface / hover */
-  --bf-surface-muted: #0d1724;    /* Input or subtle background */
-  --bf-border: #1e3046;           /* Crisp 1px border */
-  --bf-border-strong: #2a415e;    /* Field border */
-  --bf-text: #f8fafc;             /* Bright clear white text */
-  --bf-text-muted: #94a3b8;       /* Slate-400 secondary text */
-  --bf-text-soft: #64748b;        /* Slate-500 helper text */
-  --bf-header: #0b131e;
+  --bf-bg: #060907;               /* Pure deep black/dark-green tone */
+  --bf-surface: #0e1410;          /* Deep pitch card surface */
+  --bf-surface-raised: #16201a;   /* Raised card surface / hover */
+  --bf-surface-muted: #0a0e0b;    /* Input or subtle background */
+  --bf-border: #1c2720;           /* Crisp 1px border */
+  --bf-border-strong: #27382d;    /* Field border */
+  --bf-text: #ffffff;             /* Pure white text */
+  --bf-text-muted: #a1a8a3;       /* Secondary body text */
+  --bf-text-soft: #6b756e;        /* Muted helper text */
+  --bf-header: #060907;
   --bf-selection: rgba(21, 167, 108, 0.15);
-  --bf-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-  --bf-icon-badge-green: rgba(21, 167, 108, 0.15);
-  --bf-icon-badge-orange: rgba(245, 158, 11, 0.15);
-  --bf-icon-badge-purple: rgba(168, 85, 247, 0.15);
-  --bf-icon-badge-blue: rgba(59, 130, 246, 0.15);
+  --bf-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --bf-icon-badge-green: rgba(21, 167, 108, 0.18);
+  --bf-icon-badge-yellow: rgba(250, 204, 21, 0.18);
+  --bf-icon-badge-neutral: rgba(255, 255, 255, 0.08);
   color-scheme: dark;
 }
 
 [data-theme="light"] {
-  --bf-bg: #f8fafc;               /* Clean slate-50 light background */
-  --bf-surface: #ffffff;          /* Pure white card surface */
-  --bf-surface-raised: #f1f5f9;   /* Slate-100 hover surface */
-  --bf-surface-muted: #f8fafc;    /* Slate-50 input background */
-  --bf-border: #e2e8f0;           /* Slate-200 border */
-  --bf-border-strong: #cbd5e1;    /* Slate-300 field border */
-  --bf-text: #0f172a;             /* Slate-900 high contrast dark text */
-  --bf-text-muted: #475569;       /* Slate-600 secondary text */
-  --bf-text-soft: #94a3b8;        /* Slate-400 helper text */
+  --bf-bg: #ffffff;               /* Pure white light background */
+  --bf-surface: #fbfcfb;          /* Soft white card surface */
+  --bf-surface-raised: #f2f4f2;   /* Soft hover surface */
+  --bf-surface-muted: #f7f9f7;    /* Subtle field background */
+  --bf-border: #e2e6e3;           /* Clean light border */
+  --bf-border-strong: #cbcfcc;    /* Field border */
+  --bf-text: #0a0e0b;             /* Pure dark text */
+  --bf-text-muted: #4b554e;       /* Secondary dark text */
+  --bf-text-soft: #8a948d;        /* Muted helper text */
   --bf-header: #ffffff;
-  --bf-selection: rgba(21, 167, 108, 0.08);
-  --bf-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  --bf-selection: rgba(21, 167, 108, 0.1);
+  --bf-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
   --bf-icon-badge-green: #ecfdf5;
-  --bf-icon-badge-orange: #fffbeb;
-  --bf-icon-badge-purple: #faf5ff;
-  --bf-icon-badge-blue: #eff6ff;
+  --bf-icon-badge-yellow: #fefce8;
+  --bf-icon-badge-neutral: #f3f4f6;
   color-scheme: light;
 }
 
@@ -113,22 +111,22 @@ header {
   color: var(--bf-green) !important;
 }
 
-/* Shared theme switch button */
+/* Shared theme switch button - Pure black or yellowish */
 .thm, .page-theme, .home-theme {
   width: 38px !important;
   height: 38px !important;
   border-radius: 8px !important;
   background: var(--bf-surface) !important;
   border: 1px solid var(--bf-border) !important;
-  color: var(--bf-text-muted) !important;
+  color: var(--bf-yellow) !important;
   display: inline-grid !important;
   place-items: center !important;
   cursor: pointer !important;
   transition: var(--bf-transition) !important;
 }
 .thm:hover, .page-theme:hover, .home-theme:hover {
-  color: var(--bf-text) !important;
-  border-color: var(--bf-green) !important;
+  color: var(--bf-yellow-strong) !important;
+  border-color: var(--bf-yellow) !important;
   background: var(--bf-surface-raised) !important;
 }
 
