@@ -35,11 +35,11 @@ body.bf-home {
   position: sticky;
   top: 0;
   z-index: 50;
-  height: 68px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 max(20px, calc((100vw - 1140px) / 2));
+  padding: 0 max(16px, calc((100vw - 1140px) / 2));
   background: var(--bf-header);
   border-bottom: 1px solid var(--bf-border);
   transition: background .2s, border-color .2s;
@@ -53,6 +53,8 @@ body.bf-home {
   letter-spacing: -0.02em;
   font-size: 1.15rem;
   color: var(--bf-text);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .home-brand img {
   width: 32px;
@@ -85,7 +87,8 @@ body.bf-home {
 .home-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .home-theme, .home-menu {
@@ -121,6 +124,7 @@ body.bf-home {
   font-weight: 700;
   border-radius: var(--bf-pill);
   transition: var(--bf-transition);
+  white-space: nowrap;
 }
 .header-support-btn:hover {
   background: var(--bf-green-strong);
@@ -557,7 +561,7 @@ body.bf-home {
   }
   .home-nav.is-open {
     position: absolute;
-    top: 68px;
+    top: 64px;
     left: 0;
     right: 0;
     display: flex;
@@ -587,8 +591,15 @@ body.bf-home {
 }
 
 @media(max-width: 600px) {
+  .home-header {
+    height: 60px;
+    padding: 0 16px;
+  }
+  .header-support-btn {
+    display: none; /* Keep mobile bar clean and un-squeezed */
+  }
   .home-hero {
-    padding: 40px 0 28px;
+    padding: 36px 0 24px;
   }
   .hero-actions {
     flex-direction: column;

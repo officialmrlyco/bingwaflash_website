@@ -80,8 +80,8 @@ header.order-header{
   position: sticky;
   top: 0;
   z-index: 80;
-  height: 64px !important;
-  padding: 0 20px !important;
+  height: 60px !important;
+  padding: 0 16px !important;
   background: var(--surface) !important;
   border-bottom: 1px solid var(--border) !important;
   display: flex;
@@ -91,15 +91,16 @@ header.order-header{
 .order-brand{
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   text-decoration: none;
   font-weight: 800;
   font-size: 1.05rem;
   color: var(--text);
+  white-space: nowrap;
 }
 .order-brand img{
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   border-radius: 6px;
 }
 .order-brand b{
@@ -110,63 +111,62 @@ header.order-header{
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.76rem;
+  font-size: 0.72rem;
   font-weight: 700;
   color: var(--g);
   background: var(--badge-bg);
-  padding: 5px 12px;
+  padding: 4px 10px;
   border-radius: var(--pill);
   border: 1px solid rgba(21, 167, 108, 0.25);
+  white-space: nowrap;
 }
 
 /* MAIN LAYOUT */
 main.order-main{
   flex: 1;
   width: 100%;
-  max-width: 960px;
+  max-width: 860px;
   margin: 0 auto;
-  padding: 24px 16px 64px;
+  padding: 20px 14px 56px;
 }
 
-/* AGENT BAR / HERO CARD */
+/* CENTERED CIRCULAR AGENT PROFILE CARD */
 .agent-hero-card{
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 18px 20px;
+  border-radius: 20px;
+  padding: 24px 18px 20px;
   margin-bottom: 24px;
   display: none;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  text-align: center;
   box-shadow: var(--card-shadow);
 }
-.agent-left{
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-.ag-avatar{
-  width: 46px;
-  height: 46px;
-  border-radius: 12px;
+.ag-avatar-circle{
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
   background: var(--g);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: 900;
-  flex-shrink: 0;
+  margin-bottom: 12px;
+  border: 3px solid var(--surface2);
+  box-shadow: 0 0 0 2px var(--g);
 }
 .ag-meta h1{
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 800;
   color: var(--text);
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 2px;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 4px;
 }
 .verified-icon{
   width: 18px;
@@ -176,22 +176,24 @@ main.order-main{
   flex-shrink: 0;
 }
 .ag-sub{
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 600;
   color: var(--text-muted);
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  margin-bottom: 14px;
 }
 .ag-status-pill{
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 10px;
+  padding: 3px 9px;
   background: var(--badge-bg);
   border: 1px solid rgba(21, 167, 108, 0.25);
   border-radius: var(--pill);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 800;
   color: var(--g);
 }
@@ -202,38 +204,84 @@ main.order-main{
   background: var(--g);
 }
 
+/* AGENT DIRECT META CHIPS (Phone & Till) */
+.agent-direct-meta{
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 12px;
+}
+.meta-chip{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--pill);
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.meta-chip svg{
+  color: var(--g);
+}
+.meta-chip a{
+  color: inherit;
+  text-decoration: none;
+}
+.meta-chip a:hover{
+  color: var(--g);
+}
+
+.fraud-disclaimer{
+  font-size: 0.68rem;
+  color: var(--text-soft);
+  text-align: center;
+  margin-top: 4px;
+}
+.fraud-disclaimer a{
+  color: var(--text-muted);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.fraud-disclaimer a:hover{
+  color: var(--g);
+}
+
 /* SECTION HEADER */
 .catalog-head{
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 .catalog-head h2{
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--text);
 }
 .catalog-head p{
-  font-size: 0.86rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
 }
 
-/* CATEGORY TABS */
+/* CATEGORY TABS - Natural Wrapping (No horizontal scroll) */
 .category-tabs{
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 12px;
-  margin-bottom: 16px;
-  scrollbar-width: none;
+  margin-bottom: 18px;
+  justify-content: flex-start;
 }
-.category-tabs::-webkit-scrollbar{ display: none; }
 .cat-tab-btn{
-  padding: 8px 16px;
+  padding: 6px 14px;
   border-radius: var(--pill);
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--text-muted);
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
@@ -249,89 +297,118 @@ main.order-main{
   color: #ffffff;
 }
 
-/* OFFERS GRID */
+/* OFFERS - LINE-BY-LINE ROW CARDS */
 .offers-grid{
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   margin-bottom: 24px;
 }
+@media(min-width: 768px){
+  .offers-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}
+
 .offer-card{
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 16px 14px;
+  border-radius: 12px;
+  padding: 10px 14px;
   cursor: pointer;
-  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: space-between;
-  min-height: 120px;
   box-shadow: var(--card-shadow);
-  position: relative;
   text-align: left;
+  min-height: 52px;
 }
 .offer-card:hover{
   border-color: var(--g);
-  transform: translateY(-2px);
+  background: var(--surface2);
 }
 .offer-card.selected{
   border-color: var(--g);
   background: var(--surface2);
   outline: 2px solid var(--g);
 }
-.offer-tag{
-  font-size: 0.68rem;
+
+.offer-card-left{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+.offer-cat-badge{
+  font-size: 0.64rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   color: var(--g);
-  margin-bottom: 6px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  background: var(--badge-bg);
+  padding: 2px 7px;
+  border-radius: 4px;
+  flex-shrink: 0;
 }
-.offer-check{
-  width: 16px;
-  height: 16px;
+.offer-name{
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.offer-card-right{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  margin-left: 10px;
+}
+.offer-price{
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--y);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.offer-radio{
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   border: 1.5px solid var(--border-strong);
-  display: inline-grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: transparent;
+  font-size: 0.68rem;
+  font-weight: 900;
+  flex-shrink: 0;
 }
-.offer-card.selected .offer-check{
+.offer-card.selected .offer-radio{
   background: var(--g);
   border-color: var(--g);
   color: #ffffff;
 }
-.offer-name{
-  font-size: 0.88rem;
-  font-weight: 800;
-  color: var(--text);
-  line-height: 1.35;
-  margin-bottom: 12px;
-}
-.offer-price{
-  font-size: 1.15rem;
-  font-weight: 900;
-  color: var(--y);
-  letter-spacing: -0.02em;
-}
 
-/* CHECKOUT DRAWER / FORM */
+/* CHECKOUT PANEL DRAWER */
 .checkout-panel{
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 18px;
-  padding: 24px 20px;
+  padding: 22px 18px;
   box-shadow: var(--card-shadow);
   display: none;
-  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: slideUp 0.25s ease;
   margin-bottom: 24px;
 }
 @keyframes slideUp{
-  from{ opacity: 0; transform: translateY(12px); }
+  from{ opacity: 0; transform: translateY(10px); }
   to{ opacity: 1; transform: translateY(0); }
 }
 
@@ -339,36 +416,36 @@ main.order-main{
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 14px 16px;
+  padding: 12px 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 .cs-left small{
   display: block;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 800;
   text-transform: uppercase;
   color: var(--g);
   letter-spacing: 0.05em;
 }
 .cs-left strong{
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   color: var(--text);
 }
 .cs-price{
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 900;
   color: var(--y);
 }
 
 .field-group{
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 .field-label{
   display: block;
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -382,19 +459,19 @@ main.order-main{
 }
 .input-with-icon svg{
   position: absolute;
-  left: 14px;
-  width: 18px;
-  height: 18px;
+  left: 12px;
+  width: 16px;
+  height: 16px;
   color: var(--text-soft);
   pointer-events: none;
 }
 .input-with-icon input{
   width: 100%;
-  padding-left: 42px !important;
+  padding-left: 38px !important;
   font-weight: 600;
 }
 .field-tip{
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: var(--text-soft);
   margin-top: 4px;
 }
@@ -407,10 +484,10 @@ main.order-main{
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 10px 14px;
+  padding: 9px 12px;
   cursor: pointer;
   user-select: none;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 .same-num-pill input[type="checkbox"]{
   appearance: none;
@@ -440,12 +517,12 @@ main.order-main{
 }
 .same-num-text strong{
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--text);
 }
 .same-num-text small{
   display: block;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   color: var(--text-soft);
 }
 
@@ -453,23 +530,23 @@ main.order-main{
   background: rgba(239, 68, 68, 0.12);
   border: 1px solid rgba(239, 68, 68, 0.3);
   color: #f87171;
-  padding: 10px 14px;
+  padding: 9px 12px;
   border-radius: 8px;
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 700;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   display: none;
 }
 
 .checkout-pay-btn{
   width: 100%;
-  min-height: 50px;
+  min-height: 48px;
   background: var(--y);
   border: 1px solid var(--yd);
   color: #060907;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 800;
-  border-radius: 12px;
+  border-radius: 10px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -490,9 +567,9 @@ main.order-main{
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 14px;
   flex-wrap: wrap;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: var(--text-soft);
   font-weight: 600;
 }
@@ -502,67 +579,11 @@ main.order-main{
   gap: 4px;
 }
 
-/* CONTACT & CLIENT CARD */
-.agent-contact-box{
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 18px;
-  box-shadow: var(--card-shadow);
-  display: none;
-  margin-bottom: 18px;
-}
-.contact-head{
-  font-size: 0.74rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-soft);
-  margin-bottom: 12px;
-}
-.contact-rows{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-.contact-row-item{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 10px 12px;
-}
-.contact-row-icon{
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.contact-row-icon.green{ background: var(--badge-bg); color: var(--g); }
-.contact-row-icon.yellow{ background: var(--tag-yellow-bg); color: var(--yd); }
-.contact-row-text small{
-  display: block;
-  font-size: 0.68rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: var(--text-soft);
-}
-.contact-row-text strong{
-  display: block;
-  font-size: 0.84rem;
-  color: var(--text);
-}
-
 .register-banner-box{
   background: var(--surface);
   border: 1px dashed var(--border-strong);
   border-radius: 14px;
-  padding: 14px 18px;
+  padding: 12px 16px;
   display: none;
   align-items: center;
   justify-content: space-between;
@@ -571,19 +592,19 @@ main.order-main{
 }
 .rb-left strong{
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--text);
 }
 .rb-left p{
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
 }
 .rb-btn-link{
-  padding: 8px 16px;
+  padding: 7px 14px;
   border-radius: var(--pill);
   background: var(--g);
   color: #ffffff !important;
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 800;
   text-decoration: none;
   white-space: nowrap;
@@ -603,28 +624,28 @@ main.order-main{
   -webkit-backdrop-filter: blur(8px);
 }
 .stk-modal-card{
-  width: min(440px, 100%);
+  width: min(420px, 100%);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 28px 22px 20px;
+  border-radius: 18px;
+  padding: 24px 20px 18px;
   text-align: center;
   box-shadow: var(--card-shadow);
 }
 .stk-radar-icon{
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   background: var(--badge-bg);
   border: 2px solid var(--g);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 16px;
+  margin: 0 auto 14px;
   color: var(--g);
 }
 .stk-modal-card h2{
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 900;
   color: var(--text);
   margin-bottom: 6px;
@@ -637,36 +658,36 @@ main.order-main{
   background: var(--tag-yellow-bg);
   border: 1px solid rgba(250, 204, 21, 0.3);
   border-radius: var(--pill);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 800;
   color: var(--tag-yellow-color);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 .stk-prompt-steps{
   text-align: left;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 .stk-step-box{
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   background: var(--surface2);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 10px 12px;
-  font-size: 0.78rem;
+  border-radius: 8px;
+  padding: 9px 11px;
+  font-size: 0.76rem;
   color: var(--text-muted);
 }
 .stk-step-num{
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background: var(--g);
   color: #ffffff;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 800;
   display: flex;
   align-items: center;
@@ -677,7 +698,7 @@ main.order-main{
   background: none;
   border: none;
   color: var(--text-soft);
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   font-weight: 700;
   text-decoration: underline;
   cursor: pointer;
@@ -696,47 +717,47 @@ main.order-main{
   backdrop-filter: blur(6px);
 }
 .result-card{
-  width: min(400px, 100%);
+  width: min(380px, 100%);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 28px 22px 22px;
+  border-radius: 18px;
+  padding: 24px 20px 20px;
   text-align: center;
   box-shadow: var(--card-shadow);
 }
 .result-icon{
-  width: 60px;
-  height: 60px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 16px;
+  margin: 0 auto 14px;
 }
 .result-icon.success{ background: var(--g); color: #ffffff; }
 .result-icon.fail{ background: var(--red); color: #ffffff; }
 .result-icon.pending{ background: var(--y); color: #060907; }
 .result-card h2{
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 800;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   color: var(--text);
 }
 .result-card p{
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
-  line-height: 1.55;
-  margin-bottom: 16px;
+  line-height: 1.5;
+  margin-bottom: 14px;
 }
 .result-ref-code{
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   color: var(--g);
   font-weight: 800;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 .result-action-btn{
   width: 100%;
-  padding: 12px;
+  padding: 11px;
   background: var(--y);
   border: 1px solid var(--yd);
   color: #060907;
@@ -751,8 +772,8 @@ main.order-main{
   padding: 48px 0;
 }
 .spinner{
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   border: 3px solid var(--border-strong);
   border-top-color: var(--g);
   border-radius: 50%;
@@ -765,21 +786,6 @@ main.order-main{
   padding: 40px 16px;
   display: none;
 }
-
-/* RESPONSIVENESS */
-@media(max-width: 600px){
-  .agent-hero-card{
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .offers-grid{
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-  .contact-rows{
-    grid-template-columns: 1fr;
-  }
-}
 </style>
 </head>
 <body>
@@ -789,9 +795,9 @@ main.order-main{
     <img src="/logo.png" alt="Bingwa Flash">
     <span>Bingwa <b>Flash</b></span>
   </a>
-  <div style="display:flex;align-items:center;gap:10px;">
+  <div style="display:flex;align-items:center;gap:8px;">
     <div class="header-trust">
-      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       Secure Order Desk
     </div>
     <button class="thm" id="thm-btn" data-theme-toggle title="Toggle theme" aria-label="Toggle theme">
@@ -804,48 +810,63 @@ main.order-main{
   <!-- Loading state -->
   <div id="loading">
     <div class="spinner"></div>
-    <div style="font-size:0.84rem;color:var(--text-muted);font-weight:700;">Loading verified offers...</div>
+    <div style="font-size:0.82rem;color:var(--text-muted);font-weight:700;">Loading verified offers...</div>
   </div>
 
   <!-- Maintenance state -->
   <div id="maintenance-state" style="display:none;text-align:center;padding:48px 16px;">
-    <div style="width:64px;height:64px;border-radius:50%;background:rgba(250,204,21,0.15);border:1px solid rgba(250,204,21,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--y);">
-      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+    <div style="width:60px;height:60px;border-radius:50%;background:rgba(250,204,21,0.15);border:1px solid rgba(250,204,21,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:var(--y);">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
     </div>
-    <h2 style="font-size:1.25rem;font-weight:800;margin-bottom:8px;">Order Desk Maintenance</h2>
-    <p id="maint-sub" style="font-size:0.86rem;color:var(--text-muted);max-width:480px;margin:0 auto 20px;">This agent's order desk is temporarily unavailable. Please check back shortly.</p>
-    <div id="maint-contact-value" style="font-size:0.84rem;font-weight:700;color:var(--text);"></div>
+    <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:8px;">Order Desk Maintenance</h2>
+    <p id="maint-sub" style="font-size:0.84rem;color:var(--text-muted);max-width:480px;margin:0 auto 16px;">This agent's order desk is temporarily unavailable. Please check back shortly.</p>
+    <div id="maint-contact-value" style="font-size:0.82rem;font-weight:700;color:var(--text);"></div>
   </div>
 
   <!-- Error state -->
   <div id="error-state">
-    <img src="/logo.png" alt="" style="width:48px;height:48px;opacity:0.6;margin-bottom:12px;">
-    <div id="err-msg" style="font-size:0.88rem;color:var(--text-muted);font-weight:600;"></div>
+    <img src="/logo.png" alt="" style="width:44px;height:44px;opacity:0.6;margin-bottom:12px;">
+    <div id="err-msg" style="font-size:0.86rem;color:var(--text-muted);font-weight:600;"></div>
   </div>
 
   <!-- Main Content View -->
   <div id="content" style="display:none;">
-    <!-- Agent Hero / Verification Bar -->
+    <!-- Centered Circular Agent Hero Card -->
     <div class="agent-hero-card" id="agent-bar">
-      <div class="agent-left">
-        <div class="ag-avatar" id="ag-av">?</div>
-        <div class="ag-meta">
-          <h1>
-            <span id="ag-name">Agent</span>
-            <svg class="verified-icon" id="verified-badge" viewBox="0 0 24 24" aria-label="Verified Agent" role="img">
-              <path fill="#0ea5e9" d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.79-4-4-4-.495 0-.965.084-1.4.238C14.55 2.475 13.18 1.6 11.6 1.6c-1.58 0-2.95.875-3.6 2.148-.435-.154-.905-.238-1.4-.238-2.21 0-4 1.79-4 4 0 .495.084.965.238 1.4C1.575 9.55.7 10.92.7 12.5c0 1.58.875 2.95 2.148 3.6-.154.435-.238.905-.238 1.4 0 2.21 1.79 4 4 4 .495 0 .965-.084 1.4-.238.65 1.273 2.02 2.148 3.6 2.148 1.58 0 2.95-.875 3.6-2.148.435.154.905.238 1.4.238 2.21 0 4-1.79 4-4 0-.495-.084-.965-.238-1.4 1.273-.65 2.148-2.02 2.148-3.6z"/>
-              <path fill="#ffffff" d="M10.2 16.2l-3.7-3.7 1.4-1.4 2.3 2.3 5.4-5.4 1.4 1.4z"/>
-            </svg>
-          </h1>
-          <div class="ag-sub">
-            <span id="ag-handle">OFFICIAL AGENT</span>
-            <span id="ag-verified-note" style="display:none;color:var(--g);font-weight:800;">· Verified</span>
-          </div>
+      <div class="ag-avatar-circle" id="ag-av">?</div>
+      <div class="ag-meta">
+        <h1>
+          <span id="ag-name">Agent</span>
+          <svg class="verified-icon" id="verified-badge" viewBox="0 0 24 24" aria-label="Verified Agent" role="img">
+            <path fill="#0ea5e9" d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.79-4-4-4-.495 0-.965.084-1.4.238C14.55 2.475 13.18 1.6 11.6 1.6c-1.58 0-2.95.875-3.6 2.148-.435-.154-.905-.238-1.4-.238-2.21 0-4 1.79-4 4 0 .495.084.965.238 1.4C1.575 9.55.7 10.92.7 12.5c0 1.58.875 2.95 2.148 3.6-.154.435-.238.905-.238 1.4 0 2.21 1.79 4 4 4 .495 0 .965-.084 1.4-.238.65 1.273 2.02 2.148 3.6 2.148 1.58 0 2.95-.875 3.6-2.148.435.154.905.238 1.4.238 2.21 0 4-1.79 4-4 0-.495-.084-.965-.238-1.4 1.273-.65 2.148-2.02 2.148-3.6z"/>
+            <path fill="#ffffff" d="M10.2 16.2l-3.7-3.7 1.4-1.4 2.3 2.3 5.4-5.4 1.4 1.4z"/>
+          </svg>
+        </h1>
+        <div class="ag-sub">
+          <span id="ag-handle">OFFICIAL AGENT</span>
+          <span id="ag-verified-note" style="display:none;color:var(--g);font-weight:800;">· Verified</span>
+          <span class="ag-status-pill">
+            <span class="dot"></span>
+            <span>Online</span>
+          </span>
         </div>
       </div>
-      <div class="ag-status-pill">
-        <span class="dot"></span>
-        <span>Online &amp; Instant Delivery</span>
+
+      <!-- Agent Direct Phone and Payment Info Chips -->
+      <div class="agent-direct-meta">
+        <div class="meta-chip" id="contact-phone-row" style="display:none;">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 15.92z"/></svg>
+          <span id="contact-phone">-</span>
+        </div>
+        <div class="meta-chip" id="contact-payment-row" style="display:none;">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
+          <span id="contact-payment-label">Till</span>: <strong id="contact-payment" style="margin-left:3px;">-</strong>
+        </div>
+      </div>
+
+      <!-- Tiny fraud and reports disclaimer -->
+      <div class="fraud-disclaimer">
+        For concerns, fraud or reports, <a href="mailto:support@bingwaflash.co.ke">click here</a>.
       </div>
     </div>
 
@@ -855,10 +876,10 @@ main.order-main{
       <p>Choose an airtime or bundle package below to begin checkout.</p>
     </div>
 
-    <!-- Category Tabs -->
+    <!-- Category Tabs (Naturally wrapping) -->
     <div class="category-tabs" id="categoryTabs"></div>
 
-    <!-- Dynamic Offers Container -->
+    <!-- Dynamic Line-by-Line Offers Container -->
     <div id="offers-container"></div>
 
     <!-- Checkout Panel Drawer -->
@@ -914,32 +935,6 @@ main.order-main{
       </div>
     </div>
 
-    <!-- Agent Contact Card -->
-    <div class="agent-contact-box" id="contact-card">
-      <div class="contact-head">Agent Payment &amp; Contact Info</div>
-      <div class="contact-rows">
-        <div class="contact-row-item" id="contact-phone-row" style="display:none;">
-          <div class="contact-row-icon green">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 15.92z"/></svg>
-          </div>
-          <div class="contact-row-text">
-            <small>Direct Phone</small>
-            <strong id="contact-phone">-</strong>
-          </div>
-        </div>
-        <div class="contact-row-item" id="contact-payment-row" style="display:none;">
-          <div class="contact-row-icon yellow">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
-          </div>
-          <div class="contact-row-text">
-            <small id="contact-payment-label">Payment Mode</small>
-            <strong id="contact-payment">-</strong>
-            <span id="contact-payment-hint" style="display:none;"></span>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Client Registration Banner -->
     <div class="register-banner-box" id="register-banner">
       <div class="rb-left">
@@ -955,7 +950,7 @@ main.order-main{
 <div id="stk-screen" role="dialog" aria-modal="true">
   <div class="stk-modal-card">
     <div class="stk-radar-icon">
-      <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
     </div>
     <h2>Approve M-Pesa Payment</h2>
     <div class="stk-sender-badge">
@@ -984,7 +979,7 @@ main.order-main{
 <div class="result-dialog" id="result-dialog" role="dialog" aria-modal="true">
   <div class="result-card">
     <div class="result-icon success" id="result-icon">
-      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
     </div>
     <h2 id="result-title">Payment Confirmed</h2>
     <p id="result-message">Your order has been received and is being processed.</p>
@@ -1072,7 +1067,7 @@ function agentPaymentInfo(agent, receivePhone = "") {
   if (!validAgentPaymentNumber(mode, number)) return null;
   if (mode === "SEND_MONEY") return { mode, label: "Send Money", number, line: number };
   if (mode === "PAYBILL") return { mode, label: "Paybill", number, line: number };
-  return { mode, label: "Till Number", number, line: number };
+  return { mode, label: "Till", number, line: number };
 }
 
 function renderAgentPaymentDetails() {
@@ -1081,7 +1076,7 @@ function renderAgentPaymentDetails() {
   if (!row || !info) { if (row) row.style.display = "none"; return; }
   el("contact-payment-label").textContent = info.label;
   el("contact-payment").textContent = info.line;
-  row.style.display = "flex";
+  row.style.display = "inline-flex";
 }
 
 function showError(m) {
@@ -1182,14 +1177,14 @@ function renderOffersForCategory(catFilter) {
     card.className = "offer-card" + (selectedOffer && selectedOffer.id === o.id ? " selected" : "");
     card.dataset.id = o.id;
     card.innerHTML = `
-      <div>
-        <div class="offer-tag">
-          <span>${o.category || "Offer"}</span>
-          <span class="offer-check">✓</span>
-        </div>
-        <div class="offer-name">${o.name}</div>
+      <div class="offer-card-left">
+        <span class="offer-cat-badge">${o.category || "Offer"}</span>
+        <span class="offer-name">${o.name}</span>
       </div>
-      <div class="offer-price">KSh ${o.agentPrice}</div>
+      <div class="offer-card-right">
+        <span class="offer-price">KSh ${o.agentPrice}</span>
+        <span class="offer-radio">✓</span>
+      </div>
     `;
     card.addEventListener("click", () => {
       document.querySelectorAll(".offer-card").forEach(c => c.classList.remove("selected"));
@@ -1282,11 +1277,10 @@ async function init() {
     }
 
     if (agentPhone) {
-      el("contact-phone").innerHTML = `<a href="tel:${agentPhone}" style="color:inherit;text-decoration:none;">${agentPhone}</a>`;
-      el("contact-phone-row").style.display = "flex";
+      el("contact-phone").innerHTML = `<a href="tel:${agentPhone}">${agentPhone}</a>`;
+      el("contact-phone-row").style.display = "inline-flex";
     }
     renderAgentPaymentDetails();
-    el("contact-card").style.display = "block";
 
     const offersJson = await loadCurrentOffersJson(bundle);
     if (!offersJson) { showError("No offers available from this agent."); return; }
