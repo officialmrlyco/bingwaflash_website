@@ -3,8 +3,8 @@
 export function cleanDisplayName(value, maxLength) {
   const clean = String(value || '').normalize('NFC')
     .replace(/[\uFE0E\uFE0F\u20E3]/gu, '')
-    .replace(/[^\p{L}\p{M}\p{N} .,'&()\-]/gu, '')
-    .replace(/ +/g, ' ').trim();
+    .replace(/[^\p{L}\p{M}\p{N}\p{Zs}.,'&()\-]/gu, '')
+    .replace(/\p{Zs}+/gu, ' ').trim();
   return Array.from(clean).slice(0, maxLength).join('').trim();
 }
 

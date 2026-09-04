@@ -21,6 +21,7 @@ test('legacy emoji components are removed while readable names survive', () => {
   assert.equal(cleanDisplayName('Shop 1️⃣', 20), 'Shop 1');
   assert.equal(cleanDisplayName("O'Neil", 10), "O'Neil");
   assert.equal(cleanDisplayName('中文名字', 10), '中文名字');
+  assert.equal(cleanDisplayName('Joe\u00a0Shop', 20), 'Joe Shop');
   assert.equal(cleanDisplayName('abcdefghijklmnop', 10), 'abcdefghij');
   assert.equal(cleanDisplayName('abcdefghijklmnopqrstuvwxyz', 20), 'abcdefghijklmnopqrst');
 });
