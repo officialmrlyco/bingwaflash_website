@@ -894,8 +894,8 @@ main.order-main{
     <!-- Dynamic Line-by-Line Offers Container -->
     <div id="offers-container"></div>
 
-    <!-- Checkout Panel Drawer -->
-    <div class="checkout-panel" id="order-form">
+    <!-- Real form and stable field identities let browsers offer saved phone numbers. -->
+    <form class="checkout-panel" id="order-form" name="order-checkout" autocomplete="on" method="post" onsubmit="return false;">
       <div class="checkout-summary-banner">
         <div class="cs-left">
           <small>Selected Package</small>
@@ -906,10 +906,10 @@ main.order-main{
 
       <!-- Payment Phone Input -->
       <div class="field-group">
-        <label class="field-label">M-Pesa Payment Number</label>
+        <label class="field-label" for="pay-phone">M-Pesa Payment Number</label>
         <div class="input-with-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 15.92z"/></svg>
-          <input id="pay-phone" type="tel" placeholder="07XX XXX XXX or 01XX XXX XXX" inputmode="numeric" maxlength="10" oninput="syncSameNumber()">
+          <input id="pay-phone" name="paymentPhone" autocomplete="section-payment tel" type="tel" placeholder="07XX XXX XXX or 01XX XXX XXX" inputmode="tel" maxlength="24" oninput="syncSameNumber()" onchange="syncSameNumber()">
         </div>
         <div class="field-tip">STK prompt will be sent from <strong>FLASH PAY SERVICES</strong></div>
       </div>
@@ -925,17 +925,17 @@ main.order-main{
 
       <!-- Receiving Phone Input (Hidden when checked) -->
       <div class="field-group" id="recv-field">
-        <label class="field-label">Receiving Number</label>
+        <label class="field-label" for="recv-phone">Receiving Number</label>
         <div class="input-with-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-          <input id="recv-phone" type="tel" placeholder="07XX XXX XXX" inputmode="numeric" maxlength="10">
+          <input id="recv-phone" name="recipientPhone" autocomplete="section-recipient tel" type="tel" placeholder="07XX XXX XXX" inputmode="tel" maxlength="24">
         </div>
         <div class="field-tip">The destination phone number that receives the airtime/bundle</div>
       </div>
 
       <div class="form-alert" id="form-err"></div>
 
-      <button class="checkout-pay-btn" id="pay-btn" onclick="submitOrder()">
+      <button class="checkout-pay-btn" id="pay-btn" type="submit">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         <span>Pay via M-Pesa</span>
       </button>
@@ -949,7 +949,7 @@ main.order-main{
         <span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Automated USSD</span>
         <span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> 100% Secure</span>
       </div>
-    </div>
+    </form>
 
     <!-- Client Registration Banner -->
     <div class="register-banner-box" id="register-banner">
@@ -1025,6 +1025,8 @@ window.syncSameNumber = function() {
 </script>
 
 <script type="module">
+import { cleanAgentProfile } from "/profile-names.mjs?v=20260904-1";
+import { localPhone } from "/order/phone-input.mjs?v=20260904-1";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -1098,7 +1100,8 @@ function renderAgentPaymentDetails() {
 function showError(m) {
   el("loading").style.display = "none";
   el("error-state").style.display = "block";
-  el("err-msg").innerHTML = m;
+  // Agent-link text is untrusted display content, never markup.
+  el("err-msg").textContent = m;
 }
 
 function showMaintenance(agentName, agentPhone) {
@@ -1258,10 +1261,10 @@ async function init() {
 
     const bundle = await loadAgentBundle(USERNAME);
     if (!bundle) { showError(`Agent "${USERNAME}" not found.`); return; }
-    agentProfile = bundle.profile;
+    // Clean both old private profiles and public mirror snapshots before rendering.
+    agentProfile = cleanAgentProfile(bundle.profile);
 
-    const n = agentProfile.agentName || USERNAME;
-    const businessName = agentProfile.businessName || n;
+    let n = agentProfile.agentName;
     const agentPhone = agentProfile.phoneNumber || "";
     const subscriptionConfig = await loadSubscriptionConfig();
     const liveGate = await loadLiveAgentGate(bundle.uid);
@@ -1269,7 +1272,9 @@ async function init() {
     if (liveGate.state === "error") { showError("Unable to verify order page. Please try again."); return; }
     if (liveGate.state === "denied" || liveGate.state === "missing") { showMaintenance(n, agentPhone); return; }
 
-    agentProfile = { ...agentProfile, ...liveGate.profile, username: agentProfile.username || USERNAME, uid: bundle.uid };
+    agentProfile = cleanAgentProfile({ ...agentProfile, ...liveGate.profile, username: agentProfile.username || USERNAME, uid: bundle.uid });
+    n = agentProfile.agentName;
+    const businessName = agentProfile.businessName;
 
     if (agentProfile.adminWebOrdersDisabled === true || !agentProfile.webOrdersOn || !hasActiveWebOrderSubscription(agentProfile, subscriptionConfig)) {
       showMaintenance(n, agentPhone); return;
@@ -1314,12 +1319,12 @@ async function init() {
     el("loading").style.display = "none";
     el("content").style.display = "block";
   } catch (e) {
-    showError("Failed to load offers: " + e.message);
+    showError("Failed to load offers. Please check your connection and try again.");
   }
 }
 
-function valid07(p) { return /^(07|01)\d{8}$/.test(p.trim()); }
-function norm(p) { const s = p.trim().replace(/\s/g, ""); return (/^0/.test(s)) ? "254" + s.slice(1) : s; }
+// Validation and payment payloads share the same autofill-aware normalizer.
+function norm(p) { return "254" + p.slice(1); }
 function stopOrderPolling() { activeTxId = null; pendingDialogShownForTx = ""; if (stkPollInterval) { clearInterval(stkPollInterval); stkPollInterval = null; } }
 function resetStkState() { stopOrderPolling(); }
 function restoreOrderForm() {
@@ -1408,15 +1413,16 @@ function startOrderStatusPolling(txId) {
 }
 
 window.submitOrder = async function() {
-  if (!selectedOffer) return;
-  const pp = el("pay-phone").value;
+  // Ignore duplicate submit/Enter events while an STK request is in flight.
+  if (!selectedOffer || el("pay-btn").disabled) return;
+  const pp = localPhone(el("pay-phone").value);
   const chk = el("same-num-chk");
-  const rp = chk && chk.checked ? pp : el("recv-phone").value;
+  const rp = chk && chk.checked ? pp : localPhone(el("recv-phone").value);
   const fe = el("form-err");
   fe.style.display = "none";
 
-  if (!valid07(pp)) { fe.textContent = "Enter a valid M-Pesa payment number (07XX or 01XX)"; fe.style.display = "block"; return; }
-  if (!valid07(rp)) { fe.textContent = "Enter a valid receiving phone number (07XX or 01XX)"; fe.style.display = "block"; return; }
+  if (!pp) { fe.textContent = "Enter a valid M-Pesa payment number (07XX or 01XX)"; fe.style.display = "block"; return; }
+  if (!rp) { fe.textContent = "Enter a valid receiving phone number (07XX or 01XX)"; fe.style.display = "block"; return; }
 
   const btn = el("pay-btn");
   btn.disabled = true;
@@ -1465,7 +1471,7 @@ window.submitOrder = async function() {
     showStkWaiting();
     startOrderStatusPolling(data.txId);
   } catch (e) {
-    fe.textContent = "Network error: " + e.message;
+    fe.textContent = "Unable to send the payment request. Please check your connection and try again.";
     fe.style.display = "block";
     btn.disabled = false;
     setPayButtonLabel(selectedOffer.agentPrice);
@@ -1486,6 +1492,11 @@ window.closeResultDialog = function() {
   lastPaymentResult = "";
 };
 
+// Prevent navigation while keeping a semantic form submission for browser autofill.
+el("order-form").addEventListener("submit", event => {
+  event.preventDefault();
+  window.submitOrder();
+});
 init();
 </script>
 

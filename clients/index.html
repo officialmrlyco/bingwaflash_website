@@ -845,6 +845,7 @@ main.client-main{
 </main>
 
 <script type="module">
+import { cleanAgentProfile, cleanDisplayName } from "/profile-names.mjs?v=20260904-1";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc, deleteDoc, collection, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -1007,7 +1008,8 @@ async function init() {
     const bundle = await loadAgentProfile(USERNAME);
     if (!bundle) { showError(`Agent "${USERNAME}" not found.`); return; }
     agentUid = bundle.uid;
-    agentProfile = bundle.profile;
+    // Clean legacy names before rendering or copying into a new registration.
+    agentProfile = cleanAgentProfile(bundle.profile);
     if (agentProfile.clientRegistrationOn !== true) { showError('This agent is not currently accepting client registrations.'); return; }
     const displayName = agentProfile.agentName || USERNAME;
     const businessName = agentProfile.businessName || displayName;
@@ -1151,7 +1153,26 @@ window.lookupMyAgents = async function() {
         const data = d.data();
         const item = document.createElement('div');
         item.className = 'agent-item';
-        item.innerHTML = `<div class="agent-item-av">${(data.agentName || data.agentUsername || '?').charAt(0).toUpperCase()}</div><div class="agent-item-info"><div class="agent-item-name">${data.agentName || data.agentUsername}</div><div class="agent-item-handle">@${data.agentUsername}</div></div><button class="btn-remove" onclick="removeFromAgent('${d.id}','${data.agentUid}','${phone}','${(data.agentName || data.agentUsername).replace(/'/g, "\\'")}',this)">Remove</button>`;
+        // Registration snapshots can predate the profile rules. Use text nodes so
+        // names never become HTML or inline JavaScript, including apostrophes.
+        const displayName = cleanDisplayName(data.agentName || data.agentUsername, 10) || 'Agent';
+        const avatar = document.createElement('div');
+        avatar.className = 'agent-item-av';
+        avatar.textContent = Array.from(displayName)[0].toUpperCase();
+        const info = document.createElement('div');
+        info.className = 'agent-item-info';
+        const name = document.createElement('div');
+        name.className = 'agent-item-name';
+        name.textContent = displayName;
+        const handle = document.createElement('div');
+        handle.className = 'agent-item-handle';
+        handle.textContent = '@' + cleanDisplayName(data.agentUsername, 16);
+        const remove = document.createElement('button');
+        remove.className = 'btn-remove';
+        remove.textContent = 'Remove';
+        remove.addEventListener('click', () => removeFromAgent(d.id, data.agentUid, phone, displayName, remove));
+        info.append(name, handle);
+        item.append(avatar, info, remove);
         listEl.appendChild(item);
       });
       const count = snap.docs.length;
