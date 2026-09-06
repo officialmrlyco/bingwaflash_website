@@ -1161,6 +1161,7 @@ async function loadSiteLinkConfig() {
     return parseSiteLinkConfig(s.data() || {});
   } catch (_) { return { configured: false }; }
 }
+.ag-avatar-circle img{width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block}
 
 function parseSiteLinkConfig(d) {
   const maxOfferPrice = Math.floor(Number(d.maxOfferPrice));
@@ -1380,6 +1381,16 @@ function buildCategoryTabs(categories) {
   });
 }
 
+function renderAgentAvatar(url, name) {
+  const host = el("ag-av");
+  const fallback = (name || "A").trim().charAt(0).toUpperCase() || "A";
+  host.replaceChildren();
+  if (!/^https:\/\/avatars\.bingwaflash\.co\.ke\/avatars\//.test(String(url || ""))) { host.textContent = fallback; return; }
+  const image = new Image(); image.alt = `${name || "Agent"} profile photo`; image.decoding = "async"; image.src = url;
+  image.onerror = () => { host.replaceChildren(); host.textContent = fallback; };
+  host.append(image);
+}
+
 async function init() {
   if (!USERNAME) { showError("No agent username in URL."); return; }
   try {
@@ -1420,7 +1431,8 @@ async function init() {
     el("verified-badge").style.display = verified ? "inline-block" : "none";
     el("ag-verified-note").style.display = verified ? "inline" : "none";
     el("ag-handle").textContent = "AGENT " + n.toUpperCase();
-    el("ag-av").textContent = businessName.charAt(0).toUpperCase();
+    // Immutable R2 URLs stay in the browser cache; initials are the safe fallback.
+    renderAgentAvatar(agentProfile.profileImageUrl, businessName);
     el("agent-bar").style.display = "flex";
 
     const regBanner = el("register-banner");

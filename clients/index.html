@@ -1002,6 +1002,17 @@ function renderAgentPaymentDetails() {
   row.style.display = 'inline-flex';
 }
 
+function renderAgentAvatar(url, name) {
+  const host = $('ag-av');
+  const fallback = (name || 'A').trim().charAt(0).toUpperCase() || 'A';
+  host.replaceChildren();
+  if (!/^https:\/\/avatars\.bingwaflash\.co\.ke\/avatars\//.test(String(url || ''))) { host.textContent = fallback; return; }
+  const image = new Image(); image.alt = `${name || 'Agent'} profile photo`; image.decoding = 'async'; image.src = url;
+  image.onerror = () => { host.replaceChildren(); host.textContent = fallback; };
+  host.append(image);
+}
+.ag-avatar-circle img{width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block}
+
 async function init() {
   if (!USERNAME) { showError('No agent username found. Please open a valid agent link.'); return; }
   try {
@@ -1013,7 +1024,8 @@ async function init() {
     if (agentProfile.clientRegistrationOn !== true) { showError('This agent is not currently accepting client registrations.'); return; }
     const displayName = agentProfile.agentName || USERNAME;
     const businessName = agentProfile.businessName || displayName;
-    $('ag-av').textContent = businessName.charAt(0).toUpperCase();
+    // Immutable image URLs are safely reused by the browser cache.
+    renderAgentAvatar(agentProfile.profileImageUrl, businessName);
     $('ag-name').textContent = businessName;
     const verified = agentProfile.isVerified === true;
     $('verified-badge').style.display = verified ? 'inline-block' : 'none';

@@ -1,5 +1,9 @@
 # BingwaFlash public website handoff
 
+## Profile avatars (2026-09-06)
+
+- Order and Clients render a public avatar only from the approved HTTPS host, otherwise initials remain visible. Avatar URLs are immutable and browser-cacheable; do not add a duplicate image store.
+
 Read the parent workspace AGENTS.md first. This repository is the existing GitHub Pages site at bingwaflash.co.ke, published from main root. Preserve that hosting owner and domain; do not migrate it to another host as part of a website fix.
 
 ## SiteLink live checkout health (2026-09-06)
