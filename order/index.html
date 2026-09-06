@@ -73,6 +73,7 @@ body{
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
 /* HEADER */
@@ -173,6 +174,15 @@ main.order-main{
   margin-bottom: 12px;
   border: 3px solid var(--surface2);
   box-shadow: 0 0 0 2px var(--g);
+}
+/* Keep the immutable public avatar inside the existing profile circle. The
+   script falls back to initials if this image cannot load. */
+.ag-avatar-circle img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  display: block;
 }
 .ag-meta h1{
   font-size: 1.2rem;
@@ -281,6 +291,42 @@ main.order-main{
 .catalog-head p{
   font-size: 0.82rem;
   color: var(--text-muted);
+}
+.order-explainer{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin:-2px 0 18px;
+}
+.order-explainer>div{
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+  min-width:0;
+  padding:10px;
+  background:var(--surface-muted);
+  border:1px solid var(--border);
+  border-radius:12px;
+}
+.order-explainer>div>span{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:20px;
+  height:20px;
+  flex:0 0 20px;
+  border-radius:50%;
+  background:var(--badge-bg);
+  color:var(--g);
+  font-size:.68rem;
+  font-weight:900;
+}
+.order-explainer p{min-width:0}
+.order-explainer strong{display:block;color:var(--text);font-size:.72rem;line-height:1.25}
+.order-explainer small{display:block;margin-top:3px;color:var(--text-soft);font-size:.65rem;line-height:1.35}
+@media(max-width:600px){
+  .order-explainer{grid-template-columns:1fr;gap:6px;}
+  .order-explainer>div{align-items:center;}
 }
 
 /* CATEGORY TABS - Natural Wrapping (No horizontal scroll) */
@@ -644,7 +690,7 @@ main.order-main{
   inset: 0;
   z-index: 150;
   display: none;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   padding: 16px;
   background: rgba(6, 9, 7, 0.8);
@@ -652,11 +698,11 @@ main.order-main{
   -webkit-backdrop-filter: blur(8px);
 }
 .stk-modal-card{
-  width: min(420px, 100%);
+  width: min(520px, 100%);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 24px 20px 18px;
+  border-radius: 24px 24px 0 0;
+  padding: 12px 20px calc(18px + env(safe-area-inset-bottom));
   text-align: center;
   box-shadow: var(--card-shadow);
 }
@@ -738,20 +784,30 @@ main.order-main{
   inset: 0;
   z-index: 160;
   display: none;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   padding: 16px;
   background: rgba(6, 9, 7, 0.75);
   backdrop-filter: blur(6px);
 }
 .result-card{
-  width: min(380px, 100%);
+  width: min(520px, 100%);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 24px 20px 20px;
+  border-radius: 24px 24px 0 0;
+  padding: 12px 20px calc(20px + env(safe-area-inset-bottom));
   text-align: center;
   box-shadow: var(--card-shadow);
+}
+.result-card::before,
+.stk-modal-card::before{
+  content:"";
+  display:block;
+  width:42px;
+  height:4px;
+  border-radius:var(--pill);
+  background:var(--border-strong);
+  margin:0 auto 18px;
 }
 .result-icon{
   width: 56px;
@@ -814,6 +870,102 @@ main.order-main{
   padding: 40px 16px;
   display: none;
 }
+#loading,
+#error-state,
+#maintenance-state{
+  width:100%;
+  max-width:560px;
+  margin:0 auto;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:22px;
+  box-shadow:var(--card-shadow);
+}
+#loading .state-title,
+#error-state .state-title,
+#maintenance-state .state-title{
+  font-size:1.08rem;
+  font-weight:900;
+  color:var(--text);
+  margin-bottom:6px;
+}
+.state-copy{
+  max-width:440px;
+  margin:0 auto;
+  color:var(--text-muted);
+  font-size:.82rem;
+  line-height:1.55;
+}
+.state-action{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:42px;
+  padding:9px 18px;
+  margin-top:16px;
+  border:1px solid var(--g);
+  border-radius:var(--pill);
+  background:var(--g);
+  color:#fff;
+  font-size:.8rem;
+  font-weight:800;
+  cursor:pointer;
+}
+.state-action.secondary{
+  background:transparent;
+  color:var(--text);
+  border-color:var(--border-strong);
+}
+.loading-progress{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  margin:16px auto 0;
+  color:var(--text-soft);
+  font-size:.68rem;
+  font-weight:800;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  flex-wrap:wrap;
+}
+.loading-progress span{width:7px;height:7px;border-radius:50%;background:var(--border-strong)}
+.loading-progress span.active{background:var(--g);box-shadow:0 0 0 4px var(--badge-bg)}
+.toast-region{
+  position:fixed;
+  left:50%;
+  bottom:calc(16px + env(safe-area-inset-bottom));
+  z-index:220;
+  width:min(440px,calc(100% - 28px));
+  transform:translate(-50%,16px);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s ease,transform .2s ease;
+}
+.toast-region.visible{opacity:1;transform:translate(-50%,0)}
+.toast-card{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:12px 14px;
+  border:1px solid var(--border-strong);
+  border-radius:14px;
+  background:var(--surface);
+  color:var(--text);
+  box-shadow:0 12px 32px rgba(0,0,0,.24);
+  font-size:.78rem;
+  font-weight:700;
+}
+.toast-card[data-kind="error"]{border-color:rgba(239,68,68,.55)}
+.toast-card[data-kind="success"]{border-color:rgba(21,167,108,.55)}
+.toast-dot{width:8px;height:8px;border-radius:50%;background:var(--g);margin-top:5px;flex-shrink:0}
+.toast-card[data-kind="error"] .toast-dot{background:var(--red)}
+.toast-card[data-kind="info"] .toast-dot{background:var(--y)}
+@media(max-width:600px){
+  .result-card,.stk-modal-card{border-radius:24px 24px 0 0;width:100%;}
+  .result-dialog,#stk-screen{padding:0;}
+  #loading,#error-state,#maintenance-state{border-radius:18px;}
+}
 </style>
 </head>
 <body>
@@ -838,7 +990,13 @@ main.order-main{
   <!-- Loading state -->
   <div id="loading">
     <div class="spinner"></div>
-    <div style="font-size:0.82rem;color:var(--text-muted);font-weight:700;">Loading verified offers...</div>
+    <h1 class="state-title" id="loading-title">Preparing this order page</h1>
+    <p class="state-copy" id="loading-copy">We are checking the agent, the current SiteLink settings, and the available offers.</p>
+    <div class="loading-progress" aria-live="polite">
+      <span class="active" id="load-step-agent"></span><span id="load-step-config"></span><span id="load-step-offers"></span>
+      <span id="loading-step-label">Connecting securely</span>
+    </div>
+    <button class="state-action secondary" id="loading-retry" type="button" style="display:none;" onclick="window.retryOrderPage()">Try again</button>
   </div>
 
   <!-- Maintenance state -->
@@ -846,15 +1004,18 @@ main.order-main{
     <div style="width:60px;height:60px;border-radius:50%;background:rgba(250,204,21,0.15);border:1px solid rgba(250,204,21,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:var(--y);">
       <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
     </div>
-    <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:8px;">Order Desk Maintenance</h2>
-    <p id="maint-sub" style="font-size:0.84rem;color:var(--text-muted);max-width:480px;margin:0 auto 16px;">This agent's order desk is temporarily unavailable. Please check back shortly.</p>
+    <h2 class="state-title" id="maint-title">Ordering is paused</h2>
+    <p id="maint-sub" class="state-copy">We could not safely confirm that this agent is ready to receive a new order.</p>
     <div id="maint-contact-value" style="font-size:0.82rem;font-weight:700;color:var(--text);"></div>
+    <button class="state-action secondary" type="button" onclick="window.retryOrderPage()">Check again</button>
   </div>
 
   <!-- Error state -->
   <div id="error-state">
     <img src="/logo.png" alt="" style="width:44px;height:44px;opacity:0.6;margin-bottom:12px;">
-    <div id="err-msg" style="font-size:0.86rem;color:var(--text-muted);font-weight:600;"></div>
+    <h1 class="state-title">We could not open this order page</h1>
+    <p id="err-msg" class="state-copy"></p>
+    <button class="state-action" type="button" onclick="window.retryOrderPage()">Try again</button>
   </div>
 
   <!-- Main Content View -->
@@ -875,7 +1036,7 @@ main.order-main{
           <span id="ag-verified-note" style="display:none;color:var(--g);font-weight:800;">· Verified</span>
           <span class="ag-status-pill">
             <span class="dot"></span>
-            <span>Online</span>
+            <span>Order desk ready</span>
           </span>
         </div>
       </div>
@@ -900,8 +1061,14 @@ main.order-main{
 
     <!-- Catalog Section -->
     <div class="catalog-head">
-      <h2>Select Your Offer</h2>
-      <p>Choose an airtime or bundle package below to begin checkout.</p>
+      <h2>Choose what you want to receive</h2>
+      <p>Pick an available package. You will confirm payment on your phone, then the agent's phone receives the order.</p>
+    </div>
+
+    <div class="order-explainer" aria-label="How ordering works">
+      <div><span>1</span><p><strong>Choose a package</strong><small>Prices shown are the amount you pay.</small></p></div>
+      <div><span>2</span><p><strong>Confirm on M-Pesa</strong><small>Approve the prompt sent to your payment number.</small></p></div>
+      <div><span>3</span><p><strong>Agent receives it</strong><small>The agent completes delivery from their phone.</small></p></div>
     </div>
 
     <!-- Category Tabs (Naturally wrapping) -->
@@ -1020,6 +1187,10 @@ main.order-main{
   </div>
 </div>
 
+<div class="toast-region" id="toast-region" role="status" aria-live="polite" aria-atomic="true">
+  <div class="toast-card" id="toast-card" data-kind="info"><span class="toast-dot"></span><span id="toast-message"></span></div>
+</div>
+
 <script>
 /* ── Same-number helpers ── */
 window.toggleSameNumber = function() {
@@ -1040,11 +1211,34 @@ window.syncSameNumber = function() {
 };
 </script>
 
+<script>
+// This small non-module fallback keeps a broken or slow module from leaving
+// customers on an endless spinner. The normal module replaces this retry
+// action and clears the timer when it reaches a final state.
+(function () {
+  window.retryOrderPage = window.retryOrderPage || function () { window.location.reload(); };
+  window.__orderBootTimer = setTimeout(function () {
+    var loading = document.getElementById('loading');
+    if (!loading || loading.style.display === 'none') return;
+    var spinner = loading.querySelector('.spinner');
+    var title = document.getElementById('loading-title');
+    var copy = document.getElementById('loading-copy');
+    var retry = document.getElementById('loading-retry');
+    if (spinner) spinner.style.display = 'none';
+    if (title) title.textContent = 'This is taking longer than expected';
+    if (copy) copy.textContent = 'We could not finish checking the agent and available packages. Please try again, or contact the agent if the problem continues.';
+    if (retry) retry.style.display = 'inline-flex';
+    var label = document.getElementById('loading-step-label');
+    if (label) label.textContent = 'Needs another try';
+  }, 15000);
+}());
+</script>
+
 <script type="module">
 import { cleanAgentProfile } from "/profile-names.mjs?v=20260904-2";
 import { localPhone } from "/order/phone-input.mjs?v=20260904-1";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc, collection, query, where, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const FC = {
   apiKey: "AIzaSyBMf_Kc6gFA30TiiqTvPGEUOHRD0ikpL9c",
@@ -1065,8 +1259,47 @@ let agentProfile = null, selectedOffer = null;
 let siteLinkConfig = null, pageReady = false;
 let activeTxId = null, stkPollInterval = null, lastPaymentResult = "", pendingDialogShownForTx = "";
 let rawOffers = [], allOffers = [];
+let loadingTimeout = null;
 
 function el(id) { return document.getElementById(id); }
+
+let toastTimer = null;
+function showToast(message, kind = "info") {
+  const region = el("toast-region");
+  const card = el("toast-card");
+  if (!region || !card) return;
+  el("toast-message").textContent = message;
+  card.dataset.kind = kind;
+  region.classList.add("visible");
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => region.classList.remove("visible"), 4200);
+}
+
+// The public order page must never wait forever on a Firestore/network read.
+// This also tells a customer which part is taking time instead of exposing a
+// vague "Loading offers" message.
+function setLoadingStep(step, title, copy) {
+  const titles = { agent: "Finding this agent", config: "Checking order availability", offers: "Loading available packages" };
+  const labels = { agent: "Connecting securely", config: "Checking availability", offers: "Preparing packages" };
+  el("loading-title").textContent = title || titles[step] || "Preparing this order page";
+  el("loading-copy").textContent = copy || "We are checking the agent, the current SiteLink settings, and the available offers.";
+  ["agent", "config", "offers"].forEach(name => el("load-step-" + name).classList.toggle("active", name === step));
+  el("loading-step-label").textContent = labels[step] || "Almost ready";
+}
+
+function withTimeout(promise, message, timeoutMs = 15000) {
+  let timer;
+  const timeout = new Promise((_, reject) => {
+    timer = setTimeout(() => reject(new Error(message)), timeoutMs);
+  });
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
+}
+
+window.retryOrderPage = function() {
+  // A fresh attempt clears stale listeners and keeps the checkout state honest
+  // if the first public snapshot was interrupted by a weak connection.
+  window.location.reload();
+};
 
 function setPayButtonLabel(amount) {
   const btn = el("pay-btn");
@@ -1115,13 +1348,19 @@ function renderAgentPaymentDetails() {
 }
 
 function showError(m) {
+  if (loadingTimeout) { clearTimeout(loadingTimeout); loadingTimeout = null; }
+  if (window.__orderBootTimer) { clearTimeout(window.__orderBootTimer); window.__orderBootTimer = null; }
   el("loading").style.display = "none";
+  el("content").style.display = "none";
+  el("maintenance-state").style.display = "none";
   el("error-state").style.display = "block";
   // Agent-link text is untrusted display content, never markup.
   el("err-msg").textContent = m;
 }
 
 function showMaintenance(agentName, agentPhone, reason = "This agent is experiencing problems. Please try again shortly.") {
+  if (loadingTimeout) { clearTimeout(loadingTimeout); loadingTimeout = null; }
+  if (window.__orderBootTimer) { clearTimeout(window.__orderBootTimer); window.__orderBootTimer = null; }
   el("loading").style.display = "none";
   el("agent-bar").style.display = "none";
   el("content").style.display = "none";
@@ -1142,7 +1381,10 @@ function showMaintenance(agentName, agentPhone, reason = "This agent is experien
     cv.appendChild(document.createElement("br"));
     cv.appendChild(document.createTextNode("Contact " + agentName + " directly."));
   }
-  if (agentName) { el("maint-sub").textContent = agentName + "'s order desk is temporarily paused."; }
+  el("maint-title").textContent = reason.toLowerCase().includes("update")
+    ? "Agent update needed"
+    : (reason.toLowerCase().includes("not accepting") ? "Online orders are off" : "Ordering is paused");
+  if (agentName) { el("maint-sub").textContent = agentName + "'s order desk is not ready for a new order right now."; }
   el("maintenance-state").style.display = "block";
 }
 
@@ -1156,13 +1398,11 @@ function tsMillis(v) {
 
 async function loadSiteLinkConfig() {
   try {
-    const s = await getDoc(doc(db, "config", "sitelink"));
-    if (!s.exists()) return { configured: false };
+    const s = await withTimeout(getDoc(doc(db, "config", "sitelink")), "Order settings took too long to respond.");
+    if (!s.exists()) return { configured: false, reason: "The agent's order service is still being set up." };
     return parseSiteLinkConfig(s.data() || {});
-  } catch (_) { return { configured: false }; }
+  } catch (_) { return { configured: false, reason: "We could not verify the current order settings." }; }
 }
-.ag-avatar-circle img{width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block}
-
 function parseSiteLinkConfig(d) {
   const maxOfferPrice = Math.floor(Number(d.maxOfferPrice));
   const maxPending = Math.floor(Number(d.maxPending));
@@ -1200,9 +1440,10 @@ function hasActiveWebOrderSubscription(agent, cfg) {
 }
 
 function siteLinkGate(agent, cfg) {
-  if (!cfg.configured) return { ok: false, reason: "Ordering is temporarily unavailable." };
-  if (agent.adminWebOrdersDisabled === true || agent.webOrdersOn !== true) return { ok: false, reason: "This agent is not accepting web orders right now." };
-  if (!hasActiveWebOrderSubscription(agent, cfg)) return { ok: false, reason: "This agent's selected SiteLink service is paused." };
+  if (!cfg.configured) return { ok: false, reason: cfg.reason || "The agent's order service is still being set up." };
+  if (agent.adminWebOrdersDisabled === true || agent.webOrdersOn === false) return { ok: false, reason: "This agent is not accepting web orders right now." };
+  if (agent.webOrdersOn !== true) return { ok: false, reason: "This agent's order page needs an app update before it can accept orders. Please contact the agent." };
+  if (!hasActiveWebOrderSubscription(agent, cfg)) return { ok: false, reason: "The agent's selected order service is not active. Please contact the agent to renew it." };
   const health = String(agent.siteLinkHealth || "READY").toUpperCase();
   if (["PAUSED", "CAPACITY", "PROBLEM", "UNHEALTHY", "ERROR"].includes(health)) {
     return { ok: false, reason: "This agent is experiencing problems. Please contact the agent or try again later." };
@@ -1245,46 +1486,22 @@ function startSiteLinkListeners(agentName) {
   }, () => showMaintenance(agentName, contact(), "Unable to verify this agent right now."));
 }
 
-async function loadLiveAgentGate(uid) {
-  if (!uid) return { state: "missing" };
-  try {
-    const snap = await getDoc(doc(db, "agents", uid));
-    if (!snap.exists()) return { state: "missing" };
-    return { state: "ok", profile: snap.data() || {} };
-  } catch (err) {
-    const code = String(err?.code || err?.message || "").toLowerCase();
-    if (code.includes("permission-denied") || code.includes("not-found")) return { state: "denied" };
-    return { state: "error", error: err };
-  }
-}
-
 async function loadAgentBundle(username) {
-  const publicSnap = await getDoc(doc(db, "publicAgents", username));
+  const publicSnap = await withTimeout(getDoc(doc(db, "publicAgents", username)), "Agent details took too long to respond.");
   if (publicSnap.exists()) {
     const profile = publicSnap.data();
     profile.username = profile.username || username;
     profile.uid = profile.uid || "";
     if (profile.uid) return { profile, uid: profile.uid, offersJson: String(profile.offersJson || "") };
   }
-  const q = query(collection(db, "agents"), where("username", "==", username));
-  const snap = await getDocs(q);
-  if (snap.empty) return null;
-  const profile = snap.docs[0].data();
-  profile.uid = profile.uid || snap.docs[0].id;
-  profile.username = profile.username || username;
-  return { profile, uid: snap.docs[0].id, offersJson: "" };
+  // Private agent documents are intentionally not public. A missing public
+  // mirror is an unavailable order page, not a reason to query private data.
+  return null;
 }
 
 async function loadCurrentOffersJson(bundle) {
-  if (bundle.uid) {
-    try {
-      const liveSnap = await getDoc(doc(db, "agents", bundle.uid, "meta", "offers"));
-      if (liveSnap.exists()) {
-        const liveJson = String(liveSnap.data().json || "");
-        if (liveJson) return liveJson;
-      }
-    } catch (_) {}
-  }
+  // The public mirror is the only safe source for an unauthenticated customer;
+  // reading the private agent offers document caused old pages to stall/fail.
   return String(bundle.offersJson || "");
 }
 
@@ -1394,28 +1611,25 @@ function renderAgentAvatar(url, name) {
 async function init() {
   if (!USERNAME) { showError("No agent username in URL."); return; }
   try {
+    setLoadingStep("agent", "Finding this agent", "Connecting to the agent's public order page.");
     try {
-      const cfgSnap = await getDoc(doc(db, "config", "global_settings"));
+      const cfgSnap = await withTimeout(getDoc(doc(db, "config", "global_settings")), "Site settings took too long to respond.");
       if (cfgSnap.exists() && cfgSnap.data().websitesMaintenance === true) {
         showMaintenance(null, null);
         return;
       }
     } catch (_) {}
 
-    const bundle = await loadAgentBundle(USERNAME);
+    const bundle = await withTimeout(loadAgentBundle(USERNAME), "Agent details took too long to respond.");
     if (!bundle) { showError(`Agent "${USERNAME}" not found.`); return; }
     // Clean both old private profiles and public mirror snapshots before rendering.
     agentProfile = cleanAgentProfile(bundle.profile);
 
     let n = agentProfile.agentName;
     const agentPhone = agentProfile.phoneNumber || "";
+    setLoadingStep("config", "Checking order availability", "Confirming that the agent can receive orders right now.");
     siteLinkConfig = await loadSiteLinkConfig();
-    const liveGate = await loadLiveAgentGate(bundle.uid);
-
-    if (liveGate.state === "error") { showError("Unable to verify order page. Please try again."); return; }
-    if (liveGate.state === "denied" || liveGate.state === "missing") { showMaintenance(n, agentPhone); return; }
-
-    agentProfile = cleanAgentProfile({ ...agentProfile, ...liveGate.profile, username: agentProfile.username || USERNAME, uid: bundle.uid });
+    agentProfile = cleanAgentProfile({ ...agentProfile, username: agentProfile.username || USERNAME, uid: bundle.uid });
     n = agentProfile.agentName;
     const businessName = agentProfile.businessName;
     startSiteLinkListeners(n);
@@ -1454,12 +1668,19 @@ async function init() {
     }
     renderAgentPaymentDetails();
 
-    const offersJson = await loadCurrentOffersJson(bundle);
+    setLoadingStep("offers", "Loading available packages", "Preparing the latest packages within the agent's live price range.");
+    const offersJson = await withTimeout(loadCurrentOffersJson(bundle), "Available packages took too long to respond.");
     if (!offersJson) { showError("No offers available from this agent."); return; }
 
     rawOffers = JSON.parse(offersJson || "[]");
+    if (!Array.isArray(rawOffers)) throw new Error("Offer data is not a list");
     refreshOfferCatalog();
 
+    if (!allOffers.length) {
+      showError("This agent has no packages available for online ordering right now. Please check again later.");
+      return;
+    }
+    if (window.__orderBootTimer) { clearTimeout(window.__orderBootTimer); window.__orderBootTimer = null; }
     el("loading").style.display = "none";
     el("content").style.display = "block";
 
@@ -1603,8 +1824,8 @@ window.submitOrder = async function() {
   const fe = el("form-err");
   fe.style.display = "none";
 
-  if (!pp) { fe.textContent = "Enter a valid M-Pesa payment number (07XX or 01XX)"; fe.style.display = "block"; return; }
-  if (!rp) { fe.textContent = "Enter a valid receiving phone number (07XX or 01XX)"; fe.style.display = "block"; return; }
+  if (!pp) { fe.textContent = "Enter a valid M-Pesa payment number (07XX or 01XX)"; fe.style.display = "block"; showToast(fe.textContent, "error"); return; }
+  if (!rp) { fe.textContent = "Enter a valid receiving phone number (07XX or 01XX)"; fe.style.display = "block"; showToast(fe.textContent, "error"); return; }
 
   const btn = el("pay-btn");
   btn.disabled = true;
@@ -1639,6 +1860,7 @@ window.submitOrder = async function() {
     if (!res.ok || data.error) {
       fe.textContent = data.error || "Payment request failed. Please try again.";
       fe.style.display = "block";
+      showToast(fe.textContent, "error");
       btn.disabled = false;
       setPayButtonLabel(selectedOffer.agentPrice);
       return;
@@ -1646,6 +1868,7 @@ window.submitOrder = async function() {
     if (!data.txId) {
       fe.textContent = "Transaction could not be initialized. Please try again.";
       fe.style.display = "block";
+      showToast(fe.textContent, "error");
       btn.disabled = false;
       setPayButtonLabel(selectedOffer.agentPrice);
       return;
@@ -1655,6 +1878,7 @@ window.submitOrder = async function() {
   } catch (e) {
     fe.textContent = "Unable to send the payment request. Please check your connection and try again.";
     fe.style.display = "block";
+    showToast(fe.textContent, "error");
     btn.disabled = false;
     setPayButtonLabel(selectedOffer.agentPrice);
   }
