@@ -1443,6 +1443,9 @@ function siteLinkGate(agent, cfg) {
   if (!cfg.configured) return { ok: false, reason: cfg.reason || "The agent's order service is still being set up." };
   if (agent.adminWebOrdersDisabled === true || agent.webOrdersOn === false) return { ok: false, reason: "This agent is not accepting web orders right now." };
   if (agent.webOrdersOn !== true) return { ok: false, reason: "This agent's order page needs an app update before it can accept orders. Please contact the agent." };
+  if (!/^(?:0|(?:\+?254))[17]\d{8}$/.test(String(agent.phoneNumber || "").replace(/[\s()-]/g, ""))) {
+    return { ok: false, reason: "This agent is experiencing problems. Please contact the agent or try again later." };
+  }
   if (!hasActiveWebOrderSubscription(agent, cfg)) return { ok: false, reason: "The agent's selected order service is not active. Please contact the agent to renew it." };
   const health = String(agent.siteLinkHealth || "READY").toUpperCase();
   if (["PAUSED", "CAPACITY", "PROBLEM", "UNHEALTHY", "ERROR"].includes(health)) {
@@ -1466,7 +1469,9 @@ function resumeOrderPage() {
 }
 
 function startSiteLinkListeners(agentName) {
-  const contact = () => agentProfile?.siteLinkContactPhone || "";
+  // Agent Profile owns the single customer contact; a second SiteLink phone
+  // can drift and leave customers calling an obsolete number.
+  const contact = () => agentProfile?.phoneNumber || "";
   onSnapshot(doc(db, "config", "sitelink"), snap => {
     if (!snap.exists()) return showMaintenance(agentName, contact(), "Ordering is temporarily unavailable.");
     siteLinkConfig = parseSiteLinkConfig(snap.data() || {});
@@ -1637,7 +1642,7 @@ async function init() {
 
     const initialGate = siteLinkGate(agentProfile, siteLinkConfig);
     if (!initialGate.ok) {
-      showMaintenance(n, agentProfile.siteLinkContactPhone || "", initialGate.reason); return;
+      showMaintenance(n, agentProfile.phoneNumber || "", initialGate.reason); return;
     }
 
     el("ag-name").textContent = businessName;

@@ -9,6 +9,8 @@ const page = fs.readFileSync(new URL('../order/index.html', import.meta.url), 'u
 test('order page has a public-only data path and a boot escape hatch', () => {
   assert.match(page, /doc\(db, "publicAgents", username\)/);
   assert.doesNotMatch(page, /doc\(db, "agents",/);
+  assert.match(page, /agentProfile\?\.phoneNumber/);
+  assert.doesNotMatch(page, /agentProfile\?\.siteLinkContactPhone/);
   assert.match(page, /__orderBootTimer = setTimeout/);
   assert.match(page, /window\.retryOrderPage/);
   assert.match(page, /withTimeout\(getDoc/);

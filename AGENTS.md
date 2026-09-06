@@ -9,7 +9,7 @@ Read the parent workspace AGENTS.md first. This repository is the existing GitHu
 ## SiteLink live checkout health (2026-09-06)
 
 - The order page snapshot-listens to `config/sitelink` and the selected public agent. Offer eligibility is KES 10 through the live `maxOfferPrice`; missing or invalid config fails closed instead of falling back to a hardcoded ceiling.
-- Pause checkout before STK when the selected entitlement is invalid, Server capacity is full, or SiteLink health is paused. Show the customer-friendly problem message and the agent-owned `siteLinkContactPhone` when present, using text nodes rather than HTML interpolation.
+- Pause checkout before STK when the selected entitlement is invalid, Server capacity is full, SiteLink health is paused, or Agent Profile has no valid phone. Show the customer-friendly problem message with the public Agent Profile `phoneNumber`, using text nodes rather than HTML interpolation; do not restore a separate SiteLink contact.
 - Customer progress distinguishes payment pending, waiting for agent, received by agent, payout processing, and completed. Payment or Server acknowledgement must never be described as product execution.
 - Keep formatted phone entry, autofill semantics, light/dark behavior, and the existing responsive structure when changing SiteLink checks.
 
