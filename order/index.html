@@ -120,6 +120,22 @@ header.order-header{
   border: 1px solid rgba(21, 167, 108, 0.25);
   white-space: nowrap;
 }
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+}
+
+/* Keep both trust and theme controls visible on narrow checkout screens. */
+@media(max-width: 600px){
+  header.order-header{ padding:0 10px !important; }
+  .order-brand{ font-size:0.94rem; gap:6px; }
+  .order-brand img{ width:25px; height:25px; }
+  .header-actions{ gap:5px; }
+  .header-trust{ width:32px; height:32px; padding:0; justify-content:center; }
+  .header-trust-copy{ display:none; }
+}
 
 /* MAIN LAYOUT */
 main.order-main{
@@ -807,10 +823,10 @@ main.order-main{
     <img src="/logo.png" alt="Bingwa Flash">
     <span>Bingwa <b>Flash</b></span>
   </a>
-  <div style="display:flex;align-items:center;gap:8px;">
+  <div class="header-actions">
     <div class="header-trust">
       <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      Secure Order Desk
+      <span class="header-trust-copy">Secure Order<span class="header-trust-long"> Desk</span></span>
     </div>
     <button class="thm" id="thm-btn" data-theme-toggle title="Toggle theme" aria-label="Toggle theme">
       ☼
@@ -1028,7 +1044,7 @@ window.syncSameNumber = function() {
 import { cleanAgentProfile } from "/profile-names.mjs?v=20260904-2";
 import { localPhone } from "/order/phone-input.mjs?v=20260904-1";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, collection, query, where, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const FC = {
   apiKey: "AIzaSyBMf_Kc6gFA30TiiqTvPGEUOHRD0ikpL9c",
@@ -1046,8 +1062,9 @@ const params = new URLSearchParams(window.location.search);
 const USERNAME = (params.get("u") || "").toLowerCase();
 
 let agentProfile = null, selectedOffer = null;
+let siteLinkConfig = null, pageReady = false;
 let activeTxId = null, stkPollInterval = null, lastPaymentResult = "", pendingDialogShownForTx = "";
-let allOffers = [];
+let rawOffers = [], allOffers = [];
 
 function el(id) { return document.getElementById(id); }
 
@@ -1104,16 +1121,28 @@ function showError(m) {
   el("err-msg").textContent = m;
 }
 
-function showMaintenance(agentName, agentPhone) {
+function showMaintenance(agentName, agentPhone, reason = "This agent is experiencing problems. Please try again shortly.") {
   el("loading").style.display = "none";
   el("agent-bar").style.display = "none";
   el("content").style.display = "none";
   el("error-state").style.display = "none";
   const cv = el("maint-contact-value");
-  cv.textContent = "Please check back shortly.";
-  if (agentPhone) { cv.innerHTML = `Call agent: <a href="tel:${agentPhone}" style="color:var(--g);">${agentPhone}</a>`; }
-  else if (agentName) { cv.textContent = "Contact " + agentName + " directly."; }
-  if (agentName) { el("maint-sub").textContent = agentName + "'s order desk is temporarily under maintenance."; }
+  cv.textContent = reason;
+  const contactPhone = String(agentPhone || "").replace(/\D/g, "").slice(0, 12);
+  if (contactPhone) {
+    cv.appendChild(document.createElement("br"));
+    cv.appendChild(document.createTextNode("Call agent: "));
+    const link = document.createElement("a");
+    link.href = `tel:${contactPhone}`;
+    link.style.color = "var(--g)";
+    link.textContent = contactPhone;
+    cv.appendChild(link);
+  }
+  else if (agentName) {
+    cv.appendChild(document.createElement("br"));
+    cv.appendChild(document.createTextNode("Contact " + agentName + " directly."));
+  }
+  if (agentName) { el("maint-sub").textContent = agentName + "'s order desk is temporarily paused."; }
   el("maintenance-state").style.display = "block";
 }
 
@@ -1125,19 +1154,94 @@ function tsMillis(v) {
   return 0;
 }
 
-async function loadSubscriptionConfig() {
+async function loadSiteLinkConfig() {
   try {
-    const s = await getDoc(doc(db, "config", "subscription"));
-    if (!s.exists()) return { configured: false, pricePerMonth: 1 };
-    const d = s.data();
-    return { configured: true, pricePerMonth: Math.max(0, Number(d.pricePerMonth || 0)) };
-  } catch (_) { return { configured: false, pricePerMonth: 1 }; }
+    const s = await getDoc(doc(db, "config", "sitelink"));
+    if (!s.exists()) return { configured: false };
+    return parseSiteLinkConfig(s.data() || {});
+  } catch (_) { return { configured: false }; }
+}
+
+function parseSiteLinkConfig(d) {
+  const maxOfferPrice = Math.floor(Number(d.maxOfferPrice));
+  const maxPending = Math.floor(Number(d.maxPending));
+  const b2cCharges = Number(d.b2cCharges);
+  const paymentNumber = String(d.number || "").trim();
+  const validPlan = p => p && Number.isFinite(Number(p.price)) && Number(p.price) >= 0 &&
+    Number.isInteger(Number(p.limit)) && Number(p.limit) >= 1 &&
+    (Number(p.price) <= 0 || p.airtime === true || p.mpesa === true) &&
+    (Number(p.price) <= 0 || p.airtime !== true || paymentNumber.length > 0);
+  return {
+    configured: Number.isInteger(maxOfferPrice) && maxOfferPrice >= 10 && maxOfferPrice <= 10_000 &&
+      Number.isInteger(maxPending) && maxPending >= 1 && maxPending <= 500 &&
+      Number.isFinite(b2cCharges) && b2cCharges >= 0 && validPlan(d.server) && validPlan(d.sms),
+    maxOfferPrice,
+    maxPending,
+    b2cCharges,
+    server: d.server || {},
+    sms: d.sms || {}
+  };
+}
+
+function siteLinkMode(agent) {
+  return String(agent.siteLinkMode || "SMS").toUpperCase() === "SERVER" ? "SERVER" : "SMS";
 }
 
 function hasActiveWebOrderSubscription(agent, cfg) {
   if (!cfg.configured) return false;
-  if (Number(cfg.pricePerMonth || 0) <= 0) return true;
-  return tsMillis(agent.webOrderSubscriptionUntil) > Date.now();
+  const mode = siteLinkMode(agent);
+  const plan = mode === "SERVER" ? cfg.server : cfg.sms;
+  if (Number(plan.price || 0) <= 0) return true;
+  const until = mode === "SERVER"
+    ? agent.siteLinkServerSubscriptionUntil
+    : (agent.siteLinkSmsSubscriptionUntil || agent.webOrderSubscriptionUntil);
+  return tsMillis(until) > Date.now();
+}
+
+function siteLinkGate(agent, cfg) {
+  if (!cfg.configured) return { ok: false, reason: "Ordering is temporarily unavailable." };
+  if (agent.adminWebOrdersDisabled === true || agent.webOrdersOn !== true) return { ok: false, reason: "This agent is not accepting web orders right now." };
+  if (!hasActiveWebOrderSubscription(agent, cfg)) return { ok: false, reason: "This agent's selected SiteLink service is paused." };
+  const health = String(agent.siteLinkHealth || "READY").toUpperCase();
+  if (["PAUSED", "CAPACITY", "PROBLEM", "UNHEALTHY", "ERROR"].includes(health)) {
+    return { ok: false, reason: "This agent is experiencing problems. Please contact the agent or try again later." };
+  }
+  if (siteLinkMode(agent) === "SERVER" && Number(agent.siteLinkServerPending || 0) >= cfg.maxPending) {
+    return { ok: false, reason: "This agent is experiencing problems. Please contact the agent or try again later." };
+  }
+  return { ok: true };
+}
+
+function resumeOrderPage() {
+  if (!rawOffers.length) return window.location.reload();
+  // A short listener interruption should not erase phone fields or the
+  // customer's selected offer when the agent becomes healthy again.
+  el("maintenance-state").style.display = "none";
+  el("error-state").style.display = "none";
+  el("loading").style.display = "none";
+  el("agent-bar").style.display = "flex";
+  el("content").style.display = "block";
+}
+
+function startSiteLinkListeners(agentName) {
+  const contact = () => agentProfile?.siteLinkContactPhone || "";
+  onSnapshot(doc(db, "config", "sitelink"), snap => {
+    if (!snap.exists()) return showMaintenance(agentName, contact(), "Ordering is temporarily unavailable.");
+    siteLinkConfig = parseSiteLinkConfig(snap.data() || {});
+    const gate = siteLinkGate(agentProfile || {}, siteLinkConfig);
+    if (!gate.ok) showMaintenance(agentName, contact(), gate.reason);
+    else if (pageReady) {
+      refreshOfferCatalog();
+      if (el("maintenance-state").style.display === "block") resumeOrderPage();
+    }
+  }, () => showMaintenance(agentName, contact(), "Unable to verify ordering right now."));
+  onSnapshot(doc(db, "publicAgents", USERNAME), snap => {
+    if (!snap.exists()) return showMaintenance(agentName, contact());
+    agentProfile = cleanAgentProfile({ ...(agentProfile || {}), ...snap.data() });
+    const gate = siteLinkGate(agentProfile, siteLinkConfig || { configured: false });
+    if (!gate.ok) showMaintenance(agentName, contact(), gate.reason);
+    else if (pageReady && el("maintenance-state").style.display === "block") resumeOrderPage();
+  }, () => showMaintenance(agentName, contact(), "Unable to verify this agent right now."));
 }
 
 async function loadLiveAgentGate(uid) {
@@ -1195,16 +1299,27 @@ function renderOffersForCategory(catFilter) {
     const card = document.createElement("div");
     card.className = "offer-card" + (selectedOffer && selectedOffer.id === o.id ? " selected" : "");
     card.dataset.id = o.id;
-    card.innerHTML = `
-      <div class="offer-card-left">
-        <span class="offer-cat-badge">${o.category || "Offer"}</span>
-        <span class="offer-name">${o.name}</span>
-      </div>
-      <div class="offer-card-right">
-        <span class="offer-price">KSh ${o.agentPrice}</span>
-        <span class="offer-radio">✓</span>
-      </div>
-    `;
+    // Offer labels come from an agent-owned document. Build text nodes so a
+    // malformed legacy label can never become checkout-page markup.
+    const left = document.createElement("div");
+    left.className = "offer-card-left";
+    const badge = document.createElement("span");
+    badge.className = "offer-cat-badge";
+    badge.textContent = o.category || "Offer";
+    const name = document.createElement("span");
+    name.className = "offer-name";
+    name.textContent = o.name || "Offer";
+    left.append(badge, name);
+    const right = document.createElement("div");
+    right.className = "offer-card-right";
+    const price = document.createElement("span");
+    price.className = "offer-price";
+    price.textContent = "KSh " + Number(o.agentPrice || 0);
+    const radio = document.createElement("span");
+    radio.className = "offer-radio";
+    radio.textContent = "✓";
+    right.append(price, radio);
+    card.append(left, right);
     card.addEventListener("click", () => {
       document.querySelectorAll(".offer-card").forEach(c => c.classList.remove("selected"));
       card.classList.add("selected");
@@ -1219,6 +1334,23 @@ function renderOffersForCategory(catFilter) {
     grid.appendChild(card);
   });
   container.appendChild(grid);
+}
+
+function refreshOfferCatalog() {
+  if (!siteLinkConfig?.configured || !rawOffers.length) return;
+  allOffers = rawOffers
+    .filter(o => o.enabled && o.webOrderEnabled === true && o.offerCode && o.offerCode.trim() &&
+      Number(o.agentPrice || 0) >= 10 && Number(o.agentPrice || 0) <= siteLinkConfig.maxOfferPrice)
+    .sort((a, b) => Number(a.agentPrice || 0) - Number(b.agentPrice || 0));
+  if (selectedOffer && !allOffers.some(o => o.id === selectedOffer.id)) clearOfferSelection();
+  const cats = [...new Set(allOffers.map(o => o.category || "General"))];
+  buildCategoryTabs(cats);
+  if (allOffers.length) {
+    renderOffersForCategory("ALL");
+  } else {
+    const container = el("offers-container");
+    container.textContent = "No active offers are currently within this agent's SiteLink range.";
+  }
 }
 
 function buildCategoryTabs(categories) {
@@ -1266,7 +1398,7 @@ async function init() {
 
     let n = agentProfile.agentName;
     const agentPhone = agentProfile.phoneNumber || "";
-    const subscriptionConfig = await loadSubscriptionConfig();
+    siteLinkConfig = await loadSiteLinkConfig();
     const liveGate = await loadLiveAgentGate(bundle.uid);
 
     if (liveGate.state === "error") { showError("Unable to verify order page. Please try again."); return; }
@@ -1275,9 +1407,12 @@ async function init() {
     agentProfile = cleanAgentProfile({ ...agentProfile, ...liveGate.profile, username: agentProfile.username || USERNAME, uid: bundle.uid });
     n = agentProfile.agentName;
     const businessName = agentProfile.businessName;
+    startSiteLinkListeners(n);
+    pageReady = true;
 
-    if (agentProfile.adminWebOrdersDisabled === true || !agentProfile.webOrdersOn || !hasActiveWebOrderSubscription(agentProfile, subscriptionConfig)) {
-      showMaintenance(n, agentPhone); return;
+    const initialGate = siteLinkGate(agentProfile, siteLinkConfig);
+    if (!initialGate.ok) {
+      showMaintenance(n, agentProfile.siteLinkContactPhone || "", initialGate.reason); return;
     }
 
     el("ag-name").textContent = businessName;
@@ -1298,7 +1433,11 @@ async function init() {
     }
 
     if (agentPhone) {
-      el("contact-phone").innerHTML = `<a href="tel:${agentPhone}">${agentPhone}</a>`;
+      const contact = el("contact-phone");
+      const link = document.createElement("a");
+      link.href = `tel:${String(agentPhone).replace(/\D/g, "").slice(0, 12)}`;
+      link.textContent = agentPhone;
+      contact.replaceChildren(link);
       el("contact-phone-row").style.display = "inline-flex";
     }
     renderAgentPaymentDetails();
@@ -1306,18 +1445,12 @@ async function init() {
     const offersJson = await loadCurrentOffersJson(bundle);
     if (!offersJson) { showError("No offers available from this agent."); return; }
 
-    allOffers = JSON.parse(offersJson || "[]")
-      .filter(o => o.enabled && o.webOrderEnabled === true && o.offerCode && o.offerCode.trim() && Number(o.agentPrice || 0) >= 10 && Number(o.agentPrice || 0) <= 1000)
-      .sort((a, b) => Number(a.agentPrice || 0) - Number(b.agentPrice || 0));
-
-    if (!allOffers.length) { showError("No active offers available."); return; }
-
-    const cats = [...new Set(allOffers.map(o => o.category || "General"))];
-    buildCategoryTabs(cats);
-    renderOffersForCategory("ALL");
+    rawOffers = JSON.parse(offersJson || "[]");
+    refreshOfferCatalog();
 
     el("loading").style.display = "none";
     el("content").style.display = "block";
+
   } catch (e) {
     showError("Failed to load offers. Please check your connection and try again.");
   }
@@ -1380,17 +1513,54 @@ async function pollOrderStatus(txId) {
     const failReason = data.failReason || "Payment was not completed. Please try again.";
     const mpesaRef = data.mpesaRef || data.checkoutRequestID || "";
 
-    if (status === "executed") {
+    if (status === "completed") {
       resetStkState();
       el("stk-screen").style.display = "none";
-      showResultDialog("success", "Payment Confirmed", "Your payment was confirmed. Your airtime / bundle is now being delivered.", mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
+      showResultDialog("success", "Order Received", "Your payment and agent handoff are complete. The agent may still be finishing delivery on their phone.", mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
+      return;
+    }
+    if (status === "agent_received") {
+      const marker = `${txId}:agent_received`;
+      if (pendingDialogShownForTx !== marker) {
+        pendingDialogShownForTx = marker;
+        el("stk-screen").style.display = "none";
+        showResultDialog("pending", "Received by Agent", "Your payment was confirmed and the order reached the agent's phone. Delivery may continue even if the agent is temporarily offline.", mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
+      }
+      return;
+    }
+    if (status === "payout_processing") {
+      const marker = `${txId}:payout_processing`;
+      if (pendingDialogShownForTx !== marker) {
+        pendingDialogShownForTx = marker;
+        el("stk-screen").style.display = "none";
+        showResultDialog("pending", "Payout Processing", "The order reached the agent and their payout is now processing.", mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
+      }
+      return;
+    }
+    if (status === "waiting_for_agent") {
+      const marker = `${txId}:waiting_for_agent`;
+      if (pendingDialogShownForTx !== marker) {
+        pendingDialogShownForTx = marker;
+        el("stk-screen").style.display = "none";
+        showResultDialog("pending", "Waiting for Agent", "Payment is confirmed. This order is waiting to reach the agent's phone; keep this page open for an update.", mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
+      }
       return;
     }
     if (data.confirmationDelayed === true && status !== "failed") {
-      if (pendingDialogShownForTx !== txId) {
-        pendingDialogShownForTx = txId;
+      const marker = `${txId}:payment_delayed`;
+      if (pendingDialogShownForTx !== marker) {
+        pendingDialogShownForTx = marker;
         el("stk-screen").style.display = "none";
         showResultDialog("pending", "Payment Delayed", "M-Pesa confirmation is taking longer than usual. Please keep this page open; it will update automatically.", "");
+      }
+      return;
+    }
+    if (status === "payout_failed") {
+      const marker = `${txId}:payout_failed`;
+      if (pendingDialogShownForTx !== marker) {
+        pendingDialogShownForTx = marker;
+        el("stk-screen").style.display = "none";
+        showResultDialog("pending", "Payout Needs Attention", failReason || "The payment is safe, but the agent payout needs another attempt.");
       }
       return;
     }

@@ -2,6 +2,13 @@
 
 Read the parent workspace AGENTS.md first. This repository is the existing GitHub Pages site at bingwaflash.co.ke, published from main root. Preserve that hosting owner and domain; do not migrate it to another host as part of a website fix.
 
+## SiteLink live checkout health (2026-09-06)
+
+- The order page snapshot-listens to `config/sitelink` and the selected public agent. Offer eligibility is KES 10 through the live `maxOfferPrice`; missing or invalid config fails closed instead of falling back to a hardcoded ceiling.
+- Pause checkout before STK when the selected entitlement is invalid, Server capacity is full, or SiteLink health is paused. Show the customer-friendly problem message and the agent-owned `siteLinkContactPhone` when present, using text nodes rather than HTML interpolation.
+- Customer progress distinguishes payment pending, waiting for agent, received by agent, payout processing, and completed. Payment or Server acknowledgement must never be described as product execution.
+- Keep formatted phone entry, autofill semantics, light/dark behavior, and the existing responsive structure when changing SiteLink checks.
+
 ## Profile names and checkout (2026-09-04)
 
 - Order and clients pages import the same `profile-names.mjs` policy with a version query. Clean old private/public profiles and client-registration snapshots before displaying agent/business names. Agent names are at most 10 codepoints; business names at most 20; emoji components are removed while Unicode names and ordinary punctuation survive. Keep existing username identifiers intact for links and database lookups.
