@@ -432,6 +432,60 @@ body.bf-home {
   line-height: 1.6;
 }
 
+/* RELEASE UPDATE - grouped summaries keep the homepage useful without duplicating the installer page. */
+.release-update {
+  background: var(--bf-surface);
+}
+
+.release-update-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.release-update-card {
+  background: var(--bf-bg);
+  border: 1px solid var(--bf-border);
+  border-radius: var(--bf-radius-lg);
+  padding: 26px 22px;
+}
+
+.release-update-number {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(21, 167, 108, 0.35);
+  border-radius: 8px;
+  background: var(--bf-selection);
+  color: var(--bf-green);
+  font: 800 0.76rem "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.release-update-card h3 {
+  margin: 0 0 12px;
+  color: var(--bf-text);
+  font-size: 1.08rem;
+  font-weight: 800;
+}
+
+.release-update-card ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--bf-text-muted);
+}
+
+.release-update-card li {
+  margin-bottom: 9px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.release-update-card li:last-child {
+  margin-bottom: 0;
+}
+
 /* FAQ SECTION */
 .faq-wrap {
   max-width: 760px;
@@ -582,7 +636,7 @@ body.bf-home {
   .quick-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .steps-grid, .features-grid {
+  .steps-grid, .features-grid, .release-update-grid {
     grid-template-columns: 1fr;
   }
   .footer-row {

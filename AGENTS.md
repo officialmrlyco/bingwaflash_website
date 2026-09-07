@@ -26,3 +26,7 @@ Read the parent workspace AGENTS.md first. This repository is the existing GitHu
 - The form suppresses fallback navigation and handles a real submit event; duplicate submissions while sending are ignored. Do not restore click-only submission or persist customer phone history in local storage for autocomplete.
 - Registration list names are text nodes, not HTML interpolation or inline handlers. Keep registration identity and remove actions on the original document IDs.
 - `node --test tests/profile-and-phone.test.mjs` covers normalization, emoji sequences, codepoint limits and unchanged legacy handles. Browser checks with intercepted data/payment requests passed at 390px and 1365px in light/dark. Actual Chrome/Android suggestion chips remain a device acceptance check; no real payment was used.
+## Release metadata (2026-09-07)
+
+- `version.json` mirrors Bingwa Flash v1.3.9 (Build 39) for website compatibility. The Android app update prompt remains owned by Firestore `config/version_update`; keep both records aligned when publishing a release.
+- The immutable v39 APK is `BingwaFlash_v1.3.9.apk`, 16,181,210 bytes, SHA-256 `68f9782c5d9702f1c295afcfe9eb7b254f980ccbe573c8dcd48d775cf0fc78bc`.
