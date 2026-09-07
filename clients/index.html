@@ -11,7 +11,8 @@
 <meta property="og:description" content="Register with your agent for automated data bundle and airtime recommendations.">
 <meta property="og:url" content="https://bingwaflash.co.ke/clients/">
 <meta property="og:image" content="https://bingwaflash.co.ke/logo.png">
-<link rel="icon" type="image/png" href="/logo.png">
+<!-- This starts as the safe platform mark, then switches only to an approved agent avatar. -->
+<link id="agent-favicon" rel="icon" type="image/png" href="/logo.png">
 <script>
 (function(){
   try { var t=localStorage.getItem('bf-theme'); if(t==='dark'||t==='light') document.documentElement.setAttribute('data-theme',t); }
@@ -158,6 +159,7 @@ main.client-main{
   border: 3px solid var(--surface2);
   box-shadow: 0 0 0 2px var(--g);
 }
+.ag-avatar-circle img{width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block}
 .ag-meta h1{
   font-size: 1.2rem;
   font-weight: 800;
@@ -605,9 +607,9 @@ main.client-main{
 <body>
 
 <header class="client-header">
-  <a class="client-brand" href="/" aria-label="Bingwa Flash home">
+  <a class="client-brand" id="page-brand-link" href="/" aria-label="Bingwa Flash home">
     <img src="/logo.png" alt="Bingwa Flash">
-    <span>Bingwa <b>Flash</b></span>
+    <span id="page-brand">Bingwa <b>Flash</b></span>
   </a>
   <div style="display:flex;align-items:center;gap:8px;">
     <div class="header-trust">
@@ -1002,16 +1004,40 @@ function renderAgentPaymentDetails() {
   row.style.display = 'inline-flex';
 }
 
+function isApprovedAgentAvatarUrl(url) {
+  return /^https:\/\/avatars\.bingwaflash\.co\.ke\/avatars\//.test(String(url || ''));
+}
+
 function renderAgentAvatar(url, name) {
   const host = $('ag-av');
   const fallback = (name || 'A').trim().charAt(0).toUpperCase() || 'A';
   host.replaceChildren();
-  if (!/^https:\/\/avatars\.bingwaflash\.co\.ke\/avatars\//.test(String(url || ''))) { host.textContent = fallback; return; }
+  if (!isApprovedAgentAvatarUrl(url)) { host.textContent = fallback; return; }
   const image = new Image(); image.alt = `${name || 'Agent'} profile photo`; image.decoding = 'async'; image.src = url;
   image.onerror = () => { host.replaceChildren(); host.textContent = fallback; };
   host.append(image);
 }
-.ag-avatar-circle img{width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block}
+
+function applyAgentPageBranding(businessName, profileImageUrl) {
+  const safeBusinessName = String(businessName || '').trim();
+  if (!safeBusinessName) return;
+
+  // The public business name is the page identity once its verified profile arrives.
+  document.title = safeBusinessName;
+  $('page-brand').textContent = safeBusinessName;
+  $('page-brand-link').setAttribute('aria-label', `${safeBusinessName} on Bingwa Flash`);
+
+  // Keep the platform favicon until the same approved avatar host used on-page has loaded.
+  const favicon = $('agent-favicon');
+  favicon.href = '/logo.png';
+  favicon.type = 'image/png';
+  if (!isApprovedAgentAvatarUrl(profileImageUrl)) return;
+  const preview = new Image();
+  preview.decoding = 'async';
+  preview.onload = () => { favicon.href = profileImageUrl; favicon.removeAttribute('type'); };
+  preview.onerror = () => { favicon.href = '/logo.png'; favicon.type = 'image/png'; };
+  preview.src = profileImageUrl;
+}
 
 async function init() {
   if (!USERNAME) { showError('No agent username found. Please open a valid agent link.'); return; }
@@ -1021,9 +1047,11 @@ async function init() {
     agentUid = bundle.uid;
     // Clean legacy names before rendering or copying into a new registration.
     agentProfile = cleanAgentProfile(bundle.profile);
-    if (agentProfile.clientRegistrationOn !== true) { showError('This agent is not currently accepting client registrations.'); return; }
     const displayName = agentProfile.agentName || USERNAME;
     const businessName = agentProfile.businessName || displayName;
+    // Brand even a paused registration page so its public identity remains clear.
+    applyAgentPageBranding(businessName, agentProfile.profileImageUrl);
+    if (agentProfile.clientRegistrationOn !== true) { showError('This agent is not currently accepting client registrations.'); return; }
     // Immutable image URLs are safely reused by the browser cache.
     renderAgentAvatar(agentProfile.profileImageUrl, businessName);
     $('ag-name').textContent = businessName;

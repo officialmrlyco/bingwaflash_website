@@ -11,7 +11,8 @@
 <meta property="og:description" content="View active offers, bundles, and airtime from a verified Bingwa Flash agent. Instant M-Pesa STK push payment.">
 <meta property="og:url" content="https://bingwaflash.co.ke/order/">
 <meta property="og:image" content="https://bingwaflash.co.ke/logo.png">
-<link rel="icon" type="image/png" href="/logo.png">
+<!-- This starts as the safe platform mark, then switches only to an approved agent avatar. -->
+<link id="agent-favicon" rel="icon" type="image/png" href="/logo.png">
 <script>
 (function(){
   try { var t=localStorage.getItem('bf-theme'); if(t==='dark'||t==='light') document.documentElement.setAttribute('data-theme',t); }
@@ -971,9 +972,9 @@ main.order-main{
 <body>
 
 <header class="order-header">
-  <a class="order-brand" href="/" aria-label="Bingwa Flash home">
+  <a class="order-brand" id="page-brand-link" href="/" aria-label="Bingwa Flash home">
     <img src="/logo.png" alt="Bingwa Flash">
-    <span>Bingwa <b>Flash</b></span>
+    <span id="page-brand">Bingwa <b>Flash</b></span>
   </a>
   <div class="header-actions">
     <div class="header-trust">
@@ -1603,14 +1604,39 @@ function buildCategoryTabs(categories) {
   });
 }
 
+function isApprovedAgentAvatarUrl(url) {
+  return /^https:\/\/avatars\.bingwaflash\.co\.ke\/avatars\//.test(String(url || ""));
+}
+
 function renderAgentAvatar(url, name) {
   const host = el("ag-av");
   const fallback = (name || "A").trim().charAt(0).toUpperCase() || "A";
   host.replaceChildren();
-  if (!/^https:\/\/avatars\.bingwaflash\.co\.ke\/avatars\//.test(String(url || ""))) { host.textContent = fallback; return; }
+  if (!isApprovedAgentAvatarUrl(url)) { host.textContent = fallback; return; }
   const image = new Image(); image.alt = `${name || "Agent"} profile photo`; image.decoding = "async"; image.src = url;
   image.onerror = () => { host.replaceChildren(); host.textContent = fallback; };
   host.append(image);
+}
+
+function applyAgentPageBranding(businessName, profileImageUrl) {
+  const safeBusinessName = String(businessName || "").trim();
+  if (!safeBusinessName) return;
+
+  // The public business name is the page identity once its verified profile arrives.
+  document.title = safeBusinessName;
+  el("page-brand").textContent = safeBusinessName;
+  el("page-brand-link").setAttribute("aria-label", `${safeBusinessName} on Bingwa Flash`);
+
+  // Keep the platform favicon until the same approved avatar host used on-page has loaded.
+  const favicon = el("agent-favicon");
+  favicon.href = "/logo.png";
+  favicon.type = "image/png";
+  if (!isApprovedAgentAvatarUrl(profileImageUrl)) return;
+  const preview = new Image();
+  preview.decoding = "async";
+  preview.onload = () => { favicon.href = profileImageUrl; favicon.removeAttribute("type"); };
+  preview.onerror = () => { favicon.href = "/logo.png"; favicon.type = "image/png"; };
+  preview.src = profileImageUrl;
 }
 
 async function init() {
@@ -1652,6 +1678,7 @@ async function init() {
     el("ag-handle").textContent = "AGENT " + n.toUpperCase();
     // Immutable R2 URLs stay in the browser cache; initials are the safe fallback.
     renderAgentAvatar(agentProfile.profileImageUrl, businessName);
+    applyAgentPageBranding(businessName, agentProfile.profileImageUrl);
     el("agent-bar").style.display = "flex";
 
     const regBanner = el("register-banner");
