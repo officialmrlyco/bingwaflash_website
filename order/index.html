@@ -832,6 +832,8 @@ main.order-main{
   font-size: 0.82rem;
   color: var(--text-muted);
   line-height: 1.5;
+  /* Keep the optional verified delivery contact on its own clear line. */
+  white-space: pre-line;
   margin-bottom: 14px;
 }
 .result-ref-code{
@@ -1768,6 +1770,14 @@ function showResultDialog(type, title, message, ref) {
   dialog.style.display = "flex";
 }
 
+function formatAgentDeliveryContact(rawPhone) {
+  const digits = String(rawPhone || "").replace(/\D/g, "");
+  const local = digits.startsWith("254") && digits.length === 12 ? "0" + digits.slice(3) : digits;
+  // Contact was captured by the backend from the public Agent Profile. Keep
+  // historical orders without it readable instead of displaying a bad number.
+  return /^(?:07|01)\d{8}$/.test(local) ? `\n\nNeed delivery help? Contact the agent on ${local}.` : "";
+}
+
 async function pollOrderStatus(txId) {
   if (!txId) return;
   try {
@@ -1777,11 +1787,16 @@ async function pollOrderStatus(txId) {
     const status = String(data.status || "pending").toLowerCase();
     const failReason = data.failReason || "Payment was not completed. Please try again.";
     const mpesaRef = data.mpesaRef || data.checkoutRequestID || "";
+    // Server receipt means the order is safely committed on the agent phone.
+    // It is the customer handoff completion point, not a claim that airtime
+    // execution has already finished on the carrier network.
+    const agentContact = formatAgentDeliveryContact(data.agentContactPhone);
+    const receivedMessage = "Your payment is complete. The order has been saved on the agent's phone and their payout has started. Please wait for the agent to deliver your package." + agentContact;
 
     if (status === "completed") {
       resetStkState();
       el("stk-screen").style.display = "none";
-      showResultDialog("success", "Order Received", "Your payment and agent handoff are complete. The agent may still be finishing delivery on their phone.", mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
+      showResultDialog("success", "Order Received", receivedMessage, mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
       return;
     }
     if (status === "agent_received") {
@@ -1789,7 +1804,7 @@ async function pollOrderStatus(txId) {
       if (pendingDialogShownForTx !== marker) {
         pendingDialogShownForTx = marker;
         el("stk-screen").style.display = "none";
-        showResultDialog("pending", "Received by Agent", "Your payment was confirmed and the order reached the agent's phone. Delivery may continue even if the agent is temporarily offline.", mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
+        showResultDialog("success", "Order Received", receivedMessage, mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
       }
       return;
     }
@@ -1798,7 +1813,7 @@ async function pollOrderStatus(txId) {
       if (pendingDialogShownForTx !== marker) {
         pendingDialogShownForTx = marker;
         el("stk-screen").style.display = "none";
-        showResultDialog("pending", "Payout Processing", "The order reached the agent and their payout is now processing.", mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
+        showResultDialog("success", "Order Received", receivedMessage, mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
       }
       return;
     }
@@ -1807,7 +1822,7 @@ async function pollOrderStatus(txId) {
       if (pendingDialogShownForTx !== marker) {
         pendingDialogShownForTx = marker;
         el("stk-screen").style.display = "none";
-        showResultDialog("pending", "Waiting for Agent", "Payment is confirmed. This order is waiting to reach the agent's phone; keep this page open for an update.", mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
+        showResultDialog("pending", "Sending to Agent", "Payment is confirmed. We are securely sending this order to the agent's phone. You will see confirmation as soon as it is saved there.", mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
       }
       return;
     }

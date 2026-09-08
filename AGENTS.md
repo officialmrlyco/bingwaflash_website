@@ -12,6 +12,7 @@ Read the parent workspace AGENTS.md first. This repository is the existing GitHu
 - The order page snapshot-listens to `config/sitelink` and the selected public agent. Offer eligibility is KES 10 through the live `maxOfferPrice`; missing or invalid config fails closed instead of falling back to a hardcoded ceiling.
 - Pause checkout before STK when the selected entitlement is invalid, Server capacity is full, SiteLink health is paused, or Agent Profile has no valid phone. Show the customer-friendly problem message with the public Agent Profile `phoneNumber`, using text nodes rather than HTML interpolation; do not restore a separate SiteLink contact.
 - Customer progress distinguishes payment pending, waiting for agent, received by agent, payout processing, and completed. Payment or Server acknowledgement must never be described as product execution.
+- Once Server receipt is confirmed, present the customer with a green `Order Received` outcome: payment is complete, the phone saved the order, payout started, and the customer now waits for delivery. The optional Agent Profile phone is supplied by `getOrderStatus` from the checkout-time verified contact; omit it safely on old transactions. Do not call offer execution complete.
 - Keep formatted phone entry, autofill semantics, light/dark behavior, and the existing responsive structure when changing SiteLink checks.
 
 ## Public order loading and checkout clarity (2026-09-06)
