@@ -997,9 +997,22 @@ svg {
 }
 
 .footer-code {
+  max-width: 340px;
   color: #918b81;
   font: 500 0.64rem var(--mono);
+  line-height: 1.6;
   text-align: right;
+}
+
+/* The shared LYCO TECHNOLOGIES credit remains readable on the compact scanner footer. */
+.footer-code a {
+  color: var(--red);
+  font-weight: 800;
+  text-decoration: none;
+}
+.footer-code a:hover,
+.footer-code a:focus-visible {
+  text-decoration: underline;
 }
 
 @media (max-width: 980px) {

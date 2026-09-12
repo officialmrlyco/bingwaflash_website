@@ -234,8 +234,10 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:22px
 <footer><div class="ft-in">
   <a class="ft-logo" href="/"><img src="/logo.png" alt="Bingwa Flash"><span>Bingwa Flash</span></a>
   <div class="ft-links"><a href="/">Home</a><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms</a></div>
-  <div class="ft-copy">&copy; 2026 Bingwa Flash</div>
+  <!-- Keep parent-company ownership visible without replacing the legal product identity. -->
+  <div class="ft-copy">&copy; 2026 Bingwa Flash. All rights reserved. Made and Designed by <a href="https://lycotechnologies.co.ke/" target="_blank" rel="noopener">LYCO TECHNOLOGIES</a>.</div>
 </div></footer>
+<script>
 document.querySelectorAll('.toc-list a').forEach(function(a){a.addEventListener('click',function(){document.querySelectorAll('.toc-list a').forEach(function(x){x.classList.remove('active')});a.classList.add('active')})});
 </script>
 </body>

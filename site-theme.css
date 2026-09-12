@@ -192,3 +192,32 @@ input:focus, textarea:focus, select:focus {
   border-color: var(--bf-green) !important;
   background: var(--bf-surface) !important;
 }
+
+/* Product-first footer credit used by public checkout, registration, and legacy routes. */
+.lyco-site-footer {
+  margin-top: 32px;
+  padding: 20px max(20px, calc((100vw - 1140px) / 2));
+  background: var(--bf-surface);
+  border-top: 1px solid var(--bf-border);
+  color: var(--bf-text-muted);
+}
+.lyco-site-footer__inner {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+.lyco-site-footer__credit {
+  margin: 0;
+  font-size: .78rem;
+  font-weight: 700;
+}
+.lyco-site-footer__credit a {
+  color: var(--bf-green);
+  font-weight: 900;
+  text-decoration: none;
+}
+.lyco-site-footer__credit a:hover,
+.lyco-site-footer__credit a:focus-visible {
+  color: var(--bf-green-strong);
+  text-decoration: underline;
+}

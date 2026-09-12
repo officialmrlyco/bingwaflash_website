@@ -2,8 +2,9 @@
 
 ## LYCO TECHNOLOGIES product ownership (2026-09-12)
 
-- Bingwa Flash is owned and designed by LYCO TECHNOLOGIES. The public home-footer credit must link to `https://lycotechnologies.co.ke/` using the exact public label `LYCO TECHNOLOGIES`.
-- Keep the parent-company credit product-first: it belongs in the footer and must not replace Bingwa Flash support, legal, or checkout identity.
+- Bingwa Flash is owned and designed by LYCO TECHNOLOGIES. Every visible public Bingwa Flash footer must use the exact linked credit: `© 2026 Bingwa Flash. All rights reserved. Made and Designed by LYCO TECHNOLOGIES.` The LYCO TECHNOLOGIES text links to `https://lycotechnologies.co.ke/`.
+- Airtime Recharge Scanner is the exception: its own footer says `© 2026 Airtime Recharge Scanner. All rights reserved. Made and Designed by LYCO TECHNOLOGIES.` Keep the scanner's product identity and package name intact.
+- Keep the parent-company credit product-first: it belongs in the footer and must not replace Bingwa Flash support, legal, or checkout identity. `privacy.html` and `terms.html` each need an opening `<script>` tag before the table-of-contents listener; a closing tag without it renders the source JavaScript at the bottom of the legal page.
 
 ## Profile avatars (2026-09-06)
 
