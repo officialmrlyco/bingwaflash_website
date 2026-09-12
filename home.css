@@ -608,6 +608,19 @@ body.bf-home {
   text-align: center;
 }
 
+/* Keep the parent-company credit readable and consistent with the existing footer links. */
+.footer-bottom a {
+  color: inherit;
+  font-weight: 800;
+  text-decoration-color: var(--green);
+  text-underline-offset: 3px;
+}
+
+.footer-bottom a:hover,
+.footer-bottom a:focus-visible {
+  color: var(--green);
+}
+
 /* RESPONSIVENESS */
 @media(max-width: 900px) {
   .home-nav {

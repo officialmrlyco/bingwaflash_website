@@ -1,5 +1,10 @@
 # BingwaFlash public website handoff
 
+## LYCO TECHNOLOGIES product ownership (2026-09-12)
+
+- Bingwa Flash is owned and designed by LYCO TECHNOLOGIES. The public home-footer credit must link to `https://lycotechnologies.co.ke/` using the exact public label `LYCO TECHNOLOGIES`.
+- Keep the parent-company credit product-first: it belongs in the footer and must not replace Bingwa Flash support, legal, or checkout identity.
+
 ## Profile avatars (2026-09-06)
 
 - Order and Clients render a public avatar only from the approved HTTPS host, otherwise initials remain visible. Avatar URLs are immutable and browser-cacheable; do not add a duplicate image store.
