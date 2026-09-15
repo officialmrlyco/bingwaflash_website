@@ -38,3 +38,7 @@ Read the parent workspace AGENTS.md first. This repository is the existing GitHu
 
 - `version.json` mirrors Bingwa Flash v1.3.9 (Build 39) for website compatibility. The Android app update prompt remains owned by Firestore `config/version_update`; keep both records aligned when publishing a release.
 - The immutable v39 APK is `BingwaFlash_v1.3.9.apk`, 16,181,210 bytes, SHA-256 `68f9782c5d9702f1c295afcfe9eb7b254f980ccbe573c8dcd48d775cf0fc78bc`.
+
+## Public username fallback routing (2026-09-15)
+
+- GitHub Pages sends root username URLs to `404.html`. Its route gate must forward dot and underscore usernames, plus safe legacy hyphen routes, to `/order/?u=...`; do not limit it to underscore-only handles. Keep path separators and leading/trailing punctuation rejected so a route cannot resolve to a different path or account.

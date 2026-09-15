@@ -23,6 +23,12 @@ const segs=window.location.pathname.split('/').filter(Boolean);
 const first=(segs[0]||'').toLowerCase();
 const second=(segs[1]||'').toLowerCase();
 
+// Root username links arrive here because GitHub Pages has no physical
+// per-agent directory. Accept the current dot/underscore policy and legacy
+// hyphen routes, while excluding separators that could change the path.
+const isPublicUsernameRoute=value=>
+  /^[a-z0-9_](?:[a-z0-9._-]{1,30}[a-z0-9_])$/.test(value);
+
 if(!first){
   window.location.replace('/');
 }else if(first==='download'||first==='downloads'){
@@ -37,12 +43,12 @@ if(!first){
 }else if(first==='clients'){
   // /clients/agentusername -> /clients/?u=agentusername
   // /clients/ alone -> just load the page with no agent selected
-  if(second&&/^[a-z0-9_]{2,32}$/.test(second)){
+  if(isPublicUsernameRoute(second)){
     window.location.replace('/clients/?u='+encodeURIComponent(second));
   }else{
     window.location.replace('/clients/');
   }
-}else if(!/^(order|contact|404)$/.test(first)&&/^[a-z0-9_]{2,32}$/.test(first)){
+}else if(segs.length===1&&!/^(order|contact|404)$/.test(first)&&isPublicUsernameRoute(first)){
   // Static-host fallback for browsers. True per-agent share cards must route this path to the agentPreview function.
   window.location.replace('/order/?u='+encodeURIComponent(first));
 }else{
