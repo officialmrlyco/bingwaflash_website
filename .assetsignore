@@ -1,0 +1,15 @@
+# Deployment and repository-only files must never become public site assets.
+.git/
+.github/
+.wrangler/
+node_modules/
+cloudflare-worker/
+tests/
+AGENTS.md
+*.md
+wrangler.jsonc
+package.json
+package-lock.json
+CNAME
+firestore-debug.log
+*.map

@@ -1,0 +1,3 @@
+# Wrangler writes local account and build cache state during deployments.
+# It is reproducible and must not be committed or served as a public asset.
+.wrangler/

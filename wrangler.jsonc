@@ -1,0 +1,27 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "bingwaflash-site-share",
+  "main": "cloudflare-worker/src/index.ts",
+  "compatibility_date": "2026-09-18",
+  "routes": [
+    {
+      "pattern": "bingwaflash.co.ke/*",
+      "zone_name": "bingwaflash.co.ke"
+    }
+  ],
+  "vars": {
+    // This browser key can read only the public Firestore mirror. Rules still
+    // prevent this Worker from reaching private agent information.
+    "FIREBASE_WEB_API_KEY": "AIzaSyBMf_Kc6gFA30TiiqTvPGEUOHRD0ikpL9c"
+  },
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/order*",
+      "/clients*"
+    ],
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}

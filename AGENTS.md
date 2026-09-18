@@ -11,7 +11,14 @@
 - Order and Clients render a public avatar only from the approved HTTPS host, otherwise initials remain visible. Avatar URLs are immutable and browser-cacheable; do not add a duplicate image store.
 - Once the public profile loads, Order and Clients use its business name for the browser title and visible header. Their favicon may switch only after an approved avatar URL has loaded; without one, retain `/logo.png`. Keep this branding public-data-only.
 
-Read the parent workspace AGENTS.md first. This repository is the existing GitHub Pages site at bingwaflash.co.ke, published from main root. Preserve that hosting owner and domain; do not migrate it to another host as part of a website fix.
+Read the parent workspace AGENTS.md first. This repository is the public source for bingwaflash.co.ke. It is deployed from `main` to Cloudflare Workers Static Assets using Cloudflare Workers Builds; GitHub remains the publishing source, but customer requests must never fetch HTML from GitHub's API. Preserve the domain and Firebase backend ownership.
+
+## Cloudflare static site delivery (2026-09-18)
+
+- `wrangler.jsonc` deploys the complete public site as static edge assets under the existing `bingwaflash-site-share` Worker. Static paths are free/unlimited and bypass Worker code; only `/order*` and `/clients*` invoke `cloudflare-worker/src/index.ts` for share metadata.
+- The Worker must use `env.ASSETS.fetch()` as its page source. Do not restore a runtime GitHub Contents API fetch or return a provider error body as HTML. If public-brand metadata lookup fails, return the unmodified static page.
+- `.assetsignore` prevents repository, test, workflow, notes, and Worker-source files from becoming public URLs. Update it whenever a non-public source folder is added at the website root.
+- Use Cloudflare Workers Builds to connect this repository to the existing `bingwaflash-site-share` Worker with `main` as the production branch. Cloudflare creates and retains its deployment credential internally; do not add a Cloudflare API token, account ID, or any other deployment secret to this repository or GitHub Actions.
 
 ## SiteLink live checkout health (2026-09-06)
 
