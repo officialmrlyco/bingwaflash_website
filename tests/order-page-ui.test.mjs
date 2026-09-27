@@ -25,3 +25,12 @@ test('order page explains the handoff and uses bottom-sheet overlays', () => {
   assert.match(page, /class="toast-region"/);
   assert.doesNotMatch(page, /window\.alert\(/);
 });
+
+// Offer cards must balance in a rigid 50/50 two-column grid on desktop,
+// branching long titles into 2 lines rather than blowing out column width.
+test('offer cards enforce 50/50 column grid and branch long titles across lines', () => {
+  assert.match(page, /grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/);
+  assert.match(page, /-webkit-line-clamp:\s*2/);
+  assert.match(page, /line-clamp:\s*2/);
+  assert.match(page, /overflow-wrap:\s*break-word/);
+});

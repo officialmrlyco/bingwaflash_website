@@ -1,5 +1,12 @@
 # BingwaFlash public website handoff
 
+## Order package grid centering and multiline title branching (2026-09-27)
+
+- Offer cards in `order/index.html` use `grid-template-columns: repeat(2, minmax(0, 1fr))` on desktop (>=768px). Do not use `repeat(2, 1fr)` without `minmax(0, 1fr)`: `1fr` defaults to `minmax(auto, 1fr)`, which allows an unusually long offer name in column 1 to expand the track's intrinsic min-content, pushing column 2 to the far right edge and rendering the layout off-center.
+- `.offer-name` uses a 2-line clamp (`display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; word-break: break-word; overflow-wrap: break-word; line-height: 1.35;`) instead of single-line `white-space: nowrap`. Long offer names branch cleanly across 2 lines without stretching or distorting cards, and excess characters truncate with an ellipsis.
+- In JS DOM creation, `name.title` is assigned `o.name || "Offer"` so desktop users can view the full title on hover.
+- `.cs-left` in the checkout summary banner has `min-width: 0; flex: 1;` with `word-break: break-word` on `strong`, and `.cs-price` has `flex-shrink: 0`, preventing long package names from squishing the checkout price.
+
 ## LYCO TECHNOLOGIES product ownership (2026-09-12)
 
 - Bingwa Flash is owned and designed by LYCO TECHNOLOGIES. Every visible public Bingwa Flash footer must use the exact linked credit: `© 2026 Bingwa Flash. All rights reserved. Made and Designed by LYCO TECHNOLOGIES.` The LYCO TECHNOLOGIES text links to `https://lycotechnologies.co.ke/`.

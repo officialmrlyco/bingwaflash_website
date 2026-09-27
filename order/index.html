@@ -379,11 +379,14 @@ main.order-main{
   flex-direction: column;
   gap: 8px;
   margin-bottom: 24px;
+  width: 100%;
 }
 @media(min-width: 768px){
   .offers-grid{
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    /* Enforce rigid 50/50 two-column sizing. minmax(0, 1fr) ensures that a long offer title
+       can never expand the track's intrinsic min-content and push the right column off-center. */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
 }
@@ -401,6 +404,8 @@ main.order-main{
   box-shadow: var(--card-shadow);
   text-align: left;
   min-height: 52px;
+  min-width: 0;
+  width: 100%;
 }
 .offer-card:hover{
   border-color: var(--g);
@@ -434,9 +439,17 @@ main.order-main{
   font-size: 0.84rem;
   font-weight: 800;
   color: var(--text);
-  white-space: nowrap;
+  line-height: 1.35;
+  /* Allow long offer titles to branch into another line without pushing the sibling column.
+     Clamped to 2 lines with an ellipsis so unusually long titles remain bounded and clean. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .offer-card-right{
@@ -498,6 +511,10 @@ main.order-main{
   justify-content: space-between;
   margin-bottom: 18px;
 }
+.cs-left{
+  min-width: 0;
+  flex: 1;
+}
 .cs-left small{
   display: block;
   font-size: 0.68rem;
@@ -507,13 +524,17 @@ main.order-main{
   letter-spacing: 0.05em;
 }
 .cs-left strong{
+  display: block;
   font-size: 0.92rem;
   color: var(--text);
+  word-break: break-word;
 }
 .cs-price{
   font-size: 1.15rem;
   font-weight: 900;
   color: var(--y);
+  flex-shrink: 0;
+  margin-left: 14px;
 }
 
 .field-group{
@@ -1561,6 +1582,8 @@ function renderOffersForCategory(catFilter) {
     const name = document.createElement("span");
     name.className = "offer-name";
     name.textContent = o.name || "Offer";
+    // Expose full package label on hover for cards with 2-line clamped titles
+    name.title = o.name || "Offer";
     left.append(badge, name);
     const right = document.createElement("div");
     right.className = "offer-card-right";
