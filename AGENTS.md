@@ -11,6 +11,11 @@
 - Order and Clients render a public avatar only from the approved HTTPS host, otherwise initials remain visible. Avatar URLs are immutable and browser-cacheable; do not add a duplicate image store.
 - Once the public profile loads, Order and Clients use its business name for the browser title and visible header. Their favicon may switch only after an approved avatar URL has loaded; without one, retain `/logo.png`. Keep this branding public-data-only.
 
+## Order and Clients agent portrait sizing (2026-09-27)
+
+- Keep `.ag-avatar-circle` at the same responsive size on both public pages: `clamp(76px, 6vw, 88px)`. The larger portrait helps customers recognize the agent while the max size preserves the centered profile card layout on wide screens.
+- Keep the existing circular crop, approved-avatar URL gate, and initials fallback unchanged when adjusting portrait presentation.
+
 Read the parent workspace AGENTS.md first. This repository is the public source for bingwaflash.co.ke. It is deployed from `main` to Cloudflare Workers Static Assets using Cloudflare Workers Builds; GitHub remains the publishing source, but customer requests must never fetch HTML from GitHub's API. Preserve the domain and Firebase backend ownership.
 
 ## Cloudflare static site delivery (2026-09-18)

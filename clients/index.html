@@ -145,8 +145,9 @@ main.client-main{
   box-shadow: var(--card-shadow);
 }
 .ag-avatar-circle{
-  width: 64px;
-  height: 64px;
+  /* Match Order: keep the agent portrait prominent on phones and balanced on wide screens. */
+  width: clamp(76px, 6vw, 88px);
+  height: clamp(76px, 6vw, 88px);
   border-radius: 50%;
   background: var(--g);
   color: #ffffff;
