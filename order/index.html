@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Order Offers - Bingwa Flash</title>
-<meta name="description" content="Order active Safaricom & Airtel offers from a verified Bingwa Flash agent. Pay securely via M-Pesa STK push.">
+<meta name="description" content="Order active Safaricom & Airtel offers from a Bingwa Flash agent. Pay securely via M-Pesa STK push.">
 <link rel="canonical" href="https://bingwaflash.co.ke/order/">
 <meta property="og:site_name" content="Bingwa Flash">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Order Offers - Bingwa Flash">
-<meta property="og:description" content="View active offers, bundles, and airtime from a verified Bingwa Flash agent. Instant M-Pesa STK push payment.">
+<meta property="og:description" content="View active offers, bundles, and airtime from a Bingwa Flash agent. Instant M-Pesa STK push payment.">
 <meta property="og:url" content="https://bingwaflash.co.ke/order/">
 <meta property="og:image" content="https://bingwaflash.co.ke/logo.png">
 <!-- This starts as the safe platform mark, then switches only to an approved agent avatar. -->
@@ -1287,6 +1287,7 @@ window.syncSameNumber = function() {
 <script type="module">
 import { cleanAgentProfile } from "/profile-names.mjs?v=20260904-2";
 import { localPhone } from "/order/phone-input.mjs?v=20260904-1";
+import { showCurrentVerificationBadge } from "/verified-agent.mjs?v=20260927-1";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -1766,9 +1767,8 @@ async function init() {
     }
 
     el("ag-name").textContent = businessName;
-    const verified = agentProfile.isVerified === true;
-    el("verified-badge").style.display = verified ? "inline-block" : "none";
-    el("ag-verified-note").style.display = verified ? "inline" : "none";
+    // Apply current review and subscription eligibility, then hide automatically at expiry.
+    showCurrentVerificationBadge(agentProfile, el("verified-badge"), el("ag-verified-note"));
     el("ag-handle").textContent = "AGENT " + n.toUpperCase();
     // Immutable R2 URLs stay in the browser cache; initials are the safe fallback.
     renderAgentAvatar(agentProfile.profileImageUrl, businessName);

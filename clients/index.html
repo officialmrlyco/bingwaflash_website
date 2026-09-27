@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Register as Client - Bingwa Flash</title>
-<meta name="description" content="Register as a client of a verified Bingwa Flash agent to receive automated bundle and airtime recommendations.">
+<meta name="description" content="Register as a client of a Bingwa Flash agent to receive automated bundle and airtime recommendations.">
 <link rel="canonical" href="https://bingwaflash.co.ke/clients/">
 <meta property="og:site_name" content="Bingwa Flash">
 <meta property="og:type" content="website">
@@ -868,6 +868,7 @@ main.client-main{
 
 <script type="module">
 import { cleanAgentProfile, cleanDisplayName } from "/profile-names.mjs?v=20260904-2";
+import { showCurrentVerificationBadge } from "/verified-agent.mjs?v=20260927-1";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc, deleteDoc, collection, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -1118,9 +1119,8 @@ async function init() {
     // Immutable image URLs are safely reused by the browser cache.
     renderAgentAvatar(agentProfile.profileImageUrl, businessName);
     $('ag-name').textContent = businessName;
-    const verified = agentProfile.isVerified === true;
-    $('verified-badge').style.display = verified ? 'inline-block' : 'none';
-    $('ag-verified-note').style.display = verified ? 'inline' : 'none';
+    // Apply current review and subscription eligibility, then hide automatically at expiry.
+    showCurrentVerificationBadge(agentProfile, $('verified-badge'), $('ag-verified-note'));
     $('ag-handle').textContent = 'AGENT ' + displayName.toUpperCase();
     $('agent-bar').style.display = 'flex';
     $('reg-title').textContent = `Register as ${displayName}'s Client`;

@@ -23,6 +23,11 @@
 - Keep `.ag-avatar-circle` at the same responsive size on both public pages: `clamp(132px, 10vw, 152px)`. The first 76-88px version was too small and the later 152-176px version dominated the card; this middle size balances the agent portrait with the name and details. Scale initials with it.
 - Keep the existing circular crop, approved-avatar URL gate, and initials fallback unchanged when adjusting portrait presentation.
 
+## Public verification badge expiry (2026-09-27)
+
+- Order and Clients show the verification badge only when public `isVerified` is true, `verificationExpiresAt` is in the future, and at least one of `siteLinkSmsSubscriptionUntil`, `siteLinkServerSubscriptionUntil`, or `webOrderSubscriptionUntil` is in the future. Firestore Timestamp objects are supported. Missing legacy verification expiry fails closed.
+- Keep the shared policy in `verified-agent.mjs`; it schedules a page-local recheck at the next relevant expiry so an open page removes the badge without reload. The public pages must not expose Owner's Phone or read private agent documents for badge state.
+
 Read the parent workspace AGENTS.md first. This repository is the public source for bingwaflash.co.ke. It is deployed from `main` to Cloudflare Workers Static Assets using Cloudflare Workers Builds; GitHub remains the publishing source, but customer requests must never fetch HTML from GitHub's API. Preserve the domain and Firebase backend ownership.
 
 ## Cloudflare static site delivery (2026-09-18)
