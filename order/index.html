@@ -162,16 +162,16 @@ main.order-main{
   box-shadow: var(--card-shadow);
 }
 .ag-avatar-circle{
-  /* Keep the agent portrait prominent on phones while scaling up gently on wide screens. */
-  width: clamp(76px, 6vw, 88px);
-  height: clamp(76px, 6vw, 88px);
+  /* Double the visible agent portrait at every breakpoint while retaining its circular crop. */
+  width: clamp(152px, 12vw, 176px);
+  height: clamp(152px, 12vw, 176px);
   border-radius: 50%;
   background: var(--g);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 3rem;
   font-weight: 900;
   margin-bottom: 12px;
   border: 3px solid var(--surface2);

@@ -13,7 +13,7 @@
 
 ## Order and Clients agent portrait sizing (2026-09-27)
 
-- Keep `.ag-avatar-circle` at the same responsive size on both public pages: `clamp(76px, 6vw, 88px)`. The larger portrait helps customers recognize the agent while the max size preserves the centered profile card layout on wide screens.
+- Keep `.ag-avatar-circle` at the same responsive size on both public pages: `clamp(152px, 12vw, 176px)`. This doubles the former circle at each breakpoint. Scale initials with it, and keep the max size within the centered profile card on phones and wide screens.
 - Keep the existing circular crop, approved-avatar URL gate, and initials fallback unchanged when adjusting portrait presentation.
 
 Read the parent workspace AGENTS.md first. This repository is the public source for bingwaflash.co.ke. It is deployed from `main` to Cloudflare Workers Static Assets using Cloudflare Workers Builds; GitHub remains the publishing source, but customer requests must never fetch HTML from GitHub's API. Preserve the domain and Firebase backend ownership.
