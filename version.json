@@ -1,6 +1,6 @@
 {
-  "versionCode": 40,
-  "versionName": "1.4.0",
-  "apkUrl": "https://github.com/officialmrlyco/BingwaFlashApp/releases/download/v40/BingwaFlash_v1.4.0.apk",
-  "notes": "Redesigned Offers and Relay setup, refreshed management screens, safer queue recovery, built-in QR pairing, mapping safeguards, PIN recovery, and performance improvements."
+  "versionCode": 41,
+  "versionName": "1.4.1",
+  "apkUrl": "https://github.com/officialmrlyco/BingwaFlashApp/releases/download/v41/BingwaFlash_v1.4.1.apk",
+  "notes": "More reliable Bulk SMS and USSD queue handling, safer scheduled customer replies, clearer retry recovery, improved Samsung keyboard recovery, and refreshed Profile, Account, Business, and Referral screens."
 }

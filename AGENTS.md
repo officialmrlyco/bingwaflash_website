@@ -58,10 +58,11 @@ Read the parent workspace AGENTS.md first. This repository is the public source 
 - The form suppresses fallback navigation and handles a real submit event; duplicate submissions while sending are ignored. Do not restore click-only submission or persist customer phone history in local storage for autocomplete.
 - Registration list names are text nodes, not HTML interpolation or inline handlers. Keep registration identity and remove actions on the original document IDs.
 - `node --test tests/profile-and-phone.test.mjs` covers normalization, emoji sequences, codepoint limits and unchanged legacy handles. Browser checks with intercepted data/payment requests passed at 390px and 1365px in light/dark. Actual Chrome/Android suggestion chips remain a device acceptance check; no real payment was used.
-## Release metadata (2026-09-07)
+## Release metadata (2026-09-30)
 
-- `version.json` mirrors Bingwa Flash v1.3.9 (Build 39) for website compatibility. The Android app update prompt remains owned by Firestore `config/version_update`; keep both records aligned when publishing a release.
-- The immutable v39 APK is `BingwaFlash_v1.3.9.apk`, 16,181,210 bytes, SHA-256 `68f9782c5d9702f1c295afcfe9eb7b254f980ccbe573c8dcd48d775cf0fc78bc`.
+- `version.json` mirrors Bingwa Flash v1.4.1 (Build 41) for website compatibility. The Android app update prompt remains owned by Firestore `config/version_update`; keep both records aligned when publishing a release.
+- The mutable v41 APK is `BingwaFlash_v1.4.1.apk`, 16,378,302 bytes, SHA-256 `8b6a5b59bdbe0f46449c64b3a3c9c4bb8492b7e85d6249ff62cdb2d303d74374`.
+- GitHub release immutability is intentionally disabled for `officialmrlyco/BingwaFlashApp`. A corrected build may replace the asset under the same tag, filename, and public URL, but its signature, alignment, version metadata, and checksum must be reverified before the website checksum is changed.
 
 ## Public username fallback routing (2026-09-15)
 
