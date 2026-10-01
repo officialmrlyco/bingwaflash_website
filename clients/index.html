@@ -870,7 +870,8 @@ main.client-main{
 import { cleanAgentProfile, cleanDisplayName } from "/profile-names.mjs?v=20260904-2";
 import { showCurrentVerificationBadge } from "/verified-agent.mjs?v=20260927-1";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, deleteDoc, collection, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, collection, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-functions.js";
 
 const FC = {
   apiKey: "AIzaSyBMf_Kc6gFA30TiiqTvPGEUOHRD0ikpL9c",
@@ -882,6 +883,11 @@ const FC = {
 };
 const app = initializeApp(FC);
 const db = getFirestore(app);
+// The backend owns registration and removal writes; the Android app still
+// receives the same clientSync marker and website client inbox documents.
+const functions = getFunctions(app, 'us-central1');
+const registerWebsiteClient = httpsCallable(functions, 'registerWebsiteClient');
+const removeWebsiteClient = httpsCallable(functions, 'removeWebsiteClient');
 const MAX_AGENTS = 3;
 
 const params = new URLSearchParams(window.location.search);
@@ -962,7 +968,6 @@ function showError(msg) {
 }
 
 function valid07(p) { return /^(07|01)\d{8}$/.test(p.trim()); }
-function fingerprint(phone) { const p = phone.trim(); if (!/^(07|01)\d{8}$/.test(p)) return ''; return 'MID:' + p.substring(2, 4) + '_' + p.slice(-3); }
 
 window.showRegSection = function() { hideAll(); $('reg-section').style.display = 'block'; };
 window.showDelSection = function() { hideAll(); $('del-section').style.display = 'block'; };
@@ -981,10 +986,6 @@ async function loadAgentProfile(username) {
   const profile = snap.docs[0].data();
   profile.uid = profile.uid || snap.docs[0].id;
   return { uid: snap.docs[0].id, profile };
-}
-
-async function touchClientSync(agentUidTarget, action, changedPhone = '', deletedPhone = '') {
-  await setDoc(doc(db, 'agents', agentUidTarget, 'meta', 'clientSync'), { action, changedPhone, deletedPhone, updatedAtMs: Date.now(), updatedAt: serverTimestamp() }, { merge: true });
 }
 
 function normalizePaymentMode(value) {
@@ -1157,60 +1158,30 @@ window.submitRegistration = async function() {
   if (!name) { errEl.textContent = 'Please enter your full name.'; errEl.style.display = 'block'; return; }
   if (!valid07(phone)) { errEl.textContent = 'Enter a valid Safaricom or Airtel number starting with 07 or 01.'; errEl.style.display = 'block'; return; }
 
-  let pinHash = null;
+  let pin = null;
   if (!regPhoneHasPin) {
-    const pin = $('reg-pin').value;
+    pin = $('reg-pin').value;
     const pin2 = $('reg-pin2').value;
     const pinErrs = validatePin(pin);
     if (pinErrs.length > 0) { errEl.textContent = 'PIN error: ' + pinErrs[0]; errEl.style.display = 'block'; return; }
     if (pin !== pin2) { errEl.textContent = 'PINs do not match. Please re-enter.'; errEl.style.display = 'block'; return; }
-    pinHash = pin;
   } else {
-    const pin = $('verify-pin').value;
+    pin = $('verify-pin').value;
     if (pin.length !== 5) { errEl.textContent = 'Please enter your 5-digit PIN.'; errEl.style.display = 'block'; return; }
-    const entered = pin;
-    const snap = await getDoc(doc(db, 'clientPins', phone));
-    if (!snap.exists() || snap.data().pin !== entered) {
-      errEl.textContent = 'Incorrect PIN. Forgot your PIN? Email support@bingwaflash.co.ke';
-      errEl.style.display = 'block';
-      return;
-    }
-    pinHash = entered;
   }
 
   const btn = $('reg-btn');
   btn.disabled = true;
   btn.textContent = 'Registering...';
   try {
-    const existingSnap = await getDocs(query(collection(db, 'clientRegistrations'), where('phone', '==', phone)));
-    const existingDocs = existingSnap.docs;
-    const alreadyHere = existingDocs.find(d => d.data().agentUid === agentUid);
-    if (alreadyHere) {
-      errEl.textContent = 'You are already registered as a client of this agent.';
-      errEl.style.display = 'block';
-      btn.disabled = false;
-      btn.textContent = `Register as ${agentProfile.agentName || USERNAME}'s Client`;
-      return;
-    }
-    if (existingDocs.length >= MAX_AGENTS) {
-      errEl.innerHTML = `You are already registered under ${MAX_AGENTS} agents (the maximum allowed). Remove yourself from another agent first.`;
-      errEl.style.display = 'block';
-      btn.disabled = false;
-      btn.textContent = `Register as ${agentProfile.agentName || USERNAME}'s Client`;
-      return;
-    }
-    if (!regPhoneHasPin) {
-      await setDoc(doc(db, 'clientPins', phone), { pin: pinHash, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
-    }
-    const regId = `${phone}_${agentUid}`;
-    await setDoc(doc(db, 'clientRegistrations', regId), { phone, name, agentUid, agentUsername: agentProfile.username || USERNAME, agentName: agentProfile.agentName || USERNAME, registeredAt: serverTimestamp(), registrationId: regId });
-    await setDoc(doc(db, 'agents', agentUid, 'clients', phone), { phone, name, totalSpent: 0, lastSeenAtMs: Date.now(), isBlacklisted: false, source: 'website', maskedDigits: fingerprint(phone), registrationId: regId, updatedAtMs: Date.now() }, { merge: true });
-    await touchClientSync(agentUid, 'UPSERT', phone, '');
+    // A single backend transaction checks the PIN and saves the inbox plus
+    // marker together, including recovery of an earlier partial registration.
+    await registerWebsiteClient({ phone, name, agentUid, pin });
     hideAll();
     $('success-desc').textContent = `You are now registered as a client of ${agentProfile.agentName || USERNAME}. When you make a payment, they can recommend bundles to ${phone}.`;
     $('success-state').style.display = 'block';
   } catch (e) {
-    errEl.textContent = 'Registration failed: ' + e.message;
+    errEl.textContent = 'Registration failed: ' + (e.message || 'Please try again shortly.');
     errEl.style.display = 'block';
     btn.disabled = false;
     btn.textContent = `Register as ${agentProfile.agentName || USERNAME}'s Client`;
@@ -1293,15 +1264,16 @@ window.lookupMyAgents = async function() {
 };
 
 window.removeFromAgent = async function(regDocId, agentUidTarget, phone, agentDisplayName, btnEl) {
-  if (!confirm(`Remove yourself from ${agentDisplayName}'s client list?\n\nThis change will sync to their app immediately.`)) return;
+  // The agent's phone keeps its local client book after website removal.
+  if (!confirm(`Remove your website registration with ${agentDisplayName}?\n\nThe agent may still have your details saved on their phone.`)) return;
   btnEl.disabled = true;
   btnEl.textContent = 'Removing...';
   try {
-    await deleteDoc(doc(db, 'clientRegistrations', regDocId));
-    await deleteDoc(doc(db, 'agents', agentUidTarget, 'clients', phone));
-    await touchClientSync(agentUidTarget, 'DELETE', '', phone);
+    // Recheck the PIN and registration on the server before deleting the
+    // website-owned inbox row; the phone's saved clients remain device-owned.
+    await removeWebsiteClient({ registrationId: regDocId, agentUid: agentUidTarget, phone, pin: $('del-pin').value.trim() });
     hideAll();
-    $('delete-success-desc').textContent = `You have been removed from ${agentDisplayName}'s client list.`;
+    $('delete-success-desc').textContent = `Your website registration with ${agentDisplayName} was removed. Their phone may still have your details saved.`;
     $('delete-success-state').style.display = 'block';
   } catch (e) {
     const errEl = $('del-err');

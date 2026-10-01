@@ -1,5 +1,12 @@
 # BingwaFlash public website handoff
 
+## Clients page registration permission repair (2026-10-01)
+
+- `/clients/index.html` now calls `registerWebsiteClient` and `removeWebsiteClient` in Firebase Functions `us-central1` for writes that affect agent client inbox rows and the `clientSync` marker. It still reads registration/PIN information for the current UI and keeps the readable five-digit PIN support flow. Do not restore direct browser writes to `agents/{uid}/meta/clientSync`: Firestore restricts that marker to the signed-in agent, and a failed marker can leave partial registration data.
+- The registration callable atomically checks the agent's current private registration setting and PIN, saves the registration/inbox, and advances the same marker consumed by the existing Android app. Retrying an old partly saved registration can signal the pending inbox. The Android source was not changed.
+- The removal callable checks the PIN and exact registration ownership before deleting the website registration and matching inbox row. Android's local client book survives a website removal; the page's confirmation and success text disclose this.
+- Roll out backend callables first, this website second, and tightened Firestore rules last. A cached old page may still show the former permission error until refreshed. Test the browser and a real phone separately; source tests alone do not establish a live app import.
+
 ## Order package grid centering and multiline title branching (2026-09-27)
 
 - Offer cards in `order/index.html` use `grid-template-columns: repeat(2, minmax(0, 1fr))` on desktop (>=768px). Do not use `repeat(2, 1fr)` without `minmax(0, 1fr)`: `1fr` defaults to `minmax(auto, 1fr)`, which allows an unusually long offer name in column 1 to expand the track's intrinsic min-content, pushing column 2 to the far right edge and rendering the layout off-center.
