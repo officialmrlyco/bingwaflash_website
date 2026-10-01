@@ -6,6 +6,7 @@
 - The registration callable atomically checks the agent's current private registration setting and PIN, saves the registration/inbox, and advances the same marker consumed by the existing Android app. Retrying an old partly saved registration can signal the pending inbox. The Android source was not changed.
 - The removal callable checks the PIN and exact registration ownership before deleting the website registration and matching inbox row. Android's local client book survives a website removal; the page's confirmation and success text disclose this.
 - Roll out backend callables first, this website second, and tightened Firestore rules last. A cached old page may still show the former permission error until refreshed. Test the browser and a real phone separately; source tests alone do not establish a live app import.
+- Production rollout completed on 2026-10-01: the two Firebase callables were created, website commit `010c0a0` was pushed to `main`, and the live `/clients/` HTML served the new callable imports with the old direct `touchClientSync` path absent. Firestore rules were then deployed and read back matching local source. No real customer registration or handset import was used as a smoke test.
 
 ## Order package grid centering and multiline title branching (2026-09-27)
 
