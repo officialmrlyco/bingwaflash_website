@@ -82,3 +82,5 @@ Read the parent workspace AGENTS.md first. This repository is the public source 
 - The user already published the APK. This task updates website metadata and GitHub release notes only; do not rebuild or replace the asset.
 - Existing v42 asset is 16,611,212 bytes, SHA-256 `7c137919b88d2b2185514cd1d0cb1fc74600245a2a555b477b9a6df1ec10ade4`.
 - Keep JSON parseable without comments; release maintenance notes belong here. Firestore config/version_update is separate and was not changed by this website request.
+
+- Deployment verification: download site and release notes are live. Cloudflare Workers Builds failed for commit 39713b6; direct Wrangler 4.148.0 deployment from a clean git archive of that commit succeeded after one API gateway timeout retry. HTTP 200 readback confirmed homepage v1.4.2 and version.json versionCode 42 with the exact existing v42 APK URL. The APK asset was untouched. Future automated build health still needs checking; no cause for its failure was established.
