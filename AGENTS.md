@@ -75,3 +75,10 @@ Read the parent workspace AGENTS.md first. This repository is the public source 
 ## Public username fallback routing (2026-09-15)
 
 - GitHub Pages sends root username URLs to `404.html`. Its route gate must forward dot and underscore usernames, plus safe legacy hyphen routes, to `/order/?u=...`; do not limit it to underscore-only handles. Keep path separators and leading/trailing punctuation rejected so a route cannot resolve to a different path or account.
+
+## Release v1.4.2 metadata (2026-10-12)
+
+- Supersedes the v1.4.1 metadata above: root version.json and homepage release section now identify versionCode 42 / versionName 1.4.2 and the existing v42 APK URL.
+- The user already published the APK. This task updates website metadata and GitHub release notes only; do not rebuild or replace the asset.
+- Existing v42 asset is 16,611,212 bytes, SHA-256 `7c137919b88d2b2185514cd1d0cb1fc74600245a2a555b477b9a6df1ec10ade4`.
+- Keep JSON parseable without comments; release maintenance notes belong here. Firestore config/version_update is separate and was not changed by this website request.

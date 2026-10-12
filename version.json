@@ -1,6 +1,6 @@
 {
-  "versionCode": 41,
-  "versionName": "1.4.1",
-  "apkUrl": "https://github.com/officialmrlyco/BingwaFlashApp/releases/download/v41/BingwaFlash_v1.4.1.apk",
-  "notes": "More reliable Bulk SMS and USSD queue handling, safer scheduled customer replies, clearer retry recovery, improved Samsung keyboard recovery, and refreshed Profile, Account, Business, and Referral screens."
+  "versionCode": 42,
+  "versionName": "1.4.2",
+  "apkUrl": "https://github.com/officialmrlyco/BingwaFlashApp/releases/download/v42/BingwaFlash_v1.4.2.apk",
+  "notes": "More reliable silent USSD waiting and clearer pending feedback, improved transaction retry and rescheduling choices, a dedicated New clients today screen, and client profile copy options."
 }
