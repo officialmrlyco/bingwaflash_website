@@ -1288,6 +1288,7 @@ window.syncSameNumber = function() {
 import { cleanAgentProfile } from "/profile-names.mjs?v=20260904-2";
 import { localPhone } from "/order/phone-input.mjs?v=20260904-1";
 import { showCurrentVerificationBadge } from "/verified-agent.mjs?v=20260927-1";
+import { parseMaxOffers, allowedSiteLinkOffers } from "/order/sitelink-offer-policy.mjs?v=20261013-1";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -1468,6 +1469,8 @@ function parseSiteLinkConfig(d) {
       Number.isInteger(maxPending) && maxPending >= 1 && maxPending <= 500 &&
       Number.isFinite(b2cCharges) && b2cCharges >= 0 && validPlan(d.server) && validPlan(d.sms),
     maxOfferPrice,
+    // The administrator's count cap is independent from the price ceiling.
+    maxOffers: parseMaxOffers(d),
     maxPending,
     b2cCharges,
     server: d.server || {},
@@ -1536,9 +1539,17 @@ function startSiteLinkListeners(agentName) {
   onSnapshot(doc(db, "publicAgents", USERNAME), snap => {
     if (!snap.exists()) return showMaintenance(agentName, contact());
     agentProfile = cleanAgentProfile({ ...(agentProfile || {}), ...snap.data() });
+    // Refresh saved order and selection on live catalog changes as well as cap changes.
+    try {
+      const currentOffers = JSON.parse(String(snap.data().offersJson || "[]"));
+      rawOffers = Array.isArray(currentOffers) ? currentOffers : [];
+    } catch (_) { rawOffers = []; }
     const gate = siteLinkGate(agentProfile, siteLinkConfig || { configured: false });
     if (!gate.ok) showMaintenance(agentName, contact(), gate.reason);
-    else if (pageReady && el("maintenance-state").style.display === "block") resumeOrderPage();
+    else if (pageReady) {
+      refreshOfferCatalog();
+      if (el("maintenance-state").style.display === "block") resumeOrderPage();
+    }
   }, () => showMaintenance(agentName, contact(), "Unable to verify this agent right now."));
 }
 
@@ -1613,10 +1624,9 @@ function renderOffersForCategory(catFilter) {
 }
 
 function refreshOfferCatalog() {
-  if (!siteLinkConfig?.configured || !rawOffers.length) return;
-  allOffers = rawOffers
-    .filter(o => o.enabled && o.webOrderEnabled === true && o.offerCode && o.offerCode.trim() &&
-      Number(o.agentPrice || 0) >= 10 && Number(o.agentPrice || 0) <= siteLinkConfig.maxOfferPrice)
+  if (!siteLinkConfig?.configured) return;
+  // Apply admission before price sorting so website and checkout agree exactly.
+  allOffers = allowedSiteLinkOffers(rawOffers, siteLinkConfig)
     .sort((a, b) => Number(a.agentPrice || 0) - Number(b.agentPrice || 0));
   if (selectedOffer && !allOffers.some(o => o.id === selectedOffer.id)) clearOfferSelection();
   const cats = [...new Set(allOffers.map(o => o.category || "General"))];
@@ -1758,6 +1768,11 @@ async function init() {
     agentProfile = cleanAgentProfile({ ...agentProfile, username: agentProfile.username || USERNAME, uid: bundle.uid });
     n = agentProfile.agentName;
     const businessName = agentProfile.businessName;
+    // Load the initial catalog before attaching live listeners. A late initial
+    // read must not replace a newer catalog delivered by a listener.
+    const offersJson = await withTimeout(loadCurrentOffersJson(bundle), "Available packages took too long to respond.");
+    rawOffers = JSON.parse(offersJson || "[]");
+    if (!Array.isArray(rawOffers)) throw new Error("Offer data is not a list");
     startSiteLinkListeners(n);
     pageReady = true;
 
@@ -1795,11 +1810,6 @@ async function init() {
     renderAgentPaymentDetails();
 
     setLoadingStep("offers", "Loading available packages", "Preparing the latest packages within the agent's live price range.");
-    const offersJson = await withTimeout(loadCurrentOffersJson(bundle), "Available packages took too long to respond.");
-    if (!offersJson) { showError("No offers available from this agent."); return; }
-
-    rawOffers = JSON.parse(offersJson || "[]");
-    if (!Array.isArray(rawOffers)) throw new Error("Offer data is not a list");
     refreshOfferCatalog();
 
     if (!allOffers.length) {

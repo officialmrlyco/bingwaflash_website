@@ -84,3 +84,9 @@ Read the parent workspace AGENTS.md first. This repository is the public source 
 - Keep JSON parseable without comments; release maintenance notes belong here. Firestore config/version_update is separate and was not changed by this website request.
 
 - Deployment verification: download site and release notes are live. Cloudflare Workers Builds failed for commit 39713b6; direct Wrangler 4.148.0 deployment from a clean git archive of that commit succeeded after one API gateway timeout retry. HTTP 200 readback confirmed homepage v1.4.2 and version.json versionCode 42 with the exact existing v42 APK URL. The APK asset was untouched. Future automated build health still needs checking; no cause for its failure was established.
+
+## SiteLink offer count and live catalog (2026-10-13)
+
+- config/sitelink.maxOffers caps selected SiteLink offers independently of price, with no hardcoded25. Missing field preserves legacy behavior; invalid explicit cap admits none. order/sitelink-offer-policy.mjs matches backend admission: firstN webOrderEnabled selections in saved order, then enabled/code/price filtering; UI price sorting follows admission. Ordinary disabled rows still reserve a selected slot, matching the Android editor. Keep saved catalog rows; do not fan out destructive mutations when the cap changes.
+- Both live config and public-agent snapshot callbacks refresh the catalog; lowering the cap clears an excluded checkout selection, empty/malformed snapshots clear stale offers, and initial catalog loads before attaching listeners to avoid overwrite races. The public mirror is still the sole unauthenticated source.
+- Sixteen website tests and embedded order-module syntax pass. Backend initiateOrder separately rejects excluded private/public offers before STK; no real payment used. Deploy only these scoped website files to the existing Worker; APK fixes require separate distribution.
