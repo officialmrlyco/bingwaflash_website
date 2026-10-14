@@ -1,6 +1,8 @@
 {
   "versionCode": 42,
   "versionName": "1.4.2",
-  "apkUrl": "https://github.com/officialmrlyco/BingwaFlashApp/releases/download/v42/BingwaFlash_v1.4.2.apk",
+  "apkUrl": "https://github.com/officialmrlyco/BingwaFlashApp/releases/download/v42/BingwaFlash_v1.4.2.apk?build=cb486f2a5b2c0a42",
+  "apkSha256": "cb486f2a5b2c0a42d0cb198705852b1367063f19b5043284e786a318e013c24d",
+  "apkSizeBytes": 16643996,
   "notes": "More reliable silent USSD waiting and clearer pending feedback, improved transaction retry and rescheduling choices, a dedicated New clients today screen, and client profile copy options."
 }

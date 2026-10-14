@@ -78,12 +78,18 @@ Read the parent workspace AGENTS.md first. This repository is the public source 
 
 ## Release v1.4.2 metadata (2026-10-12)
 
-- Supersedes the v1.4.1 metadata above: root version.json and homepage release section now identify versionCode 42 / versionName 1.4.2 and the existing v42 APK URL.
+- Superseded the v1.4.1 metadata above at the time: root version.json and homepage release section identified versionCode 42 / versionName 1.4.2 and the then-current v42 APK URL; the URL and integrity values were later corrected below.
 - The user already published the APK. This task updates website metadata and GitHub release notes only; do not rebuild or replace the asset.
-- Existing v42 asset is 16,611,212 bytes, SHA-256 `7c137919b88d2b2185514cd1d0cb1fc74600245a2a555b477b9a6df1ec10ade4`.
+- Historical 2026-10-12 metadata was 16,611,212 bytes with SHA-256 `7c137919b88d2b2185514cd1d0cb1fc74600245a2a555b477b9a6df1ec10ade4`; this was stale and is superseded by the verified 2026-10-14 metadata correction below.
 - Keep JSON parseable without comments; release maintenance notes belong here. Firestore config/version_update is separate and was not changed by this website request.
 
-- Deployment verification: download site and release notes are live. Cloudflare Workers Builds failed for commit 39713b6; direct Wrangler 4.148.0 deployment from a clean git archive of that commit succeeded after one API gateway timeout retry. HTTP 200 readback confirmed homepage v1.4.2 and version.json versionCode 42 with the exact existing v42 APK URL. The APK asset was untouched. Future automated build health still needs checking; no cause for its failure was established.
+- Historical deployment verification: download site and release notes were live. Cloudflare Workers Builds failed for commit 39713b6; direct Wrangler 4.148.0 deployment from a clean git archive of that commit succeeded after one API gateway timeout retry. HTTP 200 readback confirmed homepage v1.4.2 and version.json versionCode 42 with the v42 APK URL then configured. The APK asset was untouched. Future automated build health still needs checking; no cause for its failure was established.
+
+## v1.4.2 installer metadata correction (2026-10-14)
+
+- Keep `version.json` aligned to the verified existing v42 asset: 16,643,996 bytes, SHA-256 `cb486f2a5b2c0a42d0cb198705852b1367063f19b5043284e786a318e013c24d`, and URL query `?build=cb486f2a5b2c0a42` for cache refresh. Preserve versionCode 42, versionName 1.4.2, and the existing filename. Do not rebuild or replace the APK.
+- `apkSha256` and `apkSizeBytes` are public release integrity metadata. `tests/release-metadata.test.mjs` checks the JSON shape and exact v42 metadata; run it when changing `version.json`.
+- Pushing this repository may trigger Cloudflare Workers Builds, but a GitHub push alone does not prove a Worker deployment. Verify the public website and live `version.json` after publishing.
 
 ## SiteLink offer count and live catalog (2026-10-13)
 
