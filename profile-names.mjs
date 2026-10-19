@@ -12,5 +12,5 @@ export function cleanAgentProfile(profile) {
   const agentName = cleanDisplayName(profile.agentName, 10)
     || cleanDisplayName(profile.username, 10) || 'Agent';
   return { ...profile, agentName,
-    businessName: cleanDisplayName(profile.businessName, 20) || agentName };
+    businessName: cleanDisplayName(profile.businessName, 50) || agentName };
 }

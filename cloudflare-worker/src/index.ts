@@ -33,11 +33,12 @@ const usernamePattern = /^[a-z0-9][a-z0-9._-]{2,29}$/;
 const avatarPattern = /^https:\/\/avatars\.bingwaflash\.co\.ke\/avatars\/[A-Za-z0-9_-]{1,128}\/[0-9a-f-]{36}\.webp$/;
 
 function readableText(value: unknown, maxLength: number): string {
-  return String(value || "")
+  const cleaned = String(value || "")
     .replace(/[\u0000-\u001F\u007F]/g, " ")
     .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, maxLength);
+    .trim();
+  // Count Unicode codepoints so preview text never splits a surrogate pair.
+  return Array.from(cleaned).slice(0, maxLength).join("");
 }
 
 function requestUsername(url: URL): string | null {
@@ -59,7 +60,7 @@ async function publicBrand(username: string, env: Env): Promise<PublicBrand | nu
   if (!response.ok) return null;
 
   const document = await response.json<FirestoreDocument>();
-  const businessName = readableText(document.fields?.businessName?.stringValue, 80);
+  const businessName = readableText(document.fields?.businessName?.stringValue, 50);
   if (!businessName) return null;
   const candidateAvatar = readableText(document.fields?.profileImageUrl?.stringValue, 512);
   return {

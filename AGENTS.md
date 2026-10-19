@@ -98,3 +98,9 @@ Read the parent workspace AGENTS.md first. This repository is the public source 
 - Sixteen website tests and embedded order-module syntax pass. Backend initiateOrder separately rejects excluded private/public offers before STK; no real payment used. Deploy only these scoped website files to the existing Worker; APK fixes require separate distribution.
 
 - Production verification: scoped commit b37227b was pushed to origin/main and deployed with existing Wrangler 4.148.0 to Worker version f5fe0233-e394-4775-85b6-17bad7d39d2d. HTTP200 readback of order HTML and policy module exactly matched normalized scoped source. Backend initiateOrder was independently deployed with the same admission policy; no production payment/config/customer write was used. New app-side rejection/update-listener behavior requires an updated APK, not merely this website deployment.
+
+## SiteLink username and business name limits (2026-10-19)
+
+- New username rules are 3–20 ASCII letters/digits only. The website route fallback intentionally continues accepting existing dot, underscore, and hyphen handles so accounts keep their current links until renamed.
+- profile-names.mjs is shared by public order and client pages; it cleans business names to 50 characters, with emoji/punctuation handling unchanged. Cloudflare share previews apply the same 50-character cap.
+- Keep the profile module cache query in both pages aligned whenever its policy changes.

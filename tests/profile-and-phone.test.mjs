@@ -33,3 +33,11 @@ test('legacy username keys remain unchanged and emoji-only names have a fallback
   assert.equal(profile.businessName, profile.agentName);
   assert.equal(cleanAgentProfile({ agentName: '🔥' }).agentName, 'Agent');
 });
+
+test('business names retain up to 50 readable characters in public profiles', () => {
+  const name = 'A'.repeat(50);
+  const unicodeName = '界'.repeat(50);
+  assert.equal(cleanAgentProfile({ businessName: name }).businessName, name);
+  assert.equal(cleanAgentProfile({ businessName: `${name}B` }).businessName, name);
+  assert.equal(cleanAgentProfile({ businessName: unicodeName }).businessName, unicodeName);
+});
