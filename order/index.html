@@ -1220,7 +1220,7 @@ main.order-main{
         <div>This screen automatically finishes once confirmed</div>
       </div>
     </div>
-    <button class="stk-cancel-action" onclick="cancelStkOverlay()">Didn't get prompt? Cancel and retry</button>
+    <button class="stk-cancel-action" onclick="cancelStkOverlay()">Hide instructions, keep checking</button>
   </div>
 </div>
 
@@ -1289,6 +1289,7 @@ import { cleanAgentProfile } from "/profile-names.mjs?v=20261019-1";
 import { localPhone } from "/order/phone-input.mjs?v=20260904-1";
 import { showCurrentVerificationBadge } from "/verified-agent.mjs?v=20260927-1";
 import { parseMaxOffers, allowedSiteLinkOffers } from "/order/sitelink-offer-policy.mjs?v=20261013-1";
+import { createOrderStatusController, createOrderStatusToken } from "/order/status-controller.mjs?v=20261023-1";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -1304,14 +1305,49 @@ const app = initializeApp(FC);
 const db = getFirestore(app);
 const FURL = "https://initiateorder-kerhygd7aa-uc.a.run.app";
 const STATUS_URL = "https://getorderstatus-kerhygd7aa-uc.a.run.app";
+const ORDER_RECEIPT_STORAGE_KEY = "bingwaFlashPendingPublicOrder";
 const params = new URLSearchParams(window.location.search);
 const USERNAME = (params.get("u") || "").toLowerCase();
 
+const orderStatusController = createOrderStatusController({
+  // / Customers watch only the status projection. The private order ledger
+  // / stays server-side and its Firestore rules remain admin-only.
+  subscribe: (statusToken, onNext, onError) => onSnapshot(
+    doc(db, "publicOrderStatuses", statusToken),
+    snapshot => onNext({ exists: snapshot.exists(), data: snapshot.exists() ? snapshot.data() : null }),
+    onError,
+  ),
+  fetchStatus: async (txId, statusToken) => {
+    const query = new URLSearchParams({ txId, statusToken });
+    const response = await fetch(`${STATUS_URL}?${query}`);
+    const data = await response.json();
+    if (!response.ok || data.error) {
+      const error = new Error("Could not check the latest order status.");
+      error.httpStatus = response.status;
+      throw error;
+    }
+    return data;
+  },
+  onStatus: (data, attempt) => {
+    if (attempt !== activeStatusAttempt) return;
+    renderOrderStatus(attempt.statusToken, data);
+  },
+  onFallbackError: () => console.info("Order status recovery is temporarily unavailable."),
+  onFallbackStopped: (_attempt, reason) => {
+    if (reason === "expired") {
+      showResultDialog("pending", "Order Status Needs Help", "The secure status ticket expired before we could confirm the result. This payment request may still be active. Contact the agent before paying again.");
+    } else {
+      showResultDialog("pending", "Connection Interrupted", "We could not reconnect to check the latest order status. Your payment request may still be active. Keep this page open or return to this tab later; do not pay again until the agent confirms the order.");
+    }
+  },
+});
+
 let agentProfile = null, selectedOffer = null;
 let siteLinkConfig = null, pageReady = false;
-let activeTxId = null, stkPollInterval = null, lastPaymentResult = "", pendingDialogShownForTx = "";
+let activeStatusAttempt = null, lastPaymentResult = "", pendingDialogShownForTx = "";
 let rawOffers = [], allOffers = [];
 let loadingTimeout = null;
+let orderPageSuspended = false;
 
 function el(id) { return document.getElementById(id); }
 
@@ -1827,13 +1863,38 @@ async function init() {
 
 // Validation and payment payloads share the same autofill-aware normalizer.
 function norm(p) { return "254" + p.slice(1); }
-function stopOrderPolling() { activeTxId = null; pendingDialogShownForTx = ""; if (stkPollInterval) { clearInterval(stkPollInterval); stkPollInterval = null; } }
+function hasUnresolvedOrder() { return Boolean(activeStatusAttempt && !activeStatusAttempt.terminal); }
+function saveOrderReceipt(attempt) {
+  sessionStorage.setItem(ORDER_RECEIPT_STORAGE_KEY, JSON.stringify({
+    statusToken: attempt.statusToken,
+    txId: attempt.txId,
+    statusExpiresAtMs: attempt.statusExpiresAtMs,
+    savedAtMs: Date.now(),
+  }));
+}
+function clearOrderReceipt() {
+  try { sessionStorage.removeItem(ORDER_RECEIPT_STORAGE_KEY); } catch (_) {}
+}
+function setPayButtonPending() {
+  const btn = el("pay-btn");
+  btn.disabled = true;
+  btn.querySelector("span").textContent = "Checking order status...";
+}
+function stopOrderPolling() {
+  if (activeStatusAttempt) orderStatusController.abandon(activeStatusAttempt);
+  activeStatusAttempt = null;
+  pendingDialogShownForTx = "";
+  clearOrderReceipt();
+}
 function resetStkState() { stopOrderPolling(); }
 function restoreOrderForm() {
   el("stk-screen").style.display = "none";
   const btn = el("pay-btn");
-  btn.disabled = false;
-  setPayButtonLabel(selectedOffer ? selectedOffer.agentPrice : null);
+  if (hasUnresolvedOrder()) setPayButtonPending();
+  else {
+    btn.disabled = false;
+    setPayButtonLabel(selectedOffer ? selectedOffer.agentPrice : null);
+  }
 }
 
 function showStkWaiting() {
@@ -1841,11 +1902,15 @@ function showStkWaiting() {
 }
 
 window.cancelStkOverlay = function() {
-  resetStkState();
+  // / Closing the prompt instructions cannot cancel an STK request already
+  // / sent to Safaricom. Keep its receipt locked and continue status updates.
   el("stk-screen").style.display = "none";
-  const btn = el("pay-btn");
-  btn.disabled = false;
-  setPayButtonLabel(selectedOffer ? selectedOffer.agentPrice : null);
+  if (hasUnresolvedOrder()) {
+    showToast("This only hides the prompt instructions. Your payment request is still active; wait for its result before paying again.", "info");
+    setPayButtonPending();
+  } else {
+    restoreOrderForm();
+  }
 };
 
 function clearOfferSelection() {
@@ -1880,93 +1945,110 @@ function formatAgentDeliveryContact(rawPhone) {
   return /^(?:07|01)\d{8}$/.test(local) ? `\n\nNeed delivery help? Contact the agent on ${local}.` : "";
 }
 
-async function pollOrderStatus(txId) {
-  if (!txId) return;
-  try {
-    const res = await fetch(`${STATUS_URL}?txId=${encodeURIComponent(txId)}`);
-    const data = await res.json();
-    if (!res.ok || data.error) return;
-    const status = String(data.status || "pending").toLowerCase();
-    const failReason = data.failReason || "Payment was not completed. Please try again.";
-    const mpesaRef = data.mpesaRef || data.checkoutRequestID || "";
-    // Server receipt means the order is safely committed on the agent phone.
-    // It is the customer handoff completion point, not a claim that airtime
-    // execution has already finished on the carrier network.
-    const agentContact = formatAgentDeliveryContact(data.agentContactPhone);
-    const receivedMessage = "Your payment is complete. The order has been saved on the agent's phone and their payout has started. Please wait for the agent to deliver your package." + agentContact;
+function renderOrderStatus(orderKey, data) {
+  if (!data) return;
+  const status = String(data.status || "pending").toLowerCase();
+  const failReason = data.failReason || "Payment was not completed. Please try again.";
+  const mpesaRef = data.mpesaRef || "";
+  // Server receipt means the order is safely committed on the agent phone.
+  // It is the customer handoff completion point, not a claim that airtime
+  // execution has already finished on the carrier network.
+  const agentContact = formatAgentDeliveryContact(data.agentContactPhone);
+  const receivedMessage = "Your payment is complete. The order has been saved on the agent's phone and their payout has started. Please wait for the agent to deliver your package." + agentContact;
 
-    if (status === "completed") {
-      resetStkState();
+  if (status === "completed") {
+    resetStkState();
+    el("stk-screen").style.display = "none";
+    showResultDialog("success", "Order Received", receivedMessage, mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
+    return;
+  }
+  if (status === "agent_received") {
+    const marker = `${orderKey}:agent_received`;
+    if (pendingDialogShownForTx !== marker) {
+      pendingDialogShownForTx = marker;
       el("stk-screen").style.display = "none";
       showResultDialog("success", "Order Received", receivedMessage, mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
-      return;
     }
-    if (status === "agent_received") {
-      const marker = `${txId}:agent_received`;
-      if (pendingDialogShownForTx !== marker) {
-        pendingDialogShownForTx = marker;
-        el("stk-screen").style.display = "none";
-        showResultDialog("success", "Order Received", receivedMessage, mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
-      }
-      return;
-    }
-    if (status === "payout_processing") {
-      const marker = `${txId}:payout_processing`;
-      if (pendingDialogShownForTx !== marker) {
-        pendingDialogShownForTx = marker;
-        el("stk-screen").style.display = "none";
-        showResultDialog("success", "Order Received", receivedMessage, mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
-      }
-      return;
-    }
-    if (status === "waiting_for_agent") {
-      const marker = `${txId}:waiting_for_agent`;
-      if (pendingDialogShownForTx !== marker) {
-        pendingDialogShownForTx = marker;
-        el("stk-screen").style.display = "none";
-        showResultDialog("pending", "Sending to Agent", "Payment is confirmed. We are securely sending this order to the agent's phone. You will see confirmation as soon as it is saved there.", mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
-      }
-      return;
-    }
-    if (data.confirmationDelayed === true && status !== "failed") {
-      const marker = `${txId}:payment_delayed`;
-      if (pendingDialogShownForTx !== marker) {
-        pendingDialogShownForTx = marker;
-        el("stk-screen").style.display = "none";
-        showResultDialog("pending", "Payment Delayed", "M-Pesa confirmation is taking longer than usual. Please keep this page open; it will update automatically.", "");
-      }
-      return;
-    }
-    if (status === "payout_failed") {
-      const marker = `${txId}:payout_failed`;
-      if (pendingDialogShownForTx !== marker) {
-        pendingDialogShownForTx = marker;
-        el("stk-screen").style.display = "none";
-        showResultDialog("pending", "Payout Needs Attention", failReason || "The payment is safe, but the agent payout needs another attempt.");
-      }
-      return;
-    }
-    if (status === "failed" || status === "cancelled" || status === "expired") {
-      resetStkState();
+    return;
+  }
+  if (status === "payout_processing") {
+    const marker = `${orderKey}:payout_processing`;
+    if (pendingDialogShownForTx !== marker) {
+      pendingDialogShownForTx = marker;
       el("stk-screen").style.display = "none";
-      showResultDialog("fail", "Payment Incomplete", failReason);
-      return;
+      showResultDialog("success", "Order Received", receivedMessage, mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
     }
-  } catch (e) {
-    console.error("pollOrderStatus:", e);
+    return;
+  }
+  if (status === "waiting_for_agent") {
+    const marker = `${orderKey}:waiting_for_agent`;
+    if (pendingDialogShownForTx !== marker) {
+      pendingDialogShownForTx = marker;
+      el("stk-screen").style.display = "none";
+      showResultDialog("pending", "Sending to Agent", "Payment is confirmed. We are securely sending this order to the agent's phone. You will see confirmation as soon as it is saved there.", mpesaRef ? "M-Pesa Ref: " + mpesaRef : "");
+    }
+    return;
+  }
+  if (data.confirmationDelayed === true && status !== "failed") {
+    const marker = `${orderKey}:payment_delayed`;
+    if (pendingDialogShownForTx !== marker) {
+      pendingDialogShownForTx = marker;
+      el("stk-screen").style.display = "none";
+      showResultDialog("pending", "Payment Delayed", "M-Pesa confirmation is taking longer than usual. Please keep this page open; it will update automatically.", "");
+    }
+    return;
+  }
+  if (status === "payout_failed") {
+    const marker = `${orderKey}:payout_failed`;
+    if (pendingDialogShownForTx !== marker) {
+      pendingDialogShownForTx = marker;
+      el("stk-screen").style.display = "none";
+      showResultDialog("pending", "Payout Needs Attention", failReason || "The payment is safe, but the agent payout needs another attempt.");
+    }
+    return;
+  }
+  if (status === "failed" || status === "cancelled" || status === "expired") {
+    resetStkState();
+    el("stk-screen").style.display = "none";
+    showResultDialog("fail", "Payment Incomplete", failReason);
+    return;
   }
 }
 
-function startOrderStatusPolling(txId) {
-  activeTxId = txId;
-  if (stkPollInterval) clearInterval(stkPollInterval);
-  stkPollInterval = setInterval(() => { pollOrderStatus(txId); }, 3000);
-  pollOrderStatus(txId);
+function resumeSavedOrderStatus() {
+  let saved;
+  try { saved = JSON.parse(sessionStorage.getItem(ORDER_RECEIPT_STORAGE_KEY) || "null"); }
+  catch (_) { clearOrderReceipt(); return; }
+  if (!saved || !/^[0-9a-f]{64}$/.test(String(saved.statusToken || ""))) return;
+  const attempt = orderStatusController.beginAttempt(saved.statusToken);
+  activeStatusAttempt = attempt;
+  if (orderPageSuspended) orderStatusController.suspend();
+  else orderStatusController.attach(attempt);
+  orderStatusController.applyStartResponse(attempt, {
+    txId: String(saved.txId || ""),
+    statusExpiresAtMs: Number(saved.statusExpiresAtMs || 0),
+  });
+  showStkWaiting();
+  const btn = el("pay-btn");
+  setPayButtonPending();
 }
+
+window.addEventListener("pagehide", () => {
+  orderPageSuspended = true;
+  orderStatusController.suspend();
+});
+window.addEventListener("pageshow", () => {
+  orderPageSuspended = false;
+  orderStatusController.resume();
+});
 
 window.submitOrder = async function() {
   // Ignore duplicate submit/Enter events while an STK request is in flight.
   if (!selectedOffer || el("pay-btn").disabled) return;
+  if (hasUnresolvedOrder()) {
+    showToast("A previous order is still being checked. Wait for its result before starting another payment.", "info");
+    return;
+  }
   const pp = localPhone(el("pay-phone").value);
   const chk = el("same-num-chk");
   const rp = chk && chk.checked ? pp : localPhone(el("recv-phone").value);
@@ -1980,8 +2062,20 @@ window.submitOrder = async function() {
   btn.disabled = true;
   btn.querySelector("span").textContent = "Sending M-Pesa Prompt...";
 
+  let attempt = null;
+  let requestDispatched = false;
   try {
     const info = agentPaymentInfo(agentProfile, rp);
+    // / Subscribe before checkout can create the private order or send an STK;
+    // / an early provider callback must be visible even while this POST waits.
+    const statusToken = createOrderStatusToken();
+    attempt = orderStatusController.beginAttempt(statusToken);
+    activeStatusAttempt = attempt;
+    saveOrderReceipt(attempt);
+    if (orderPageSuspended) orderStatusController.suspend();
+    else orderStatusController.attach(attempt);
+    showStkWaiting();
+    requestDispatched = true;
     const res = await fetch(FURL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -1996,40 +2090,66 @@ window.submitOrder = async function() {
         agentPhone: agentProfile.phoneNumber,
         agentPaymentMode: info ? info.mode : "",
         agentPaymentNumber: info ? info.number : "",
-        agentPaymentAccount: info && info.mode === "PAYBILL" ? rp : ""
+        agentPaymentAccount: info && info.mode === "PAYBILL" ? rp : "",
+        statusToken,
       })
     });
-    const data = await res.json();
+    const data = await res.json().catch(() => ({}));
+    if (!orderStatusController.isCurrent(attempt) || attempt.terminal) return;
     if (data.code === "WEBSITES_MAINTENANCE") {
+      resetStkState();
       btn.disabled = false;
       setPayButtonLabel(selectedOffer.agentPrice);
       showMaintenance(null, null);
       return;
     }
     if (!res.ok || data.error) {
-      fe.textContent = data.error || "Payment request failed. Please try again.";
-      fe.style.display = "block";
-      showToast(fe.textContent, "error");
-      btn.disabled = false;
-      setPayButtonLabel(selectedOffer.agentPrice);
+      const message = data.error || "Payment request failed. Please try again.";
+      // / A server rejection before checkout is definitive. A server error
+      // / after dispatch may be ambiguous, so preserve the receipt and lock.
+      if (res.status >= 400 && res.status < 500) {
+        resetStkState();
+        fe.textContent = message;
+        fe.style.display = "block";
+        showToast(message, "error");
+        restoreOrderForm();
+      } else {
+        showResultDialog("pending", "Checking Payment Request", "We could not confirm whether M-Pesa started this request. Keep this order open and wait for its status before paying again.");
+      }
       return;
     }
     if (!data.txId) {
-      fe.textContent = "Transaction could not be initialized. Please try again.";
-      fe.style.display = "block";
-      showToast(fe.textContent, "error");
-      btn.disabled = false;
-      setPayButtonLabel(selectedOffer.agentPrice);
+      showResultDialog("pending", "Checking Payment Request", "The order reference is still being confirmed. Keep this page open and wait for the payment status before paying again.");
       return;
     }
-    showStkWaiting();
-    startOrderStatusPolling(data.txId);
-  } catch (e) {
-    fe.textContent = "Unable to send the payment request. Please check your connection and try again.";
+    orderStatusController.applyStartResponse(attempt, data);
+    if (attempt.terminal || !orderStatusController.isCurrent(attempt)) return;
+    saveOrderReceipt(attempt);
+  } catch (error) {
+    if (attempt?.terminal) return;
+    if (attempt && !requestDispatched) {
+      // / Receipt persistence failed before any network side effect, so this
+      // / attempt is safe to abandon and the customer may retry.
+      resetStkState();
+      const message = error?.message || "The payment receipt could not be saved on this browser.";
+      fe.textContent = message;
+      fe.style.display = "block";
+      showToast(message, "error");
+      restoreOrderForm();
+      return;
+    }
+    if (attempt && orderStatusController.isCurrent(attempt)) {
+      if (attempt.terminal) return;
+      // / A lost acknowledgement cannot prove that the STK was not sent.
+      // / The pre-attached status listener owns recovery; never offer a retry.
+      showResultDialog("pending", "Checking Payment Request", "We could not confirm whether M-Pesa started this request. Keep this order open and wait for its status before paying again.");
+      return;
+    }
+    const message = error?.message || "Secure payment status could not be started. Please try again.";
+    fe.textContent = message;
     fe.style.display = "block";
-    showToast(fe.textContent, "error");
-    btn.disabled = false;
-    setPayButtonLabel(selectedOffer.agentPrice);
+    showToast(message, "error");
+    restoreOrderForm();
   }
 };
 
@@ -2038,11 +2158,16 @@ window.closeResultDialog = function() {
   if (lastPaymentResult === "success") {
     el("stk-screen").style.display = "none";
     clearOfferSelection();
-  } else {
+    if (hasUnresolvedOrder()) {
+      showToast("This order was received. Its delivery status will keep updating; do not pay for the same order again.", "info");
+    }
+  } else if (hasUnresolvedOrder()) {
+    // / A pending dialog can be dismissed, but the original receipt remains
+    // / locked so the customer cannot accidentally create a duplicate charge.
     el("stk-screen").style.display = "none";
-    const btn = el("pay-btn");
-    btn.disabled = false;
-    setPayButtonLabel(selectedOffer ? selectedOffer.agentPrice : null);
+    setPayButtonPending();
+  } else {
+    restoreOrderForm();
   }
   lastPaymentResult = "";
 };
@@ -2052,7 +2177,7 @@ el("order-form").addEventListener("submit", event => {
   event.preventDefault();
   window.submitOrder();
 });
-init();
+init().then(resumeSavedOrderStatus);
 </script>
 
 </body>
