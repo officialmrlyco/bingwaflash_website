@@ -72,8 +72,16 @@ export function createOrderStatusController({
 
   function deliver(attempt, data, source) {
     if (!isCurrent(attempt) || attempt.terminal || !data) return false;
-    if (source === "start" && attempt.hasSnapshot) return false;
     const status = String(data.status || "").toLowerCase();
+    // / A start acknowledgement may advance the reservation to PIN entry. It
+    // / cannot erase any newer payment callback, delivery, or failure status.
+    if (source === "start" && attempt.hasSnapshot &&
+        !(attempt.status === "initiating" && status === "pending")) return false;
+    // / A cached reservation arriving after the HTTP acknowledgement must not
+    // / turn PIN entry back into initiation or replace a confirmed handoff.
+    if (status === "initiating" && attempt.status && attempt.status !== "initiating") return false;
+    if (status === "pending" && attempt.status && !["initiating", "pending"].includes(attempt.status)) return false;
+    attempt.status = status || attempt.status;
     if (source === "snapshot") attempt.hasSnapshot = true;
     onStatus(data, attempt, source);
     if (source === "snapshot" && attempt.expiryTimer !== null) {
@@ -180,6 +188,7 @@ export function createOrderStatusController({
       txId: "",
       statusExpiresAtMs: 0,
       hasSnapshot: false,
+      status: "",
       terminal: false,
       suspended: false,
       streamFailed: false,

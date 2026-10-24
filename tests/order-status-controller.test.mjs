@@ -70,6 +70,45 @@ test('keeps a callback result delivered before the start response', () => {
   assert.equal(h.listeners.size, 0);
 });
 
+// / STK initiation must be visible without making a reservation look like a sent prompt.
+test('advances initiation to PIN entry from live dispatch before the start response', () => {
+  const h = createHarness();
+  const attempt = h.controller.beginAttempt('1'.repeat(64));
+  h.controller.attach(attempt);
+  const next = h.listeners.get(attempt.statusToken).next;
+  next({ exists: true, data: { status: 'initiating' } });
+  next({ exists: true, data: { status: 'pending' } });
+  h.controller.applyStartResponse(attempt, { txId: 'tx-pin', status: 'pending' });
+  assert.deepEqual(h.events.map(event => event.data.status), ['initiating', 'pending']);
+  assert.equal(attempt.txId, 'tx-pin');
+});
+
+test('start acknowledgement advances an initiating reservation and ignores a late cached reservation', () => {
+  const h = createHarness();
+  const attempt = h.controller.beginAttempt('2'.repeat(64));
+  h.controller.attach(attempt);
+  const next = h.listeners.get(attempt.statusToken).next;
+  next({ exists: true, data: { status: 'initiating' } });
+  h.controller.applyStartResponse(attempt, { txId: 'tx-pin', status: 'pending' });
+  next({ exists: true, data: { status: 'initiating' } });
+  assert.deepEqual(h.events.map(event => event.data.status), ['initiating', 'pending']);
+  assert.equal(attempt.status, 'pending');
+});
+
+test('a confirmed handoff cannot regress to PIN entry from a late start or cached snapshot', () => {
+  const h = createHarness();
+  const attempt = h.controller.beginAttempt('3'.repeat(64));
+  h.controller.attach(attempt);
+  const next = h.listeners.get(attempt.statusToken).next;
+  next({ exists: true, data: { status: 'waiting_for_agent' } });
+  h.controller.applyStartResponse(attempt, { txId: 'tx-paid', status: 'pending' });
+  next({ exists: true, data: { status: 'pending' } });
+  next({ exists: true, data: { status: 'initiating' } });
+  assert.deepEqual(h.events.map(event => event.data.status), ['waiting_for_agent']);
+  assert.equal(attempt.terminal, false, 'delivery tracking and the receipt lock stay active');
+  assert.equal(h.listeners.size, 1);
+});
+
 test('ignores stale listener and start callbacks after a newer attempt owns the page', () => {
   const h = createHarness();
   const first = h.controller.beginAttempt('a'.repeat(64));

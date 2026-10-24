@@ -772,36 +772,18 @@ main.order-main{
   color: var(--tag-yellow-color);
   margin-bottom: 14px;
 }
-.stk-prompt-steps{
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+/* / The receipt controls the progress copy; PIN instructions follow STK dispatch. */
+.stk-status-message{
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.stk-live-note{
+  font-size: 0.8rem;
+  line-height: 1.5;
   margin-bottom: 16px;
-}
-.stk-step-box{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 9px 11px;
-  font-size: 0.76rem;
   color: var(--text-muted);
-}
-.stk-step-num{
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--g);
-  color: #ffffff;
-  font-size: 0.7rem;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
 }
 .stk-cancel-action{
   background: none;
@@ -1110,7 +1092,8 @@ main.order-main{
 
     <div class="order-explainer" aria-label="How ordering works">
       <div><span>1</span><p><strong>Choose a package</strong><small>Prices shown are the amount you pay.</small></p></div>
-      <div><span>2</span><p><strong>Confirm on M-Pesa</strong><small>Approve the prompt sent to your payment number.</small></p></div>
+      <!-- / Customers enter a PIN on Safaricom's STK push, never on this page. -->
+      <div><span>2</span><p><strong>Enter your M-Pesa PIN</strong><small>Enter your PIN on the STK push you'll receive.</small></p></div>
       <div><span>3</span><p><strong>Agent receives it</strong><small>The agent completes delivery from their phone.</small></p></div>
     </div>
 
@@ -1196,30 +1179,19 @@ main.order-main{
 </footer>
 
 <!-- Fullscreen STK Prompt Overlay -->
-<div id="stk-screen" role="dialog" aria-modal="true">
+<div id="stk-screen" role="dialog" aria-modal="true" aria-labelledby="stk-title">
   <div class="stk-modal-card">
     <div class="stk-radar-icon">
       <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
     </div>
-    <h2>Approve M-Pesa Payment</h2>
+    <!-- / Start with honest initiation copy; the live receipt advances it after dispatch. -->
+    <h2 id="stk-title" aria-live="polite">Initiating payment...</h2>
     <div class="stk-sender-badge">
       <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
       Prompt From: FLASH PAY SERVICES
     </div>
-    <div class="stk-prompt-steps">
-      <div class="stk-step-box">
-        <div class="stk-step-num">1</div>
-        <div>Check your phone for the <strong>M-Pesa PIN prompt</strong></div>
-      </div>
-      <div class="stk-step-box">
-        <div class="stk-step-num">2</div>
-        <div>Enter your M-Pesa PIN to complete payment</div>
-      </div>
-      <div class="stk-step-box">
-        <div class="stk-step-num">3</div>
-        <div>This screen automatically finishes once confirmed</div>
-      </div>
-    </div>
+    <p id="stk-status-message" class="stk-status-message" role="status">Sending your M-Pesa STK push. Please wait.</p>
+    <p class="stk-live-note">This page updates automatically when M-Pesa confirms the result.</p>
     <button class="stk-cancel-action" onclick="cancelStkOverlay()">Hide instructions, keep checking</button>
   </div>
 </div>
@@ -1289,7 +1261,7 @@ import { cleanAgentProfile } from "/profile-names.mjs?v=20261019-1";
 import { localPhone } from "/order/phone-input.mjs?v=20260904-1";
 import { showCurrentVerificationBadge } from "/verified-agent.mjs?v=20260927-1";
 import { parseMaxOffers, allowedSiteLinkOffers } from "/order/sitelink-offer-policy.mjs?v=20261013-1";
-import { createOrderStatusController, createOrderStatusToken } from "/order/status-controller.mjs?v=20261023-1";
+import { createOrderStatusController, createOrderStatusToken } from "/order/status-controller.mjs?v=20261024-1";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -1897,7 +1869,19 @@ function restoreOrderForm() {
   }
 }
 
-function showStkWaiting() {
+// / Updating receipt progress must not reopen instructions the customer hid.
+function setStkProgress(status) {
+  const initiating = status === "initiating";
+  const pending = status === "pending";
+  el("stk-title").textContent = initiating ? "Initiating payment..."
+    : pending ? "Enter your M-Pesa PIN" : "Checking payment status...";
+  el("stk-status-message").textContent = initiating ? "Sending your M-Pesa STK push. Please wait."
+    : pending ? "Enter your M-Pesa PIN on the STK push you'll receive."
+    : "Waiting for M-Pesa to confirm this payment. Please do not pay again.";
+}
+
+function showStkWaiting(status = "checking") {
+  setStkProgress(status);
   el("stk-screen").style.display = "flex";
 }
 
@@ -1948,6 +1932,9 @@ function formatAgentDeliveryContact(rawPhone) {
 function renderOrderStatus(orderKey, data) {
   if (!data) return;
   const status = String(data.status || "pending").toLowerCase();
+  // / Initiation and PIN entry are separate live phases, including snapshots
+  // / received before the start request returns. Terminal outcomes render below.
+  if (status === "initiating" || status === "pending") setStkProgress(status);
   const failReason = data.failReason || "Payment was not completed. Please try again.";
   const mpesaRef = data.mpesaRef || "";
   // Server receipt means the order is safely committed on the agent phone.
@@ -2022,14 +2009,15 @@ function resumeSavedOrderStatus() {
   if (!saved || !/^[0-9a-f]{64}$/.test(String(saved.statusToken || ""))) return;
   const attempt = orderStatusController.beginAttempt(saved.statusToken);
   activeStatusAttempt = attempt;
+  // / A restored receipt is a status check, not proof of a newly sent STK.
+  // / Show it before connecting so a fast saved outcome can immediately replace it.
+  showStkWaiting();
   if (orderPageSuspended) orderStatusController.suspend();
   else orderStatusController.attach(attempt);
   orderStatusController.applyStartResponse(attempt, {
     txId: String(saved.txId || ""),
     statusExpiresAtMs: Number(saved.statusExpiresAtMs || 0),
   });
-  showStkWaiting();
-  const btn = el("pay-btn");
   setPayButtonPending();
 }
 
@@ -2072,9 +2060,10 @@ window.submitOrder = async function() {
     attempt = orderStatusController.beginAttempt(statusToken);
     activeStatusAttempt = attempt;
     saveOrderReceipt(attempt);
+    // / Paint initiation before attaching: even an immediate callback owns the next UI state.
+    showStkWaiting("initiating");
     if (orderPageSuspended) orderStatusController.suspend();
     else orderStatusController.attach(attempt);
-    showStkWaiting();
     requestDispatched = true;
     const res = await fetch(FURL, {
       method: "POST",
@@ -2096,6 +2085,17 @@ window.submitOrder = async function() {
     });
     const data = await res.json().catch(() => ({}));
     if (!orderStatusController.isCurrent(attempt) || attempt.terminal) return;
+    // / A confirmed handoff can arrive before any HTTP reply. Only attach its
+    // / recovery reference here; late errors or acknowledgements cannot replace it.
+    if (attempt.hasSnapshot && !["initiating", "pending"].includes(attempt.status)) {
+      if (data.txId) {
+        orderStatusController.applyStartResponse(attempt, {
+          txId: data.txId, statusExpiresAtMs: data.statusExpiresAtMs,
+        });
+        saveOrderReceipt(attempt);
+      }
+      return;
+    }
     if (data.code === "WEBSITES_MAINTENANCE") {
       resetStkState();
       btn.disabled = false;
@@ -2122,11 +2122,15 @@ window.submitOrder = async function() {
       showResultDialog("pending", "Checking Payment Request", "The order reference is still being confirmed. Keep this page open and wait for the payment status before paying again.");
       return;
     }
-    orderStatusController.applyStartResponse(attempt, data);
+    // / Older start responses omit status. A successful acknowledgement means
+    // / STK was sent; it may advance initiation but cannot replace a callback result.
+    orderStatusController.applyStartResponse(attempt, { ...data, status: data.status || "pending" });
     if (attempt.terminal || !orderStatusController.isCurrent(attempt)) return;
     saveOrderReceipt(attempt);
   } catch (error) {
     if (attempt?.terminal) return;
+    // / A lost HTTP response cannot hide an already confirmed payment handoff.
+    if (attempt?.hasSnapshot && !["initiating", "pending"].includes(attempt.status)) return;
     if (attempt && !requestDispatched) {
       // / Receipt persistence failed before any network side effect, so this
       // / attempt is safe to abandon and the customer may retry.
