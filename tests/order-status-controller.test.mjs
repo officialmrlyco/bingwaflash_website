@@ -76,8 +76,9 @@ test('advances initiation to PIN entry from live dispatch before the start respo
   const attempt = h.controller.beginAttempt('1'.repeat(64));
   h.controller.attach(attempt);
   const next = h.listeners.get(attempt.statusToken).next;
-  next({ exists: true, data: { status: 'initiating' } });
-  next({ exists: true, data: { status: 'pending' } });
+  // / Match the real public projection: status groups unpaid orders; paymentStatus carries the phase.
+  next({ exists: true, data: { status: 'payment_pending', paymentStatus: 'initiating' } });
+  next({ exists: true, data: { status: 'payment_pending', paymentStatus: 'pending' } });
   h.controller.applyStartResponse(attempt, { txId: 'tx-pin', status: 'pending' });
   assert.deepEqual(h.events.map(event => event.data.status), ['initiating', 'pending']);
   assert.equal(attempt.txId, 'tx-pin');
@@ -88,9 +89,9 @@ test('start acknowledgement advances an initiating reservation and ignores a lat
   const attempt = h.controller.beginAttempt('2'.repeat(64));
   h.controller.attach(attempt);
   const next = h.listeners.get(attempt.statusToken).next;
-  next({ exists: true, data: { status: 'initiating' } });
+  next({ exists: true, data: { status: 'payment_pending', paymentStatus: 'initiating' } });
   h.controller.applyStartResponse(attempt, { txId: 'tx-pin', status: 'pending' });
-  next({ exists: true, data: { status: 'initiating' } });
+  next({ exists: true, data: { status: 'payment_pending', paymentStatus: 'initiating' } });
   assert.deepEqual(h.events.map(event => event.data.status), ['initiating', 'pending']);
   assert.equal(attempt.status, 'pending');
 });
@@ -102,8 +103,8 @@ test('a confirmed handoff cannot regress to PIN entry from a late start or cache
   const next = h.listeners.get(attempt.statusToken).next;
   next({ exists: true, data: { status: 'waiting_for_agent' } });
   h.controller.applyStartResponse(attempt, { txId: 'tx-paid', status: 'pending' });
-  next({ exists: true, data: { status: 'pending' } });
-  next({ exists: true, data: { status: 'initiating' } });
+  next({ exists: true, data: { status: 'payment_pending', paymentStatus: 'pending' } });
+  next({ exists: true, data: { status: 'payment_pending', paymentStatus: 'initiating' } });
   assert.deepEqual(h.events.map(event => event.data.status), ['waiting_for_agent']);
   assert.equal(attempt.terminal, false, 'delivery tracking and the receipt lock stay active');
   assert.equal(h.listeners.size, 1);

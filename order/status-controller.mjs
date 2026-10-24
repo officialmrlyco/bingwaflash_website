@@ -72,7 +72,12 @@ export function createOrderStatusController({
 
   function deliver(attempt, data, source) {
     if (!isCurrent(attempt) || attempt.terminal || !data) return false;
-    const status = String(data.status || "").toLowerCase();
+    const publicStatus = String(data.status || "").toLowerCase();
+    // / The backend intentionally groups unpaid orders as payment_pending.
+    // / Its allowlisted paymentStatus preserves the actual initiation/dispatch phase.
+    const status = publicStatus === "payment_pending"
+      ? (String(data.paymentStatus || "").toLowerCase() === "initiating" ? "initiating" : "pending")
+      : publicStatus;
     // / A start acknowledgement may advance the reservation to PIN entry. It
     // / cannot erase any newer payment callback, delivery, or failure status.
     if (source === "start" && attempt.hasSnapshot &&
@@ -83,7 +88,7 @@ export function createOrderStatusController({
     if (status === "pending" && attempt.status && !["initiating", "pending"].includes(attempt.status)) return false;
     attempt.status = status || attempt.status;
     if (source === "snapshot") attempt.hasSnapshot = true;
-    onStatus(data, attempt, source);
+    onStatus(status === publicStatus ? data : { ...data, status }, attempt, source);
     if (source === "snapshot" && attempt.expiryTimer !== null) {
       cancelSchedule(attempt.expiryTimer);
       attempt.expiryTimer = null;

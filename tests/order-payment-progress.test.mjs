@@ -65,8 +65,9 @@ test('checkout shows initiation until dispatch, then PIN entry and an immediate 
   const pending = h.context.window.submitOrder();
   assert.equal(h.element('stk-title').textContent, 'Initiating payment...');
   assert.doesNotMatch(h.element('stk-status-message').textContent, /enter|approve/i);
-  h.notify({ status: 'initiating' });
-  h.notify({ status: 'pending' });
+  // / Exercise the backend's real grouped public status and its separate dispatch phase.
+  h.notify({ status: 'payment_pending', paymentStatus: 'initiating' });
+  h.notify({ status: 'payment_pending', paymentStatus: 'pending' });
   assert.equal(h.element('stk-title').textContent, 'Enter your M-Pesa PIN');
   assert.match(h.element('stk-status-message').textContent, /STK push you'll receive/);
   h.notify({ status: 'failed', failReason: 'Incorrect M-Pesa PIN.' });
@@ -81,7 +82,7 @@ test('checkout shows initiation until dispatch, then PIN entry and an immediate 
 test('successful older start responses advance initiation even without a status field', async () => {
   const h = createPageHarness();
   const pending = h.context.window.submitOrder();
-  h.notify({ status: 'initiating' });
+  h.notify({ status: 'payment_pending', paymentStatus: 'initiating' });
   h.reply();
   await pending;
   assert.equal(h.element('stk-title').textContent, 'Enter your M-Pesa PIN');
@@ -92,7 +93,7 @@ test('hiding instructions does not reopen them or allow a duplicate payment when
   const h = createPageHarness();
   const pending = h.context.window.submitOrder();
   h.context.window.cancelStkOverlay();
-  h.notify({ status: 'pending' });
+  h.notify({ status: 'payment_pending', paymentStatus: 'pending' });
   h.reply();
   await pending;
   await h.context.window.submitOrder();
