@@ -249,7 +249,7 @@ Possible event types:
 - Pending due to setup issue.
 - Other configured transaction events.
 
-Auto reply settings are separate from relay SMS settings. Each screen can have its own SIM and sending preferences.
+Auto reply settings are separate from bridge SMS settings. Each screen can have its own SIM and sending preferences.
 
 Agent alerts should be deduplicated so the agent does not receive the same warning multiple times for one event.
 
@@ -314,21 +314,23 @@ Verification is tied to specific profile identity fields. If the agent changes t
 
 On public pages, a verified agent should be shown clearly as a verified Bingwa Flash agent without exposing private account details.
 
-### Relay
+### Bridge
 
-Relay helps phones or agents pass order/execution information between devices using SMS, Online, Hotspot/Wi-Fi, or Bluetooth.
+Bridge is the updated name for Relay. New connections bind to one processing phone; existing connections use an explicit upgrade confirmation.
 
-Relay concepts:
+Bridge helps phones or agents pass order/execution information between devices using SMS, Online, Hotspot/Wi-Fi, or Bluetooth.
 
-- Sender rule: sends relay packets.
-- Receiver rule: receives relay packets.
-- Online relay: uses the online listener only when an enabled receiver online relay rule exists.
-- SMS relay: uses relay SMS settings, separate from auto-reply SMS settings.
+Bridge concepts:
+
+- Forwarding connection: sends selected payments to one processing phone.
+- Processing connection: admits authenticated payments to the normal transaction queue.
+- Internet Bridge: uses device-bound delivery and an enabled processing connection. An inactive invitation may answer a separate harmless pairing check.
+- SMS bridge: uses bridge SMS settings, separate from auto-reply SMS settings.
 
 To reduce billing and background load:
 
-- The app should not start online relay listeners unless an enabled online receiver rule exists.
-- Portal and relay features should stay quiet when disabled.
+- Payment listeners need an enabled processing connection. Pairing-check listeners may run for an inactive invitation; pairing never creates a payment.
+- Portal and bridge features should stay quiet when disabled.
 
 ### Portal
 
@@ -338,7 +340,7 @@ If the portal says paused, it means the app or config has disabled portal sync.
 
 ### Tokens, Subscription, and Billing
 
-Bingwa Flash automation uses the account's current Time Tokens or token balance where required. Web Orders may have a separate paid availability period shown before purchase; Relay does not create its own subscription or access product.
+Bingwa Flash automation uses the account's current Time Tokens or token balance where required. Web Orders may have a separate paid availability period shown before purchase; Bridge does not create its own subscription or access product.
 
 If a transaction is pending due to no tokens:
 
@@ -424,7 +426,7 @@ Check:
 
 Likely sources:
 
-- Online relay listener.
+- Online bridge listener.
 - Portal listener.
 - Client registration listener.
 - Web order listener.
@@ -434,7 +436,7 @@ Likely sources:
 Billing-friendly rule:
 
 - Start listeners only when the matching feature is enabled.
-- Stop listeners when portal, relay, or website client registration is disabled.
+- Stop listeners when portal, bridge, or website client registration is disabled.
 - Prefer local storage for heavy app data.
 - Use public mirrors for website pages instead of reading private agent documents.
 
@@ -470,7 +472,7 @@ The app may not know the full customer number. If 334 lookup is enabled, it can 
 
 ### "Why are reads high in Firebase?"
 
-The most common cause is active snapshot listeners, especially portal, online relay, client registration, or web order listeners. Disabled features should not keep listeners open. If portal is paused, check other listeners and public website traffic.
+The most common cause is active snapshot listeners, especially portal, online bridge, client registration, or web order listeners. Disabled features should not keep listeners open. If portal is paused, check other listeners and public website traffic.
 
 ### "Is Bingwa Flash Safaricom?"
 

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Terms of Service - Bingwa Flash</title>
-<meta name="description" content="Terms governing the Bingwa Flash Android app, agent tools, public order pages, payments, Relay, Portal, and support services.">
+<meta name="description" content="Terms governing the Bingwa Flash Android app, agent tools, public order pages, payments, Bridge, Portal, and support services.">
 <link rel="canonical" href="https://bingwaflash.co.ke/terms.html">
 <link rel="icon" type="image/png" href="/logo.png">
 <script>(function(){try{var t=localStorage.getItem('bf-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(error){/* Keep the server-rendered dark default when storage is unavailable. */}})();</script>
@@ -115,7 +115,7 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:22px
       <li><a href="#s6">Web Orders</a></li>
       <li><a href="#s7">Orders and Payments</a></li>
       <li><a href="#s8">Clients and Contacts</a></li>
-      <li><a href="#s9">Relay and Portal</a></li>
+      <li><a href="#s9">Bridge and Portal</a></li>
       <li><a href="#s10">Verification Badge</a></li>
       <li><a href="#s11">Payments and Tokens</a></li>
       <li><a href="#s12">Acceptable Use</a></li>
@@ -129,23 +129,23 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:22px
   <main>
 
     <section class="ps" id="s1"><div class="ps-header"><div class="ps-num">01</div><h2>Acceptance</h2></div><div class="ps-body">
-      <p>These Terms form a binding agreement between the person or business using Bingwa Flash and the operator of Bingwa Flash. They cover the Android app, bingwaflash.co.ke, public agent pages, client registration, payment flows, Relay, Portal, and related support services.</p>
+      <p>These Terms form a binding agreement between the person or business using Bingwa Flash and the operator of Bingwa Flash. They cover the Android app, bingwaflash.co.ke, public agent pages, client registration, payment flows, Bridge, Portal, and related support services.</p>
       <p>By creating an account, installing or using the app, purchasing a Bingwa Flash feature, or placing a web order, you accept these Terms and the <a href="/privacy.html">Privacy Policy</a>. You must be at least 18 years old and legally able to enter this agreement. If you act for a business, you confirm that you can bind it. If you do not agree, do not use the service.</p>
     </div></section>
 
     <section class="ps" id="s2"><div class="ps-header"><div class="ps-num">02</div><h2>What Bingwa Flash Provides</h2></div><div class="ps-body">
-      <p>Bingwa Flash is an Android automation and business-management tool for agents. It can detect supported payment messages, match configured offers, run USSD steps, manage local transactions and clients, send selected messages, publish web-order information, facilitate supported payments, and provide Relay or Portal tools when enabled.</p>
+      <p>Bingwa Flash is an Android automation and business-management tool for agents. It can detect supported payment messages, match configured offers, run USSD steps, manage local transactions and clients, send selected messages, publish web-order information, facilitate supported payments, and provide Bridge or Portal tools when enabled.</p>
       <p>We grant each authorised agent a limited, personal, revocable, non-exclusive, non-transferable licence to install and use the app for lawful business operations during the period that the account and applicable access remain active. No source code, brand, design, service endpoint, or other intellectual property is sold or transferred.</p>
       <div class="callout"><p>Bingwa Flash is independent from Safaricom PLC and M-Pesa. It is not a bank, deposit-taker, mobile network operator, escrow service, or the seller of an agent's airtime, bundles, or other customer products.</p></div>
     </div></section>
 
     <section class="ps" id="s3"><div class="ps-header"><div class="ps-num">03</div><h2>Accounts and Security</h2></div><div class="ps-body">
-      <p>Users must provide accurate, current information; protect email access, passwords, security PINs, recovery codes, SIMs, devices, and linked Portal or Relay details; and notify support promptly of suspected compromise. Users must never give Bingwa Flash support an M-Pesa PIN or device unlock code.</p>
+      <p>Users must provide accurate, current information; protect email access, passwords, security PINs, recovery codes, SIMs, devices, and linked Portal or Bridge details; and notify support promptly of suspected compromise. Users must never give Bingwa Flash support an M-Pesa PIN or device unlock code.</p>
       <p>An account is for its authorised owner or business. We may enforce one active device, require re-authentication, invalidate sessions, reset a PIN through a verified administrator process, or temporarily restrict sensitive actions to protect the account. Activity performed through valid credentials or an authorised device is treated as the account holder's activity unless reported compromised.</p>
     </div></section>
 
     <section class="ps" id="s4"><div class="ps-header"><div class="ps-num">04</div><h2>Agent Responsibilities</h2></div><div class="ps-body">
-      <p>Agents control their offers, prices, customer relationships, USSD codes, SIM selection, Relay partners, verifier and retry rules, response templates, contact-saving choices, public information, and web-order availability. The agent is the seller and fulfiller of products offered to customers.</p>
+      <p>Agents control their offers, prices, customer relationships, USSD codes, SIM selection, Bridge partners, verifier and retry rules, response templates, contact-saving choices, public information, and web-order availability. The agent is the seller and fulfiller of products offered to customers.</p>
       <ul>
         <li>test each mapping and offer with a safe amount before enabling live automation;</li>
         <li>keep the phone, SIM, permissions, Accessibility service, network, battery, airtime, and required Time Tokens ready;</li>
@@ -179,9 +179,10 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:22px
       <p>Website client registration is optional. A customer may use the supported removal flow or contact the agent. Removal from one agent list does not delete an independent contact record, completed transaction, payment-provider record, or legally retained platform record.</p>
     </div></section>
 
-    <section class="ps" id="s9"><div class="ps-header"><div class="ps-num">09</div><h2>Relay and Portal</h2></div><div class="ps-body">
-      <p>Relay is for authorised agent-to-agent fulfilment using SMS, Online, Hotspot/Wi-Fi, or Bluetooth. Portal permits linked sessions or devices to view selected information and send supported commands. The account owner is responsible for every rule, QR code, pair code, endpoint, linked device, and person given access.</p>
-      <p>A pair code authenticates compatible packets but does not make an untrusted phone safe. Users must remove stale rules and links, protect connection details, and verify the receiving agent. Relay transport success confirms a handoff only; the receiving transaction determines fulfilment. Users must not intercept traffic, impersonate another agent, guess connection secrets, or execute unauthorised transactions.</p>
+    <!-- / note: The Bridge rename preserves the existing token and handoff-versus-fulfilment responsibilities. -->
+    <section class="ps" id="s9"><div class="ps-header"><div class="ps-num">09</div><h2>Bridge and Portal</h2></div><div class="ps-body">
+      <p>Bridge is for authorised agent-to-agent fulfilment using SMS, Online, Hotspot/Wi-Fi, or Bluetooth. Portal permits linked sessions or devices to view selected information and send supported commands. The account owner is responsible for every rule, QR code, pair code, endpoint, linked device, and person given access.</p>
+      <p>A pair code authenticates compatible packets but does not make an untrusted phone safe. Users must remove stale rules and links, protect connection details, and verify the receiving agent. Bridge transport success confirms a handoff only; the receiving transaction determines fulfilment. Users must not intercept traffic, impersonate another agent, guess connection secrets, or execute unauthorised transactions.</p>
     </div></section>
 
     <section class="ps" id="s10"><div class="ps-header"><div class="ps-num">10</div><h2>Verification Badge</h2></div><div class="ps-body">
@@ -189,7 +190,7 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:22px
     </div></section>
 
     <section class="ps" id="s11"><div class="ps-header"><div class="ps-num">11</div><h2>Payments, Tokens, and Subscriptions</h2></div><div class="ps-body">
-      <p>Automation may consume the account's overall Time Tokens or token balance. Web Orders may have a separately displayed subscription period. Relay uses the same overall token system and does not create a separate Relay subscription. The checkout screen controls the package, duration, price, limits, and destination offered at that time.</p>
+      <p>Automation may consume the account's overall Time Tokens or token balance. Web Orders may have a separately displayed subscription period. Bridge uses the same overall token system and does not create a separate Bridge subscription. The checkout screen controls the package, duration, price, limits, and destination offered at that time.</p>
       <p>A purchase is granted only after payment confirmation. Submitted or pending requests do not create an entitlement. Time access begins and expires as displayed; consumed tokens, elapsed time, and activated digital access are not refundable merely because the user did not use them, subject always to mandatory consumer rights, duplicate charges, confirmed service errors, or an express refund promise.</p>
       <p>We may change future prices, packages, free access, or feature limits. Changes do not remove access already purchased for its stated period unless suspension is required for fraud, security, law, or a material breach.</p>
     </div></section>
@@ -236,11 +237,11 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:22px
         <li>Indirect, consequential, or punitive losses of any kind.</li>
       </ul>
       <p>Where liability cannot lawfully be excluded, our aggregate liability arising from the service will not exceed the greater of the amount the claimant paid directly to Bingwa Flash for the affected paid feature during the six months before the event or KES 5,000. This cap does not apply to fraud or wilful misconduct by Bingwa Flash, death or personal injury caused by negligence where liability cannot be limited, or any mandatory consumer or data-protection remedy.</p>
-      <p>An agent will indemnify Bingwa Flash against third-party claims, penalties, and reasonable costs arising from that agent's unlawful offers, messages, data use, customer promises, tax failures, intellectual-property infringement, misuse of Relay or Portal, or breach of these Terms, except to the extent caused by Bingwa Flash's own breach or unlawful conduct.</p>
+      <p>An agent will indemnify Bingwa Flash against third-party claims, penalties, and reasonable costs arising from that agent's unlawful offers, messages, data use, customer promises, tax failures, intellectual-property infringement, misuse of Bridge or Portal, or breach of these Terms, except to the extent caused by Bingwa Flash's own breach or unlawful conduct.</p>
     </div></section>
 
     <section class="ps" id="s16"><div class="ps-header"><div class="ps-num">16</div><h2>Suspension and Termination</h2></div><div class="ps-body">
-      <p>We may suspend, restrict, or terminate an account, feature, payment, public page, Relay endpoint, Portal link, or access token where reasonably necessary for security, fraud prevention, non-payment, legal compliance, provider requirements, material breach, or protection of users and the service. Urgent action may occur without prior notice; otherwise we will try to provide a reasonable explanation and route to support.</p>
+      <p>We may suspend, restrict, or terminate an account, feature, payment, public page, Bridge endpoint, Portal link, or access token where reasonably necessary for security, fraud prevention, non-payment, legal compliance, provider requirements, material breach, or protection of users and the service. Urgent action may occur without prior notice; otherwise we will try to provide a reasonable explanation and route to support.</p>
       <p>Users may stop using the service and request account deletion. Uninstalling the app does not cancel an already initiated payment, resolve an agent/customer dispute, or erase records that must be retained. Terms concerning payments, ownership, acceptable use, disclaimers, liability, indemnity, disputes, and retained records survive termination.</p>
     </div></section>
 

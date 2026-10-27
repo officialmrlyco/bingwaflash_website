@@ -1,5 +1,12 @@
 # BingwaFlash public website handoff
 
+## Bridge product terminology and delivery evidence (2026-10-27)
+
+- Relay is being renamed to Bridge in the Android app and backend. The privacy, terms and machine-readable guide now use Bridge. New connections select one processing phone; existing users confirm that phone once after both phones update.
+- Internet Bridge retains immutable operation receipts for duplicate protection after removing packet content at a durable intake decision. Pending or unresolved packets remain recoverable. Do not claim all data disappears on the first cloud claim, or that a sender handoff proves a customer purchase completed.
+- Pairing checks may listen for an inactive invitation; they are a separate non-executing control channel. Payment listeners still require an enabled processing connection. No separate Bridge subscription or automatic purchase retry is introduced.
+- This source wording change is not a publication, APK release or live data migration. Ship it with the accepted Bridge release; preserve all unrelated checkout changes.
+
 ## Clients page registration permission repair (2026-10-01)
 
 - `/clients/index.html` now calls `registerWebsiteClient` and `removeWebsiteClient` in Firebase Functions `us-central1` for writes that affect agent client inbox rows and the `clientSync` marker. It still reads registration/PIN information for the current UI and keeps the readable five-digit PIN support flow. Do not restore direct browser writes to `agents/{uid}/meta/clientSync`: Firestore restricts that marker to the signed-in agent, and a failed marker can leave partial registration data.

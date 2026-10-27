@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Privacy Policy - Bingwa Flash</title>
-<meta name="description" content="How Bingwa Flash handles account, payment, automation, transaction, client, Relay, Portal, analytics, and support data.">
+<meta name="description" content="How Bingwa Flash handles account, payment, automation, transaction, client, Bridge, Portal, analytics, and support data.">
 <link rel="canonical" href="https://bingwaflash.co.ke/privacy.html">
 <link rel="icon" type="image/png" href="/logo.png">
 <script>(function(){try{var t=localStorage.getItem('bf-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(error){/* Keep the server-rendered dark default when storage is unavailable. */}})();</script>
@@ -112,7 +112,7 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:22px
       <li><a href="#s3">Device Permissions</a></li>
       <li><a href="#s4">Local and Cloud Data</a></li>
       <li><a href="#s5">Orders and Payments</a></li>
-      <li><a href="#s6">Relay and Portal</a></li>
+      <li><a href="#s6">Bridge and Portal</a></li>
       <li><a href="#s7">Purposes and Legal Bases</a></li>
       <li><a href="#s8">Sharing and Transfers</a></li>
       <li><a href="#s9">Retention</a></li>
@@ -134,7 +134,7 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:22px
       <p>Depending on the features used, we may handle:</p>
       <ul>
         <li><strong>Account and public profile data:</strong> email, agent and business names, username, phone numbers, Till or PayBill details, verification status, registration dates, and active-device/session information.</li>
-        <li><strong>Configuration:</strong> offers, prices, payment modes, SIM choices, USSD mappings, retry and verifier rules, schedules, reply templates, alert settings, Relay rules, Portal settings, security preferences, and web-order settings.</li>
+        <li><strong>Configuration:</strong> offers, prices, payment modes, SIM choices, USSD mappings, retry and verifier rules, schedules, reply templates, alert settings, Bridge rules, Portal settings, security preferences, and web-order settings.</li>
         <li><strong>Transaction and client data:</strong> M-Pesa reference, customer name or phone where available, amount, selected offer, status, timestamps, carrier responses, recovery history, commission, blacklist state, and client totals.</li>
         <li><strong>Payment and entitlement data:</strong> token or Time Token balance, package, payment phone, checkout identifiers, payment result, subscription period where applicable, payout destination, and reconciliation records.</li>
         <li><strong>Technical and support data:</strong> app version, device model or label, operating-system information, app-instance or advertising identifiers made available by Android or Google services, crash and performance diagnostics, security events, request metadata, support correspondence, and information you choose to send with a report.</li>
@@ -143,10 +143,10 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:22px
     </div></section>
 
     <section class="ps" id="s3"><div class="ps-header"><div class="ps-num">03</div><h2>Device Permissions and On-Device Processing</h2></div><div class="ps-body">
-      <p>Android permissions are requested to make a selected feature work. The app may read supported SMS senders to detect payment confirmations, carrier responses, Relay packets, verifier messages, and recovery signals; send SMS for configured customer replies, Relay, and agent alerts; place USSD calls on the chosen SIM; and keep active automation running in the background.</p>
-      <p>Accessibility is used during enabled Advanced automation to read the active carrier USSD window, enter the saved steps, capture the response, and close or recover the carrier dialog. Overlay, notification, wake, alarm, battery-optimisation, and phone-state access support visibility and durable queue recovery. Contacts permission supports contact search, client import, and an agent's optional save-to-contacts action. Camera access scans pairing QR codes. Bluetooth access connects enabled Relay devices. The app-update installer permission is used only when the agent chooses to install an APK update.</p>
+      <p>Android permissions are requested to make a selected feature work. The app may read supported SMS senders to detect payment confirmations, carrier responses, Bridge packets, verifier messages, and recovery signals; send SMS for configured customer replies, Bridge, and agent alerts; place USSD calls on the chosen SIM; and keep active automation running in the background.</p>
+      <p>Accessibility is used during enabled Advanced automation to read the active carrier USSD window, enter the saved steps, capture the response, and close or recover the carrier dialog. Overlay, notification, wake, alarm, battery-optimisation, and phone-state access support visibility and durable queue recovery. Contacts permission supports contact search, client import, and an agent's optional save-to-contacts action. Camera access scans pairing QR codes. Bluetooth access connects enabled Bridge devices. The app-update installer permission is used only when the agent chooses to install an APK update.</p>
       <p>The app does not request location permission. Android may still associate older Bluetooth APIs with nearby-device behaviour. Denying an optional permission disables the related feature; it does not give Bingwa Flash permission to use the data for unrelated advertising.</p>
-      <div class="callout green"><p>Raw SMS, local contacts, USSD responses, and transaction history are processed primarily on the agent phone. They leave the device only when an enabled feature requires transmission, such as an SMS reply, online Relay, Portal sync, web order, support report, or cloud account sync.</p></div>
+      <div class="callout green"><p>Raw SMS, local contacts, USSD responses, and transaction history are processed primarily on the agent phone. They leave the device only when an enabled feature requires transmission, such as an SMS reply, online Bridge, Portal sync, web order, support report, or cloud account sync.</p></div>
     </div></section>
 
     <section class="ps" id="s4"><div class="ps-header"><div class="ps-num">04</div><h2>Local Storage and Cloud Sync</h2></div><div class="ps-body">
@@ -161,9 +161,10 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:22px
       <p>Order and payout data may be retained after completion where reasonably needed for accounting, reconciliation, fraud prevention, chargeback or reversal handling, customer support, legal claims, and regulatory obligations.</p>
     </div></section>
 
-    <section class="ps" id="s6"><div class="ps-header"><div class="ps-num">06</div><h2>Relay and Portal Features</h2></div><div class="ps-body">
-      <p>Relay can transfer a transaction packet by SMS, Online, Hotspot/Wi-Fi, or Bluetooth. A packet may contain a stable transaction identity, payment reference, customer or receiver details, amount, sender identity, and authentication information. SMS uses the mobile network; Hotspot and Bluetooth communicate between nearby devices; Online Relay temporarily stages encrypted-in-transit packet data in cloud storage until the receiving workflow claims it.</p>
-      <p>Pair codes authenticate compatible Relay packets but are not a substitute for device security. Agents should share QR and manual connection details only with an intended partner and remove rules that are no longer trusted.</p>
+    <!-- / note: Bridge delivery receipts outlive packet content; they must not be described as a completed customer purchase. -->
+    <section class="ps" id="s6"><div class="ps-header"><div class="ps-num">06</div><h2>Bridge and Portal Features</h2></div><div class="ps-body">
+      <p>Bridge can transfer a transaction packet by SMS, Online, Hotspot/Wi-Fi, or Bluetooth. A packet may contain a stable transaction identity, payment reference, customer or receiver details, amount, sender identity, and authentication information. SMS uses the mobile network; Hotspot and Bluetooth communicate between nearby devices; Internet Bridge stages encrypted-in-transit packet data for durable receiver intake. After an intake decision, the packet content is removed while an operation receipt remains to prevent duplicate delivery. Pending or unresolved packets can remain available for recovery.</p>
+      <p>Pair codes authenticate compatible Bridge packets but are not a substitute for device security. Agents should share QR and manual connection details only with an intended partner and remove rules that are no longer trusted.</p>
       <p>When Portal is enabled, selected device readiness, balances, offer data, transaction summaries/details, and authorised commands may be mirrored through the agent's cloud account so linked sessions can display or control supported functions. Turning Portal off stops new Portal sync, but existing security, audit, or transaction records may remain for the retention periods below.</p>
     </div></section>
 
@@ -173,7 +174,7 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:22px
         <li>creating and protecting accounts, sessions, PIN recovery, verification, and fraud controls;</li>
         <li>matching payments, running configured automation, recovering queues, sending selected replies or alerts, and showing auditable results;</li>
         <li>publishing enabled offers, processing web orders and paid features, reconciling payment results, and arranging payouts;</li>
-        <li>operating Relay, Portal, client registration, support, app updates, analytics, crash diagnosis, and security monitoring;</li>
+        <li>operating Bridge, Portal, client registration, support, app updates, analytics, crash diagnosis, and security monitoring;</li>
         <li>enforcing our Terms, responding to disputes, keeping required records, and protecting users, the service, and the public.</li>
       </ul>
     </div></section>
@@ -183,7 +184,7 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:22px
       <ul>
         <li>to Google/Firebase for authentication, cloud database, hosting, functions, analytics, and crash diagnostics;</li>
         <li>to Safaricom/M-Pesa and relevant payment partners to initiate, confirm, reconcile, pay out, or investigate a transaction;</li>
-        <li>to an agent and that agent's authorised linked devices or Relay partner for a request the customer or agent initiated;</li>
+        <li>to an agent and that agent's authorised linked devices or Bridge partner for a request the customer or agent initiated;</li>
         <li>to professional advisers, contractors, or support providers under confidentiality and purpose restrictions;</li>
         <li>to regulators, courts, law enforcement, or affected parties where law requires it or where reasonably necessary to investigate fraud, security incidents, abuse, or protect legal rights.</li>
       </ul>
@@ -195,7 +196,7 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:22px
       <ul>
         <li>local app history remains until the agent deletes it, clears app data, or uninstalls;</li>
         <li>account and active configuration data remains while the account is open and for a limited period afterward;</li>
-        <li>temporary online client-registration and Relay inbox payloads are removed after successful claim where the workflow permits;</li>
+        <li>online client-registration payloads are removed where their workflow permits; Bridge packet content is removed after a durable intake decision while operation receipts remain for duplicate protection;</li>
         <li>completed payment, payout, security, fraud, and order records may be retained longer to reconcile funds, answer disputes, enforce rights, and comply with law;</li>
         <li>crash, analytics, hosting, and security logs follow the retention controls of the relevant service and our configured operational needs.</li>
       </ul>
@@ -203,14 +204,14 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:22px
     </div></section>
 
     <section class="ps" id="s10"><div class="ps-header"><div class="ps-num">10</div><h2>Security and Incident Handling</h2></div><div class="ps-body">
-      <p>We use access controls, authenticated sessions, encrypted network connections, database rules, one-way PIN hashing, encrypted local security storage, app signing, bounded listeners, duplicate protection, and operational monitoring appropriate to the service. Sensitive Relay authentication values and transaction content are excluded from diagnostic logs by design.</p>
+      <p>We use access controls, authenticated sessions, encrypted network connections, database rules, one-way PIN hashing, encrypted local security storage, app signing, bounded listeners, duplicate protection, and operational monitoring appropriate to the service. Sensitive Bridge authentication values and transaction content are excluded from diagnostic logs by design.</p>
       <p>No application, phone, mobile network, or cloud service is completely secure. Agents must keep Android and Bingwa Flash updated, protect the phone and SIM, use a unique PIN, restrict linked devices, review public information, and report suspected compromise promptly. Where a personal-data breach creates a legal notification duty, we will investigate and notify affected persons or the Office of the Data Protection Commissioner as required.</p>
     </div></section>
 
     <section class="ps" id="s11"><div class="ps-header"><div class="ps-num">11</div><h2>Your Rights and Choices</h2></div><div class="ps-body">
       <p>Subject to the Kenya Data Protection Act and applicable exceptions, a person may ask to be informed about processing, access data we control, object or withdraw consent, correct inaccurate data, request deletion, or request restriction or portability where available. We may need to verify identity and may retain a record of the request.</p>
       <ul>
-        <li>Agents can turn off automation, individual Relay rules, Portal, public web orders, website registration, alerts, auto-reply, and contact saving.</li>
+        <li>Agents can turn off automation, individual Bridge rules, Portal, public web orders, website registration, alerts, auto-reply, and contact saving.</li>
         <li>Agents can delete supported local client and transaction records, export selected data where the app provides that action, or clear app data through Android.</li>
         <li>Customers should first contact the agent for records that agent controls. They may use the website removal flow where available.</li>
         <li>For Bingwa Flash-controlled account or platform data, email <a href="mailto:support@bingwaflash.co.ke">support@bingwaflash.co.ke</a> with the account email or phone and the request. Do not send an M-Pesa PIN, security PIN, or unredacted secrets.</li>
