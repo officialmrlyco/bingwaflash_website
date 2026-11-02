@@ -114,3 +114,14 @@ Read the parent workspace AGENTS.md first. This repository is the public source 
 - New username rules are 3–20 ASCII letters/digits only. The website route fallback intentionally continues accepting existing dot, underscore, and hyphen handles so accounts keep their current links until renamed.
 - profile-names.mjs is shared by public order and client pages; it cleans business names to 50 characters, with emoji/punctuation handling unchanged. Cloudflare share previews apply the same 50-character cap.
 - Keep the profile module cache query in both pages aligned whenever its policy changes.
+
+## Website logo payload optimization (2026-11-02)
+
+- Preserved each logo's original transparent PNG path and full pixel dimensions; encoded a 256-color indexed palette with alpha. No HTML/CSS/JavaScript references or brand artwork changed.
+- Before/after bytes and dimensions:
+
+| Asset | Before | After | Dimensions |
+|---|---:|---:|---:|
+| `logo.png` | 208,654 B | 32,304 B | 720 x 720 |
+| `download/logo.png` | 776,974 B | 89,116 B | 1024 x 1024 |
+| `rechargescanner/logo.png` | 271,427 B | 13,038 B | 512 x 512 |
