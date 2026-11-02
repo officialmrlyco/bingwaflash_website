@@ -1,9 +1,21 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { isPubliclyVerifiedAgent } from '../verified-agent.mjs';
+import { isPubliclyVerifiedAgent, publicVerifiedBadgeColor } from '../verified-agent.mjs';
 
 const now = 1_800_000_000_000;
 const futureTimestamp = (millis) => ({ toMillis: () => millis });
+
+// Public color inputs are normalized to the same small palette as native and Panel.
+test('badge color trims and lowercases recognized values and safely defaults unknown values', () => {
+  // / note: Every public swatch must match the same native/Panel palette, not merely accept its name.
+  for (const [name, hex] of Object.entries({green: '#2E7D32', red: '#D32F2F', yellow: '#F9A825', pink: '#D81B60', purple: '#8E24AA'})) {
+    assert.equal(publicVerifiedBadgeColor({verifiedBadgeColor: name}), hex);
+  }
+  assert.equal(publicVerifiedBadgeColor({ verifiedBadgeColor: ' PINK ' }), '#D81B60');
+  assert.equal(publicVerifiedBadgeColor({ verifiedBadgeColor: 'Purple' }), '#8E24AA');
+  assert.equal(publicVerifiedBadgeColor({ verifiedBadgeColor: 'url(javascript:alert(1))' }), '#2E7D32');
+  assert.equal(publicVerifiedBadgeColor({}), '#2E7D32');
+});
 
 // Public badge policy requires fresh verification and any currently active SiteLink subscription.
 test('verified badge requires unexpired verification and at least one live subscription', () => {
