@@ -130,3 +130,15 @@ Read the parent workspace AGENTS.md first. This repository is the public source 
 - `status-controller.mjs` may advance an initiating reservation to pending from the HTTP acknowledgement, but ignores late initiating snapshots and pending updates after a confirmed handoff. Confirmed delivery/payment evidence also outranks late HTTP failures or missing response fields. Keep the listener subscribed before STK and never add a polling delay or another payment request for progress updates.
 - Updating the phase does not reopen hidden instructions. A hidden overlay keeps the receipt locked, and live results still appear immediately. Preserve owner/token fencing, bounded fallback reads, expiry handling, and terminal release rules.
 - All 36 website tests passed, including actual page submit/render execution against a held start response, early callback failure, dispatch before acknowledgement, legacy replies, hidden instructions, duplicate prevention, and confirmed handoff followed by lost/error/missing-reference replies. No production payment or handset acceptance was performed. Website publication and Android APK distribution are separate from source verification.
+
+
+## Website logo payload optimization (2026-11-02)
+
+- Preserved each logo's original transparent PNG path and full pixel dimensions; encoded a 256-color indexed palette with alpha. No HTML/CSS/JavaScript references or brand artwork changed.
+- Before/after bytes and dimensions:
+
+| Asset | Before | After | Dimensions |
+|---|---:|---:|---:|
+| `logo.png` | 208,654 B | 32,304 B | 720 x 720 |
+| `download/logo.png` | 776,974 B | 89,116 B | 1024 x 1024 |
+| `rechargescanner/logo.png` | 271,427 B | 13,038 B | 512 x 512 |
