@@ -43,6 +43,12 @@
 - Order and Clients show the verification badge only when public `isVerified` is true, `verificationExpiresAt` is in the future, and at least one of `siteLinkSmsSubscriptionUntil`, `siteLinkServerSubscriptionUntil`, or `webOrderSubscriptionUntil` is in the future. Firestore Timestamp objects are supported. Missing legacy verification expiry fails closed.
 - Keep the shared policy in `verified-agent.mjs`; it schedules a page-local recheck at the next relevant expiry so an open page removes the badge without reload. The public pages must not expose Owner's Phone or read private agent documents for badge state.
 
+## Public verified badge colors (2026-11-02)
+
+- The public `verifiedBadgeColor` field is presentation only. The shared helper validates exactly the lowercase enum values `green`, `red`, `yellow`, `pink`, and `purple`; missing, malformed, or unknown values use green.
+- Keep the field's color on the SVG badge and its adjacent Verified label only. Never change `isPubliclyVerifiedAgent`, expiry timers, subscription checks, or listener behavior to honor a color value.
+- The public badge palette must match the native and Panel colors: green `#2E7D32`, red `#D32F2F`, yellow `#F9A825`, pink `#D81B60`, and purple `#8E24AA`.
+
 Read the parent workspace AGENTS.md first. This repository is the public source for bingwaflash.co.ke. It is deployed from `main` to Cloudflare Workers Static Assets using Cloudflare Workers Builds; GitHub remains the publishing source, but customer requests must never fetch HTML from GitHub's API. Preserve the domain and Firebase backend ownership.
 
 ## Cloudflare static site delivery (2026-09-18)
@@ -142,3 +148,8 @@ Read the parent workspace AGENTS.md first. This repository is the public source 
 | `logo.png` | 208,654 B | 32,304 B | 720 x 720 |
 | `download/logo.png` | 776,974 B | 89,116 B | 1024 x 1024 |
 | `rechargescanner/logo.png` | 271,427 B | 13,038 B | 512 x 512 |
+
+## Isolated logo publication from reviewed assets (2026-11-02)
+
+- Local asset commit `3ff5ffe` is not safe to push as a branch tip: local `main` also contains three unreleased order/payment/Bridge commits. Public commit `f2527fa8a22fada02176b27926413826aa292d9a` was independently created with parent `46d929a` (the fetched GitHub `main`) using only the three optimized logo blobs from `3ff5ffe` plus the logo optimization note. It is now the remote `main`; do not reset, rebase, or force-push the local branch to it.
+- The commit deployed through the existing `bingwaflash-site-share` Cloudflare Workers Builds route. Live `bingwaflash.co.ke/logo.png` (32,304 B, 720x720), `/download/logo.png` (89,116 B, 1024x1024), and `/rechargescanner/logo.png` (13,038 B, 512x512) returned HTTP 200 and SHA-256 matches against the published tree. All remain under 200 KB.
