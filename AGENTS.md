@@ -125,3 +125,10 @@ Read the parent workspace AGENTS.md first. This repository is the public source 
 | `logo.png` | 208,654 B | 32,304 B | 720 x 720 |
 | `download/logo.png` | 776,974 B | 89,116 B | 1024 x 1024 |
 | `rechargescanner/logo.png` | 271,427 B | 13,038 B | 512 x 512 |
+
+## Badge-only public colour rollout (2026-11-03)
+
+- Blue (#1565C0) remains the default; saved blue/green/red/yellow/pink/purple values render via the public profile on both order and clients pages. Custom colour never grants verification or bypasses expiry/paid SiteLink checks.
+- Replace the fixed-blue SVG fill with currentColor, remove the fixed label colour, and version the shared helper import. A colour-only public snapshot repaints icon and label on an open page; a missing/invalid value falls back blue.
+- This independent public commit contains only the badge renderer, its two consumers, tests and this note. Its parent is the fetched public main, preserving existing public checkout/Bridge behavior and logo assets; do not push the unrelated local branch tip.
+- Node badge tests passed 5/5, including an already-visible purple-to-blue repaint and failed-eligibility hiding. Publication/live checks are recorded by the coordinating root separately; no private profile, approval, payment, or entitlement is altered.
