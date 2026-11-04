@@ -99,6 +99,13 @@ Read the parent workspace AGENTS.md first. This repository is the public source 
 
 - GitHub Pages sends root username URLs to `404.html`. Its route gate must forward dot and underscore usernames, plus safe legacy hyphen routes, to `/order/?u=...`; do not limit it to underscore-only handles. Keep path separators and leading/trailing punctuation rejected so a route cannot resolve to a different path or account.
 
+## Release v1.4.3 metadata (2026-11-04)
+
+- Keep `version.json` aligned to the verified existing v43 asset: 17,791,870 bytes, SHA-256 `232636d7b9c10b93092e325e2101da8fe29e77eeb0abd5dc1bf26cb3973b7b8f`, and URL query `?build=232636d7b9c10b93` for cache refresh.
+- Set versionCode 43, versionName 1.4.3.
+- `apkSha256` and `apkSizeBytes` are public release integrity metadata. `tests/release-metadata.test.mjs` checks the JSON shape and exact v43 metadata; run it when changing `version.json`.
+- Homepage release section highlights ultra-smooth UI with bubble effects, upgraded Relay to Bridge multi-transport, lightning USSD execution speed (120ms settlement), enhanced Portal integration, and resilient payment intake bug fixes.
+
 ## Release v1.4.2 metadata (2026-10-12)
 
 - Superseded the v1.4.1 metadata above at the time: root version.json and homepage release section identified versionCode 42 / versionName 1.4.2 and the then-current v42 APK URL; the URL and integrity values were later corrected below.
@@ -155,6 +162,7 @@ Read the parent workspace AGENTS.md first. This repository is the public source 
 - The commit deployed through the existing `bingwaflash-site-share` Cloudflare Workers Builds route. Live `bingwaflash.co.ke/logo.png` (32,304 B, 720x720), `/download/logo.png` (89,116 B, 1024x1024), and `/rechargescanner/logo.png` (13,038 B, 512x512) returned HTTP 200 and SHA-256 matches against the published tree. All remain under 200 KB.
 
 - Verified badge colour final source acceptance: node --test tests/verified-agent.test.mjs passed 4/4, including exact matches for all five shared palette values, legacy normalization, malformed input fallback and unchanged verification/expiry gating. Evidence is .wrangler/reports/verified-badge-color-20261102. Backend mirror/rules support is in sibling bingwa-functions; updated native and Panel clients require later APK delivery. This task did not publish, push or change a live profile. Preserve the existing isolated-publication boundary: local main includes unreleased order/payment/Bridge work and must not be pushed or deployed wholesale for this badge change.
+
 
 ## Blue default and live saved badge colours (2026-11-03)
 
