@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Terms of Service - Bingwa Flash</title>
-<meta name="description" content="Terms governing the Bingwa Flash Android app, agent tools, public order pages, payments, Bridge, Portal, and support services.">
+<meta name="description" content="Terms for Bingwa Flash Android automation, SiteLink orders, Portal, Bridge, messaging, Tokens and subscriptions.">
 <link rel="canonical" href="https://bingwaflash.co.ke/terms.html">
 <link rel="icon" type="image/png" href="/logo.png">
 <script>(function(){try{var t=localStorage.getItem('bf-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(error){/* Keep the server-rendered dark default when storage is unavailable. */}})();</script>
@@ -26,7 +26,7 @@
   --border2: var(--bf-border-strong);
   --text: var(--bf-text);
   --text2: var(--bf-text-muted);
-  --text3: var(--bf-text-soft);
+  --text3: var(--bf-text-muted);
   --card: var(--bf-surface);
   --r8: 8px;
   --r12: 12px;
@@ -34,21 +34,15 @@
   --pill: 999px;
   --shadow: var(--bf-shadow);
 }
+/* Keep small legal links legible against the light theme. */
 [data-theme="light"]{
-  --bg: var(--bf-bg);
-  --surface: var(--bf-surface);
-  --surface2: var(--bf-surface-raised);
-  --border: var(--bf-border);
-  --border2: var(--bf-border-strong);
-  --text: var(--bf-text);
-  --text2: var(--bf-text-muted);
-  --text3: var(--bf-text-soft);
-  --card: var(--bf-surface);
+  --g: #08613e;
+  --yd: #725400;
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 body::before{content:none !important;display:none !important;}
-.page-theme{position:fixed;right:22px;top:22px;z-index:30;width:40px;height:40px;border-radius:8px;background:var(--surface);border:1px solid var(--border);color:var(--text2);cursor:pointer;display:grid;place-items:center;transition:border-color .15s,color .15s}.page-theme:hover{border-color:var(--y);color:var(--text);background:var(--surface2)}.page-theme svg{width:16px;height:16px}
+.page-theme{position:fixed;right:22px;top:22px;z-index:30;width:44px;height:44px;border-radius:8px;background:var(--surface);border:1px solid var(--border);color:var(--text2);cursor:pointer;display:grid;place-items:center;transition:border-color .15s,color .15s}.page-theme:hover{border-color:var(--y);color:var(--text);background:var(--surface2)}.page-theme svg{width:16px;height:16px}
 .wrap{max-width:1060px;margin:0 auto;padding:0 32px}
 .page-hero{padding:52px 0 36px;border-bottom:1px solid var(--border)}
 .breadcrumb{font-size:.78rem;font-weight:800;color:var(--text3);margin-bottom:12px}.breadcrumb a{color:var(--text3);text-decoration:none;transition:color .15s}.breadcrumb a:hover{color:var(--yd)}
@@ -56,7 +50,7 @@ h1{font-family:'Sora',sans-serif;font-size:clamp(2rem,4vw,2.8rem);font-weight:80
 h1 em{font-style:normal;color:var(--g)}
 .hero-meta{font-size:.8rem;color:var(--text3);font-weight:800}
 .doc-layout{display:grid;grid-template-columns:220px 1fr;gap:32px;padding:40px 0 80px;align-items:start}
-.toc{position:sticky;top:76px}.toc-label{font-size:.66rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:10px}
+.toc{position:sticky;top:76px;max-height:calc(100dvh - 92px);overflow:auto}.toc-label{font-size:.66rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:10px}
 .toc-list{list-style:none;display:flex;flex-direction:column;gap:2px}
 .toc-list a{font-size:.8rem;font-weight:800;color:var(--text3);text-decoration:none;padding:6px 12px;border-radius:8px;display:block;transition:color .15s,background .15s}
 .toc-list a:hover,.toc-list a.active{color:var(--yd);background:rgba(251,191,36,.08)}
@@ -84,7 +78,7 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:22px
 .ft-links{display:flex;gap:16px;flex-wrap:wrap}
 .ft-links a{font-size:.76rem;font-weight:800;color:var(--text3);text-decoration:none;transition:color .15s}.ft-links a:hover{color:var(--yd)}
 .ft-copy{font-size:.74rem;color:var(--text3);font-weight:700}
-@media(max-width:900px){.doc-layout{grid-template-columns:1fr}.toc{display:none}}
+@media(max-width:900px){.doc-layout{grid-template-columns:minmax(0,1fr);gap:20px}.toc{position:static;max-height:none;overflow:visible}.toc-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.toc-list a{padding:8px;overflow-wrap:anywhere}}
 @media(max-width:768px){.wrap{padding:0 20px}.ft-in{flex-direction:column;text-align:center}}
 </style>
 <!-- Shared flat theme tokens keep legal pages readable in both modes. -->
@@ -100,156 +94,126 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:22px
 <div class="page-hero"><div class="wrap">
   <div class="breadcrumb"><a href="/">Home</a> / Terms of Service</div>
   <h1>Terms of <em>Service</em></h1>
-  <div class="hero-meta">Effective and last updated: August 27, 2026</div>
+  <div class="hero-meta">Last updated November 13, 2026</div>
 </div></div>
 
 <div class="wrap"><div class="doc-layout">
-  <aside class="toc">
+  <aside class="toc" aria-label="On this page">
     <div class="toc-label">On this page</div>
     <ul class="toc-list">
       <li><a href="#s1">Acceptance</a></li>
-      <li><a href="#s2">What We Provide</a></li>
-      <li><a href="#s3">Accounts and Security</a></li>
-      <li><a href="#s4">Agent Responsibilities</a></li>
+      <li><a href="#s2">What we provide</a></li>
+      <li><a href="#s3">Accounts and security</a></li>
+      <li><a href="#s4">Agent responsibilities</a></li>
       <li><a href="#s5">Automation and USSD</a></li>
-      <li><a href="#s6">Web Orders</a></li>
-      <li><a href="#s7">Orders and Payments</a></li>
-      <li><a href="#s8">Clients and Contacts</a></li>
-      <li><a href="#s9">Bridge and Portal</a></li>
-      <li><a href="#s10">Verification Badge</a></li>
-      <li><a href="#s11">Payments and Tokens</a></li>
-      <li><a href="#s12">Acceptable Use</a></li>
-      <li><a href="#s13">Platform Abuse</a></li>
-      <li><a href="#s14">Fraud and Disclosure</a></li>
-      <li><a href="#s15">Disclaimers</a></li>
-      <li><a href="#s16">Termination</a></li>
-      <li><a href="#s17">Law and Contact</a></li>
+      <li><a href="#s6">SiteLink</a></li>
+      <li><a href="#s10">Verification badge</a></li>
+      <li><a href="#s7">Orders and payouts</a></li>
+      <li><a href="#s8">Clients, Shop and loyalty</a></li>
+      <li><a href="#s9">Portal and Bridge</a></li>
+      <li><a href="#s18">SMS and marketing</a></li>
+      <li><a href="#s11">Paid access and refunds</a></li>
+      <li><a href="#s12">Acceptable use</a></li>
+      <li><a href="#s13">Interference and abuse</a></li>
+      <li><a href="#s14">Fraud and disclosure</a></li>
+      <li><a href="#s15">Service and liability</a></li>
+      <li><a href="#s16">Ending access and deletion</a></li>
+      <li><a href="#s17">Kenyan law and contact</a></li>
     </ul>
   </aside>
   <main>
 
-    <section class="ps" id="s1"><div class="ps-header"><div class="ps-num">01</div><h2>Acceptance</h2></div><div class="ps-body">
-      <p>These Terms form a binding agreement between the person or business using Bingwa Flash and the operator of Bingwa Flash. They cover the Android app, bingwaflash.co.ke, public agent pages, client registration, payment flows, Bridge, Portal, and related support services.</p>
-      <p>By creating an account, installing or using the app, purchasing a Bingwa Flash feature, or placing a web order, you accept these Terms and the <a href="/privacy.html">Privacy Policy</a>. You must be at least 18 years old and legally able to enter this agreement. If you act for a business, you confirm that you can bind it. If you do not agree, do not use the service.</p>
+    <section class="ps" id="s1"><div class="ps-header"><div class="ps-num">01</div><h2>Acceptance and scope</h2></div><div class="ps-body">
+      <p>These Terms form an agreement between you and the operator of Bingwa Flash, Lyco Technologies. They cover the Android app, bingwaflash.co.ke, SiteLink and client registration, Portal, Bridge, the official download site, and related payments and support.</p>
+      <p>By creating an agent account, using the app or Portal, or confirming a purchase under these Terms, you accept the terms that apply to that action. You must be at least 18 and able to enter the agreement. If you act for a business, you confirm that you have authority. The <a href="/privacy.html">Privacy Policy</a> explains how we use personal data. Separate consent may be required for particular uses.</p>
     </div></section>
 
-    <section class="ps" id="s2"><div class="ps-header"><div class="ps-num">02</div><h2>What Bingwa Flash Provides</h2></div><div class="ps-body">
-      <p>Bingwa Flash is an Android automation and business-management tool for agents. It can detect supported payment messages, match configured offers, run USSD steps, manage local transactions and clients, send selected messages, publish web-order information, facilitate supported payments, and provide Bridge or Portal tools when enabled.</p>
-      <p>We grant each authorised agent a limited, personal, revocable, non-exclusive, non-transferable licence to install and use the app for lawful business operations during the period that the account and applicable access remain active. No source code, brand, design, service endpoint, or other intellectual property is sold or transferred.</p>
-      <div class="callout"><p>Bingwa Flash is independent from Safaricom PLC and M-Pesa. It is not a bank, deposit-taker, mobile network operator, escrow service, or the seller of an agent's airtime, bundles, or other customer products.</p></div>
+    <section class="ps" id="s2"><div class="ps-header"><div class="ps-num">02</div><h2>What Bingwa Flash provides</h2></div><div class="ps-body">
+      <p>Bingwa Flash helps agents detect supported payment messages, run configured USSD, manage clients and transactions, check airtime or Bonga, report sales and commission, and send selected replies and alerts. Features also include SiteLink, Portal, Bridge, offer sharing, Shop and loyalty, Marketer, Bulk SMS and optional paid access. Availability depends on your app version, carrier, device, settings and eligibility.</p>
+      <p>We grant authorised users a limited, non-exclusive, non-transferable licence to use the app and services for lawful business operations while access is active. Bingwa Flash retains ownership of its app, service, brand and other intellectual property. You authorise us to handle information and content you provide for the features you use.</p>
+      <div class="callout"><p>Bingwa Flash is an independent automation and payment-facilitation service. Safaricom and other providers operate their networks and payment services. The identified agent sells and fulfils the agent's own products. The service does not offer bank accounts, deposits or escrow.</p></div>
     </div></section>
 
-    <section class="ps" id="s3"><div class="ps-header"><div class="ps-num">03</div><h2>Accounts and Security</h2></div><div class="ps-body">
-      <p>Users must provide accurate, current information; protect email access, passwords, security PINs, recovery codes, SIMs, devices, and linked Portal or Bridge details; and notify support promptly of suspected compromise. Users must never give Bingwa Flash support an M-Pesa PIN or device unlock code.</p>
-      <p>An account is for its authorised owner or business. We may enforce one active device, require re-authentication, invalidate sessions, reset a PIN through a verified administrator process, or temporarily restrict sensitive actions to protect the account. Activity performed through valid credentials or an authorised device is treated as the account holder's activity unless reported compromised.</p>
+    <section class="ps" id="s3"><div class="ps-header"><div class="ps-num">03</div><h2>Accounts and security</h2></div><div class="ps-body">
+      <p>Provide accurate information and keep your email, device, SIM, Security PIN, backup codes, passwords, Portal links and Bridge pairing information secure. Report suspected compromise promptly. Never send support your M-PESA PIN, device unlock code or recovery credentials.</p>
+      <p>We may limit sign-ups, password resets or concurrent device sessions, require re-authentication, invalidate sessions, or use an administrator-assisted security reset. Review which device is active when moving to a new phone. Check important records and available balance or time transfer options before changing devices, removing the app, or clearing storage.</p>
     </div></section>
 
-    <section class="ps" id="s4"><div class="ps-header"><div class="ps-num">04</div><h2>Agent Responsibilities</h2></div><div class="ps-body">
-      <p>Agents control their offers, prices, customer relationships, USSD codes, SIM selection, Bridge partners, verifier and retry rules, response templates, contact-saving choices, public information, and web-order availability. The agent is the seller and fulfiller of products offered to customers.</p>
-      <ul>
-        <li>test each mapping and offer with a safe amount before enabling live automation;</li>
-        <li>keep the phone, SIM, permissions, Accessibility service, network, battery, airtime, and required Time Tokens ready;</li>
-        <li>monitor Pending, Executing, Failed, Not Verified, Scheduled, and held work, and never assume that a handoff proves customer delivery;</li>
-        <li>verify receiving numbers, prices, tax treatment, customer consent, messaging rules, and refund obligations;</li>
-        <li>resolve duplicates, wrong numbers, reversals, disputes, and failed fulfilment promptly, fairly, and in accordance with applicable consumer law;</li>
-        <li>keep public business details and enabled offers accurate and remove any unauthorised use of third-party names or marks.</li>
-      </ul>
+    <section class="ps" id="s4"><div class="ps-header"><div class="ps-num">04</div><h2>Agent responsibilities</h2></div><div class="ps-body">
+      <p>Agents control their prices, product listings, SIM, USSD mappings, retries, fallbacks, verifier rules, customer communications, linked devices and business data. Keep your profile, offers, availability and payment destinations accurate. Test your mappings and settings before enabling them for customer payments.</p>
+      <p>Monitor Pending, Scheduled, Executing, Failed, Not Verified and held work. Confirm the intended phone, offer and actual fulfilment before retrying or changing a transaction. Provide required receipts, handle refunds and reversals fairly, protect customer records, and follow applicable taxes, consumer, privacy, telecommunications and messaging rules.</p>
     </div></section>
 
-    <section class="ps" id="s5"><div class="ps-header"><div class="ps-num">05</div><h2>Automation and USSD</h2></div><div class="ps-body">
-      <p>Automation follows saved rules and device signals; it does not independently know an agent's commercial intent. Carrier menus, SMS wording, SIM routing, network availability, Android behaviour, permissions, device restrictions, and third-party APIs can change without notice. A transaction may be delayed, duplicated by an external system, held for review, marked Not Verified, or fail.</p>
-      <p>Retry, fallback, Auto Time, verifier, Quick Dial, and mapping-learning features reduce manual work but can create real carrier requests. The agent must review the generated code and captured steps, understand when a retry may repeat delivery, and use Mark Done, Skip, Delete, alternative number, or alternative offer actions responsibly.</p>
-      <div class="callout red"><p>No status label replaces the agent's duty to confirm the actual carrier result and customer delivery. Do not rely on automation where an incorrect request could cause unacceptable loss.</p></div>
+    <section class="ps" id="s5"><div class="ps-header"><div class="ps-num">05</div><h2>Automation, retries and carrier results</h2></div><div class="ps-body">
+      <p>Automation acts on your saved settings and available device or carrier signals. Simple, Direct, Advanced and Turbo USSD, Quick Dial, Learning, Verifier, Auto Time, scheduling and alternative offer or number actions can affect real carrier requests. Review the dial code, selected SIM and recipient. Carrier menus, message wording, device permissions, network availability and airtime can affect the result.</p>
+      <p>A retry, fallback, top-up, manual action or scheduled run can change how or when the app attempts fulfilment. In builds with <strong>Fallback on retry</strong>, Manual Retry and Unverified Auto Retry default to skipping the fallback offer after Already Recommended. An eligible fallback requires the setting to be enabled and a configured fallback. Review a transaction before repeating a purchase. Mark Done records an operator decision.</p>
+      <div class="callout red"><p>A carrier dialog, verifier wait, transport receipt or screen status may represent an intermediate step. Check the underlying transaction before promising delivery or taking payment again.</p></div>
     </div></section>
 
-    <section class="ps" id="s6"><div class="ps-header"><div class="ps-num">06</div><h2>Web Orders</h2></div><div class="ps-body">
-      <p>An agent may publish a public order page containing selected business details, enabled offers, prices, availability, and verification status. The agent authorises that publication and must keep it accurate. A verification badge confirms only the limited details reviewed at that time; it is not a guarantee, insurance, Safaricom endorsement, or promise of fulfilment.</p>
-      <p>A customer must review the offer, amount, paying phone, receiving phone, and agent identity before confirming payment. The customer authorises the payment request and supply of order data to the selected agent. An order can be delayed, rejected, reversed, or require manual action if information is wrong, payment cannot be confirmed, the offer changes, or the agent device is unavailable.</p>
+    <section class="ps" id="s6"><div class="ps-header"><div class="ps-num">06</div><h2>SiteLink listings</h2></div><div class="ps-body">
+      <p>Agents can publish business information, customer contact, payment details and eligible offers. Keep that information and the offer availability accurate. Published content and share previews may circulate beyond the original page. Only upload a profile photo or other content you have the right to publish.</p>
+      <p>SiteLink may offer separate SMS and Server modes. Each mode has its own availability, delivery and subscription conditions. Turning on a mode or buying access does not guarantee that every phone, offer, network or checkout can accept an order.</p>
     </div></section>
 
-    <section class="ps" id="s7"><div class="ps-header"><div class="ps-num">07</div><h2>Orders, Payment Processing, and Payouts</h2></div><div class="ps-body">
-      <p>Bingwa Flash may use third-party payment services to initiate an STK request, confirm payment, reconcile an order, and arrange payout to an agent's configured destination. Provider acceptance, confirmation, reversal, settlement, and payout timing are not controlled by Bingwa Flash and are not guaranteed to be immediate.</p>
-      <p>The sale of airtime, bundles, or another agent product is between the customer and the identified agent. The agent is responsible for lawful supply, receipts, support, refunds, and consumer remedies. Bingwa Flash may provide records or reasonable assistance but is not required to decide the merits of the underlying sale.</p>
-      <p>We may delay, reject, reverse where technically and legally available, or place a payment or payout under review where details conflict, fraud is suspected, the provider reports an error, the destination is invalid, or law requires it. The user remains responsible for fees, taxes, chargebacks, reversals, and losses caused by inaccurate payment or payout details.</p>
-      <div class="callout"><p>Never treat an STK prompt, submitted request, screenshot, SMS handoff, or app animation as proof of payment. Only a verified provider result and the recorded transaction status should be relied upon.</p></div>
+    <section class="ps" id="s10"><div class="ps-header"><div class="ps-num">07</div><h2>Verification badge</h2></div><div class="ps-body">
+      <p>The badge reflects a limited review and current eligibility. It can expire or be removed and gives no guarantee of delivery, refund, quality or Safaricom endorsement.</p>
     </div></section>
 
-    <section class="ps" id="s8"><div class="ps-header"><div class="ps-num">08</div><h2>Clients and Contacts</h2></div><div class="ps-body">
-      <p>Agents are responsible for having a lawful basis to collect, import, store, contact, blacklist, export, or delete client information. Importing a file or reading permitted messages does not give permission to spam, harass, or disclose a customer. Auto Reply, alerts, and contact-saving settings must be configured in accordance with customer expectations and applicable law.</p>
-      <p>Website client registration is optional. A customer may use the supported removal flow or contact the agent. Removal from one agent list does not delete an independent contact record, completed transaction, payment-provider record, or legally retained platform record.</p>
+    <section class="ps" id="s7"><div class="ps-header"><div class="ps-num">08</div><h2>Orders, payment confirmation and payouts</h2></div><div class="ps-body">
+      <p>Review the agent, offer, amount, paying phone and receiving phone before confirming an order. An authorised payment request sends the details needed to Safaricom/M-PESA and the selected agent. Confirm a prompt only if it matches your purchase. A submitted request or screenshot does not establish that money was received.</p>
+      <p>Payment confirmation, SiteLink order handoff, agent payout and customer fulfilment are separate events. Server mode can deliver to the agent's phone over the internet. SMS mode uses a coded message. Payout depends on the recorded delivery and payment states, the agent's configured destination and the payment provider. Delays, failures, refunds or reversals may need review or reconciliation.</p>
+      <p>The agent is responsible for supplying its offer and handling remedies for its sale. Contact the agent about delivery or the product. Contact Bingwa Flash about a platform checkout, account purchase or payout, and contact M-PESA about its payment or reversal services as applicable. Keep the transaction reference. If a payment is uncertain, check its status before sending another. Your rights under applicable consumer law remain available.</p>
     </div></section>
 
-    <!-- / note: The Bridge rename preserves the existing token and handoff-versus-fulfilment responsibilities. -->
-    <section class="ps" id="s9"><div class="ps-header"><div class="ps-num">09</div><h2>Bridge and Portal</h2></div><div class="ps-body">
-      <p>Bridge is for authorised agent-to-agent fulfilment using SMS, Online, Hotspot/Wi-Fi, or Bluetooth. Portal permits linked sessions or devices to view selected information and send supported commands. The account owner is responsible for every rule, QR code, pair code, endpoint, linked device, and person given access.</p>
-      <p>A pair code authenticates compatible packets but does not make an untrusted phone safe. Users must remove stale rules and links, protect connection details, and verify the receiving agent. Bridge transport success confirms a handoff only; the receiving transaction determines fulfilment. Users must not intercept traffic, impersonate another agent, guess connection secrets, or execute unauthorised transactions.</p>
+    <section class="ps" id="s8"><div class="ps-header"><div class="ps-num">09</div><h2>Client records, Shop and loyalty</h2></div><div class="ps-body">
+      <p>Agents need a lawful basis to collect, import, store, export, contact or remove clients. Protect contact lists, payment messages, CSV or vCard files and any record shared with another app or device. Share Offer links or files only with intended people. A recipient can keep an imported copy.</p>
+      <p>SiteLink client registration is optional. Use a separate registration PIN and keep it private. Website removal applies to the linked registration. You can contact the agent about records already saved to the phone or required for a transaction.</p>
+      <p>Agents choose the terms of their Shop offers, points, streaks, referral rewards and redemptions. Explain eligibility and expiry to customers and correct errors fairly. Rewards follow the configured rules and verified activity. Do not claim rewards using false, duplicate or unauthorised transactions.</p>
     </div></section>
 
-    <section class="ps" id="s10"><div class="ps-header"><div class="ps-num">10</div><h2>Verification Badge</h2></div><div class="ps-body">
-      <p>A verification badge relates only to the details and checks stated by Bingwa Flash at the time of review. It may be removed when details change, become unverifiable, or present a risk. It is not a guarantee of honesty, solvency, transaction success, refund eligibility, product quality, or endorsement by Safaricom or M-Pesa. Customers must still verify the agent and order details.</p>
+    <section class="ps" id="s9"><div class="ps-header"><div class="ps-num">10</div><h2>Portal and Bridge</h2></div><div class="ps-body">
+      <p>Portal can link a device or account so an authorised viewer can see selected customer, transaction, balance and device records or issue supported commands. Treat link codes and browser sessions as sensitive. Authorise only people who should have that access, review the device before sending a command, and remove links promptly when access ends. A disconnected phone may not receive an instruction, and a previously accepted action may finish after you turn off sync.</p>
+      <p>Bridge can forward supported payments to a selected processing device using SMS, internet, Wi-Fi or hotspot, or Bluetooth. Verify the receiving agent, device, SIM and route. Keep pairing codes private. Submitted or Received describes a handoff. Check the processing phone for fulfilment. Use Bridge Review for ambiguous or pending payments and reconcile any prior attempt before forwarding it again.</p>
     </div></section>
 
-    <section class="ps" id="s11"><div class="ps-header"><div class="ps-num">11</div><h2>Payments, Tokens, and Subscriptions</h2></div><div class="ps-body">
-      <p>Automation may consume the account's overall Time Tokens or token balance. Web Orders may have a separately displayed subscription period. Bridge uses the same overall token system and does not create a separate Bridge subscription. The checkout screen controls the package, duration, price, limits, and destination offered at that time.</p>
-      <p>A purchase is granted only after payment confirmation. Submitted or pending requests do not create an entitlement. Time access begins and expires as displayed; consumed tokens, elapsed time, and activated digital access are not refundable merely because the user did not use them, subject always to mandatory consumer rights, duplicate charges, confirmed service errors, or an express refund promise.</p>
-      <p>We may change future prices, packages, free access, or feature limits. Changes do not remove access already purchased for its stated period unless suspension is required for fraud, security, law, or a material breach.</p>
+    <section class="ps" id="s18"><div class="ps-header"><div class="ps-num">11</div><h2>Customer messages, Bulk SMS and Marketer</h2></div><div class="ps-body">
+      <p>Agents are responsible for their messages, recipient lists, selected SIM, carrier charges and legal basis. Keep receipts and service alerts appropriate to their purpose. For promotions, obtain the required express permission, identify your business, provide a simple opt-out, and honour STOP and other opt-out requests. An eligible list, recent purchase, or imported contact is not permission to market to that person.</p>
+      <p>Bulk SMS and Marketer can use the agent's own SIM and carrier credit. Preview shows a proposed message or audience. Carrier submission, delivery and a customer's response are different states. Check audience rules, sending times, limits and suppression records before enabling scheduled marketing. Do not evade opt-outs by changing the SIM, channel, list or sender.</p>
     </div></section>
 
-    <section class="ps" id="s12"><div class="ps-header"><div class="ps-num">12</div><h2>Acceptable Use</h2></div><div class="ps-body">
-      <p>You must not use Bingwa Flash for any unlawful, harmful, or deceptive purpose. Prohibited conduct includes but is not limited to:</p>
-      <ul>
-        <li>Fraud, deception, impersonation, or any attempt to mislead customers, agents, or the platform.</li>
-        <li>Using stolen, compromised, or fraudulently obtained M-Pesa numbers or payment details.</li>
-        <li>Initiating payment reversals or chargebacks in bad faith after receiving a service.</li>
-        <li>Publishing false business details, misleading offers, or unauthorised Safaricom claims on an order page.</li>
-        <li>Bypassing access, payment, token, session, verification, rate-limit, or security controls.</li>
-        <li>Copying, modifying, reverse engineering, decompiling, reselling, sublicensing, cloning, or redistributing the app or service except where applicable law expressly permits it.</li>
-        <li>Spam, unsolicited bulk messaging, or misuse of the SMS or alert features.</li>
-        <li>Uploading malware, testing vulnerabilities without written authorisation, scraping non-public data, or interfering with another user's device, account, payment, or transaction.</li>
-      </ul>
+    <section class="ps" id="s11"><div class="ps-header"><div class="ps-num">12</div><h2>Tokens, subscriptions, backups and refunds</h2></div><div class="ps-body">
+      <p>Available products may include standard Tokens or Time, separate Bridge Runs or Bridge Time, SiteLink SMS or Server plans, and Portal access for a selected device. Each applies to the feature, account or device shown at checkout. Free allowances, accepted M-PESA or airtime payment methods, prices, taxes, duration, limits and expiry depend on the displayed offer. Check these before confirming.</p>
+      <p>Payment confirmation and activation of the purchased access are separate. A pending request alone grants no entitlement. Report a confirmed payment that does not activate, a duplicate charge or an incorrect amount to support with its reference. Eligibility for refunds, cancellation or other remedies follows the offer, provider process and applicable law. Mandatory consumer rights take priority over terms for consumed units, elapsed time or activated access.</p>
+      <p>Supported Token Backups are same-account transfers. A backup can reserve the selected balance or time before redemption. Codes can expire or be single-use, and time may continue running during transfer. Keep codes private and check the source and destination status before repeating a transfer. A Token Backup covers its listed entitlement. It does not back up your client or transaction history.</p>
     </div></section>
 
-    <section class="ps" id="s13"><div class="ps-header"><div class="ps-num">13</div><h2>Platform Abuse and Interference</h2></div><div class="ps-body">
-      <p>Deliberately accessing, probing, damaging, overloading, or interfering with Bingwa Flash, its users, payment flows, data, or infrastructure is prohibited and may violate the Kenya Computer Misuse and Cybercrimes Act and other laws. Prohibited interference includes:</p>
-      <ul>
-        <li>denial-of-service attacks, abusive automation, mass request flooding, credential stuffing, or unauthorised scraping;</li>
-        <li>probing or exploiting authentication, access controls, databases, application interfaces, or linked devices;</li>
-        <li>Injecting malicious data, scripts, or payloads into any part of the platform.</li>
-        <li>Attempting to intercept, modify, or replay M-Pesa STK push requests or payment callbacks.</li>
-        <li>Coordinating with others to manipulate transaction records, agent balances, or order statuses.</li>
-      </ul>
-      <div class="callout red"><p>We may preserve relevant records, block requests, revoke sessions, suspend accounts, notify affected providers, and report reasonably suspected unlawful conduct to competent authorities. Monitoring and disclosure remain subject to our Privacy Policy and applicable law.</p></div>
+    <section class="ps" id="s12"><div class="ps-header"><div class="ps-num">13</div><h2>Acceptable use</h2></div><div class="ps-body">
+      <p>Use Bingwa Flash lawfully and only with authority over the device, account, payment, data or connection involved. Prohibited conduct includes fraud, impersonation, false offers, misuse of payment details, abusive reversals, spam, interference with other accounts or payments, unauthorised scraping or security testing, and bypassing rate, token, verification, access or subscription controls.</p>
+      <p>You may not sell, sublicense, clone, modify, reverse engineer or redistribute the app or service except where law expressly permits it. Keep offer, photo and business content free of unlawful or unauthorised third-party material.</p>
     </div></section>
 
-    <section class="ps" id="s14"><div class="ps-header"><div class="ps-num">14</div><h2>Fraud and Disclosure to Authorities</h2></div><div class="ps-body">
-      <p>We may investigate suspected fraud, stolen payment details, SIM-swap abuse, false disputes, malicious reversals, impersonation, unauthorised automation, and manipulation of orders, tokens, payouts, or verification. Users must cooperate with reasonable verification and preserve relevant evidence.</p>
-      <p>Where permitted or required by law, we may disclose relevant account, phone, transaction, order, payment, device/session, request, and communication records to Safaricom/M-Pesa, affected agents or customers, professional advisers, courts, regulators, or law enforcement. We may act without advance notice where notice would prejudice an investigation, breach law, or increase risk.</p>
+    <section class="ps" id="s13"><div class="ps-header"><div class="ps-num">14</div><h2>Interference and platform abuse</h2></div><div class="ps-body">
+      <p>Do not damage, overload, intercept, replay or manipulate our systems, requests, payment callbacks, transaction results or entitlements. We may preserve evidence, place a payment or account under review, revoke sessions, block abusive traffic, notify affected providers or parties, or report suspected offences as permitted or required by law.</p>
     </div></section>
 
-    <section class="ps" id="s15"><div class="ps-header"><div class="ps-num">15</div><h2>Disclaimers and Liability</h2></div><div class="ps-body">
-      <p>To the maximum extent permitted by law, Bingwa Flash is provided "as is" and "as available" without implied guarantees of uninterrupted availability, merchantability, fitness for a particular purpose, error-free automation, permanent compatibility, or a particular commercial result. We do not warrant third-party networks, mobile-money services, Android devices, carrier menus, user mappings, public agents, or customer-supplied information.</p>
-      <p>To the maximum extent permitted by law, Bingwa Flash is not liable for:</p>
-      <ul>
-        <li>Lost sales, failed fulfilment, or delayed delivery caused by automation errors or agent configuration.</li>
-        <li>Wrong customer entries, wrong receiving numbers, or incorrect offer selections by any party.</li>
-        <li>Network outages, device restrictions, Safaricom service changes, or M-Pesa processing delays.</li>
-        <li>Customer disputes or refund obligations that arise from the agent's offer, pricing, or delivery.</li>
-        <li>Indirect, consequential, or punitive losses of any kind.</li>
-      </ul>
-      <p>Where liability cannot lawfully be excluded, our aggregate liability arising from the service will not exceed the greater of the amount the claimant paid directly to Bingwa Flash for the affected paid feature during the six months before the event or KES 5,000. This cap does not apply to fraud or wilful misconduct by Bingwa Flash, death or personal injury caused by negligence where liability cannot be limited, or any mandatory consumer or data-protection remedy.</p>
-      <p>An agent will indemnify Bingwa Flash against third-party claims, penalties, and reasonable costs arising from that agent's unlawful offers, messages, data use, customer promises, tax failures, intellectual-property infringement, misuse of Bridge or Portal, or breach of these Terms, except to the extent caused by Bingwa Flash's own breach or unlawful conduct.</p>
+    <section class="ps" id="s14"><div class="ps-header"><div class="ps-num">15</div><h2>Fraud and lawful disclosure</h2></div><div class="ps-body">
+      <p>For security, fraud or a dispute, we may request reasonable verification and disclose relevant records in line with the <a href="/privacy.html">Privacy Policy</a>. We may act without advance notice where notice would increase risk, interfere with a lawful investigation or violate law.</p>
     </div></section>
 
-    <section class="ps" id="s16"><div class="ps-header"><div class="ps-num">16</div><h2>Suspension and Termination</h2></div><div class="ps-body">
-      <p>We may suspend, restrict, or terminate an account, feature, payment, public page, Bridge endpoint, Portal link, or access token where reasonably necessary for security, fraud prevention, non-payment, legal compliance, provider requirements, material breach, or protection of users and the service. Urgent action may occur without prior notice; otherwise we will try to provide a reasonable explanation and route to support.</p>
-      <p>Users may stop using the service and request account deletion. Uninstalling the app does not cancel an already initiated payment, resolve an agent/customer dispute, or erase records that must be retained. Terms concerning payments, ownership, acceptable use, disclaimers, liability, indemnity, disputes, and retained records survive termination.</p>
+    <section class="ps" id="s15"><div class="ps-header"><div class="ps-num">16</div><h2>Service availability and liability</h2></div><div class="ps-body">
+      <p>To the extent permitted by law, Bingwa Flash is provided as available. We do not guarantee uninterrupted availability, permanent compatibility, error-free automation, successful carrier processing or a commercial result. An agent remains responsible for its pricing, configuration, messages and fulfilment. Provider outages and agent or customer input can affect payment and delivery.</p>
+      <p>To the extent permitted by law, we exclude liability for indirect, consequential and punitive loss. Where a limitation is lawful, aggregate liability arising from the service is limited to the greater of KES 5,000 or the amount paid directly to Bingwa Flash for the affected feature in the six months before the event. This limit does not apply to our fraud or wilful misconduct, or to liability or remedies that law prohibits us from limiting, including mandatory consumer and data-protection remedies.</p>
+      <p>To the extent permitted by law, an agent is responsible for third-party claims and reasonable costs arising from its unlawful offers, misuse of data, infringement, unauthorised communications or material breach, except to the extent caused by our conduct or breach.</p>
     </div></section>
 
-    <section class="ps" id="s17"><div class="ps-header"><div class="ps-num">17</div><h2>Governing Law, Disputes, and Contact</h2></div><div class="ps-body">
-      <p>These Terms are governed by the laws of Kenya. Before filing a claim, the parties should send a written summary and supporting transaction references to <a href="mailto:support@bingwaflash.co.ke">support@bingwaflash.co.ke</a> and allow 30 days for good-faith resolution, unless urgent relief or a shorter legal deadline applies. Courts of competent jurisdiction in Kenya may hear unresolved disputes.</p>
-      <p>If any provision is invalid, it will be limited to the minimum extent necessary and the rest will remain effective. Failure to enforce a provision is not a waiver. A user may not transfer this agreement without written permission; we may transfer it with the service or business subject to law. These Terms, the Privacy Policy, and purchase-specific disclosures form the entire agreement for the service.</p>
-      <p>We may update these Terms for legal, security, provider, or product changes. Material changes apply from the displayed effective date and may be announced in the app or website. Changes do not retroactively remove mandatory rights or alter a completed purchase except where law permits.</p>
-      <p>Questions, legal notices, fraud reports, and support requests can be sent to <a href="mailto:support@bingwaflash.co.ke">support@bingwaflash.co.ke</a>.</p>
+    <section class="ps" id="s16"><div class="ps-header"><div class="ps-num">17</div><h2>Restrictions, termination and account deletion</h2></div><div class="ps-body">
+      <p>We may restrict or suspend a feature, public page, account, payment, device or link where reasonably necessary for security, fraud prevention, non-payment, provider requirements, material breach or law. Urgent steps may occur before notice. Where practicable, we will explain the restriction and provide a route to support.</p>
+      <p>You can stop using the service or <a href="/privacy.html#account-deletion">request account deletion</a>. Ending access or uninstalling does not settle an earlier payment or dispute. Relevant rights, obligations and records may continue as needed for outstanding transactions, disputes or legal requirements.</p>
+    </div></section>
+
+    <section class="ps" id="s17"><div class="ps-header"><div class="ps-num">18</div><h2>Governing law, changes and contact</h2></div><div class="ps-body">
+      <p>Kenyan law governs these Terms. To help resolve a dispute, send a written summary and any relevant reference to <a href="mailto:support@bingwaflash.co.ke">support@bingwaflash.co.ke</a>. You may use the courts, regulators or other remedies available under applicable law. Contacting support does not extend any legal deadline.</p>
+      <p>If a provision is unenforceable, the rest continues to apply. Failure to enforce a provision does not waive it. These Terms and the disclosures for a purchase form the agreement for that service. We may update these Terms when the service, providers or law changes and will identify material changes. A later update does not remove mandatory rights or change the terms of a completed purchase retroactively except where law permits.</p>
     </div></section>
 
   </main>

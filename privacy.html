@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Privacy Policy - Bingwa Flash</title>
-<meta name="description" content="How Bingwa Flash handles account, payment, automation, transaction, client, Bridge, Portal, analytics, and support data.">
+<meta name="description" content="How Bingwa Flash handles Android permissions, customer data, SiteLink, Portal, Bridge, payments, marketing, analytics and account deletion.">
 <link rel="canonical" href="https://bingwaflash.co.ke/privacy.html">
 <link rel="icon" type="image/png" href="/logo.png">
 <script>(function(){try{var t=localStorage.getItem('bf-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(error){/* Keep the server-rendered dark default when storage is unavailable. */}})();</script>
@@ -26,7 +26,7 @@
   --border2: var(--bf-border-strong);
   --text: var(--bf-text);
   --text2: var(--bf-text-muted);
-  --text3: var(--bf-text-soft);
+  --text3: var(--bf-text-muted);
   --card: var(--bf-surface);
   --r8: 8px;
   --r12: 12px;
@@ -34,21 +34,15 @@
   --pill: 999px;
   --shadow: var(--bf-shadow);
 }
+/* Keep small legal links legible against the light theme. */
 [data-theme="light"]{
-  --bg: var(--bf-bg);
-  --surface: var(--bf-surface);
-  --surface2: var(--bf-surface-raised);
-  --border: var(--bf-border);
-  --border2: var(--bf-border-strong);
-  --text: var(--bf-text);
-  --text2: var(--bf-text-muted);
-  --text3: var(--bf-text-soft);
-  --card: var(--bf-surface);
+  --g: #08613e;
+  --yd: #725400;
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 body::before{content:none !important;display:none !important;}
-.page-theme{position:fixed;right:22px;top:22px;z-index:30;width:40px;height:40px;border-radius:8px;background:var(--surface);border:1px solid var(--border);color:var(--text2);cursor:pointer;display:grid;place-items:center;transition:border-color .15s,color .15s}.page-theme:hover{border-color:var(--y);color:var(--text);background:var(--surface2)}.page-theme svg{width:16px;height:16px}
+.page-theme{position:fixed;right:22px;top:22px;z-index:30;width:44px;height:44px;border-radius:8px;background:var(--surface);border:1px solid var(--border);color:var(--text2);cursor:pointer;display:grid;place-items:center;transition:border-color .15s,color .15s}.page-theme:hover{border-color:var(--y);color:var(--text);background:var(--surface2)}.page-theme svg{width:16px;height:16px}
 .wrap{max-width:1060px;margin:0 auto;padding:0 32px}
 .page-hero{padding:52px 0 36px;border-bottom:1px solid var(--border)}
 .breadcrumb{font-size:.78rem;font-weight:800;color:var(--text3);margin-bottom:12px}.breadcrumb a{color:var(--text3);text-decoration:none;transition:color .15s}.breadcrumb a:hover{color:var(--yd)}
@@ -56,7 +50,7 @@ h1{font-family:'Sora',sans-serif;font-size:clamp(2rem,4vw,2.8rem);font-weight:80
 h1 em{font-style:normal;color:var(--g)}
 .hero-meta{font-size:.8rem;color:var(--text3);font-weight:800}
 .doc-layout{display:grid;grid-template-columns:220px 1fr;gap:32px;padding:40px 0 80px;align-items:start}
-.toc{position:sticky;top:76px}.toc-label{font-size:.66rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:10px}
+.toc{position:sticky;top:76px;max-height:calc(100dvh - 92px);overflow:auto}.toc-label{font-size:.66rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:10px}
 .toc-list{list-style:none;display:flex;flex-direction:column;gap:2px}
 .toc-list a{font-size:.8rem;font-weight:800;color:var(--text3);text-decoration:none;padding:6px 12px;border-radius:8px;display:block;transition:color .15s,background .15s}
 .toc-list a:hover,.toc-list a.active{color:var(--yd);background:rgba(251,191,36,.08)}
@@ -84,7 +78,7 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:22px
 .ft-links{display:flex;gap:16px;flex-wrap:wrap}
 .ft-links a{font-size:.76rem;font-weight:800;color:var(--text3);text-decoration:none;transition:color .15s}.ft-links a:hover{color:var(--yd)}
 .ft-copy{font-size:.74rem;color:var(--text3);font-weight:700}
-@media(max-width:900px){.doc-layout{grid-template-columns:1fr}.toc{display:none}}
+@media(max-width:900px){.doc-layout{grid-template-columns:minmax(0,1fr);gap:20px}.toc{position:static;max-height:none;overflow:visible}.toc-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.toc-list a{padding:8px;overflow-wrap:anywhere}}
 @media(max-width:768px){.wrap{padding:0 20px}.ft-in{flex-direction:column;text-align:center}}
 </style>
 <!-- Shared flat theme tokens keep legal pages readable in both modes. -->
@@ -100,133 +94,126 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:22px
 <div class="page-hero"><div class="wrap">
   <div class="breadcrumb"><a href="/">Home</a> / Privacy Policy</div>
   <h1>Privacy <em>Policy</em></h1>
-  <div class="hero-meta">Effective and last updated: August 27, 2026</div>
+  <div class="hero-meta">Last updated November 13, 2026</div>
 </div></div>
 
 <div class="wrap"><div class="doc-layout">
-  <aside class="toc">
+  <aside class="toc" aria-label="On this page">
     <div class="toc-label">On this page</div>
     <ul class="toc-list">
-      <li><a href="#s1">Scope and Roles</a></li>
-      <li><a href="#s2">Data We Handle</a></li>
-      <li><a href="#s3">Device Permissions</a></li>
-      <li><a href="#s4">Local and Cloud Data</a></li>
-      <li><a href="#s5">Orders and Payments</a></li>
+      <li><a href="#s1">Scope and roles</a></li>
+      <li><a href="#s2">Account and device data</a></li>
+      <li><a href="#s3">Android permissions</a></li>
+      <li><a href="#s4">Local records and exports</a></li>
+      <li><a href="#s5">SiteLink and payments</a></li>
       <li><a href="#s6">Bridge and Portal</a></li>
-      <li><a href="#s7">Purposes and Legal Bases</a></li>
-      <li><a href="#s8">Sharing and Transfers</a></li>
-      <li><a href="#s9">Retention</a></li>
-      <li><a href="#s10">Security</a></li>
-      <li><a href="#s11">Your Rights</a></li>
-      <li><a href="#s12">Children and Changes</a></li>
-      <li><a href="#s13">Contact and Complaints</a></li>
+      <li><a href="#s14">Customer messaging</a></li>
+      <li><a href="#s7">Purposes and legal bases</a></li>
+      <li><a href="#s8">Providers and transfers</a></li>
+      <li><a href="#s9">Retention and deletion</a></li>
+      <li><a href="#s10">Security and diagnostics</a></li>
+      <li><a href="#s11">Rights and choices</a></li>
+      <li><a href="#s12">Children and changes</a></li>
+      <li><a href="#s13">Contact and complaints</a></li>
     </ul>
   </aside>
   <main>
 
-    <section class="ps" id="s1"><div class="ps-header"><div class="ps-num">01</div><h2>Scope and Privacy Roles</h2></div><div class="ps-body">
-      <p>This Policy covers the Bingwa Flash Android app, bingwaflash.co.ke, public agent order pages, client-registration pages, and related support and online services. "Bingwa Flash", "we", "us", and "our" refer to the operator of those services.</p>
-      <p>Bingwa Flash is the data controller for account, platform, payment-processing, security, diagnostic, and support data that we decide how to use. An agent normally decides how to use customer contacts, offers, messages, and transaction records for that agent's business and is responsible for giving customers any notice required for that use.</p>
-      <div class="callout"><p>Bingwa Flash is an independent automation platform. It is not Safaricom PLC, M-Pesa, a bank, or a mobile network operator, and those services remain controlled by their respective providers.</p></div>
+    <section class="ps" id="s1"><div class="ps-header"><div class="ps-num">01</div><h2>Scope and privacy roles</h2></div><div class="ps-body">
+      <p>This Policy covers the Bingwa Flash Android app, bingwaflash.co.ke, SiteLink order and client-registration pages, Bingwa Flash Portal, Bridge, the official download site, and related payment, account and support services. Bingwa Flash is operated by Lyco Technologies. Contact us at <a href="mailto:support@bingwaflash.co.ke">support@bingwaflash.co.ke</a>.</p>
+      <div class="callout green"><p><strong>We do not sell or rent personal data.</strong> We use it to provide, protect and support Bingwa Flash. The disclosures below explain when agents, service providers and others receive it.</p></div>
+      <p>Bingwa Flash decides how to use data for platform accounts, access, payments, security and support. Agents decide how to run their businesses and how to use customer contacts, offers, transaction records and messages. They must give customers the notices and choices required for that use. We process data on an agent's instructions where a feature handles their business records on their behalf. Mobile networks and payment providers apply their own privacy terms.</p>
     </div></section>
 
-    <section class="ps" id="s2"><div class="ps-header"><div class="ps-num">02</div><h2>Data We Handle</h2></div><div class="ps-body">
-      <p>Depending on the features used, we may handle:</p>
+    <section class="ps" id="s2"><div class="ps-header"><div class="ps-num">02</div><h2>Account, profile and device data</h2></div><div class="ps-body">
       <ul>
-        <li><strong>Account and public profile data:</strong> email, agent and business names, username, phone numbers, Till or PayBill details, verification status, registration dates, and active-device/session information.</li>
-        <li><strong>Configuration:</strong> offers, prices, payment modes, SIM choices, USSD mappings, retry and verifier rules, schedules, reply templates, alert settings, Bridge rules, Portal settings, security preferences, and web-order settings.</li>
-        <li><strong>Transaction and client data:</strong> M-Pesa reference, customer name or phone where available, amount, selected offer, status, timestamps, carrier responses, recovery history, commission, blacklist state, and client totals.</li>
-        <li><strong>Payment and entitlement data:</strong> token or Time Token balance, package, payment phone, checkout identifiers, payment result, subscription period where applicable, payout destination, and reconciliation records.</li>
-        <li><strong>Technical and support data:</strong> app version, device model or label, operating-system information, app-instance or advertising identifiers made available by Android or Google services, crash and performance diagnostics, security events, request metadata, support correspondence, and information you choose to send with a report.</li>
+        <li><strong>Sign-in and account records.</strong> Email, account ID, sign-in provider and verification state, registration dates, profile names, website username, sign-in and session history, linked devices, security settings and changes to account email or password. Google Sign-In may provide the account identity and profile information you authorise. Firebase Authentication handles sign-in credentials.</li>
+        <li><strong>Business and payment settings.</strong> Agent and business names, optional profile photo, Customer contact, the separate Agent phone and Agent Alerts number, Till or Paybill details, Send Money number, payout destination, SiteLink delivery number, and verification or subscription status. The private Agent phone and the customer-facing contact have different purposes.</li>
+        <li><strong>Device and network records.</strong> Android or installation identifiers, device labels or model, app and OS version, active device and session information, Firebase push token and notification state, request IP address and timestamps, and security or abuse-prevention records. We may keep up to 20 changes to the account's observed public IP address for troubleshooting and security. An IP address may describe a network shared by many people.</li>
+        <li><strong>Configuration and administration.</strong> Offers, prices, SIM choices, USSD templates and learned steps, retry and verifier rules, schedules, reply and alert templates, Bridge and Portal settings, notification delivery and acknowledgment, and records of administrator actions. Where profile history is available, authorised Panel administrators can refer to up to ten previous values per supported field with the dates they were replaced. That feature records future changes from activation.</li>
       </ul>
-      <p>We do not ask for or store an M-Pesa PIN. Security PINs are protected using one-way hashes; a temporary support-issued PIN is shown to the administrator for handoff but is not stored as readable PIN text.</p>
+      <p>We never ask you to send us your M-PESA PIN. The app's Security PIN uses a one-way verifier. Android handles biometric authentication when enabled. The SiteLink client-registration PIN is a separate code. Use a unique code and never reuse a banking or device PIN.</p>
     </div></section>
 
-    <section class="ps" id="s3"><div class="ps-header"><div class="ps-num">03</div><h2>Device Permissions and On-Device Processing</h2></div><div class="ps-body">
-      <p>Android permissions are requested to make a selected feature work. The app may read supported SMS senders to detect payment confirmations, carrier responses, Bridge packets, verifier messages, and recovery signals; send SMS for configured customer replies, Bridge, and agent alerts; place USSD calls on the chosen SIM; and keep active automation running in the background.</p>
-      <p>Accessibility is used during enabled Advanced automation to read the active carrier USSD window, enter the saved steps, capture the response, and close or recover the carrier dialog. Overlay, notification, wake, alarm, battery-optimisation, and phone-state access support visibility and durable queue recovery. Contacts permission supports contact search, client import, and an agent's optional save-to-contacts action. Camera access scans pairing QR codes. Bluetooth access connects enabled Bridge devices. The app-update installer permission is used only when the agent chooses to install an APK update.</p>
-      <p>The app does not request location permission. Android may still associate older Bluetooth APIs with nearby-device behaviour. Denying an optional permission disables the related feature; it does not give Bingwa Flash permission to use the data for unrelated advertising.</p>
-      <div class="callout green"><p>Raw SMS, local contacts, USSD responses, and transaction history are processed primarily on the agent phone. They leave the device only when an enabled feature requires transmission, such as an SMS reply, online Bridge, Portal sync, web order, support report, or cloud account sync.</p></div>
-    </div></section>
-
-    <section class="ps" id="s4"><div class="ps-header"><div class="ps-num">04</div><h2>Local Storage and Cloud Sync</h2></div><div class="ps-body">
-      <p>Full transaction history and the main client list are stored primarily on the agent's device. Local records remain until the agent deletes them, runs a cleanup, clears app data, or uninstalls the app. Device contact records are controlled by the selected contacts provider and may separately sync through that provider.</p>
-      <p>Agent account and configuration fields are also saved locally for offline operation and mirrored to the agent profile online. This allows account recovery, active-device control, settings continuity, web-order publishing, verification, tokens, security reset, and other connected features. Not every local transaction is uploaded by default.</p>
-      <p>Google Analytics may receive standard app/session events, device information, and an app-instance or advertising identifier where Android and the user's device settings make it available. Firebase Crashlytics may receive crash traces, app/device context, and diagnostic keys. Bingwa Flash does not contain an advertising network or use this information to serve targeted advertisements inside the app.</p>
-    </div></section>
-
-    <section class="ps" id="s5"><div class="ps-header"><div class="ps-num">05</div><h2>Public Pages, Orders, and Payments</h2></div><div class="ps-body">
-      <p>If enabled by an agent, a public order page may display the agent's username, agent or business name, business phone, Till number, verification status, availability, and selected offers. Client registration may collect a name, phone number, selected agent, and a protected registration PIN.</p>
-      <p>For a web order or paid Bingwa Flash feature, we process the paying phone, receiving phone, offer or package, amount, M-Pesa reference, checkout identifiers, status, timestamps, and payout or reconciliation details. Payment requests and payouts are carried by M-Pesa/Safaricom infrastructure under their terms. We do not receive the customer's M-Pesa PIN.</p>
-      <p>Order and payout data may be retained after completion where reasonably needed for accounting, reconciliation, fraud prevention, chargeback or reversal handling, customer support, legal claims, and regulatory obligations.</p>
-    </div></section>
-
-    <!-- / note: Bridge delivery receipts outlive packet content; they must not be described as a completed customer purchase. -->
-    <section class="ps" id="s6"><div class="ps-header"><div class="ps-num">06</div><h2>Bridge and Portal Features</h2></div><div class="ps-body">
-      <p>Bridge can transfer a transaction packet by SMS, Online, Hotspot/Wi-Fi, or Bluetooth. A packet may contain a stable transaction identity, payment reference, customer or receiver details, amount, sender identity, and authentication information. SMS uses the mobile network; Hotspot and Bluetooth communicate between nearby devices; Internet Bridge stages encrypted-in-transit packet data for durable receiver intake. After an intake decision, the packet content is removed while an operation receipt remains to prevent duplicate delivery. Pending or unresolved packets can remain available for recovery.</p>
-      <p>Pair codes authenticate compatible Bridge packets but are not a substitute for device security. Agents should share QR and manual connection details only with an intended partner and remove rules that are no longer trusted.</p>
-      <p>When Portal is enabled, selected device readiness, balances, offer data, transaction summaries/details, and authorised commands may be mirrored through the agent's cloud account so linked sessions can display or control supported functions. Turning Portal off stops new Portal sync, but existing security, audit, or transaction records may remain for the retention periods below.</p>
-    </div></section>
-
-    <section class="ps" id="s7"><div class="ps-header"><div class="ps-num">07</div><h2>Purposes and Legal Bases</h2></div><div class="ps-body">
-      <p>We process data only where needed to perform our agreement with a user, follow the user's settings or consent, comply with law, or pursue legitimate interests that are not overridden by a person's rights. Those purposes include:</p>
+    <section class="ps" id="s3"><div class="ps-header"><div class="ps-num">03</div><h2>Android permissions and background operation</h2></div><div class="ps-body">
       <ul>
-        <li>creating and protecting accounts, sessions, PIN recovery, verification, and fraud controls;</li>
-        <li>matching payments, running configured automation, recovering queues, sending selected replies or alerts, and showing auditable results;</li>
-        <li>publishing enabled offers, processing web orders and paid features, reconciling payment results, and arranging payouts;</li>
-        <li>operating Bridge, Portal, client registration, support, app updates, analytics, crash diagnosis, and security monitoring;</li>
-        <li>enforcing our Terms, responding to disputes, keeping required records, and protecting users, the service, and the public.</li>
+        <li><strong>SMS.</strong> The app can receive and read SMS to identify supported payment, carrier, verifier, reversal and Bridge messages. When you use inbox search or recovery, the app can inspect stored messages on the device. It can send replies, alerts, Bridge packets, shop responses and Bulk SMS or Marketer messages from the selected SIM. Bulk SMS may ask you to make Bingwa Flash the default SMS app temporarily. Android lets you change the default again.</li>
+        <li><strong>Accessibility and phone.</strong> With permission, the app reads relevant carrier windows and their text, enters saved choices, captures responses and closes or recovers USSD dialogs. This supports visible and interactive USSD, Quick Dial and Mapping Learning. Phone and SIM access lets the app choose a subscription and place authorised USSD requests or configured calls.</li>
+        <li><strong>Contacts, camera and nearby devices.</strong> Contacts access supports lookup, import and saving selected contacts. The camera can scan Bridge pairing QR codes. Nearby Bluetooth and Wi-Fi or hotspot access supports Bridge pairing and transport. Android 11 and older may require location permission for Bluetooth discovery. That permission supports discovery.</li>
+        <li><strong>Other Android controls.</strong> Notifications, overlays, wake and vibration, exact alarms, boot and background operation, and battery settings support the queue, alerts, recovery and scheduled work. Android may require shared storage permission on older devices for exports, and permission to install packages when you choose an APK update.</li>
       </ul>
+      <p>You can manage permissions and default apps in Android Settings. Turning off a permission can stop the features that depend on it. Turning off automation may still leave SMS intake and records, recovery, or separately enabled connectivity available.</p>
     </div></section>
 
-    <section class="ps" id="s8"><div class="ps-header"><div class="ps-num">08</div><h2>Sharing, Processors, and International Transfers</h2></div><div class="ps-body">
-      <p>We do not sell or rent personal data. We disclose only what is reasonably necessary:</p>
+    <section class="ps" id="s4"><div class="ps-header"><div class="ps-num">04</div><h2>Local records, offers and exports</h2></div><div class="ps-body">
+      <p>Routine SMS intake, transaction history and the main Client Management list are stored primarily on the agent's device. Records may include payment references and messages, names and phone numbers, sending and receiving details, amounts, purchase or debt history, points, streaks, referrals, blocked status, timestamps, selected offers, SIM, carrier responses, verification evidence, reversals, and recovery decisions. The app uses these for automation, queue review, M-PESA Messages, customer management, statistics, commission and airtime or Bonga checks.</p>
+      <p>Some profile and offer settings sync for account recovery and connected features. Portal, SiteLink, Internet Bridge, payment processing, alerts and user-requested sharing can send the information described in this Policy outside the phone. Android system backup is disabled for the app. Records that exist only on a phone may be lost if you clear app data or uninstall. Contacts saved to Android can sync through the chosen contacts account.</p>
+      <p>Agents can import contacts or CSV/VCF files. A client CSV can contain names, phones, spending, points and active or blocked status. A vCard contains names and phones. Offer files and Share Links can contain the selected commercial settings and USSD templates. A Share Link can record the creator, authorised importer, times and use counts. Copying or exporting records, offers, messages, receipts or logs gives the chosen app or recipient a separate copy.</p>
+    </div></section>
+
+    <section class="ps" id="s5"><div class="ps-header"><div class="ps-num">05</div><h2>SiteLink, client registration and payments</h2></div><div class="ps-body">
+      <p>When an agent publishes SiteLink, visitors can see the page's business identity, username, profile photo if provided, customer contact and payment information, listed offers, prices, availability and verification badge. Published profiles, photos and share previews can be cached or indexed by browsers, search engines and messaging services. Some legacy online records are accessible without signing in. This broader access can include agent account and contact information, offer settings, and client registration details and codes beyond the fields displayed on the page.</p>
+      <p>To register with an agent, the client can provide a name, phone number and a registration PIN. We use the linked registration and its status to deliver it to the agent and handle removal requests. A SiteLink removal request affects the linked registration. A copy already imported to the agent's device, a reusable registration PIN and separate payment records may remain.</p>
+      <p>For a SiteLink order or purchase of an app feature, we handle the selected agent, package, paying and receiving phones where applicable, amount, checkout and receipt identifiers, status and timestamps, payment confirmation, delivery handoff, payout and reconciliation records. The chosen agent and Safaricom/M-PESA receive the information needed for their roles. SiteLink can deliver an order through an internet connection to the agent's phone or by coded SMS, according to the agent's selected mode. Payment confirmation, phone receipt, payout and fulfilment each have their own status.</p>
+      <p>Checkout may keep a limited order-status reference in the browser tab so you can return to the status view. Browser preferences and sign-in state support the site and Portal. Hosting and security providers can receive request data such as IP addresses, browser or device information and access times.</p>
+    </div></section>
+
+    <section class="ps" id="s6"><div class="ps-header"><div class="ps-num">06</div><h2>Bridge and Portal</h2></div><div class="ps-body">
+      <p>Bridge forwards eligible payment information to a processing device chosen by the agent. The signed packet can include the payment reference, amount, customer name and number, payment mode and time, and sender and receiver device or account identifiers. SMS uses the carrier network. Bluetooth and Wi-Fi or hotspot communicate with the nearby partner. Internet Bridge uses cloud staging and authenticated delivery. A recipient can keep its own transaction record. Treat pairing codes and invitations as sensitive.</p>
+      <p>With Portal sync enabled, linked accounts or devices and authorised operators can view data and issue supported commands within their access. The data can include device label and readiness, last-seen time, network and battery state, SIM and automation settings, offers and mapping, airtime and token balances, schedules, commission and selected customer or transaction records. A transaction view may include customer names and numbers, payment messages and carrier responses. Commands and their results can record the operator, target device, inputs, timestamps and outcome.</p>
+      <p>Portal can run actions you choose, including retry or reschedule, alternate number or offer, Quick Dial, selected SMS, and settings changes. Turn off sync or remove access when a viewer or device no longer needs it. A device can finish work it already accepted. Previous command, payment and audit records or copies downloaded by viewers may remain.</p>
+    </div></section>
+
+    <section class="ps" id="s14"><div class="ps-header"><div class="ps-num">07</div><h2>Customer messaging, loyalty and marketing</h2></div><div class="ps-body">
+      <p>Agents choose which customer replies, shop menus, Bulk SMS messages and alerts the app sends. The app uses the numbers, templates, transaction details, delivery results and other information needed for those choices. Shop and loyalty features may store points, rewards, purchase streaks, referral activity, redemptions, and any related offer and purchase history.</p>
+      <p>Marketer can select recipients from Client Management based on recent verified purchases, use configured strategies and timing, and record sending activity and opt-outs. Preview lets the agent inspect proposed messages. Agents must obtain the express permission required for direct marketing, use data lawfully, and offer an accessible way to stop messages. A purchase or appearance in the app's eligible audience does not establish permission.</p>
+      <p>To stop an agent's Marketer SMS, reply <strong>STOP</strong> or contact that agent using the details provided. Opt-out records may be kept to honour the request. Account, payment and service messages serve separate purposes.</p>
+    </div></section>
+
+    <section class="ps" id="s7"><div class="ps-header"><div class="ps-num">08</div><h2>Purposes and legal bases</h2></div><div class="ps-body">
+      <p>We use account, payment and service data to provide the features you request, operate checkouts and subscriptions, support users, and keep a record of authorised actions. We use security and operational data where reasonably necessary to protect accounts, diagnose failures, prevent fraud or duplicate payments, and operate the service, taking account of the person's rights. We retain or disclose relevant records where law requires it, including for accounting, disputes and investigations.</p>
+      <p>Where we rely on consent, you can withdraw it for future processing. This Policy explains how data is used. Accepting the Terms, enabling a feature, or placing an order does not supply consent for unrelated uses.</p>
+    </div></section>
+
+    <section class="ps" id="s8"><div class="ps-header"><div class="ps-num">09</div><h2>Sharing, providers and international transfers</h2></div><div class="ps-body">
       <ul>
-        <li>to Google/Firebase for authentication, cloud database, hosting, functions, analytics, and crash diagnostics;</li>
-        <li>to Safaricom/M-Pesa and relevant payment partners to initiate, confirm, reconcile, pay out, or investigate a transaction;</li>
-        <li>to an agent and that agent's authorised linked devices or Bridge partner for a request the customer or agent initiated;</li>
-        <li>to professional advisers, contractors, or support providers under confidentiality and purpose restrictions;</li>
-        <li>to regulators, courts, law enforcement, or affected parties where law requires it or where reasonably necessary to investigate fraud, security incidents, abuse, or protect legal rights.</li>
+        <li><strong>Google and Firebase</strong> provide sign-in, database, functions, Portal hosting, messaging, app integrity checks, analytics and crash reporting. Firebase Authentication processes data in the United States. Other services may use data centres in South Africa, the United States and elsewhere.</li>
+        <li><strong>Cloudflare</strong> serves public website traffic and profile images. When you upload a photo, the app sends a cropped copy for the profile image. The original gallery file stays on your device. <strong>GitHub</strong> hosts the official download page or APK releases. Public pages also load Google Fonts. Optional links or videos can take you to the relevant external service.</li>
+        <li><strong>Safaricom/M-PESA and other mobile operators</strong> process requests and data for SMS, calls, USSD, mobile-money payment, airtime and payouts as applicable.</li>
+        <li><strong>People and organisations.</strong> Agents, their chosen Bridge partners and linked Portal viewers, authorised Panel administrators, support providers and advisers can receive information needed for their roles. We may disclose relevant records to courts, regulators, law enforcement or affected parties where required or otherwise permitted by law.</li>
       </ul>
-      <p>Cloud providers may process data outside Kenya. Where applicable, we rely on contractual, technical, organisational, consent, or other lawful safeguards required for cross-border processing. Third-party services also apply their own privacy terms.</p>
+      <p>We use safeguards required by applicable law for transfers outside Kenya. Service providers may process operational data under their own terms. <a href="https://firebase.google.com/support/privacy">Firebase privacy information</a> · <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare privacy information</a>.</p>
     </div></section>
 
-    <section class="ps" id="s9"><div class="ps-header"><div class="ps-num">09</div><h2>Retention</h2></div><div class="ps-body">
-      <p>We keep data only for as long as reasonably needed for the purpose described in this Policy, subject to backups, dispute holds, fraud prevention, accounting, and legal requirements. In general:</p>
+    <section class="ps" id="s9"><div class="ps-header"><div class="ps-num">10</div><h2>Retention, local cleanup and account deletion</h2></div><div class="ps-body">
       <ul>
-        <li>local app history remains until the agent deletes it, clears app data, or uninstalls;</li>
-        <li>account and active configuration data remains while the account is open and for a limited period afterward;</li>
-        <li>online client-registration payloads are removed where their workflow permits; Bridge packet content is removed after a durable intake decision while operation receipts remain for duplicate protection;</li>
-        <li>completed payment, payout, security, fraud, and order records may be retained longer to reconcile funds, answer disputes, enforce rights, and comply with law;</li>
-        <li>crash, analytics, hosting, and security logs follow the retention controls of the relevant service and our configured operational needs.</li>
+        <li><strong>Phone and browser.</strong> Local history stays until the user deletes or cleans it up, clears app data or uninstalls. Exports and other recipients' copies have their own lifecycle. Browser caches and session data have separate expiry or clear controls.</li>
+        <li><strong>Accounts and operations.</strong> We retain active account, settings and access records while needed to operate the account. Pending Bridge data can remain for recovery. After intake, supported Online Bridge flows remove the packet payload and keep a receipt for duplicate protection. Expired checkout status links and pairing codes are separate from financial, security or operation records.</li>
+        <li><strong>Payments and tokens.</strong> We retain purchase, token and subscription grants, transfers, receipts, backup lifecycle, payout and reconciliation data as needed for operations, accounting, disputes, fraud prevention and legal obligations. Token backup records may include the units or time reserved, source and destination devices, creation, expiry, attempts and redemption status.</li>
+        <li><strong>Diagnostics.</strong> Share Logs is local and keeps up to 48 hours of events, subject to size and rotation. Analytics, crash reporting, hosting, support and security records follow the relevant service settings and the time reasonably needed for their purposes.</li>
       </ul>
-      <p>An account-deletion request removes or anonymises data we control unless retention is necessary for a pending transaction, security investigation, legal claim, payment record, or legal obligation. Deletion from Bingwa Flash does not remove copies independently held by an agent, the user's phone, contacts provider, mobile operator, payment provider, or a recipient.</p>
+      <p id="account-deletion">To request account deletion, email <a href="mailto:support@bingwaflash.co.ke?subject=Bingwa%20Flash%20account%20deletion">support@bingwaflash.co.ke</a> with your account email and a request to delete the Bingwa Flash account. We may verify account ownership and explain any records we must retain. We delete or de-identify data we control when its purpose ends, subject to lawful retention for pending transactions, fraud, disputes and legal requirements. Account deletion does not erase contacts, device exports, carrier records or copies independently held by agents and other recipients.</p>
     </div></section>
 
-    <section class="ps" id="s10"><div class="ps-header"><div class="ps-num">10</div><h2>Security and Incident Handling</h2></div><div class="ps-body">
-      <p>We use access controls, authenticated sessions, encrypted network connections, database rules, one-way PIN hashing, encrypted local security storage, app signing, bounded listeners, duplicate protection, and operational monitoring appropriate to the service. Sensitive Bridge authentication values and transaction content are excluded from diagnostic logs by design.</p>
-      <p>No application, phone, mobile network, or cloud service is completely secure. Agents must keep Android and Bingwa Flash updated, protect the phone and SIM, use a unique PIN, restrict linked devices, review public information, and report suspected compromise promptly. Where a personal-data breach creates a legal notification duty, we will investigate and notify affected persons or the Office of the Data Protection Commissioner as required.</p>
+    <section class="ps" id="s10"><div class="ps-header"><div class="ps-num">11</div><h2>Security, analytics and diagnostics</h2></div><div class="ps-body">
+      <p>We use measures such as encrypted internet connections, device and session checks, access rules, scoped administrator tools and protected storage for certain secrets. Separate privacy controls cover such features as the Agent phone, IP history and app Security PIN. No method can guarantee security. Report suspicious access promptly. We will investigate suspected breaches and give notices required by law.</p>
+      <p>Google Analytics for Firebase can receive app usage, device and app-instance information and advertising identifiers where available and permitted by device and SDK settings. We use app analytics for service operation and improvement. Bingwa Flash does not serve targeted advertising in the app. Firebase Crashlytics can receive crash or app-not-responding reports, stack traces, device or app context and diagnostic events.</p>
+      <p><strong>Share Logs</strong> is separate from automatic crash reporting. It creates a filtered diagnostic ZIP on the phone and lets you save it to Downloads or choose a recipient. The export filters direct identifiers, transaction text and secrets from its event stream. If you contact support, we receive the information and attachments you choose to send. Leave out PINs, passwords, backup codes and unrelated customer data.</p>
     </div></section>
 
-    <section class="ps" id="s11"><div class="ps-header"><div class="ps-num">11</div><h2>Your Rights and Choices</h2></div><div class="ps-body">
-      <p>Subject to the Kenya Data Protection Act and applicable exceptions, a person may ask to be informed about processing, access data we control, object or withdraw consent, correct inaccurate data, request deletion, or request restriction or portability where available. We may need to verify identity and may retain a record of the request.</p>
-      <ul>
-        <li>Agents can turn off automation, individual Bridge rules, Portal, public web orders, website registration, alerts, auto-reply, and contact saving.</li>
-        <li>Agents can delete supported local client and transaction records, export selected data where the app provides that action, or clear app data through Android.</li>
-        <li>Customers should first contact the agent for records that agent controls. They may use the website removal flow where available.</li>
-        <li>For Bingwa Flash-controlled account or platform data, email <a href="mailto:support@bingwaflash.co.ke">support@bingwaflash.co.ke</a> with the account email or phone and the request. Do not send an M-Pesa PIN, security PIN, or unredacted secrets.</li>
-      </ul>
+    <section class="ps" id="s11"><div class="ps-header"><div class="ps-num">12</div><h2>Your rights and choices</h2></div><div class="ps-body">
+      <p>Under the Kenya Data Protection Act and applicable exceptions, you may ask how your information is used, request access or correction, object to processing, withdraw consent, and request restriction, erasure or portability where applicable. You may ask for human review of a decision covered by the Act's automated decision safeguards. We may need to verify who you are.</p>
+      <p>Agents can change settings, disable Portal or Bridge, unpublish SiteLink, remove links, stop marketing or other messaging, manage contacts and records, and revoke Android permissions. Customers can contact their agent for records or promotions that agent controls. Use the <a href="#account-deletion">account deletion instructions</a> for a Bingwa Flash account or email us about other data we control.</p>
     </div></section>
 
-    <section class="ps" id="s12"><div class="ps-header"><div class="ps-num">12</div><h2>Children, Automated Processing, and Policy Changes</h2></div><div class="ps-body">
-      <p>Bingwa Flash is a business automation service intended for adults aged 18 or older. We do not knowingly invite children to open agent accounts or purchase paid features. If a minor's information appears in an agent's customer records, the agent remains responsible for having a lawful basis and any required guardian involvement.</p>
-      <p>The app automatically matches configured payment signals to offers and may queue, execute, retry, hold, or fail a transaction according to agent rules. Agents can review transaction details and use available manual actions. We do not use customer data for credit scoring or solely automated decisions that produce legal effects.</p>
-      <p>We may update this Policy when features, providers, security practices, or law change. Material changes will be identified by a new effective date and may also be announced in the app or website. Continued use after the effective date is subject to the updated Policy, without limiting rights that require separate consent.</p>
+    <section class="ps" id="s12"><div class="ps-header"><div class="ps-num">13</div><h2>Children, automated processing and changes</h2></div><div class="ps-body">
+      <p>Agent accounts are intended for adults. If an agent handles a child's information, the agent is responsible for meeting the applicable legal requirements. Tell us if you believe a child's data was submitted unlawfully.</p>
+      <p>Saved rules can match payments to offers, select recipients, queue or hold work, control access, and send selected messages. Agents can review outcomes and use supported manual actions. Contact support if you want to challenge a platform decision that affects you.</p>
+      <p>We may update this Policy as features, providers or law change. We will identify material changes and request separate consent where required.</p>
     </div></section>
 
-    <section class="ps" id="s13"><div class="ps-header"><div class="ps-num">13</div><h2>Contact and Complaints</h2></div><div class="ps-body">
-      <p>For privacy questions, rights requests, account deletion, or a suspected incident, email <a href="mailto:support@bingwaflash.co.ke">support@bingwaflash.co.ke</a>. Include enough information to identify the relevant account or order, but redact PINs and unrelated message content.</p>
-      <p>If a privacy concern is not resolved, a person may contact or lodge a complaint with Kenya's <a href="https://www.odpc.go.ke/" target="_blank" rel="noopener">Office of the Data Protection Commissioner</a>. This does not limit any other remedy available under applicable law.</p>
+    <section class="ps" id="s13"><div class="ps-header"><div class="ps-num">14</div><h2>Contact and complaints</h2></div><div class="ps-body">
+      <p>For privacy, account deletion or incident reports, email <a href="mailto:support@bingwaflash.co.ke">support@bingwaflash.co.ke</a>. You can lodge a complaint with <a href="https://cie.odpc.go.ke/Complaint">Kenya's Office of the Data Protection Commissioner</a>.</p>
     </div></section>
 
   </main>
