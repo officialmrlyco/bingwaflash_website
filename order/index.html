@@ -485,60 +485,20 @@ main.order-main{
   color: #ffffff;
 }
 
-/* CHECKOUT POPUP MODAL */
-.checkout-modal{
-  position: fixed;
-  inset: 0;
-  z-index: 140;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  background: rgba(6, 9, 7, 0.78);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
+/* CHECKOUT PANEL (INLINE BELOW OFFERS) */
 .checkout-panel{
-  width: min(460px, 100%);
-  max-height: min(90dvh, 720px);
-  overflow-y: auto;
   background: var(--surface);
-  border: 1px solid var(--border-strong);
-  border-radius: 22px;
-  padding: 20px 18px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
-  animation: modalPopIn 0.24s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.checkout-modal-head{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-}
-.checkout-modal-head h3{
-  font-size: 1rem;
-  font-weight: 800;
-  color: var(--text);
-}
-.checkout-close-btn{
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
   border: 1px solid var(--border);
-  background: var(--surface2);
-  color: var(--text-muted);
-  font-size: 1.2rem;
-  line-height: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  border-radius: 18px;
+  padding: 22px 18px;
+  box-shadow: var(--card-shadow);
+  display: none;
+  animation: slideUp 0.25s ease;
+  margin-bottom: 24px;
 }
-.checkout-close-btn:hover{
-  background: var(--border);
-  color: var(--text);
-  transform: scale(1.05);
+@keyframes slideUp{
+  from{ opacity: 0; transform: translateY(10px); }
+  to{ opacity: 1; transform: translateY(0); }
 }
 @keyframes modalPopIn{
   from{ opacity: 0; transform: scale(0.94) translateY(10px); }
@@ -548,9 +508,9 @@ main.order-main{
   to{ transform: rotate(360deg); }
 }
 @keyframes stkPulse{
-  0%{ box-shadow: 0 0 0 0 rgba(21, 167, 108, 0.36); }
-  70%{ box-shadow: 0 0 0 14px rgba(21, 167, 108, 0); }
-  100%{ box-shadow: 0 0 0 0 rgba(21, 167, 108, 0); }
+  0%{ box-shadow: 0 0 0 0 var(--stage-pulse, rgba(14, 165, 233, 0.36)); }
+  70%{ box-shadow: 0 0 0 14px rgba(0, 0, 0, 0); }
+  100%{ box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
 }
 @keyframes resultIconPop{
   0%{ opacity: 0; transform: scale(0.6); }
@@ -795,30 +755,54 @@ main.order-main{
   background: rgba(6, 9, 7, 0.8);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  --stage-color: #0ea5e9;
+  --stage-bg: rgba(14, 165, 233, 0.14);
+  --stage-border: rgba(14, 165, 233, 0.45);
+  --stage-pulse: rgba(14, 165, 233, 0.36);
+}
+#stk-screen[data-stage="initiating"]{
+  --stage-color: #0ea5e9;
+  --stage-bg: rgba(14, 165, 233, 0.14);
+  --stage-border: rgba(14, 165, 233, 0.45);
+  --stage-pulse: rgba(14, 165, 233, 0.36);
+}
+#stk-screen[data-stage="pending"]{
+  --stage-color: #f97316;
+  --stage-bg: rgba(249, 115, 22, 0.15);
+  --stage-border: rgba(249, 115, 22, 0.5);
+  --stage-pulse: rgba(249, 115, 22, 0.36);
+}
+#stk-screen[data-stage="checking"]{
+  --stage-color: #eab308;
+  --stage-bg: rgba(234, 179, 8, 0.15);
+  --stage-border: rgba(234, 179, 8, 0.5);
+  --stage-pulse: rgba(234, 179, 8, 0.36);
 }
 .stk-modal-card{
   width: min(440px, 100%);
   background: var(--surface);
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--stage-border);
   border-radius: 22px;
-  padding: 24px 20px;
+  padding: 22px 20px;
   text-align: center;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
   animation: modalPopIn 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: border-color 0.25s ease;
 }
 .stk-radar-icon{
   position: relative;
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: var(--badge-bg);
-  border: 2px solid rgba(21, 167, 108, 0.25);
+  background: var(--stage-bg);
+  border: 2px solid var(--stage-border);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 14px;
-  color: var(--g);
+  color: var(--stage-color);
   animation: stkPulse 1.8s ease-out infinite;
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
 }
 .stk-radar-icon::after{
   content: "";
@@ -826,9 +810,39 @@ main.order-main{
   inset: -3px;
   border-radius: 50%;
   border: 2.5px solid transparent;
-  border-top-color: var(--g);
-  border-right-color: var(--g);
+  border-top-color: var(--stage-color);
+  border-right-color: var(--stage-color);
   animation: spinRing 0.9s linear infinite;
+}
+.stk-order-details{
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  text-align: left;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 12px;
+}
+.stk-detail-item small{
+  display: block;
+  font-size: 0.64rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-soft);
+  margin-bottom: 2px;
+}
+.stk-detail-item strong{
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--text);
+  word-break: break-word;
+}
+.stk-detail-item strong.is-amount{
+  color: var(--y);
 }
 .stk-stages{
   display: grid;
@@ -861,14 +875,36 @@ main.order-main{
   font-size: 0.62rem;
   font-weight: 800;
 }
-.stk-stage.is-active{
-  border-color: rgba(21, 167, 108, 0.55);
-  background: rgba(21, 167, 108, 0.1);
-  color: var(--text);
+.stk-stage.is-active[data-tone="blue"]{
+  border-color: rgba(14, 165, 233, 0.55);
+  background: rgba(14, 165, 233, 0.12);
+  color: #0ea5e9;
 }
-.stk-stage.is-active .stk-stage-dot{
-  border-color: rgba(21, 167, 108, 0.3);
-  border-top-color: var(--g);
+.stk-stage.is-active[data-tone="blue"] .stk-stage-dot{
+  border-color: rgba(14, 165, 233, 0.3);
+  border-top-color: #0ea5e9;
+  animation: spinRing 0.8s linear infinite;
+  color: transparent;
+}
+.stk-stage.is-active[data-tone="orange"]{
+  border-color: rgba(249, 115, 22, 0.6);
+  background: rgba(249, 115, 22, 0.14);
+  color: #f97316;
+}
+.stk-stage.is-active[data-tone="orange"] .stk-stage-dot{
+  border-color: rgba(249, 115, 22, 0.3);
+  border-top-color: #f97316;
+  animation: spinRing 0.8s linear infinite;
+  color: transparent;
+}
+.stk-stage.is-active[data-tone="yellow"]{
+  border-color: rgba(234, 179, 8, 0.6);
+  background: rgba(234, 179, 8, 0.14);
+  color: #eab308;
+}
+.stk-stage.is-active[data-tone="yellow"] .stk-stage-dot{
+  border-color: rgba(234, 179, 8, 0.3);
+  border-top-color: #eab308;
   animation: spinRing 0.8s linear infinite;
   color: transparent;
 }
@@ -955,9 +991,12 @@ main.order-main{
   justify-content: center;
   margin: 0 auto 14px;
 }
-.result-icon.success{ background: var(--g); color: #ffffff; }
-.result-icon.fail{ background: var(--red); color: #ffffff; }
-.result-icon.pending{ background: var(--y); color: #060907; }
+.result-icon.success{ background: var(--g); color: #ffffff; box-shadow: 0 0 0 8px rgba(21, 167, 108, 0.15); }
+.result-icon.fail{ background: var(--red); color: #ffffff; box-shadow: 0 0 0 8px rgba(239, 68, 68, 0.15); }
+.result-icon.pending{ background: #f97316; color: #ffffff; box-shadow: 0 0 0 8px rgba(249, 115, 22, 0.15); }
+.result-card[data-result="success"]{ border-color: rgba(21, 167, 108, 0.45); }
+.result-card[data-result="fail"]{ border-color: rgba(239, 68, 68, 0.45); }
+.result-card[data-result="pending"]{ border-color: rgba(249, 115, 22, 0.45); }
 .result-card h2{
   font-size: 1.1rem;
   font-weight: 800;
@@ -1101,8 +1140,8 @@ main.order-main{
 .toast-card[data-kind="error"] .toast-dot{background:var(--red)}
 .toast-card[data-kind="info"] .toast-dot{background:var(--y)}
 @media(max-width:600px){
-  .result-card,.stk-modal-card,.checkout-panel{border-radius:20px;width:100%;}
-  .result-dialog,#stk-screen,.checkout-modal{padding:14px;}
+  .result-card,.stk-modal-card{border-radius:20px;width:100%;}
+  .result-dialog,#stk-screen{padding:14px;}
   #loading,#error-state,#maintenance-state{border-radius:18px;}
 }
 </style>
@@ -1220,6 +1259,64 @@ main.order-main{
     <!-- Dynamic Line-by-Line Offers Container -->
     <div id="offers-container"></div>
 
+    <!-- Real form and stable field identities let browsers offer saved phone numbers. -->
+    <form class="checkout-panel" id="order-form" name="order-checkout" autocomplete="on" method="post" onsubmit="return false;">
+      <div class="checkout-summary-banner">
+        <div class="cs-left">
+          <small>Selected Package</small>
+          <strong id="sel-name">-</strong>
+        </div>
+        <div class="cs-price" id="sel-price">-</div>
+      </div>
+
+      <!-- Payment Phone Input -->
+      <div class="field-group">
+        <label class="field-label" for="pay-phone">M-Pesa Payment Number</label>
+        <div class="input-with-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 15.92z"/></svg>
+          <input id="pay-phone" name="paymentPhone" autocomplete="section-payment tel" type="tel" placeholder="07XX XXX XXX or 01XX XXX XXX" inputmode="tel" maxlength="24" oninput="syncSameNumber()" onchange="syncSameNumber()">
+        </div>
+        <div class="field-tip">STK prompt will be sent from <strong>FLASH PAY SERVICES</strong></div>
+      </div>
+
+      <!-- Same Number Checkbox -->
+      <label class="same-num-pill" for="same-num-chk">
+        <input type="checkbox" id="same-num-chk" onchange="toggleSameNumber()">
+        <div class="same-num-text">
+          <strong>Paying &amp; receiving numbers are the same</strong>
+          <small>Uncheck if buying for a friend or another phone</small>
+        </div>
+      </label>
+
+      <!-- Receiving Phone Input (Hidden when checked) -->
+      <div class="field-group" id="recv-field">
+        <label class="field-label" for="recv-phone">Receiving Number</label>
+        <div class="input-with-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          <input id="recv-phone" name="recipientPhone" autocomplete="section-recipient tel" type="tel" placeholder="07XX XXX XXX" inputmode="tel" maxlength="24">
+        </div>
+        <div class="field-tip">The destination phone number that receives the airtime/bundle</div>
+      </div>
+
+      <div class="form-alert" id="form-err"></div>
+
+      <button class="checkout-pay-btn" id="pay-btn" type="submit">
+        <span class="btn-spinner" aria-hidden="true"></span>
+        <svg class="btn-lock-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span>Pay via M-Pesa</span>
+      </button>
+
+      <div class="checkout-terms-note">
+        <!-- The checkout agreement and the privacy notice serve separate purposes. -->
+        By continuing to pay, you agree to the <a href="/terms.html" target="_blank" rel="noopener">Terms of Service</a>. See the <a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a> for how we use order details.
+      </div>
+
+      <div class="trust-strip">
+        <span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> M-Pesa STK Push</span>
+        <span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Automated USSD</span>
+      </div>
+    </form>
+
     <!-- Client Registration Banner -->
     <div class="register-banner-box" id="register-banner">
       <div class="rb-left">
@@ -1238,74 +1335,8 @@ main.order-main{
   </div>
 </footer>
 
-<!-- Checkout Popup Modal -->
-<div class="checkout-modal" id="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-modal-title" onclick="if(event.target===this)closeCheckoutModal()">
-  <!-- Real form and stable field identities let browsers offer saved phone numbers. -->
-  <form class="checkout-panel" id="order-form" name="order-checkout" autocomplete="on" method="post" onsubmit="return false;">
-    <div class="checkout-modal-head">
-      <h3 id="checkout-modal-title">Complete Order</h3>
-      <button type="button" class="checkout-close-btn" onclick="closeCheckoutModal()" aria-label="Close checkout">&times;</button>
-    </div>
-
-    <div class="checkout-summary-banner">
-      <div class="cs-left">
-        <small>Selected Package</small>
-        <strong id="sel-name">-</strong>
-      </div>
-      <div class="cs-price" id="sel-price">-</div>
-    </div>
-
-    <!-- Payment Phone Input -->
-    <div class="field-group">
-      <label class="field-label" for="pay-phone">M-Pesa Payment Number</label>
-      <div class="input-with-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 15.92z"/></svg>
-        <input id="pay-phone" name="paymentPhone" autocomplete="section-payment tel" type="tel" placeholder="07XX XXX XXX or 01XX XXX XXX" inputmode="tel" maxlength="24" oninput="syncSameNumber()" onchange="syncSameNumber()">
-      </div>
-      <div class="field-tip">STK prompt will be sent from <strong>FLASH PAY SERVICES</strong></div>
-    </div>
-
-    <!-- Same Number Checkbox -->
-    <label class="same-num-pill" for="same-num-chk">
-      <input type="checkbox" id="same-num-chk" onchange="toggleSameNumber()">
-      <div class="same-num-text">
-        <strong>Paying &amp; receiving numbers are the same</strong>
-        <small>Uncheck if buying for a friend or another phone</small>
-      </div>
-    </label>
-
-    <!-- Receiving Phone Input (Hidden when checked) -->
-    <div class="field-group" id="recv-field">
-      <label class="field-label" for="recv-phone">Receiving Number</label>
-      <div class="input-with-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-        <input id="recv-phone" name="recipientPhone" autocomplete="section-recipient tel" type="tel" placeholder="07XX XXX XXX" inputmode="tel" maxlength="24">
-      </div>
-      <div class="field-tip">The destination phone number that receives the airtime/bundle</div>
-    </div>
-
-    <div class="form-alert" id="form-err"></div>
-
-    <button class="checkout-pay-btn" id="pay-btn" type="submit">
-      <span class="btn-spinner" aria-hidden="true"></span>
-      <svg class="btn-lock-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      <span>Pay via M-Pesa</span>
-    </button>
-
-    <div class="checkout-terms-note">
-      <!-- The checkout agreement and the privacy notice serve separate purposes. -->
-      By continuing to pay, you agree to the <a href="/terms.html" target="_blank" rel="noopener">Terms of Service</a>. See the <a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a> for how we use order details.
-    </div>
-
-    <div class="trust-strip">
-      <span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> M-Pesa STK Push</span>
-      <span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Automated USSD</span>
-    </div>
-  </form>
-</div>
-
 <!-- Fullscreen STK Prompt Overlay -->
-<div id="stk-screen" role="dialog" aria-modal="true" aria-labelledby="stk-title">
+<div id="stk-screen" data-stage="initiating" role="dialog" aria-modal="true" aria-labelledby="stk-title">
   <div class="stk-modal-card">
     <div class="stk-radar-icon">
       <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
@@ -1317,9 +1348,15 @@ main.order-main{
       Prompt From: FLASH PAY SERVICES
     </div>
     <div class="stk-stages" aria-hidden="true">
-      <div class="stk-stage is-active" id="stk-stage-1"><span class="stk-stage-dot">1</span><span>Sending STK</span></div>
-      <div class="stk-stage" id="stk-stage-2"><span class="stk-stage-dot">2</span><span>Enter PIN</span></div>
-      <div class="stk-stage" id="stk-stage-3"><span class="stk-stage-dot">3</span><span>Confirming</span></div>
+      <div class="stk-stage is-active" data-tone="blue" id="stk-stage-1"><span class="stk-stage-dot">1</span><span>Sending STK</span></div>
+      <div class="stk-stage" data-tone="orange" id="stk-stage-2"><span class="stk-stage-dot">2</span><span>Enter PIN</span></div>
+      <div class="stk-stage" data-tone="yellow" id="stk-stage-3"><span class="stk-stage-dot">3</span><span>Confirming</span></div>
+    </div>
+    <div class="stk-order-details" id="stk-order-details" style="display:none;">
+      <div class="stk-detail-item"><small>Receiving Offer</small><strong id="stk-detail-offer">-</strong></div>
+      <div class="stk-detail-item"><small>Amount</small><strong class="is-amount" id="stk-detail-amount">-</strong></div>
+      <div class="stk-detail-item"><small>Paying Number</small><strong id="stk-detail-payer">-</strong></div>
+      <div class="stk-detail-item"><small>Receiving Number</small><strong id="stk-detail-recipient">-</strong></div>
     </div>
     <p id="stk-status-message" class="stk-status-message" role="status">Sending your M-Pesa STK push. Please wait.</p>
     <p class="stk-live-note">This page updates automatically when M-Pesa confirms the result.</p>
@@ -1329,11 +1366,17 @@ main.order-main{
 
 <!-- Result Modal Overlay -->
 <div class="result-dialog" id="result-dialog" role="dialog" aria-modal="true">
-  <div class="result-card">
+  <div class="result-card" id="result-card" data-result="success">
     <div class="result-icon success" id="result-icon">
       <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
     </div>
     <h2 id="result-title">Payment Confirmed</h2>
+    <div class="stk-order-details" id="res-order-details" style="display:none;">
+      <div class="stk-detail-item"><small>Receiving Offer</small><strong id="res-detail-offer">-</strong></div>
+      <div class="stk-detail-item"><small>Amount</small><strong class="is-amount" id="res-detail-amount">-</strong></div>
+      <div class="stk-detail-item"><small>Paying Number</small><strong id="res-detail-payer">-</strong></div>
+      <div class="stk-detail-item"><small>Receiving Number</small><strong id="res-detail-recipient">-</strong></div>
+    </div>
     <p id="result-message">Your order has been received and is being processed.</p>
     <div class="result-ref-code" id="result-ref" style="display:none;"></div>
     <button class="result-action-btn" id="result-ok" onclick="closeResultDialog()">OK</button>
@@ -1754,8 +1797,9 @@ function renderOffersForCategory(catFilter) {
       el("sel-price").textContent = "KSh " + o.agentPrice;
       setPayButtonLabel(o.agentPrice);
       const err = el("form-err"); if (err) err.style.display = "none";
-      const modal = el("checkout-modal");
-      if (modal) modal.style.display = "flex";
+      const form = el("order-form");
+      form.style.display = "block";
+      form.scrollIntoView({ behavior: "smooth", block: "nearest" });
     });
     grid.appendChild(card);
   });
@@ -1967,11 +2011,34 @@ async function init() {
 // Validation and payment payloads share the same autofill-aware normalizer.
 function norm(p) { return "254" + p.slice(1); }
 function hasUnresolvedOrder() { return Boolean(activeStatusAttempt && !activeStatusAttempt.terminal); }
+let currentOrderDetails = null;
+function setOrderPopupDetails(details) {
+  currentOrderDetails = details && details.offerName ? details : null;
+  const stkWrap = el("stk-order-details");
+  const resWrap = el("res-order-details");
+  if (!currentOrderDetails) {
+    if (stkWrap) stkWrap.style.display = "none";
+    if (resWrap) resWrap.style.display = "none";
+    return;
+  }
+  const amountText = "KSh " + Number(currentOrderDetails.amount || 0);
+  el("stk-detail-offer").textContent = currentOrderDetails.offerName;
+  el("stk-detail-amount").textContent = amountText;
+  el("stk-detail-payer").textContent = currentOrderDetails.payPhone || "-";
+  el("stk-detail-recipient").textContent = currentOrderDetails.recvPhone || "-";
+  el("res-detail-offer").textContent = currentOrderDetails.offerName;
+  el("res-detail-amount").textContent = amountText;
+  el("res-detail-payer").textContent = currentOrderDetails.payPhone || "-";
+  el("res-detail-recipient").textContent = currentOrderDetails.recvPhone || "-";
+  if (stkWrap) stkWrap.style.display = "grid";
+  if (resWrap) resWrap.style.display = "grid";
+}
 function saveOrderReceipt(attempt) {
   sessionStorage.setItem(ORDER_RECEIPT_STORAGE_KEY, JSON.stringify({
     statusToken: attempt.statusToken,
     txId: attempt.txId,
     statusExpiresAtMs: attempt.statusExpiresAtMs,
+    orderDetails: currentOrderDetails,
     savedAtMs: Date.now(),
   }));
 }
@@ -2002,15 +2069,12 @@ function restoreOrderForm() {
   }
 }
 
-window.closeCheckoutModal = function() {
-  const modal = el("checkout-modal");
-  if (modal) modal.style.display = "none";
-};
-
 // / Updating receipt progress must not reopen instructions the customer hid.
 function setStkProgress(status) {
   const initiating = status === "initiating";
   const pending = status === "pending";
+  const stageKey = initiating ? "initiating" : (pending ? "pending" : "checking");
+  el("stk-screen").setAttribute("data-stage", stageKey);
   el("stk-title").textContent = initiating ? "Initiating payment..."
     : pending ? "Enter your M-Pesa PIN" : "Checking payment status...";
   el("stk-status-message").textContent = initiating ? "Sending your M-Pesa STK push. Please wait."
@@ -2048,7 +2112,7 @@ window.cancelStkOverlay = function() {
 function clearOfferSelection() {
   document.querySelectorAll(".offer-card").forEach(x => x.classList.remove("selected"));
   selectedOffer = null;
-  const modal = el("checkout-modal"); if (modal) modal.style.display = "none";
+  el("order-form").style.display = "none";
   const chk = el("same-num-chk"); if (chk) chk.checked = false;
   const recvField = el("recv-field"); if (recvField) recvField.style.display = "block";
   const pp = el("pay-phone"); if (pp) pp.value = "";
@@ -2059,8 +2123,11 @@ function clearOfferSelection() {
 function showResultDialog(type, title, message, ref) {
   lastPaymentResult = type;
   const dialog = el("result-dialog");
+  const card = el("result-card");
   const icon = el("result-icon");
-  icon.className = "result-icon " + (type === "success" ? "success" : (type === "pending" || type === "unconfirmed" ? "pending" : "fail"));
+  const tone = type === "success" ? "success" : (type === "pending" || type === "unconfirmed" ? "pending" : "fail");
+  if (card) card.setAttribute("data-result", tone);
+  icon.className = "result-icon " + tone;
   el("result-title").textContent = title;
   el("result-message").textContent = message;
   const refEl = el("result-ref");
@@ -2157,6 +2224,7 @@ function resumeSavedOrderStatus() {
   if (!saved || !/^[0-9a-f]{64}$/.test(String(saved.statusToken || ""))) return;
   const attempt = orderStatusController.beginAttempt(saved.statusToken);
   activeStatusAttempt = attempt;
+  if (saved.orderDetails) setOrderPopupDetails(saved.orderDetails);
   // / A restored receipt is a status check, not proof of a newly sent STK.
   // / Show it before connecting so a fast saved outcome can immediately replace it.
   showStkWaiting();
@@ -2198,6 +2266,12 @@ window.submitOrder = async function() {
   btn.disabled = true;
   btn.classList.add("is-loading");
   btn.querySelector("span:last-child").textContent = "Sending M-Pesa Prompt...";
+  setOrderPopupDetails({
+    offerName: selectedOffer.name,
+    amount: selectedOffer.agentPrice,
+    payPhone: pp,
+    recvPhone: rp,
+  });
 
   let attempt = null;
   let requestDispatched = false;
