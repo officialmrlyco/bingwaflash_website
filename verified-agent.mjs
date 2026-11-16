@@ -1,8 +1,9 @@
 // Keep public verification tied to both the approved review and a live SiteLink entitlement.
 // / note: Public color is presentation only; this allowlist cannot make an unverified or expired profile display a badge.
 const VERIFIED_BADGE_PALETTE = Object.freeze({
-  // / note: Blue remains the legacy default and is selectable alongside every custom badge colour.
-  blue: "#1565C0",
+  // / note: "blue" maps to light blue (#0EA5E9) as the default; "royal_blue" preserves #1565C0 as a selectable choice.
+  blue: "#0EA5E9",
+  royal_blue: "#1565C0",
   green: "#2E7D32",
   red: "#D32F2F",
   yellow: "#F9A825",

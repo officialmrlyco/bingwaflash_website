@@ -8,13 +8,13 @@ const futureTimestamp = (millis) => ({ toMillis: () => millis });
 // Public color inputs are normalized to the same small palette as native and Panel.
 test('badge color trims and lowercases recognized values and safely defaults unknown values', () => {
   // / note: Every public swatch must match the same native/Panel palette, not merely accept its name.
-  for (const [name, hex] of Object.entries({blue: '#1565C0', green: '#2E7D32', red: '#D32F2F', yellow: '#F9A825', pink: '#D81B60', purple: '#8E24AA'})) {
+  for (const [name, hex] of Object.entries({blue: '#0EA5E9', royal_blue: '#1565C0', green: '#2E7D32', red: '#D32F2F', yellow: '#F9A825', pink: '#D81B60', purple: '#8E24AA'})) {
     assert.equal(publicVerifiedBadgeColor({verifiedBadgeColor: name}), hex);
   }
   assert.equal(publicVerifiedBadgeColor({ verifiedBadgeColor: ' PINK ' }), '#D81B60');
   assert.equal(publicVerifiedBadgeColor({ verifiedBadgeColor: 'Purple' }), '#8E24AA');
-  assert.equal(publicVerifiedBadgeColor({ verifiedBadgeColor: 'url(javascript:alert(1))' }), '#1565C0');
-  assert.equal(publicVerifiedBadgeColor({}), '#1565C0');
+  assert.equal(publicVerifiedBadgeColor({ verifiedBadgeColor: 'url(javascript:alert(1))' }), '#0EA5E9');
+  assert.equal(publicVerifiedBadgeColor({}), '#0EA5E9');
 });
 
 // Public badge policy requires fresh verification and any currently active SiteLink subscription.
@@ -60,6 +60,9 @@ test('live badge repaints purple then default blue without changing eligibility'
   assert.equal(note.style.color, '#8E24AA');
   assert.equal(badge.style.display, 'inline-block');
   showCurrentVerificationBadge({...profile, verifiedBadgeColor: 'blue'}, badge, note);
+  assert.equal(badge.style.color, '#0EA5E9');
+  assert.equal(note.style.color, '#0EA5E9');
+  showCurrentVerificationBadge({...profile, verifiedBadgeColor: 'royal_blue'}, badge, note);
   assert.equal(badge.style.color, '#1565C0');
   assert.equal(note.style.color, '#1565C0');
   showCurrentVerificationBadge({...profile, isVerified: false}, badge, note);
