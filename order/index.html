@@ -589,6 +589,7 @@ main.order-main{
 .same-num-pill input[type="checkbox"]{
   appearance: none;
   -webkit-appearance: none;
+  flex-shrink: 0;
   width: 18px;
   height: 18px;
   border: 1.5px solid var(--border-strong);
@@ -598,19 +599,9 @@ main.order-main{
   position: relative;
 }
 .same-num-pill input[type="checkbox"]:checked{
-  background: var(--g);
+  /* Inline SVG tick ensures the checkmark renders reliably across all browsers instead of ::after on replaced <input>. */
+  background: var(--g) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23ffffff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='3.5 8.5 6.5 11.5 12.5 4.5'/%3E%3C/svg%3E") center/13px 13px no-repeat;
   border-color: var(--g);
-}
-.same-num-pill input[type="checkbox"]:checked::after{
-  content: "";
-  position: absolute;
-  left: 5px;
-  top: 2px;
-  width: 5px;
-  height: 9px;
-  border-right: 2px solid #ffffff;
-  border-bottom: 2px solid #ffffff;
-  transform: rotate(42deg);
 }
 .same-num-text strong{
   display: block;
@@ -1087,11 +1078,6 @@ main.order-main{
     </div>
 
     <!-- Catalog Section -->
-    <div class="catalog-head">
-      <h2>Choose what you want to receive</h2>
-      <p>Pick an available package. You will confirm payment on your phone, then the agent's phone receives the order.</p>
-    </div>
-
     <div class="order-explainer" aria-label="How ordering works">
       <div><span>1</span><p><strong>Choose a package</strong><small>Prices shown are the amount you pay.</small></p></div>
       <!-- / Customers enter a PIN on Safaricom's STK push, never on this page. -->
