@@ -1254,7 +1254,7 @@ main.order-main{
 
       <!-- Tiny fraud and reports disclaimer -->
       <div class="fraud-disclaimer">
-        For concerns, fraud or reports, <a href="mailto:support@bingwaflash.co.ke">click here</a>.
+        For concerns, fraud or reports, <a id="report-agent-link" href="mailto:support@bingwaflash.co.ke" onclick="updateReportMailto(this)">click here</a>.
       </div>
     </div>
 
@@ -1447,6 +1447,27 @@ window.normalizePhoneField = function(inputEl) {
   if (!inputEl) return;
   const normalized = localPhone(inputEl.value);
   if (normalized) inputEl.value = normalized;
+};
+window.updateReportMailto = function(linkEl) {
+  if (!linkEl) return;
+  const bsName = (agentProfile && (agentProfile.businessName || agentProfile.agentName)) || (document.getElementById("ag-name")?.textContent || "Agent").trim();
+  const handle = (agentProfile && (agentProfile.agentName || agentProfile.username)) || (document.getElementById("ag-handle")?.textContent || "").trim();
+  const nowStr = new Intl.DateTimeFormat("en-GB", {
+    dateStyle: "medium",
+    timeStyle: "medium",
+    timeZone: "Africa/Nairobi",
+  }).format(new Date()) + " EAT";
+  const subject = `Agent Report / Concern - ${bsName}`;
+  const body = [
+    `Business Name: ${bsName}`,
+    handle ? `Agent: ${handle}` : null,
+    `Agent Link: ${window.location.href}`,
+    `Date & Time: ${nowStr}`,
+    "",
+    "Please describe your concern or report below:",
+    "",
+  ].filter(v => v !== null).join("\r\n");
+  linkEl.href = `mailto:support@bingwaflash.co.ke?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 };
 import { parseMaxOffers, allowedSiteLinkOffers } from "/order/sitelink-offer-policy.mjs?v=20261013-1";
 import { createOrderStatusController, createOrderStatusToken } from "/order/status-controller.mjs?v=20261024-1";
