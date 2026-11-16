@@ -18,10 +18,10 @@ test('order page has a public-only data path and a boot escape hatch', () => {
 
 // These labels are customer-facing contract text: they explain the handoff
 // without claiming that a payment confirmation means product execution.
-test('order page explains the handoff and uses bottom-sheet overlays', () => {
-  assert.match(page, /Choose what you want to receive/);
-  assert.match(page, /Agent receives it/);
-  assert.match(page, /border-radius: 24px 24px 0 0/);
+test('order page uses centered popup overlays with stage progress and details', () => {
+  assert.match(page, /id="stk-order-details"/);
+  assert.match(page, /data-stage="initiating"/);
+  assert.match(page, /border-radius: 22px/);
   assert.match(page, /class="toast-region"/);
   assert.doesNotMatch(page, /window\.alert\(/);
 });

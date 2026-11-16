@@ -684,7 +684,7 @@ main.client-main{
     </div>
 
     <div class="fraud-disclaimer">
-      For concerns, fraud or reports, <a href="mailto:support@bingwaflash.co.ke">click here</a>.
+      For concerns, fraud or reports, <a id="report-agent-link" href="mailto:support@bingwaflash.co.ke" onclick="updateReportMailto(this)">click here</a>.
     </div>
   </div>
 
@@ -706,10 +706,10 @@ main.client-main{
 
     <div class="field">
       <label for="reg-phone">Your Phone Number</label>
-      <input type="tel" id="reg-phone" placeholder="07XXXXXXXX or 01XXXXXXXX"
-        inputmode="numeric" maxlength="10"
-        oninput="this.value=this.value.replace(/\D/g,'');onRegPhoneInput()">
-      <div class="field-hint">Safaricom or Airtel number starting with 07 or 01.</div>
+      <input type="tel" id="reg-phone" placeholder="07XXXXXXXX, 01XXXXXXXX or +2547..."
+        inputmode="tel" maxlength="24"
+        oninput="onRegPhoneInput()" onchange="normalizeClientPhoneField(this);onRegPhoneInput()" onblur="normalizeClientPhoneField(this);onRegPhoneInput()">
+      <div class="field-hint">Safaricom or Airtel number (07..., 01..., +2547..., or +2541...).</div>
     </div>
 
     <!-- PIN Block -->
@@ -791,7 +791,7 @@ main.client-main{
     </div>
     <div class="field">
       <label for="del-phone">Your Phone Number</label>
-      <input type="tel" id="del-phone" placeholder="07XXXXXXXX or 01XXXXXXXX" inputmode="numeric" maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')">
+      <input type="tel" id="del-phone" placeholder="07XXXXXXXX, 01XXXXXXXX or +2547..." inputmode="tel" maxlength="24" onchange="normalizeClientPhoneField(this)" onblur="normalizeClientPhoneField(this)">
     </div>
     <div class="field">
       <label for="del-pin">Your 5-Digit PIN</label>
@@ -829,7 +829,7 @@ main.client-main{
     </div>
     <div class="field">
       <label for="chg-phone">Your Phone Number</label>
-      <input type="tel" id="chg-phone" placeholder="07XXXXXXXX or 01XXXXXXXX" inputmode="numeric" maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')">
+      <input type="tel" id="chg-phone" placeholder="07XXXXXXXX, 01XXXXXXXX or +2547..." inputmode="tel" maxlength="24" onchange="normalizeClientPhoneField(this)" onblur="normalizeClientPhoneField(this)">
     </div>
     <div class="field">
       <label for="chg-old-pin">Current PIN</label>
@@ -872,7 +872,34 @@ main.client-main{
 
 <script type="module">
 import { cleanAgentProfile, cleanDisplayName } from "/profile-names.mjs?v=20261019-1";
-import { showCurrentVerificationBadge } from "/verified-agent.mjs?v=20261103-badge-blue";
+import { localPhone } from "/order/phone-input.mjs?v=20261116-phone";
+import { showCurrentVerificationBadge } from "/verified-agent.mjs?v=20261116-badge-default-blue";
+window.normalizeClientPhoneField = function(inputEl) {
+  if (!inputEl) return;
+  const normalized = localPhone(inputEl.value);
+  if (normalized) inputEl.value = normalized;
+};
+window.updateReportMailto = function(linkEl) {
+  if (!linkEl) return;
+  const bsName = (agentProfile && (agentProfile.businessName || agentProfile.agentName)) || ($('ag-name')?.textContent || 'Agent').trim();
+  const handle = (agentProfile && (agentProfile.agentName || agentProfile.username)) || ($('ag-handle')?.textContent || '').trim();
+  const nowStr = new Intl.DateTimeFormat('en-GB', {
+    dateStyle: 'medium',
+    timeStyle: 'medium',
+    timeZone: 'Africa/Nairobi',
+  }).format(new Date()) + ' EAT';
+  const subject = `Agent Report / Concern - ${bsName}`;
+  const body = [
+    `Business Name: ${bsName}`,
+    handle ? `Agent: ${handle}` : null,
+    `Agent Link: ${window.location.href}`,
+    `Date & Time: ${nowStr}`,
+    '',
+    'Please describe your concern or report below:',
+    '',
+  ].filter(v => v !== null).join('\r\n');
+  linkEl.href = `mailto:support@bingwaflash.co.ke?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+};
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc, collection, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-functions.js";
@@ -940,11 +967,12 @@ window.onPinInput = function(inputId, strengthId, rulesId) {
 
 let phoneCheckTimeout = null;
 window.onRegPhoneInput = async function() {
-  const phone = $('reg-phone').value.trim();
+  const phone = localPhone($('reg-phone').value);
   clearTimeout(phoneCheckTimeout);
   $('pin-block').style.display = 'none';
   regPhoneHasPin = false;
   if (!valid07(phone)) return;
+  $('reg-phone').value = phone;
   phoneCheckTimeout = setTimeout(async () => {
     try {
       const snap = await getDoc(doc(db, 'clientPins', phone));
@@ -1156,7 +1184,8 @@ window.onNameInput = function() {
 
 window.submitRegistration = async function() {
   const name = $('reg-name').value.trim();
-  const phone = $('reg-phone').value.trim();
+  const phone = localPhone($('reg-phone').value);
+  if (phone) $('reg-phone').value = phone;
   const errEl = $('form-err');
   errEl.style.display = 'none';
   if (!name) { errEl.textContent = 'Please enter your full name.'; errEl.style.display = 'block'; return; }
@@ -1193,7 +1222,8 @@ window.submitRegistration = async function() {
 };
 
 window.lookupMyAgents = async function() {
-  const phone = $('del-phone').value.trim();
+  const phone = localPhone($('del-phone').value);
+  if (phone) $('del-phone').value = phone;
   const pin = $('del-pin').value.trim();
   const errEl = $('del-err');
   errEl.style.display = 'none';
@@ -1289,7 +1319,8 @@ window.removeFromAgent = async function(regDocId, agentUidTarget, phone, agentDi
 };
 
 window.submitPinChange = async function() {
-  const phone = $('chg-phone').value.trim();
+  const phone = localPhone($('chg-phone').value);
+  if (phone) $('chg-phone').value = phone;
   const oldPin = $('chg-old-pin').value;
   const newPin = $('chg-new-pin').value;
   const newPin2 = $('chg-new-pin2').value;

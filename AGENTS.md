@@ -1,4 +1,138 @@
+## Vendora Public Website & Auth Redesign: Modern Layout & Visual Elevation (2026-11-02)
+
+- Redesigned and refactored the Vendora public website (`myvendora.co.ke`), `/auth`, and all subpages (`VendoraWeb/policy/index.html`, `VendoraWeb/terms/index.html`, `VendoraWeb/privacy.html`), adhering to modern executive landing page architecture inspired by `home.bingwastore.com` while maintaining Vendora's signature brand blue palette (`#2563eb`, `#1d4ed8`, `#060b17`, `#0b1329`).
+- Scope of improvements:
+  1. *Cohesive Executive Royal Navy Dark Theme (`styles.css`)*:
+     - Eliminated jarring contrast between hero and body by transitioning the entire site to a unified, luxurious dark royal navy palette (`--color-background-primary: #060b17`, `--color-background-secondary: #0b1329`, `--color-surface-card: #0d162f`, `--color-border-tertiary: #182649`).
+     - Modern fintech typography with Google Fonts `DM Sans` (primary UI) and `IBM Plex Mono` (USSD execution logs & telemetry badges), matching `home.bingwastore.com`.
+     - Preserves full optional `data-theme="light"` capabilities.
+  2. *Sticky Header & Navigation (`styles.css`, `index.html`)*:
+     - Frosted glass sticky header (`backdrop-filter: blur(16px)`), crisp brand mark, desktop navigation links, direct "Get Vendora" CTA button, and responsive mobile hamburger drawer with smooth open/close transitions.
+  3. *Hero Section & Live Telemetry (`styles.css`, `index.html`)*:
+     - High-impact dark royal navy background with ambient blue radial gradient orb (`radial-gradient(ellipse at 50% -15%, rgba(37, 99, 235, 0.38)...)`).
+     - Pill eyebrow badge: `"✦ BUILT FOR KENYAN AIRTIME MERCHANTS"`.
+     - Bold headline with italic gradient emphasis on `Automation` (`linear-gradient(135deg, #60a5fa 10%, #3b82f6 60%, #93c5fd 100%)`).
+     - Dual CTA buttons (`Download Vendora` + `How it works`), telemetry pills, and 4-column live telemetry stat strip (`< 1s` SMS Intake, `Dual SIM` Safaricom/Airtel/Telkom, `100% On-Device`, `5 Profiles`).
+  4. *Quick Navigation Category Cards (`.quick-links`)*:
+     - 6 tactile squircle cards strictly preserving the test regex `assert.match(styles,/\.quick-links a\{[^}]*border-radius:13px/)` and destination targets (`#how-it-works`, `#features`, `#help`, `#download`, `#contact`, `/policy`).
+  5. *How It Works & Interactive Real-Time USSD Terminal (`#how-it-works`, `app.mjs`)*:
+     - Numbered 4-step walkthrough with blue circular badges.
+     - Interactive 2-column split layout featuring real-time terminal simulation with live tabs (`Till to Till`, `Number to Till`, `Number to PayBill`, `Quick Dial`), terminal console output, and real-time signature matching status.
+  6. *Interactive Execution Modes Showcase (`#modes`, `app.mjs`, `styles.css`)*:
+     - Segmented tab bar (`Till to Till`, `Number to Till`, `Number to PayBill`, `Manual Quick Dial`).
+     - Tab panels with execution details, SIM slot routing, and monospace flow code boxes.
+  7. *Comprehensive 9-Card Feature Grid (`.feature-grid`)*:
+     - 3-column responsive grid (2-col on tablet <=1000px, 1-col on mobile <=700px) strictly preserving `public-model.test.mjs` assertions.
+     - Details: 01 Payments SMS Intake, 02 SIM & USSD Workflows, 03 Customer Records, 04 Business Reporting, 05 Dual-SIM Carrier Routing, 06 Scratch Card OCR & Inventory, 07 5 Isolated Merchant Profiles, 08 Runs, Time & Encrypted Unit Backups, 09 Durable Carrier Response History.
+  8. *Merchant Personas & Craftsmanship Gallery (`#gallery`, `assets/images/`)*:
+     - 4-card merchant audience grid (`.audience-grid`).
+     - Added 5 compressed images from `LycoTechnologies` (all <200KB, zero 5MB images!): `lyco-development-session.jpg`, `lyco-design-review.jpg`, `lyco-product-planning.jpg`, `lyco-team-meeting.jpg`, `lyco-workshop.jpg`.
+     - Displays the core automation engineering, UX reviews, offline architecture, and field testing behind Vendora.
+  9. *Merchant Websites & Official Releases (`#websites`, `#download`)*:
+     - Clear custom domain steps (Own domain, Request connection, Renewals).
+     - Premium release card with app logo, version label `Vendora 1.0.3`, detail text, direct download button `id="apk-download"` with `?build=fa97752e018097eb`, file size `94.8 MB · Android APK`, retry button `id="retry-release"`, and release highlights.
+  10. *FAQ Accordion (`#help`) & Schema.org Discovery*:
+      - Upgraded FAQ container from generic `div` to `<section id="help">` so `scripts/build-discovery.mjs` cleanly recognizes the section.
+      - Categorized into 4 groups with 28 static `<details><summary>` cards. `npm run build:discovery` successfully synchronized all 28 visible FAQs into the JSON-LD FAQPage schema.
+  11. *Contact & Support (`#contact`)*:
+      - WhatsApp Support (+254 748 008 585), Direct Email (support@myvendora.co.ke), and Parent Company (Lyco Technologies).
+  12. *Modern Executive `/auth` & `/wdhh/` Screens (`wdhh/auth-action.css`, `auth/index.html`, `wdhh/index.html`)*:
+      - Refactored with dark navy glassmorphism (`#070c18` / `#0d1527`), subtle borders, glowing spinner, accessible eye password toggles, and responsive cards. Preserves all 13 DOM IDs and event listeners required by `auth-action.mjs` and `auth-action-controller.test.mjs`.
+  13. *Subpages Polish (`policy/index.html`, `terms/index.html`, `privacy.html`)*:
+      - Modernized headers, breadcrumbs, table-of-contents cards, and footers. All mandatory legal clauses, carrier disclosures, ODPC references, and Lyco Technologies links preserved.
+- Verification:
+  - `npm test`: **16/16 tests passed** with zero failures in 0.26s.
+  - `npm run build:discovery`: Regenerated structured data for 28 visible FAQs cleanly.
+  - `git diff --check`: 100% clean with zero whitespace or line-ending errors.
+  - Local preview server running on port 8088 (`http://localhost:8088`). Note that live `https://myvendora.co.ke` displays changes only after git commit & push to GitHub Pages.
+
+## BingwaFlash public order package grid symmetry & multiline titles (2026-09-27)
+
+- `bingwaflash_website/order/index.html` packages grid uses `grid-template-columns: repeat(2, minmax(0, 1fr))` on desktop (>=768px) and `min-width: 0; width: 100%` on `.offer-card`. Never use `repeat(2, 1fr)` without `minmax(0, 1fr)` because CSS Grid's default `minmax(auto, 1fr)` track sizing expands the column track based on long unbroken text content, forcing column 1 to 60-70% width, pushing column 2 to the far right, and throwing the whole page off-center.
+- Long offer titles are allowed to branch across lines using a clean 2-line clamp (`display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; word-break: break-word; overflow-wrap: break-word; line-height: 1.35;`) instead of forcing `white-space: nowrap`. The full package name is assigned to `name.title` in JS so desktop users can inspect the complete label on hover.
+- In the checkout summary drawer, `.cs-left` has `min-width: 0; flex: 1;` with `word-break: break-word` on `strong`, and `.cs-price` has `flex-shrink: 0`, preventing long package names from squishing the checkout price.
+
+## Public Website and Download Subdomain
+
+- The direct APK installer page moved from `bingwaflash.co.ke/download/` to `download.bingwaflash.co.ke` so it can stay on GitHub Pages without being encouraged into search results.
+- The download repo uses `CNAME=download.bingwaflash.co.ke` and Cloudflare points `download` to `officialmrlyco.github.io` with a DNS-only `CNAME`. Do not point the subdomain to `bingwaflash.co.ke`; GitHub warns this can break HTTPS for subdomains.
+- Keep `app-ads.txt` published at both `bingwaflash.co.ke/app-ads.txt` and `download.bingwaflash.co.ke/app-ads.txt`. AdMob crawls from the Developer Website host in the app store listing, so mirroring the seller snippet on the download subdomain avoids a false 404 if the listing points there.
+- Use page-level `noindex` meta tags for the download page. Do not block it with `robots.txt`, because crawlers must be able to fetch the page before they can see the `noindex` instruction and remove it from results.
+- Keep the old `bingwaflash_website/download/index.html` and plural `bingwaflash_website/downloads/index.html` as plain noindex "Nothing to see here" pages. Do not redirect `bingwaflash.co.ke/download/` or `/downloads/` to the installer subdomain, because the main-site URLs should stop being useful and disappear from search results.
+- `bingwaflash_website/404.html` routes legacy nested `/download/...` and `/downloads/...` paths back to `/download/` so visitors see the same quiet noindex page.
+- Root `bingwaflash_website/index.html` should stay a public marketing/order explanation page. It can have client-question/trust sections, FAQ/Q&A, email contact, legal links, and a fuller footer, but do not add download buttons, tutorial sections, ratings/feedback widgets, stay-updated blocks, or WhatsApp links there.
+- Root FAQ should look like a compact help-center section with category chips and brief practical answers for general, automation, web order, security, and support questions. Keep it self-contained and do not use it to send visitors to APK, video, or community-link content.
+- The `officialmrlyco/download` / `download.bingwaflash.co.ke` page owns the APK download, WhatsApp group/channel, Telegram link, support emails, and tutorial videos.
+- Download tutorials use `bingwaflash_download/tutorials.js` as the single video list. The download homepage renders only three featured thumbnail cards; `/tutorials/` renders the full searchable/category-filtered library and opens videos in a modal popup. Leave `youtubeUrl` empty until an unlisted YouTube video is ready, and do not put inline YouTube iframes back into cards unless the user explicitly asks.
+- Download-site redesign (2026-08-30): `officialmrlyco/download` now shares `bingwaflash_download/styles.css` and `theme.js` across the installer and tutorial library. Keep the flat editorial treatment (thin borders, no gradients/shadows/blur/lift), 44px theme/menu controls, shared `bf-theme` preference, real mobile navigation, and release-first mobile DOM order when extending either page.
+
+### v1.3.8 release and legal-site ownership (2026-08-27)
+
+- The official v1.3.8 APK is the GitHub release asset tagged `v38`: `BingwaFlash_v1.3.8.apk`, Build 38, SHA-256 `b484049d887127a6bbd909f3dfa648f7e84fb7cea78761bca62960cb7c5ea5a2`. Keep the installer button, checksum, visible release date, and `bingwaflash_website/version.json` aligned with that immutable asset.
+- `download.bingwaflash.co.ke` is currently published by GitHub Pages from `officialmrlyco/download`, not `officialmrlyco/bingwaflash_download`. The latter is a requested mirror. Update both when asked to update the download repository, but treat `officialmrlyco/download` as the production deployment until Pages ownership changes explicitly.
+- On stacked phone layouts, the release/install card must appear before requirements, community, and support cards. Do not restore the old mobile `order:-1` side-panel rule that hid the primary APK action below setup help.
+- The August 27 Privacy Policy reflects actual v38 behaviour: full transactions and clients are primarily local; the agent profile/configuration is mirrored online; Portal and Online Relay transmit selected data only when enabled; Analytics and Crashlytics are present; the release APK declares Google advertising-identifier permissions through its analytics dependencies; and the app does not contain an in-app advertising network.
+- Legal copy must not promise instant payout, claim that the platform never temporarily handles payment records, or imply that every app setting is device-only. Describe Bingwa Flash as an independent automation and payment-facilitation platform, keep the agent/customer sales relationship clear, and make all exclusions subject to mandatory Kenyan consumer and data-protection law.
+
+## BingwaFlash public websites visual system (2026-08-30)
+
+- `bingwaflash_website` shares `site-theme.css` and `site-theme.js` across every public, legal, utility, legacy-download, and scanner page. Keep one visible 44px theme control per page, the shared `bf-theme` preference, a real mobile menu, flat yellow/green surfaces, thin borders, and no clay-style gradients, blur, shadows, or hover lifts.
+- The Recharge Scanner retains its page-specific `rechargescanner/site.css` but uses the shared theme controller. Keep explicit dark surfaces and text contrast, and contain the privacy table of contents so narrow phones never create document-level horizontal overflow.
+- Cache-bust shared visual assets when they change. On `officialmrlyco/download`, keep the installer card first in stacked phone layouts, preserve page-level `noindex`, and keep the immutable v1.3.8 Build 38 URL, checksum, and exactly three featured homepage tutorials aligned with the release.
+
+### Full public-site composition rebuild (2026-08-30)
+
+- The public homepage is intentionally no longer the former centered hero, metric strip, feature-card grid, or five-step card row. `bingwaflash_website/index.html` plus `home.css` is an asymmetric editorial journey: a payment-to-record lane, divider-led explanations, a restrained execution view, practical FAQ, and support close. Do not restore fake metrics, blinking status dots, generic pills, or a card grid merely to fill space.
+- `officialmrlyco/download` is a separate installer desk, not a mini copy of the marketing page. Its `styles.css`, homepage, and tutorial library use an editorial headline, release-first installer surface, side readiness rail, dark tutorial field, and divider-led support. Keep green/yellow/black/white, shared `bf-theme`, noindex, and the real v1.3.8 release metadata; avoid claymorphism, glow, browser-chrome mockups, decorative outlines, or invented statistics.
+
+## Order autofill and profile name rules (2026-09-04)
+
+- `bingwaflash_website/order/index.html` uses a real non-navigating checkout form, stable payment/recipient field names, linked labels, and separate `section-payment tel` / `section-recipient tel` autofill hints. The prior page had none of these and capped raw input at ten characters; do not restore that cap because saved numbers may contain spaces or +254. The inspected pre-redesign version also lacked autocomplete hints, so do not attribute the regression to one redesign commit without further evidence.
+- `order/phone-input.mjs` validates recognized Kenyan 07/01 formats before producing payment payloads; do not strip arbitrary letters or truncate foreign/overlong values into a different recipient. Both same-number and separate-number checkout use this path, with duplicate-submit protection. Browser/keyboard settings still own whether a suggestion chip appears; desktop tests do not prove Android keyboard autofill.
+- `profile-names.mjs` cleans legacy agent/business names on order and clients pages, including registration snapshots. Names use Unicode letters/marks/numbers, spaces, and ordinary punctuation (. , apostrophe & parentheses hyphen), with emoji components removed; agent names max 10 codepoints and business names max 20. Username creation/changes use lowercase ASCII letters, digits, underscore and period, max 16, with no trailing period. Existing username document IDs/links must never be silently renamed or truncated.
+- Client registration list rendering uses text nodes and event listeners so legacy apostrophes/names cannot become HTML or inline JavaScript. Avoid fetching every old agent merely to clean a registration label; sanitize the existing snapshot locally.
+- Website verification: Node policy tests and intercepted-request browser checks passed at 390px/1365px, light/dark, covering old emoji names, formatted phone payloads, same-number checkout, form semantics, and no overflow/runtime errors. No live payment was sent.
+
+- Delivery status: website published from `officialmrlyco/bingwaflash_website` main, with successful phone/desktop light/dark checks. App identity policy tests passed standalone; full app compile was blocked by concurrent USSD-file errors, not released. Backend naming-only changes are committed separately from prior Telegram-removal/security-rule edits; actual Firestore emulator assertions passed. Backend deployment remains pending because the current cloud session returned HTTP 403 during active-rules verification. Recheck access and deploy the backend naming changes before releasing app username support for periods.
+
+## Reserved website usernames (2026-09-05)
+
+- The owner-managed reservation list is `config/ownedUsernames` with a canonical `prohibited` **array** of lowercase username terms, for example `['support', 'fuck']`. The previous `prohibitted` spelling is a read-only migration fallback; do not add new terms there or replace the canonical field with a multiline string.
+- A term blocks an exact username, an embedded sequence, and dot/underscore-separated variants: reserving `fuck` blocks `ggfuckgg`, `f_u_c_k`, and `f.u.c.k`. Android checks it immediately for feedback, while the deployed `claimWebsiteUsername` callable makes the same final server decision before it creates `/usernames/{username}`.
+- Client-side creation of a new `/usernames/{username}` document is intentionally denied by Firestore Rules. Never restore it for convenience: that would let an old APK bypass dynamic reserved-substring checks. Existing legacy usernames remain usable unchanged, and the callable creates the new reservation before the normal agent/public-profile transaction runs.
+- Existing legacy usernames remain usable when unchanged. Adding a name to the list prevents future claims; it does not silently rename or delete an already-owned public URL.
+- BFlashPanel Agent Details -> Web Orders shows the server-owned `usernameClaimedAt` audit with date and time. It must not substitute a panel-device timestamp or the last settings update when that field is absent.
+
+## Agent-branded share previews and panel avatars (2026-09-09)
+
+### Exact and strict prohibited username lists (2026-09-15)
+
+- `config/ownedUsernames` uses two independent lists. `prohibited` is exact-only, while `prohibitedAll` uses normalized containment to block embedded or separator-disguised terms. Do not merge a term into both lists or restore broad matching for `prohibited`; Android preview and `claimWebsiteUsername` must preserve this distinction. The callable remains the authoritative strict reservation gate because Firestore Rules cannot dynamically normalize an owner-maintained list.
+
+### Public username fallback route repair (2026-09-15)
+
+- `bingwaflash_website/404.html` is the GitHub Pages fallback for root username links. Keep its safe route gate aligned with public username routing: dot and underscore handles, plus valid legacy hyphen handles, must forward to `/order/?u=...` (and `/clients/{username}` to the matching client query URL). The 404 redirect is not a database lookup, so reject slash-containing or edge-punctuation segments instead of attempting to normalize them.
+
+- A browser can brand `/order/?u={username}` and `/clients/?u={username}` after Firestore loads, but WhatsApp/Facebook share crawlers never execute that JavaScript. The `bingwa-functions/site-share-worker` edge proxy must read only `publicAgents/{username}`, replace the static head metadata, and short-cache the result. A static HTML edit alone cannot make a pasted query-string link show an agent's business name or profile photo.
+- The share worker must proxy GitHub Pages unchanged when no valid public username/profile exists. Never expose private agent records, original profile images, or Firestore service credentials for preview generation. Its cache key is normalized to the route plus `u` only so tracking parameters cannot create needless cache entries.
+- BFlashPanel uses only `AgentProfile.profileImageUrl`, validates the immutable avatar host/path, and relies on Coil plus LazyColumn visibility for caching. Do not introduce whole-directory avatar preloading or image listeners.
+- On public Order and Clients pages, an approved agent avatar is a focusable image button that opens a full-screen viewer. Keep its initials fallback non-interactive, restore focus when the viewer closes, and let touch outside/Escape close it without interfering with checkout or registration dialogs.
+- Production share cards are served by the Cloudflare Worker `bingwaflash-site-share`, routed only at `bingwaflash.co.ke/order*` and `bingwaflash.co.ke/clients*`. The four apex GitHub Pages A records must remain Cloudflare-proxied; DNS-only mode bypasses the Worker and restores the generic card.
+- The Worker reads the committed `order/index.html` or `clients/index.html` via GitHub's content API with its required User-Agent and raw-media Accept headers. Do not proxy `officialmrlyco.github.io/bingwaflash_website` from this Worker: GitHub redirects that host to the custom domain, creating a Worker loop. Preserve the catch-path neutral page/503 fallback so sharing metadata failures never become an opaque Cloudflare error.
+- `bingwaflash.co.ke` must use Cloudflare SSL mode `full` (or a later verified stricter equivalent), never `flexible`, while its GitHub Pages A records are proxied. Flexible makes Cloudflare request the GitHub origin over HTTP; GitHub redirects to HTTPS and produces `ERR_TOO_MANY_REDIRECTS` for the entire site.
+- Cloudflare route wildcards at `/order*` and `/clients*` also match nested modules such as `/order/phone-input.mjs`. In `bingwaflash-site-share`, rewrite only the exact HTML entry paths and proxy every nested asset with `fetch(request)` to the GitHub Pages origin. Also remove GitHub Content API's `content-security-policy: default-src 'none'` from proxied HTML; retaining it makes the page render as unstyled text and blocks Firebase/modules. Bump the private Worker cache-key version after a response-header repair so stale broken HTML is bypassed immediately.
+
 # BingwaFlash public website handoff
+
+## SiteLink Phone-Independent Auto Time Schedules & Live Catalog Watcher (2026-11-05)
+
+- Removed physical phone dependency for SiteLink offer scheduling on `bingwaflash.co.ke/order/`.
+- SiteLink now evaluates `autoTimeEnabled`, `autoEnableTime`, and `autoDisableTime` directly against Kenya Time (`Africa/Nairobi`, UTC+3) using `getKenyaMinutes()` and `isOfferInAutoTimeWindow()`:
+  - Daytime schedules (e.g. 06:00 to 18:00) hide offers outside the window (e.g. at 18:01 after closing).
+  - Overnight schedules (e.g. 20:00 to 06:00) span midnight seamlessly.
+  - Paused offers from phone Auto Time (`autoTimeDisabled: true, autoTimeWebOrderEnabledBeforePause: true`) are safely admitted when in-window so older phone pause states do not block cloud schedules.
+  - A 30-second live watcher interval (`setInterval(refreshOfferCatalog, 30000)`) dynamically repaints the catalog without requiring a manual page refresh when opening or closing hours arrive.
+- Added comprehensive unit tests in `tests/sitelink-offer-policy.test.mjs` (all 43 tests passing).
 
 ## Bridge product terminology and delivery evidence (2026-10-27)
 

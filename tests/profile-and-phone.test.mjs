@@ -5,10 +5,12 @@ import { localPhone } from '../order/phone-input.mjs';
 
 // Cover actual saved-contact formats and reject values that could pay the wrong phone.
 test('saved Kenyan phone formats normalize without truncation', () => {
-  for (const value of ['0712345678', '0712 345 678', '+254 712 345 678', '254712345678', '(0712) 345-678']) {
+  for (const value of ['0712345678', '0712 345 678', '+254712345678', '+254 712 345 678', '254712345678', '+2540712345678', '2540712345678', '\u200E+254712345678\u200F', '(0712) 345-678']) {
     assert.equal(localPhone(value), '0712345678');
   }
-  assert.equal(localPhone('+254 112 345 678'), '0112345678');
+  for (const value of ['0112345678', '+254112345678', '+254 112 345 678', '254112345678', '+2540112345678', '2540112345678']) {
+    assert.equal(localPhone(value), '0112345678');
+  }
   for (const value of ['', '07123456789', '+255712345678', 'abc0712345678', '0712/345678', '+0712345678']) {
     assert.equal(localPhone(value), '');
   }
