@@ -1,8 +1,8 @@
 {
-  "versionCode": 43,
-  "versionName": "1.4.3",
-  "apkUrl": "https://github.com/officialmrlyco/FlashApp/releases/download/v1.4.3/Flash-v1.4.3.apk",
-  "apkSha256": "232636d7b9c10b93092e325e2101da8fe29e77eeb0abd5dc1bf26cb3973b7b8f",
-  "apkSizeBytes": 17791870,
-  "notes": "Upgraded Relay to Bridge multi-transport, ultra-smooth UI with bubble effects, faster USSD handoff, enhanced Portal, and comprehensive bug fixes."
+  "versionCode": 44,
+  "versionName": "1.4.4",
+  "apkUrl": "https://github.com/officialmrlyco/BingwaFlashApp/releases/download/v44/BingwaFlash_v1.4.4.apk?build=803ed539574c9dc7",
+  "apkSha256": "803ed539574c9dc71c8c7eaa02489f45430f96df0b511df4958f16dcc1be19ec",
+  "apkSizeBytes": 18168806,
+  "notes": "Automated SMS Marketer with 13 targeted strategies and thousands of message variations, Shop Loyalty Streaks and Referrals, Safaricom purchase error Agent Alerts, interactive Help Guides across key screens, and dual-SIM / eSIM fixes."
 }
