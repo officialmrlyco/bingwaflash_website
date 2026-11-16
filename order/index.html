@@ -1280,7 +1280,7 @@ main.order-main{
         <label class="field-label" for="pay-phone">M-Pesa Payment Number</label>
         <div class="input-with-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 15.92z"/></svg>
-          <input id="pay-phone" name="paymentPhone" autocomplete="section-payment tel" type="tel" placeholder="07XX XXX XXX or 01XX XXX XXX" inputmode="tel" maxlength="24" oninput="syncSameNumber()" onchange="syncSameNumber()">
+          <input id="pay-phone" name="paymentPhone" autocomplete="section-payment tel" type="tel" placeholder="07XX XXX XXX or +2547..." inputmode="tel" maxlength="24" oninput="syncSameNumber()" onchange="normalizePhoneField(this);syncSameNumber()" onblur="normalizePhoneField(this);syncSameNumber()">
         </div>
         <div class="field-tip">STK prompt will be sent from <strong>FLASH PAY SERVICES</strong></div>
       </div>
@@ -1302,7 +1302,7 @@ main.order-main{
         <label class="field-label" for="recv-phone">Receiving Number</label>
         <div class="input-with-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-          <input id="recv-phone" name="recipientPhone" autocomplete="section-recipient tel" type="tel" placeholder="07XX XXX XXX" inputmode="tel" maxlength="24">
+          <input id="recv-phone" name="recipientPhone" autocomplete="section-recipient tel" type="tel" placeholder="07XX XXX XXX or +2547..." inputmode="tel" maxlength="24" onchange="normalizePhoneField(this)" onblur="normalizePhoneField(this)">
         </div>
         <div class="field-tip">The destination phone number that receives the airtime/bundle</div>
       </div>
@@ -1441,8 +1441,13 @@ window.syncSameNumber = function() {
 
 <script type="module">
 import { cleanAgentProfile } from "/profile-names.mjs?v=20261019-1";
-import { localPhone } from "/order/phone-input.mjs?v=20260904-1";
+import { localPhone } from "/order/phone-input.mjs?v=20261116-phone";
 import { showCurrentVerificationBadge } from "/verified-agent.mjs?v=20261116-badge-default-blue";
+window.normalizePhoneField = function(inputEl) {
+  if (!inputEl) return;
+  const normalized = localPhone(inputEl.value);
+  if (normalized) inputEl.value = normalized;
+};
 import { parseMaxOffers, allowedSiteLinkOffers } from "/order/sitelink-offer-policy.mjs?v=20261013-1";
 import { createOrderStatusController, createOrderStatusToken } from "/order/status-controller.mjs?v=20261024-1";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
