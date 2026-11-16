@@ -21,7 +21,7 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/site-theme.css?v=20260912-lycofooter">
+<link rel="stylesheet" href="/site-theme.css?v=20261116-checkbox">
 <script src="/site-theme.js?v=20260830-2" defer></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -608,6 +608,7 @@ main.order-main{
 
 /* TOGGLE SAME NUMBER */
 .same-num-pill{
+  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -620,21 +621,33 @@ main.order-main{
   margin-bottom: 14px;
 }
 .same-num-pill input[type="checkbox"]{
-  appearance: none;
-  -webkit-appearance: none;
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+.same-num-box{
   flex-shrink: 0;
   width: 18px;
   height: 18px;
   border: 1.5px solid var(--border-strong);
   border-radius: 4px;
   background: var(--surface);
-  cursor: pointer;
-  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
-.same-num-pill input[type="checkbox"]:checked{
-  /* Inline SVG tick ensures the checkmark renders reliably across all browsers instead of ::after on replaced <input>. */
-  background: var(--g) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23ffffff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='3.5 8.5 6.5 11.5 12.5 4.5'/%3E%3C/svg%3E") center/13px 13px no-repeat;
+.same-num-box svg{
+  width: 13px;
+  height: 13px;
+}
+.same-num-pill input[type="checkbox"]:checked + .same-num-box{
+  background: var(--g);
   border-color: var(--g);
+  color: #ffffff;
 }
 .same-num-text strong{
   display: block;
@@ -1246,13 +1259,6 @@ main.order-main{
     </div>
 
     <!-- Catalog Section -->
-    <div class="order-explainer" aria-label="How ordering works">
-      <div><span>1</span><p><strong>Choose a package</strong><small>Prices shown are the amount you pay.</small></p></div>
-      <!-- / Customers enter a PIN on Safaricom's STK push, never on this page. -->
-      <div><span>2</span><p><strong>Enter your M-Pesa PIN</strong><small>Enter your PIN on the STK push you'll receive.</small></p></div>
-      <div><span>3</span><p><strong>Agent receives it</strong><small>The agent completes delivery from their phone.</small></p></div>
-    </div>
-
     <!-- Category Tabs (Naturally wrapping) -->
     <div class="category-tabs" id="categoryTabs"></div>
 
@@ -1282,6 +1288,9 @@ main.order-main{
       <!-- Same Number Checkbox -->
       <label class="same-num-pill" for="same-num-chk">
         <input type="checkbox" id="same-num-chk" onchange="toggleSameNumber()">
+        <span class="same-num-box" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3.5 8.5 6.5 11.5 12.5 4.5"/></svg>
+        </span>
         <div class="same-num-text">
           <strong>Paying &amp; receiving numbers are the same</strong>
           <small>Uncheck if buying for a friend or another phone</small>

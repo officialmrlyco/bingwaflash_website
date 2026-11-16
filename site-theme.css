@@ -188,7 +188,7 @@ input[type="text"], input[type="tel"], input[type="search"], input[type="email"]
   outline: none !important;
   transition: var(--bf-transition) !important;
 }
-input:focus, textarea:focus, select:focus {
+input:not([type="checkbox"]):not([type="radio"]):focus, textarea:focus, select:focus {
   border-color: var(--bf-green) !important;
   background: var(--bf-surface) !important;
 }
